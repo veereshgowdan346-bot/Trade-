@@ -173,7 +173,10 @@ export function sizePosition(args: {
   const riskCap = Math.floor(maxRiskAmount / slDistance);
 
   // Capital Cap based on 20% buying power cap and confidence factor
-  const capitalCap = Math.floor((effectiveCapital * conf) / entry);
+  // FIX (APEX-V2 AUDIT RISK-001): clamp conf to [0,1] — callers could inflate sizing above
+  // the intended confidence multiplier contract.
+  const safeConf = Math.min(1, Math.max(0, Number(conf) || 0));
+  const capitalCap = Math.floor((effectiveCapital * safeConf) / entry);
 
   let raw = Math.min(capitalCap, riskCap);
   const limitedBy: Sizing["limitedBy"] = capitalCap <= riskCap ? "CAPITAL" : "ATR_RISK";

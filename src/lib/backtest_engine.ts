@@ -91,7 +91,24 @@ export function runBacktest(
       const curProfit = buy ? high - currentPos.entryPrice : currentPos.entryPrice - low;
       if (!currentPos.beActivated && curProfit >= currentPos.initialR) {
         // Move stop to net breakeven (entry + fee buffer)
-        const feePerUnit = (targetBroker === "shoonya" ? 25 : 55) / currentPos.qty;
+        // FIX (APEX-V2 AUDIT BT-001): the breakeven fee buffer now uses the SAME real
+        // round-trip charge model as the live TSL engine (incl. slippage), instead of the
+        // hardcoded ₹25/₹55 floors which under-priced actual friction and produced
+        // "BREAKEVEN" exits that were not net-zero.
+        const beCharges = frictionMode !== "ZERO_FRICTION"
+          ? roundTripCharges({
+              exchange: inst.exchange,
+              kind: inst.kind,
+              broker: targetBroker,
+              qty: currentPos.qty,
+              entry: currentPos.entryPrice,
+              exit: currentPos.entryPrice,
+              side: currentPos.side,
+              entrySlippageBps: cfg?.entrySlippageBps ?? 8.0,
+              exitSlippageBps: cfg?.exitSlippageBps ?? (cfg?.entrySlippageBps ?? 8.0),
+            }).total
+          : 0;
+        const feePerUnit = beCharges / currentPos.qty;
         currentPos.slPrice = buy ? currentPos.entryPrice + feePerUnit : currentPos.entryPrice - feePerUnit;
         currentPos.beActivated = true;
       }
@@ -101,14 +118,17 @@ export function runBacktest(
       const tgHit = buy ? high >= currentPos.targetPrice : low <= currentPos.targetPrice;
 
       if (slHit) {
-        const exitPx = currentPos.slPrice;
+        // FIX (APEX-V2 AUDIT BT-002): gap-aware fills (mandatory "market gaps" control).
+        // Bar gapped through the stop at the open -> fill at open; otherwise fill at the stop price.
+        const exitPx = buy ? Math.min(currentPos.slPrice, open) : Math.max(currentPos.slPrice, open);
         trades.push(recordSimulatedTrade(tradeIdCounter++, currentPos, exitPx, curBar.t, i, currentPos.beActivated ? "BREAKEVEN" : "STOP_LOSS", inst, targetBroker, frictionMode, cfg));
         currentPos = null;
         continue;
       }
 
       if (tgHit) {
-        const exitPx = currentPos.targetPrice;
+        // Gap-aware target fill: gapped beyond target at the open -> fill at open; else at target.
+        const exitPx = buy ? Math.max(currentPos.targetPrice, open) : Math.min(currentPos.targetPrice, open);
         trades.push(recordSimulatedTrade(tradeIdCounter++, currentPos, exitPx, curBar.t, i, "TARGET", inst, targetBroker, frictionMode, cfg));
         currentPos = null;
         continue;

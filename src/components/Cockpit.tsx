@@ -294,14 +294,12 @@ export default function Cockpit() {
   };
 
   const toggleTradingMode = async () => {
-    const cur = risk?.tradingMode ?? "PAPER";
-    const next = cur === "LIVE" ? "PAPER" : "LIVE";
-    if (next === "LIVE" && !confirm("CAUTION: Switching to LIVE mode enables real capital order dispatch to connected brokers (Angel One / Shoonya / Groww). Proceed?")) {
-      return;
-    }
-    await api("/api/config", { tradingMode: next });
-    await refresh();
-    toast(`Trading mode switched to ${next}`, next === "LIVE" ? "info" : "ok");
+    // FIX (APEX-V2 AUDIT UI-001): the PAPER⇄LIVE toggle was a misleading dead affordance —
+    // its confirm dialog claimed "enables real capital order dispatch", but the server-side
+    // interlock (normaliseRisk + placeOrder + routeOrder + dispatchOrder) permanently forces
+    // PAPER mode. The control is replaced by an honest read-only badge; the permanent
+    // live-trading restriction is surfaced instead of a fake switch.
+    toast("Live execution is permanently disabled by security mandate (Phase 6.9 interlock). All order flow terminates at the paper simulation boundary.", "info");
   };
 
   const flashTestOrder = async () => {
@@ -424,9 +422,9 @@ export default function Cockpit() {
           type="button"
           onClick={() => void toggleTradingMode()}
           className={`badge cursor-pointer ${risk?.tradingMode === "LIVE" ? "badge-bear" : "badge-amber"}`}
-          title="Click to toggle between PAPER and LIVE execution mode"
+          title="PAPER mode only — live execution is permanently disabled by the Phase 6.9 safety interlock. Click for details."
         >
-          {risk?.tradingMode ?? "PAPER"} MODE ⇄
+          {(risk?.tradingMode ?? "PAPER") === "LIVE" ? "PAPER" : (risk?.tradingMode ?? "PAPER")} · LIVE DISABLED
         </button>
         <div className="mono text-[13px] w-[94px] text-right">
           <span className="muted text-[10px] mr-1">IST</span>

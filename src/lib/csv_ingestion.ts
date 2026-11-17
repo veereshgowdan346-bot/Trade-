@@ -64,7 +64,16 @@ const TIMEFRAME_SECONDS: Record<string, number> = {
   "1d": 86400,
 };
 
-/** Parse raw timestamp string into Unix timestamp in milliseconds */
+/**
+ * Parse raw timestamp string into Unix timestamp in milliseconds.
+ * Deterministic across environments: naive (timezone-less) wall-clock strings are
+ * ALWAYS interpreted as IST (+05:30), matching the Python twin
+ * (core/csv_data_ingestion.py: "If naive, assume Indian Standard Time").
+ * FIX (APEX-V2 AUDIT TZ-001): the naive form must be matched BEFORE the generic
+ * Date.parse fallback — V8 accepts "YYYY-MM-DD HH:MM:SS" as machine-LOCAL time,
+ * which silently made ingestion timezone-dependent (e.g. rejected 88% of rows on
+ * UTC hosts while appearing correct on IST hosts).
+ */
 export function parseTimestampStr(rawVal: string): number {
   const s = rawVal.trim();
   // 1. Pure numeric epoch (ms or sec)
@@ -73,13 +82,8 @@ export function parseTimestampStr(rawVal: string): number {
     return val >= 10_000_000_000 ? val : val * 1000;
   }
 
-  // 2. ISO format with timezone or standard format
-  const parsedIso = Date.parse(s);
-  if (!Number.isNaN(parsedIso)) {
-    return parsedIso;
-  }
-
-  // 3. Format 'YYYY-MM-DD HH:MM:SS' assumed to be IST (+05:30)
+  // 2. Format 'YYYY-MM-DD HH:MM:SS' (or 'T'-separated) WITHOUT timezone info:
+  //    assumed to be IST (+05:30) by contract. Checked before Date.parse.
   const match = s.match(/^(\d{4})[-/](\d{1,2})[-/](\d{1,2})[ T](\d{1,2}):(\d{1,2})(?::(\d{1,2}))?$/);
   if (match) {
     const [_, y, m, d, hh, mm, ss] = match;
@@ -87,6 +91,15 @@ export function parseTimestampStr(rawVal: string): number {
     const isoStr = `${y}-${pad(m)}-${pad(d)}T${pad(hh)}:${pad(mm)}:${pad(ss)}+05:30`;
     const t = Date.parse(isoStr);
     if (!Number.isNaN(t)) return t;
+    throw new Error(`Unrecognized timestamp format: '${rawVal}'`);
+  }
+
+  // 3. Strings with an explicit timezone (Z / ±hh:mm) or date-only ISO are unambiguous.
+  if (/(Z|[+-]\d{2}:?\d{2})$/.test(s) || /^\d{4}[-/]\d{1,2}[-/]\d{1,2}$/.test(s)) {
+    const parsedIso = Date.parse(s);
+    if (!Number.isNaN(parsedIso)) {
+      return parsedIso;
+    }
   }
 
   throw new Error(`Unrecognized timestamp format: '${rawVal}'`);

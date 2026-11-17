@@ -201,10 +201,15 @@ export function gbmProbability(c: Candle[], horizon = 15) {
   const rets: number[] = [];
   const win = c.slice(-60);
   for (let i = 1; i < win.length; i++) rets.push(Math.log(win[i].c / win[i - 1].c));
-  const mu = rets.reduce((a, b) => a + b, 0) / rets.length;
-  const sd = Math.sqrt(rets.reduce((a, b) => a + (b - mu) ** 2, 0) / Math.max(1, rets.length - 1)) || 1e-9;
-  const drift = mu + (sd * sd) / 2; // mu estimated on log-returns already = (m - s^2/2)
-  void drift;
+  // FIX (APEX-V2 AUDIT MATH-002): guard degenerate windows — fewer than 2 usable returns
+  // (or non-finite log-returns from zero/negative closes) previously propagated NaN into
+  // the quorum's GBM gate. Neutral 50/50 is returned instead.
+  const cleanRets = rets.filter((r) => Number.isFinite(r));
+  if (cleanRets.length < 2) {
+    return { up: 50, down: 50, mu: 0, sigma: 0, horizon };
+  }
+  const mu = cleanRets.reduce((a, b) => a + b, 0) / cleanRets.length;
+  const sd = Math.sqrt(cleanRets.reduce((a, b) => a + (b - mu) ** 2, 0) / Math.max(1, cleanRets.length - 1)) || 1e-9;
   const z = (mu * horizon) / (sd * Math.sqrt(horizon));
   const up = normCdf(z);
   return { up: Math.round(up * 1000) / 10, down: Math.round((1 - up) * 1000) / 10, mu, sigma: sd, horizon };

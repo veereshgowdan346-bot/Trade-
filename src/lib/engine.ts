@@ -4,7 +4,7 @@ import { orders, positions } from "@/db/schema";
 import { getWsStatus } from "./angelWs";
 import { cancelBrokerOrder, getBrokerStatuses } from "./brokers";
 import { routeOrder } from "./gateway";
-import { buildBrokerPayload, growwSegment, sessionOf, type BrokerKey, type Instrument } from "./instruments";
+import { buildBrokerPayload, growwSegment, sessionOf, type BrokerKey, type Exchange, type Instrument } from "./instruments";
 import { analysisCandles, isLiveTickReady, ltpOf, marketFeedMode, marketStatusText, snapshot } from "./market";
 import { sendAlert } from "./notifier";
 import { breachesCircuit, confidenceMultiplier, sizePosition, type RiskConfig } from "./risk";
@@ -71,6 +71,7 @@ type G = typeof globalThis & {
   __omniPendingSymbols?: Set<string> | null;
   __omniTickLocks?: Set<string>;
   __omniInitialSlDist?: Map<number, number>;
+  __omniSlSince?: Map<number, number>;
 };
 const g = globalThis as G;
 
@@ -451,6 +452,7 @@ export async function closePosition(p: PositionRow, exitPrice: number, reason: s
 
   await refreshOpenSymbolSet();
   g.__omniInitialSlDist?.delete(p.id);
+  g.__omniSlSince?.delete(p.id);
   await audit(net >= 0 ? "INFO" : "WARN", "TRADE", `[${p.mode}] ${p.symbol} ${p.side} closed (${reason}) net ${net >= 0 ? "+" : ""}₹${net}`, {
     id: p.id, entry: p.entryPrice, exit: exitPrice, gross, charges: charges.total, net, broker: p.broker, mode: p.mode,
   });
@@ -471,7 +473,17 @@ export async function squareOffAll(reason: string, session?: "EQUITY" | "MCX") {
   return n;
 }
 
-function checkLivePriceAgainstBracket(p: PositionRow, ltp: number): { price: number; reason: string } | null {
+/**
+ * Bracket check against a genuine live tick.
+ * FIX (APEX-V2 AUDIT ORD-002): `inst` is threaded through so the net-positive
+ * Take-Profit gate evaluates real statutory charges (kind-aware). Previously `kind`
+ * was omitted, silently falling back to the fabricated flat ₹25/₹55 estimate.
+ * FIX (APEX-V2 AUDIT ORD-003): Take-Profit fills at the resting LIMIT price
+ * (targetPrice), not at the crossing tick — a limit order executes at its limit
+ * (or better on gaps), never at an arbitrarily later tick price.
+ * Stop exits remain stop-MARKET fills at the observed tick (conservative in gaps).
+ */
+function checkLivePriceAgainstBracket(p: PositionRow, ltp: number, inst: Instrument): { price: number; reason: string } | null {
   const buy = p.side === "BUY";
   if (buy ? ltp <= p.slPrice : ltp >= p.slPrice) {
     return { price: ltp, reason: "BRACKET_STOP_LOSS" };
@@ -479,18 +491,20 @@ function checkLivePriceAgainstBracket(p: PositionRow, ltp: number): { price: num
   if (buy ? ltp >= p.targetPrice : ltp <= p.targetPrice) {
     // Rigid verification: Take-Profit triggers only when net profit is guaranteed positive after all statutory fees & brokerage!
     const dir = buy ? 1 : -1;
-    const gross = r2((ltp - p.entryPrice) * p.qty * dir);
+    const fill = p.targetPrice;
+    const gross = r2((fill - p.entryPrice) * p.qty * dir);
     const netEval = calculateNetPnL({
       grossPnL: gross,
       broker: p.broker,
       qty: p.qty,
       entry: p.entryPrice,
-      exit: ltp,
-      exchange: p.exchange as any,
+      exit: fill,
+      exchange: p.exchange as Exchange,
+      kind: inst.kind,
       side: p.side as "BUY" | "SELL",
     });
     if (netEval.netPnL > 0) {
-      return { price: ltp, reason: "BRACKET_TARGET" };
+      return { price: fill, reason: "BRACKET_TARGET" };
     }
   }
   return null;
@@ -589,6 +603,9 @@ async function updateTrailingStopLoss(p: PositionRow, inst: Instrument, ltp: num
   p.slPrice = newSl;
 
   await db.update(positions).set({ slPrice: newSl }).where(eq(positions.id, p.id));
+  // FIX (TSL-001): the new stop level only governs candles formed from now on.
+  g.__omniSlSince ??= new Map();
+  g.__omniSlSince.set(p.id, Date.now());
 
   if (k === 1 || Math.abs(newSl - netBreakevenPrice) < 1e-4) {
     const msg = `[TSL UPDATED] SL moved to Net Breakeven @ ₹${r2(newSl)} (${p.symbol} ${p.side} #${p.id}, Entry ₹${r2(p.entryPrice)}, FeeBuffer ₹${r2(feeBufferPerUnit)}, LTP ₹${r2(ltp)})`;
@@ -625,12 +642,23 @@ async function updateTrailingStopLoss(p: PositionRow, inst: Instrument, ltp: num
 /**
  * Real-feed bracket evaluation:
  * Only evaluates when genuine exchange prices exist (never triggers on missing/disconnected data).
+ * FIX (APEX-V2 AUDIT TSL-001): the intra-candle scan only considers candles formed AFTER the
+ * current stop level became effective (slSince). Scanning older candles against a ratcheted
+ * stop produced systematic FALSE stop-outs (any historical dip below the new SL closed the
+ * position at market, truncating every 2R+ runner). slSince is tracked in-memory from
+ * position creation and from every TSL ratchet; when unknown (e.g. after a restart) the
+ * candle scan is skipped and only live-tick bracket checks apply.
+ * FIX (APEX-V2 AUDIT ORD-004): gap-aware realistic fills on the candle path — stop orders
+ * fill at the stop price (or the bar open when gapped through), target limit orders fill at
+ * the target price (or the bar open when gapped through) — never at an arbitrary later LTP.
+ * FIX (APEX-V2 AUDIT ORD-005): the net-positive Take-Profit gate now applies to the candle
+ * path exactly as it does to the tick path (previously candle targets could fire at a net loss).
  */
 async function evaluatePositionBracket(p: PositionRow, inst: Instrument, liveLtp?: number): Promise<boolean> {
   const currentLtp = liveLtp ?? ltpOf(inst);
   if (currentLtp === null || currentLtp <= 0) return false;
 
-  const immediate = checkLivePriceAgainstBracket(p, currentLtp);
+  const immediate = checkLivePriceAgainstBracket(p, currentLtp, inst);
   if (immediate) {
     return (await closePosition(p, immediate.price, immediate.reason)) !== null;
   }
@@ -639,16 +667,41 @@ async function evaluatePositionBracket(p: PositionRow, inst: Instrument, liveLtp
   await updateTrailingStopLoss(p, inst, currentLtp);
 
   const entryMinute = Math.floor(p.openedAt.getTime() / 60_000) * 60_000;
-  const postEntryCandles = snapshot(inst, 200).candles.filter((c) => c.t > entryMinute);
+  const defaultSince = entryMinute + 60_000;
+  const slSince = g.__omniSlSince?.get(p.id);
+  if (slSince === undefined) {
+    // Unknown stop history (process restart): do NOT replay stale candles against a
+    // possibly ratcheted stop — live-tick checks above still protect the position.
+    return false;
+  }
+  // Candles whose END is at/after the stop became effective (includes the forming candle).
+  const postEntryCandles = snapshot(inst, 200).candles.filter((c) => c.t + 60_000 > Math.max(defaultSince, slSince));
   const buy = p.side === "BUY";
   for (const c of postEntryCandles) {
     const slHit = buy ? c.l <= p.slPrice : c.h >= p.slPrice;
     const tgHit = buy ? c.h >= p.targetPrice : c.l <= p.targetPrice;
     if (slHit) {
-      return (await closePosition(p, currentLtp, "BRACKET_STOP_LOSS")) !== null;
+      // Stop-market gap-aware fill: gapped through at open -> open, otherwise the stop price.
+      const gapFill = buy ? Math.min(c.o, p.slPrice) : Math.max(c.o, p.slPrice);
+      return (await closePosition(p, gapFill, "BRACKET_STOP_LOSS")) !== null;
     }
     if (tgHit) {
-      return (await closePosition(p, currentLtp, "BRACKET_TARGET")) !== null;
+      // Limit-order gap-aware fill: gapped beyond target at open -> open, otherwise the target.
+      const gapFill = buy ? Math.max(c.o, p.targetPrice) : Math.min(c.o, p.targetPrice);
+      const dir = buy ? 1 : -1;
+      const gross = r2((gapFill - p.entryPrice) * p.qty * dir);
+      const netEval = calculateNetPnL({
+        grossPnL: gross,
+        broker: p.broker,
+        qty: p.qty,
+        entry: p.entryPrice,
+        exit: gapFill,
+        exchange: p.exchange as Exchange,
+        kind: inst.kind,
+        side: p.side as "BUY" | "SELL",
+      });
+      if (netEval.netPnL <= 0) continue; // same rigid net-positive gate as the tick path
+      return (await closePosition(p, gapFill, "BRACKET_TARGET")) !== null;
     }
   }
   return false;
@@ -721,6 +774,8 @@ async function fillPendingOrdersForSymbol(symbol: string, ltp: number) {
     if (pos && o.slPrice) {
       g.__omniInitialSlDist ??= new Map();
       g.__omniInitialSlDist.set(pos.id, Math.abs(ltp - o.slPrice));
+      g.__omniSlSince ??= new Map();
+      g.__omniSlSince.set(pos.id, Math.floor(Date.now() / 60_000) * 60_000 + 60_000);
     }
     g.__omniOpenSymbols ??= new Set();
     g.__omniOpenSymbols.add(inst.symbol);
@@ -1151,7 +1206,10 @@ export async function placeOrder(req: OrderRequest): Promise<OrderOutcome> {
   }
 
   // 4d. Pre-Execution Double-Check Engine (PreFlightCheck)
-  const executionBroker: BrokerKey = preferredBroker === "shoonya" ? "shoonya" : cfg.primaryBroker;
+  // FIX (APEX-V2 AUDIT ORD-001): the charge model must use the SAME broker the order
+  // is actually routed to (preferredBroker). The previous logic silently priced an
+  // explicitly-requested non-Shoonya broker at primaryBroker rates.
+  const executionBroker: BrokerKey = preferredBroker;
   const liveLtp = snap.ltp;
   const entry = orderType === "LIMIT" && req.price && req.price > 0 ? req.price : liveLtp;
 
@@ -1329,6 +1387,8 @@ export async function placeOrder(req: OrderRequest): Promise<OrderOutcome> {
   if (pos) {
     g.__omniInitialSlDist ??= new Map();
     g.__omniInitialSlDist.set(pos.id, size.slDistance);
+    g.__omniSlSince ??= new Map();
+    g.__omniSlSince.set(pos.id, Math.floor(Date.now() / 60_000) * 60_000 + 60_000);
   }
   g.__omniOpenSymbols ??= new Set();
   g.__omniOpenSymbols.add(inst.symbol);
