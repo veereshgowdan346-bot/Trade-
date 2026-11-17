@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { api, Badge, inr, istTime, num, Panel, pnlClass, Stat } from "../ui";
 import type { Ctx } from "../ctx";
 
@@ -47,23 +47,40 @@ export function TradeCalendarPage({ ctx }: { ctx: Ctx }) {
   const [viewYear, setViewYear] = useState(now.getFullYear());
   const [viewMonth, setViewMonth] = useState(now.getMonth()); // 0-indexed
 
-  const loadCalendar = async () => {
-    setLoading(true);
+  // FIX (FINAL-AUDIT UI-01): the mount effect must not call setState synchronously
+  // (react-hooks/set-state-in-effect) and refs must not be written during render
+  // (react-hooks/refs). Fetch logic is a stable callback; the mount fetch is deferred
+  // to a task so state updates land outside the effect's synchronous pass; the toast
+  // ref is synchronized in its own effect. Behavior is unchanged (single mount fetch;
+  // manual refresh button keeps the explicit `setLoading(true)` entry point).
+  const toastRef = useRef(ctx.toast);
+
+  const fetchCalendar = useCallback(async () => {
     try {
       const res = await api<{ ok: boolean; calendar: Record<string, DaySummary> }>("/api/trades/calendar");
       if (res.ok && res.calendar) {
         setCalendarData(res.calendar);
       }
     } catch (e) {
-      ctx.toast(`Failed to load calendar history: ${e instanceof Error ? e.message : String(e)}`, "err");
+      toastRef.current(`Failed to load calendar history: ${e instanceof Error ? e.message : String(e)}`, "err");
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  const loadCalendar = useCallback(async () => {
+    setLoading(true);
+    await fetchCalendar();
+  }, [fetchCalendar]);
 
   useEffect(() => {
-    void loadCalendar();
-  }, []);
+    toastRef.current = ctx.toast;
+  }, [ctx.toast]);
+
+  useEffect(() => {
+    const timer = setTimeout(fetchCalendar, 0);
+    return () => clearTimeout(timer);
+  }, [fetchCalendar]);
 
   // Compute days in viewMonth
   const firstDayOfMonth = new Date(viewYear, viewMonth, 1).getDay(); // 0 = Sun

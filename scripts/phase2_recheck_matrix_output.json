@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-17T14:32:59.758Z",
+  "generatedAt": "2026-11-17T15:15:27.192Z",
   "policy": "SIMULATED balances only. No live data/orders. No profitability claims. MICRO-001 fix blocks expected-loss trades for capital <= 2000.",
   "matrix": [
     {
@@ -15,15 +15,15 @@
       "orderAdmissible": false
     },
     {
-      "capital": 2500,
+      "capital": 2000,
       "qty": 0,
       "limitedBy": "CAPITAL",
       "slDistance": 10.95,
       "targetPrice": 926.5,
       "expectedNet": -25,
       "charges": 25,
-      "hurdle": 25,
-      "microPolicy": "standard",
+      "hurdle": 0,
+      "microPolicy": "MICRO_001: hurdle=0 (expected-loss trades blocked)",
       "orderAdmissible": false
     },
     {
@@ -87,13 +87,13 @@
       "orderAdmissible": true
     },
     {
-      "capital": 250000,
-      "qty": 44,
+      "capital": 500000,
+      "qty": 89,
       "limitedBy": "CAPITAL",
       "slDistance": 10.95,
       "targetPrice": 926.5,
-      "expectedNet": 1355.26,
-      "charges": 90.14,
+      "expectedNet": 2753.39,
+      "charges": 170.26,
       "hurdle": 25,
       "microPolicy": "standard",
       "orderAdmissible": true

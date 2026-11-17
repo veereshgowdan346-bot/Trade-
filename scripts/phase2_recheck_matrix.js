@@ -10,7 +10,9 @@ const { sizePosition, normaliseRisk, computeSize } = require("../dist_test_cjs/r
 const { roundTripCharges, calculateNetPnL, UnsupportedSegmentError } = require("../dist_test_cjs/tax.js");
 const { runBacktest } = require("../dist_test_cjs/backtest_engine.js");
 
-const tiers = [1000, 2500, 5000, 10000, 25000, 50000, 100000, 250000, 1000000];
+// Mandated audit tiers (FINAL READINESS §7): 1000, 2000, 5000, 10000, 25000,
+// 50000, 100000, 500000, 1000000. (Previous run used 2500/250000; superseded.)
+const tiers = [1000, 2000, 5000, 10000, 25000, 50000, 100000, 500000, 1000000];
 const inst = { symbol: "SBIN", exchange: "NSE", kind: "EQ", tradingsymbol: "SBIN-EQ", lotSize: 1, tick: 0.05 };
 const out = [];
 

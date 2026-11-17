@@ -350,6 +350,13 @@ class TradingEngine:
             # Subscribe to broker events
             self.broker.register_callback('tick', self._on_broker_tick)
 
+            # FINAL-AUDIT PAPER-002: the simulated execution engine has its own
+            # _running flag and is never started by the application, so every paper
+            # order was rejected with "Paper trading not running". Start it with the
+            # engine that owns it (paper-only; the live branch is hard-blocked below).
+            if self.is_paper_trading and self.paper_trading and not self.paper_trading.is_running():
+                self.paper_trading.start()
+
             self.state = EngineState.RUNNING
             self._running = True
             self._start_time = datetime.now()
@@ -371,6 +378,11 @@ class TradingEngine:
         # Stop heartbeat
         if self._heartbeat_timer:
             self._heartbeat_timer.cancel()
+
+        # FINAL-AUDIT PAPER-002: mirror the start() lifecycle so a stopped engine
+        # cannot keep simulating fills.
+        if self.paper_trading and self.paper_trading.is_running():
+            self.paper_trading.stop()
 
         # Stop event dispatcher
         self._event_dispatcher.stop()
@@ -607,6 +619,15 @@ class TradingEngine:
         """
         if not self._running and not is_emergency:
             self.logger.warning("Cannot place order, engine not running")
+            return False
+
+        # FINAL-AUDIT PAUSE-001: pause() only set state=PAUSED while leaving
+        # _running=True, so a paused engine still accepted NEW orders — the Pause
+        # control did not actually stop trading. Block new (non-emergency) orders
+        # while paused; emergency square-off keeps its bypass so open exposure can
+        # always be flattened.
+        if not is_emergency and self.state == EngineState.PAUSED:
+            self.logger.warning(f"Order for {order.symbol} REJECTED - engine is PAUSED")
             return False
 
         if not is_emergency:

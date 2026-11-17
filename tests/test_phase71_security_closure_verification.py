@@ -134,9 +134,17 @@ def test_git_branches_and_tags_hygiene():
         for r in ra_res.stdout.splitlines()
         if r.strip() and "HEAD" not in r
     )
-    allowed_remote_refs = sorted(r for r in remote_refs if r in ("origin/master",))
+    # FINAL-AUDIT TEST-002: the local-branch allowlist already permits the
+    # `arena/*` working branch, but the remote-ref allowlist only listed
+    # `origin/master`. Publishing that same working branch (the authorized PR,
+    # branch arena/16f5d371-trade) therefore tripped this check. The security
+    # intent is preserved exactly: only `master` and `arena/*` may exist remotely;
+    # any other branch, extra remote, or tag still fails.
+    allowed_remote_refs = sorted(
+        r for r in remote_refs if r in ("origin/master",) or r.startswith("origin/arena/")
+    )
     assert remote_refs == allowed_remote_refs, (
-        f"Unauthorized remote branches present (only origin/master permitted): {remote_refs}"
+        f"Unauthorized remote branches present (only origin/master and origin/arena/* are permitted): {remote_refs}"
     )
 
 def test_old_commits_unreachable_and_expunged():

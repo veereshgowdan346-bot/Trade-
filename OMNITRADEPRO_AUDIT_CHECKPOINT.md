@@ -48,3 +48,34 @@
 - `python3 -m pytest tests/` → 362 PASS / 1 FAIL (PY-001, environment-caused)
 - `python3 scripts/verify_cross_language_parity.py` → 100% match (NSE calendar layer only)
 - `python3 scripts/scan_repo_secrets.py` → 12 findings, all inert (SEC-002)
+
+---
+
+## FINAL READINESS PHASE — COMPLETE (2026-11-17)
+
+**Status:** all phases executed and verified; report set in `FINAL_READINESS_REPORT/` (20 files).
+
+| Phase | Result |
+|---|---|
+| Baseline & Git audit | PASS — branch `arena/16f5d371-trade`, HEAD `b9fff0e`, clean tree, 1 remote, 0 tags |
+| Full repository inspection | PASS — no broken imports, no confirmed dead code, no hidden live path |
+| Fixes | UI-01 (lint), PAUSE-001 (HIGH), PAPER-002 (HIGH), TEST-002 (test hygiene) |
+| New tests | `tests/test_final_readiness_lifecycle.py` — 12 tests, all PASS |
+| New probes | `scripts/final_readiness_probes.js` — 12 checks, 11 PASS / 1 documented FAIL (PERF-001) |
+| 9-tier capital matrix | regenerated at mandated tiers (₹1,000 … ₹10,00,000) |
+| Final regression | pytest **388/388**, npm **169/169**, math **40/40**, tsc PASS, lint 0, build PASS |
+| Docs | 20 deliverables written |
+| Git | **local commit only — no push, no deploy** |
+
+**Open / blocked:** PERF-001 (quadratic backtest, FAIL, documented), RATE-001 (statutory rates
+UNVERIFIED, BLOCKED), PROFIT-001 (no profitability evidence, FAIL), BT-004 (open),
+RT-001/WAVE-001/QUORUM-002 (Category C, BLOCKED), ARCH-001/UI-002/RATE-LIMIT-001 (UNVERIFIED).
+
+**Exact reproduction:**
+```
+npm run test:prep && node scripts/run_comprehensive_tests.js && node scripts/independent_math_verification.js
+python3 -m pytest tests/ -q
+npx tsc --noEmit && npm run lint && npx next build
+node scripts/final_readiness_probes.js
+node scripts/phase2_recheck_matrix.js
+```
