@@ -1,0 +1,243 @@
+{
+  "generatedAt": "2026-11-17T15:15:26.522Z",
+  "probeCount": 12,
+  "passed": 11,
+  "failed": 1,
+  "failedProbes": [
+    "P5_linear_or_better"
+  ],
+  "results": {
+    "P1_regime_no_throw_no_nan": {
+      "status": "PASS",
+      "detail": {
+        "trending": {
+          "regime": "TRENDING_BULL"
+        },
+        "sideways": {
+          "regime": "CHOPPY_RANGING"
+        },
+        "volatile": {
+          "regime": "CHOPPY_RANGING"
+        },
+        "abnormal": {
+          "regime": "VOLATILITY_EXPANSION"
+        },
+        "thinData": {
+          "regime": "CHOPPY_RANGING"
+        }
+      }
+    },
+    "P1_regime_trending_is_trend": {
+      "status": "PASS",
+      "detail": {
+        "trending": "TRENDING_BULL",
+        "sideways": "CHOPPY_RANGING"
+      }
+    },
+    "P2_consensus_no_throw": {
+      "status": "PASS",
+      "detail": {
+        "conflict": {
+          "direction": "BUY",
+          "quorum": 40,
+          "qualifies": false,
+          "voters": null
+        },
+        "clean": {
+          "direction": "BUY",
+          "quorum": 100,
+          "qualifies": true,
+          "voters": null
+        },
+        "sixBars": {
+          "direction": "NONE",
+          "quorum": 0,
+          "qualifies": false,
+          "voters": null
+        }
+      }
+    },
+    "P2_thin_data_never_qualifies": {
+      "status": "PASS",
+      "detail": {
+        "direction": "NONE",
+        "quorum": 0,
+        "qualifies": false,
+        "voters": null
+      }
+    },
+    "P2_conflict_never_qualifies": {
+      "status": "PASS",
+      "detail": {
+        "direction": "BUY",
+        "quorum": 40,
+        "qualifies": false,
+        "voters": null
+      }
+    },
+    "P3_indicators_never_throw": {
+      "status": "PASS",
+      "detail": {
+        "ema_short": {
+          "ok": true,
+          "nonFinite": 0,
+          "len": 5
+        },
+        "rsi_short": {
+          "ok": true,
+          "nonFinite": 5,
+          "len": 5
+        },
+        "atr_short": {
+          "ok": true,
+          "nonFinite": 5,
+          "len": 5
+        },
+        "bollinger_short": {
+          "ok": true,
+          "nonFinite": 20,
+          "len": 1
+        },
+        "vwap_empty": {
+          "ok": true,
+          "nonFinite": 0,
+          "len": 0
+        },
+        "ema_empty": {
+          "ok": true,
+          "nonFinite": 0,
+          "len": 0
+        },
+        "rsi_zero_range": {
+          "ok": true,
+          "nonFinite": 13,
+          "len": 40
+        },
+        "rsi_full": {
+          "ok": true,
+          "nonFinite": 13,
+          "len": 120
+        },
+        "atr_full": {
+          "ok": true,
+          "nonFinite": 13,
+          "len": 120
+        },
+        "ema_full": {
+          "ok": true,
+          "nonFinite": 0,
+          "len": 120
+        },
+        "bollinger_full": {
+          "ok": true,
+          "nonFinite": 76,
+          "len": 1
+        },
+        "vwap_full": {
+          "ok": true,
+          "nonFinite": 0,
+          "len": 120
+        }
+      }
+    },
+    "P3_post_warmup_all_finite": {
+      "status": "PASS",
+      "detail": {
+        "rsi_warmupNaN": 13,
+        "rsi_afterWarmupBad": 0,
+        "atr_warmupNaN": 13,
+        "atr_afterWarmupBad": 0,
+        "ema_afterWarmupBad": 0,
+        "bb_afterWarmupBad": 0,
+        "vwap_afterWarmupBad": 0
+      }
+    },
+    "P3_thin_data_no_trades": {
+      "status": "PASS",
+      "detail": {
+        "bars": 10,
+        "totalTrades": 0,
+        "netPnl": 0
+      }
+    },
+    "P4_prefix_stability_no_lookahead": {
+      "status": "PASS",
+      "detail": {
+        "fullTrades": 22,
+        "cutTrades": 22,
+        "tradesBeforeCutoff_full": 22,
+        "tradesBeforeCutoff_cut": 22,
+        "identicalTradesBeforeCutoff": true,
+        "indicatorCausalAtBar299": true,
+        "structuralGuard": "runBacktest uses candles.slice(0, i) per bar (backtest_engine.ts:109)"
+      }
+    },
+    "P5_no_nan_and_completes": {
+      "status": "PASS",
+      "detail": {
+        "scaling": [
+          {
+            "candles": 500,
+            "trades": 4,
+            "netPnl": -348.17,
+            "elapsedMs": 70,
+            "usPerCandle": 139.29,
+            "rssDeltaMb": 6
+          },
+          {
+            "candles": 1000,
+            "trades": 4,
+            "netPnl": -348.17,
+            "elapsedMs": 60,
+            "usPerCandle": 60.5,
+            "rssDeltaMb": 2
+          },
+          {
+            "candles": 2000,
+            "trades": 7,
+            "netPnl": -734.35,
+            "elapsedMs": 384,
+            "usPerCandle": 192.02,
+            "rssDeltaMb": 9
+          },
+          {
+            "candles": 4000,
+            "trades": 12,
+            "netPnl": -817.53,
+            "elapsedMs": 904,
+            "usPerCandle": 226.1,
+            "rssDeltaMb": 17
+          },
+          {
+            "candles": 8000,
+            "trades": 29,
+            "netPnl": -1645.07,
+            "elapsedMs": 2932,
+            "usPerCandle": 366.44,
+            "rssDeltaMb": 6
+          }
+        ],
+        "doublingRatio_1000_to_2000": 6.4,
+        "ceilingTested": 8000
+      }
+    },
+    "P5_linear_or_better": {
+      "status": "FAIL",
+      "detail": {
+        "measuredDoublingRatio": 6.4,
+        "verdict": "SUPER-LINEAR (consistent with O(n^2) full-prefix recomputation)"
+      }
+    },
+    "P6_concurrent_determinism": {
+      "status": "PASS",
+      "detail": {
+        "sequential": [
+          -2005.28,
+          -1146.38,
+          -1625.71,
+          -2135.83
+        ]
+      }
+    }
+  }
+}

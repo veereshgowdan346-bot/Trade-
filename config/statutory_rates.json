@@ -1,0 +1,144 @@
+{
+  "specVersion": "2026.11.17-phase2",
+  "title": "OmniTradePro Apex V2.0 — Single Authoritative Statutory & Brokerage Cost Specification",
+  "verificationPolicy": {
+    "rule": "Every rate carries a verificationStatus. VERIFIED requires a dated official document stored locally. No locally-supplied official tariff/statutory documents were found during the Phase 1/2 audits, so every statutory and brokerage rate below is UNVERIFIED or an explicitly-labelled modeled construct. Do NOT change any rate value without attaching dated evidence in this file.",
+    "localEvidenceFound": [
+      "EXECUTION_COST_RESEARCH.md (undated secondary narrative, attributions only)",
+      "BROKERAGE_COST_VALIDATION.md (undated secondary narrative)",
+      "APEX_V2_BROKER_COMPLIANCE.md (undated secondary narrative)"
+    ],
+    "localEvidenceAssessment": "Secondary, undated in-repo narratives. NOT official source documents. Status remains UNVERIFIED."
+  },
+  "gst": {
+    "rate": 0.18,
+    "base": "brokerage + exchangeFees + sebiFee",
+    "status": "UNVERIFIED",
+    "source": null,
+    "effectiveDate": null
+  },
+  "sebiTurnoverFee": {
+    "ratePerRupee": 0.000001,
+    "quotedAs": "INR 10 per INR 1 crore turnover",
+    "side": "both",
+    "status": "UNVERIFIED",
+    "source": null,
+    "effectiveDate": null
+  },
+  "slippageDefaults": {
+    "entryBps": 8.0,
+    "exitBpsPolicy": "mirrors entryBps when not explicitly provided",
+    "status": "MODELING_ASSUMPTION",
+    "note": "Not a statutory charge. Two-sided enforcement is mandatory (entry + exit)."
+  },
+  "segments": {
+    "NSE_EQ_INTRADAY": {
+      "supported": true,
+      "productTypes": ["INTRADAY", "MIS"],
+      "instrumentKinds": ["EQ", "IDX"],
+      "idxNote": "IDX (spot index) is a non-executable reference feed; costs are modelled with the equity-intraday row as an explicit proxy (status UNVERIFIED).",
+      "stt": { "rate": 0.00025, "side": "sell", "label": "STT", "status": "UNVERIFIED", "source": null, "effectiveDate": null },
+      "exchangeTxn": { "rate": 0.0000297, "side": "both", "label": "Exchange txn charges", "status": "UNVERIFIED", "source": null, "effectiveDate": null },
+      "stampDuty": { "rate": 0.00003, "side": "buy", "label": "Stamp duty", "status": "UNVERIFIED", "source": null, "effectiveDate": null }
+    },
+    "NSE_FUT": {
+      "supported": true,
+      "productTypes": ["INTRADAY", "MIS", "NRML"],
+      "instrumentKinds": ["FUT"],
+      "stt": { "rate": 0.0002, "side": "sell", "label": "STT", "status": "UNVERIFIED", "source": null, "effectiveDate": null },
+      "exchangeTxn": { "rate": 0.0000183, "side": "both", "label": "Exchange txn charges", "status": "UNVERIFIED", "source": null, "effectiveDate": null },
+      "stampDuty": { "rate": 0.00002, "side": "buy", "label": "Stamp duty", "status": "UNVERIFIED", "source": null, "effectiveDate": null }
+    },
+    "NSE_OPT": {
+      "supported": true,
+      "productTypes": ["INTRADAY", "MIS", "NRML"],
+      "instrumentKinds": ["OPT"],
+      "stt": { "rate": 0.001, "side": "sell", "label": "STT", "status": "UNVERIFIED", "source": null, "effectiveDate": null },
+      "exchangeTxn": { "rate": 0.0003503, "side": "both", "label": "Exchange txn charges", "status": "UNVERIFIED", "source": null, "effectiveDate": null },
+      "stampDuty": { "rate": 0.00003, "side": "buy", "label": "Stamp duty", "status": "UNVERIFIED", "source": null, "effectiveDate": null }
+    },
+    "MCX_ANY": {
+      "supported": true,
+      "productTypes": ["INTRADAY", "MIS", "NRML"],
+      "instrumentKinds": ["FUT", "OPT"],
+      "stt": { "rate": 0.0001, "side": "sell", "label": "CTT", "status": "UNVERIFIED", "source": null, "effectiveDate": null, "note": "Commodity Transaction Tax (CTT) in place of STT." },
+      "exchangeTxn": { "rate": 0.000021, "side": "both", "label": "Exchange txn charges", "status": "UNVERIFIED", "source": null, "effectiveDate": null },
+      "stampDuty": { "rate": 0.00002, "side": "buy", "label": "Stamp duty", "status": "UNVERIFIED", "source": null, "effectiveDate": null }
+    },
+    "NSE_EQ_DELIVERY": {
+      "supported": false,
+      "status": "UNSUPPORTED_NO_EVIDENCE",
+      "productTypes": ["DELIVERY", "CNC"],
+      "instrumentKinds": ["EQ"],
+      "requiredHeads": ["STT both sides (delivery rate)", "Stamp duty (delivery rate)", "DP charges per sell leg", "GST on DP charges"],
+      "reason": "No locally-supplied official delivery-rate evidence. The Phase 1 audit found the engine silently applying intraday sell-only STT to delivery product types (defect TAX-001). Per policy the calculation must fail closed instead of inventing or approximating rates.",
+      "brokerageNote": "Delivery brokerage is documented as INR 0 for all three brokers (still UNVERIFIED).",
+      "effectiveDate": null
+    },
+    "CDS_ANY": {
+      "supported": false,
+      "status": "UNSUPPORTED_NO_EVIDENCE",
+      "productTypes": ["INTRADAY", "MIS", "NRML"],
+      "instrumentKinds": ["FUT", "OPT"],
+      "reason": "Currency derivatives rate table is absent. Unknown segments must fail closed (Phase 1 finding: they previously fell through to NSE equity rates).",
+      "effectiveDate": null
+    }
+  },
+  "brokers": {
+    "shoonya": {
+      "label": "Shoonya (Finvasia)",
+      "brokerageModel": "FLAT_PER_LEG",
+      "intradayPerLeg": 5.0,
+      "deliveryPerLeg": 0.0,
+      "roundTripBrokerageFloor": 10.0,
+      "minimumRoundTripDeduction": 25.0,
+      "status": "UNVERIFIED",
+      "source": null,
+      "effectiveDate": null,
+      "notes": "Flat INR 5 per executed order leg (INR 10 round trip) per the 2026 pricing comment in code; the INR 10 round-trip floor labelled 'Base/API/DP fee' is a modeled construct without citation (Phase 1 TAX-003/004)."
+    },
+    "angel": {
+      "label": "Angel One SmartAPI",
+      "brokerageModel": "MIN_PER_LEG_WITH_RT_FLOOR",
+      "perLegCap": 20.0,
+      "perLegRate": 0.001,
+      "deliveryPerLeg": 0.0,
+      "roundTripBrokerageFloor": 40.0,
+      "minimumRoundTripDeduction": 55.0,
+      "status": "UNVERIFIED",
+      "source": null,
+      "effectiveDate": null,
+      "notes": "Documented per-leg formula min(INR 20, 0.1% of leg turnover) is overridden by the INR 40 round-trip floor in the current implementation, making the effective model FLAT INR 40 per round trip (Phase 1 TAX-004: the per-leg formula is unreachable for legs <= INR 20). Both models are recorded here; the ACTIVE behaviour is MIN_PER_LEG_WITH_RT_FLOOR as implemented. Changing the active model requires dated broker-tariff evidence."
+    },
+    "groww": {
+      "label": "Groww API",
+      "brokerageModel": "MIN_PER_LEG_WITH_RT_FLOOR",
+      "perLegCap": 20.0,
+      "perLegRate": 0.001,
+      "deliveryPerLeg": 0.0,
+      "roundTripBrokerageFloor": 40.0,
+      "minimumRoundTripDeduction": 55.0,
+      "status": "UNVERIFIED_ASSUMED_SAME_AS_ANGEL",
+      "source": null,
+      "effectiveDate": null,
+      "notes": "Groww charges are modelled identically to Angel One. Phase 1 flagged this as unverified assumption-sharing across brokers (TAX-004 register). Groww-specific heads (if any) are not modelled."
+    }
+  },
+  "hurdles": {
+    "note": "Policy gates (risk engine), NOT statutory charges. Consolidated in Phase 2 (TAX-005) at the STRICTEST previously-implemented value for each broker so that unification can only tighten, never weaken, order admission.",
+    "shoonya": 25,
+    "angel": 70,
+    "groww": 70,
+    "microCapitalPolicy": {
+      "capitalThreshold": 2000,
+      "legacyWorstCaseHurdle": -50,
+      "phase2Hurdle": 0,
+      "status": "CORRECTED_MICRO_001",
+      "note": "Phase 1 defect MICRO-001: balances <= INR 2,000 admitted trades with expected NET LOSS up to INR 50. Phase 2 floor is 0 (expected net must be strictly positive after ALL costs). This tightens protection; it cannot be lowered below 0."
+    }
+  },
+  "productTypeFailClosed": {
+    "DELIVERY": "NSE_EQ_DELIVERY (UNSUPPORTED_NO_EVIDENCE)",
+    "CNC": "NSE_EQ_DELIVERY (UNSUPPORTED_NO_EVIDENCE)"
+  }
+}

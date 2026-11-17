@@ -1,0 +1,108 @@
+{
+  "title": "OmniTradePro Phase 2 — TS<->Python cost parity scenarios (shared fixture)",
+  "policy": "Same inputs into src/lib/tax.ts (via scripts/cost_parity_ts.js) and risk/statutory_cost.py must produce identical outputs to the paise. Regenerate TS output with: node scripts/cost_parity_ts.js (requires npm run test:prep).",
+  "scenarios": [
+    {
+      "id": "shoonya-nse-eq-long-canonical",
+      "note": "Canonical case, hand-verifiable: brk 10 (5+5), STT .025%x125625=31.41, exch .00297%x250625=7.44, SEBI .25, stamp .003%x125000=3.75, GST 18%x(10+7.44+0.25)=3.18, slippage 8bps both sides=200.5 -> total 256.54",
+      "grossPnL": 625,
+      "args": { "exchange": "NSE", "kind": "EQ", "broker": "shoonya", "qty": 50, "entry": 2500, "exit": 2512.5, "side": "BUY", "productType": "INTRADAY" }
+    },
+    {
+      "id": "shoonya-nse-eq-short",
+      "note": "Short trade: STT on the entry (sell) leg turnover",
+      "grossPnL": 625,
+      "args": { "exchange": "NSE", "kind": "EQ", "broker": "shoonya", "qty": 50, "entry": 2512.5, "exit": 2500, "side": "SELL", "productType": "INTRADAY" }
+    },
+    {
+      "id": "angel-nse-eq-long-canonical",
+      "note": "Angel per-leg min(20, 0.1%) with RT floor 40: brokerage 40, GST 18%x(40+7.44+0.25)=8.58 -> total 291.94",
+      "grossPnL": 625,
+      "args": { "exchange": "NSE", "kind": "EQ", "broker": "angel", "qty": 50, "entry": 2500, "exit": 2512.5, "side": "BUY", "productType": "INTRADAY" }
+    },
+    {
+      "id": "groww-nse-eq-long-canonical",
+      "note": "Groww modelled same as Angel (UNVERIFIED assumption)",
+      "grossPnL": 625,
+      "args": { "exchange": "NSE", "kind": "EQ", "broker": "groww", "qty": 50, "entry": 2500, "exit": 2512.5, "side": "BUY", "productType": "INTRADAY" }
+    },
+    {
+      "id": "shoonya-nfo-fut-long",
+      "note": "Futures row (STT 0.02% sell, exch 0.00183%)",
+      "grossPnL": 1000,
+      "args": { "exchange": "NFO", "kind": "FUT", "broker": "shoonya", "qty": 1, "entry": 25000, "exit": 25100, "side": "BUY", "productType": "INTRADAY" }
+    },
+    {
+      "id": "angel-nfo-opt-sell",
+      "note": "Options row (STT 0.1% sell, exch 0.03503%) on a short",
+      "grossPnL": 1500,
+      "args": { "exchange": "NFO", "kind": "OPT", "broker": "angel", "qty": 100, "entry": 480, "exit": 465, "side": "SELL", "productType": "INTRADAY" }
+    },
+    {
+      "id": "shoonya-mcx-com-long",
+      "note": "MCX commodity row (CTT 0.01% sell, exch 0.0021%)",
+      "grossPnL": 7500,
+      "args": { "exchange": "MCX", "kind": "FUT", "broker": "shoonya", "qty": 5, "entry": 21000, "exit": 21150, "side": "BUY", "productType": "INTRADAY" }
+    },
+    {
+      "id": "floor-shoonya-tiny-roundtrip",
+      "note": "Minimum-charge floors bind: total floor INR 25 (shoonya)",
+      "grossPnL": 3,
+      "args": { "exchange": "NSE", "kind": "EQ", "broker": "shoonya", "qty": 1, "entry": 5, "exit": 8, "side": "BUY", "productType": "INTRADAY" }
+    },
+    {
+      "id": "floor-angel-tiny-roundtrip",
+      "note": "Minimum-charge floors bind: total floor INR 55 (angel)",
+      "grossPnL": 3,
+      "args": { "exchange": "NSE", "kind": "EQ", "broker": "angel", "qty": 1, "entry": 5, "exit": 8, "side": "BUY", "productType": "INTRADAY" }
+    },
+    {
+      "id": "rounding-stress-fractional",
+      "note": "Fractional turnover stressing paise rounding (37 x 1234.567)",
+      "grossPnL": 911.19,
+      "args": { "exchange": "NSE", "kind": "EQ", "broker": "shoonya", "qty": 37, "entry": 1234.567, "exit": 1259.182, "side": "BUY", "productType": "INTRADAY" }
+    },
+    {
+      "id": "rounding-stress-tie-values",
+      "note": "Turnover values engineered near half-paise boundaries",
+      "grossPnL": 33.5,
+      "args": { "exchange": "NSE", "kind": "EQ", "broker": "shoonya", "qty": 11, "entry": 333.335, "exit": 336.385, "side": "BUY", "productType": "INTRADAY" }
+    },
+    {
+      "id": "slippage-both-custom",
+      "note": "Explicit two-sided slippage: 0 entry / 20 bps exit",
+      "grossPnL": 625,
+      "args": { "exchange": "NSE", "kind": "EQ", "broker": "shoonya", "qty": 50, "entry": 2500, "exit": 2512.5, "side": "BUY", "productType": "INTRADAY", "entrySlippageBps": 0, "exitSlippageBps": 20 }
+    },
+    {
+      "id": "slippage-entry-only-mirrors",
+      "note": "Exit slippage mirrors entry when only entryBps given (10/10)",
+      "grossPnL": 625,
+      "args": { "exchange": "NSE", "kind": "EQ", "broker": "shoonya", "qty": 50, "entry": 2500, "exit": 2512.5, "side": "BUY", "productType": "INTRADAY", "entrySlippageBps": 10 }
+    },
+    {
+      "id": "slippage-zero-discretion",
+      "note": "Explicit zero slippage (mechanical exit policy)",
+      "grossPnL": 625,
+      "args": { "exchange": "NSE", "kind": "EQ", "broker": "shoonya", "qty": 50, "entry": 2500, "exit": 2512.5, "side": "BUY", "productType": "INTRADAY", "entrySlippageBps": 0, "exitSlippageBps": 0 }
+    },
+    {
+      "id": "angel-large-turnover-perleg-cap",
+      "note": "Per-leg cap binding: 0.1% of 50k = 50 > 20 cap -> 40 flat RT",
+      "grossPnL": 500,
+      "args": { "exchange": "NSE", "kind": "EQ", "broker": "angel", "qty": 50, "entry": 50000, "exit": 50010, "side": "BUY", "productType": "INTRADAY" }
+    },
+    {
+      "id": "failclosed-delivery-shoonya",
+      "note": "TAX-001: delivery/CNC must fail closed on BOTH engines",
+      "expectError": "UnsupportedSegmentError",
+      "args": { "exchange": "NSE", "kind": "EQ", "broker": "shoonya", "qty": 10, "entry": 100, "exit": 105, "side": "BUY", "productType": "DELIVERY" }
+    },
+    {
+      "id": "failclosed-unknown-segment",
+      "note": "Unknown exchange/kind pair must fail closed on BOTH engines",
+      "expectError": "UnsupportedSegmentError",
+      "args": { "exchange": "NFO", "kind": "EQ", "broker": "shoonya", "qty": 10, "entry": 100, "exit": 105, "side": "BUY", "productType": "INTRADAY" }
+    }
+  ]
+}

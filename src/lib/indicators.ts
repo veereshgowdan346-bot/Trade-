@@ -7,7 +7,15 @@ export type Candle = {
   v: number;
 };
 
+/** FIX (APEX-V2 AUDIT MATH-001): reject invalid periods instead of dividing by zero / looping silently. */
+function assertPeriod(period: number, name: string): void {
+  if (!Number.isInteger(period) || period < 1) {
+    throw new Error(`${name}: period must be a positive integer, got ${period}`);
+  }
+}
+
 export function ema(values: number[], period: number): number[] {
+  assertPeriod(period, "ema");
   const k = 2 / (period + 1);
   const out: number[] = [];
   let prev = values[0] ?? 0;
@@ -26,6 +34,7 @@ export function trueRange(c: Candle[]): number[] {
 
 /** Wilder smoothing (RMA). */
 export function rma(values: number[], period: number): number[] {
+  assertPeriod(period, "rma");
   const out: number[] = [];
   let prev = 0;
   for (let i = 0; i < values.length; i++) {
@@ -72,6 +81,7 @@ export function adx(c: Candle[], period = 14) {
 }
 
 export function bollinger(closes: number[], period = 20, mult = 2) {
+  assertPeriod(period, "bollinger");
   const mid: number[] = [];
   const upper: number[] = [];
   const lower: number[] = [];

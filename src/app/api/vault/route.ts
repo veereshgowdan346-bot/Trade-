@@ -1,5 +1,6 @@
 import { NextRequest } from "next/server";
 import { stopAngelWs } from "@/lib/angelWs";
+import { authorizeMutation, checkRateLimit } from "@/lib/apiGuard";
 import { verifyAndSaveAngelCredentials } from "@/lib/brokers";
 import type { BrokerKey } from "@/lib/instruments";
 import { clearSession } from "@/lib/sessions";
@@ -8,11 +9,21 @@ import { deleteCreds, saveCreds, vaultSummary, VAULT_FIELDS, vaultUsingFallbackK
 
 export const dynamic = "force-dynamic";
 
-export async function GET() {
+// SEC-001: vault endpoints are sensitive on every method (credential summary + writes),
+// so they use the strict "vault" rate class and require mutation authorization even for GET.
+function guard(req: NextRequest) {
+  return checkRateLimit(req, "vault") ?? authorizeMutation(req);
+}
+
+export async function GET(req: NextRequest) {
+  const denied = guard(req);
+  if (denied) return Response.json(denied.body, { status: denied.status });
   return Response.json({ summary: await vaultSummary(), fields: VAULT_FIELDS, fallbackKey: vaultUsingFallbackKey() });
 }
 
 export async function POST(req: NextRequest) {
+  const denied = guard(req);
+  if (denied) return Response.json(denied.body, { status: denied.status });
   const b = (await req.json().catch(() => ({}))) as {
     broker?: string;
     fields?: Record<string, string>;
@@ -54,6 +65,8 @@ export async function POST(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
+  const denied = guard(req);
+  if (denied) return Response.json(denied.body, { status: denied.status });
   const broker = req.nextUrl.searchParams.get("broker");
   if (!broker || !(broker in VAULT_FIELDS)) return Response.json({ ok: false }, { status: 400 });
   await deleteCreds(broker as VaultKey);

@@ -1,10 +1,13 @@
 import { NextRequest } from "next/server";
+import { authorizeMutation, checkRateLimit } from "@/lib/apiGuard";
 import { placeOrder } from "@/lib/engine";
 import type { BrokerKey } from "@/lib/instruments";
 
 export const dynamic = "force-dynamic";
 
 export async function POST(req: NextRequest) {
+  const denied = checkRateLimit(req, "write") ?? authorizeMutation(req);
+  if (denied) return Response.json(denied.body, { status: denied.status });
   const b = (await req.json().catch(() => ({}))) as Record<string, unknown>;
   const symbol = String(b.symbol ?? "");
   if (!symbol) return Response.json({ ok: false, reason: "symbol required" }, { status: 400 });

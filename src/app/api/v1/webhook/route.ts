@@ -1,4 +1,5 @@
 import { NextRequest } from "next/server";
+import { authorizeWebhook, checkRateLimit } from "@/lib/apiGuard";
 import { placeOrder } from "@/lib/engine";
 import { getInstrument } from "@/lib/instruments";
 import { audit, getRisk } from "@/lib/settings";
@@ -26,6 +27,8 @@ function parseSide(raw: unknown, hint = ""): "BUY" | "SELL" | undefined {
  * clear regime gate, GBM, sizing, hurdle and circuit breaker.
  */
 export async function POST(req: NextRequest) {
+  const denied = checkRateLimit(req, "webhook");
+  if (denied) return Response.json(denied.body, { status: denied.status });
   const cfg = await getRisk();
   const text = await req.text();
   let body: Record<string, unknown> = {};
@@ -36,12 +39,13 @@ export async function POST(req: NextRequest) {
     const m = /(buy|sell|long|short)\s+([A-Za-z:0-9!-]+)/i.exec(text);
     if (m) body = { action: m[1], symbol: m[2] };
   }
-  if (cfg.webhookSecret) {
-    const given = req.headers.get("x-webhook-secret") ?? String(body.secret ?? "");
-    if (given !== cfg.webhookSecret) {
-      await audit("WARN", "WEBHOOK", "Webhook rejected: bad secret");
-      return Response.json({ ok: false, error: "unauthorized" }, { status: 401 });
-    }
+  // SEC-001 (Phase 2): constant-time secret comparison + loopback gating for the
+  // no-secret configuration (local TradingView/ChartInk development still works).
+  const given = req.headers.get("x-webhook-secret") ?? (body.secret !== undefined ? String(body.secret) : undefined);
+  const deniedWebhook = authorizeWebhook(req, given, cfg.webhookSecret || undefined);
+  if (deniedWebhook) {
+    await audit("WARN", "WEBHOOK", "Webhook rejected: authorization failed", { code: deniedWebhook.body.code });
+    return Response.json(deniedWebhook.body, { status: deniedWebhook.status });
   }
 
   const signals: { symbol: string; side?: "BUY" | "SELL"; strategy: string; origin: string }[] = [];
@@ -75,6 +79,8 @@ export async function POST(req: NextRequest) {
   return Response.json({ ok: true, results });
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  const denied = checkRateLimit(req, "read");
+  if (denied) return Response.json(denied.body, { status: denied.status });
   return Response.json({ service: "OmniTradePro webhook gateway", endpoint: "/api/v1/webhook", accepts: ["TradingView", "ChartInk"] });
 }

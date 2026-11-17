@@ -4,6 +4,8 @@ import { db } from "@/db";
 import { positions } from "@/db/schema";
 import { istParts } from "@/lib/settings";
 
+import { checkRateLimit } from "@/lib/apiGuard";
+
 export const dynamic = "force-dynamic";
 
 export type DaySummary = {
@@ -39,7 +41,9 @@ export type DaySummary = {
   }>;
 };
 
-export async function GET(_req: NextRequest) {
+export async function GET(req: NextRequest) {
+  const denied = checkRateLimit(req, "read");
+  if (denied) return Response.json(denied.body, { status: denied.status });
   try {
     const rows = await db
       .select()

@@ -1,0 +1,10 @@
+{
+  "generator": "scripts/generate_synthetic_fixtures.js",
+  "seed": 42,
+  "days": 3,
+  "barsPerDay": 375,
+  "rows": 1125,
+  "startIst": "2026-02-18 09:15",
+  "sha256": "5a9f4aaf4627d416b666bcd2d423a994403fca78dd95d9f19a60e4e4bbc82973",
+  "policy": "Synthetic TEST DATA ONLY. No profitability claims may be derived from it; no parameter optimization is applied."
+}

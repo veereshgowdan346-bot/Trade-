@@ -7,8 +7,9 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test:prep": "tsc src/lib/indicators.ts src/lib/intelligence.ts src/lib/strategies.ts src/lib/strategies_extended.ts src/lib/risk.ts src/lib/tax.ts src/lib/backtest_engine.ts src/lib/data_sanitizer.ts src/lib/advanced_research.ts src/lib/historical_research.ts src/lib/nse_calendar.ts src/lib/csv_ingestion.ts src/lib/leakage_audit.ts --outDir dist_test_cjs --module commonjs --target es2020 --skipLibCheck --esModuleInterop",
-    "test": "npm run test:prep && node scripts/run_comprehensive_tests.js"
+    "test:prep": "tsc src/lib/indicators.ts src/lib/intelligence.ts src/lib/strategies.ts src/lib/strategies_extended.ts src/lib/risk.ts src/lib/tax.ts src/lib/backtest_engine.ts src/lib/data_sanitizer.ts src/lib/advanced_research.ts src/lib/historical_research.ts src/lib/nse_calendar.ts src/lib/csv_ingestion.ts src/lib/leakage_audit.ts src/lib/apiGuard.ts --outDir dist_test_cjs --module commonjs --target es2020 --skipLibCheck --esModuleInterop",
+    "test:math": "node scripts/independent_math_verification.js",
+    "test": "npm run test:prep && node scripts/run_comprehensive_tests.js && node scripts/independent_math_verification.js"
   },
   "dependencies": {
     "@electric-sql/pglite": "^0.5.16",
