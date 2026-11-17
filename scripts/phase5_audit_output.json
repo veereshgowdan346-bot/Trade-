@@ -1,0 +1,312 @@
+{
+  "timestamp": "2026-11-17T04:15:23.442Z",
+  "reconciliation": {
+    "reportedFinalCapital": 100875.71,
+    "recalculatedFinalCapital": 100875.71,
+    "paisaDiscrepancy": 0,
+    "tradeDiscrepancies": 0,
+    "reconciledTrades": [
+      {
+        "tradeId": "PAPER_1",
+        "side": "BUY",
+        "qty": 39,
+        "entry": 2529.94,
+        "exit": 2538.09,
+        "reportedGross": 317.85,
+        "recalcGross": 317.85,
+        "reportedTaxes": 125.6,
+        "recalcTaxes": 125.6,
+        "reportedNet": 192.25,
+        "recalcNet": 192.25,
+        "paisaDifference": 0
+      },
+      {
+        "tradeId": "PAPER_2",
+        "side": "BUY",
+        "qty": 39,
+        "entry": 2563.49,
+        "exit": 2571.72,
+        "reportedGross": 320.97,
+        "recalcGross": 320.97,
+        "reportedTaxes": 127.11,
+        "recalcTaxes": 127.11,
+        "reportedNet": 193.86,
+        "recalcNet": 193.86,
+        "paisaDifference": 0
+      },
+      {
+        "tradeId": "PAPER_3",
+        "side": "BUY",
+        "qty": 38,
+        "entry": 2587.35,
+        "exit": 2583.95,
+        "reportedGross": -129.2,
+        "recalcGross": -129.2,
+        "reportedTaxes": 125.07,
+        "recalcTaxes": 125.07,
+        "reportedNet": -254.27,
+        "recalcNet": -254.27,
+        "paisaDifference": 0
+      },
+      {
+        "tradeId": "PAPER_4",
+        "side": "BUY",
+        "qty": 38,
+        "entry": 2586.42,
+        "exit": 2582.91,
+        "reportedGross": -133.38,
+        "recalcGross": -133.38,
+        "reportedTaxes": 125.03,
+        "recalcTaxes": 125.03,
+        "reportedNet": -258.41,
+        "recalcNet": -258.41,
+        "paisaDifference": 0
+      },
+      {
+        "tradeId": "PAPER_5",
+        "side": "BUY",
+        "qty": 39,
+        "entry": 2547.41,
+        "exit": 2544.01,
+        "reportedGross": -132.6,
+        "recalcGross": -132.6,
+        "reportedTaxes": 126.26,
+        "recalcTaxes": 126.26,
+        "reportedNet": -258.86,
+        "recalcNet": -258.86,
+        "paisaDifference": 0
+      },
+      {
+        "tradeId": "PAPER_6",
+        "side": "BUY",
+        "qty": 39,
+        "entry": 2547.51,
+        "exit": 2556.33,
+        "reportedGross": 343.98,
+        "recalcGross": 343.98,
+        "reportedTaxes": 126.4,
+        "recalcTaxes": 126.4,
+        "reportedNet": 217.58,
+        "recalcNet": 217.58,
+        "paisaDifference": 0
+      },
+      {
+        "tradeId": "PAPER_7",
+        "side": "BUY",
+        "qty": 39,
+        "entry": 2555.97,
+        "exit": 2568.87,
+        "reportedGross": 503.1,
+        "recalcGross": 503.1,
+        "reportedTaxes": 126.82,
+        "recalcTaxes": 126.82,
+        "reportedNet": 376.28,
+        "recalcNet": 376.28,
+        "paisaDifference": 0
+      },
+      {
+        "tradeId": "PAPER_8",
+        "side": "BUY",
+        "qty": 39,
+        "entry": 2569.51,
+        "exit": 2583.89,
+        "reportedGross": 560.82,
+        "recalcGross": 560.82,
+        "reportedTaxes": 127.45,
+        "recalcTaxes": 127.45,
+        "reportedNet": 433.37,
+        "recalcNet": 433.37,
+        "paisaDifference": 0
+      },
+      {
+        "tradeId": "PAPER_9",
+        "side": "BUY",
+        "qty": 38,
+        "entry": 2583.49,
+        "exit": 2595.97,
+        "reportedGross": 474.24,
+        "recalcGross": 474.24,
+        "reportedTaxes": 125.07,
+        "recalcTaxes": 125.07,
+        "reportedNet": 349.17,
+        "recalcNet": 349.17,
+        "paisaDifference": 0
+      },
+      {
+        "tradeId": "PAPER_10",
+        "side": "BUY",
+        "qty": 38,
+        "entry": 2596.29,
+        "exit": 2590.43,
+        "reportedGross": -222.68,
+        "recalcGross": -222.68,
+        "reportedTaxes": 125.44,
+        "recalcTaxes": 125.44,
+        "reportedNet": -348.12,
+        "recalcNet": -348.12,
+        "paisaDifference": 0
+      },
+      {
+        "tradeId": "PAPER_11",
+        "side": "BUY",
+        "qty": 38,
+        "entry": 2593.31,
+        "exit": 2587.23,
+        "reportedGross": -231.04,
+        "recalcGross": -231.04,
+        "reportedTaxes": 125.3,
+        "recalcTaxes": 125.3,
+        "reportedNet": -356.34,
+        "recalcNet": -356.34,
+        "paisaDifference": 0
+      },
+      {
+        "tradeId": "PAPER_12",
+        "side": "SELL",
+        "qty": 39,
+        "entry": 2548.75,
+        "exit": 2536.9,
+        "reportedGross": 462.15,
+        "recalcGross": 462.15,
+        "reportedTaxes": 126.32,
+        "recalcTaxes": 126.32,
+        "reportedNet": 335.83,
+        "recalcNet": 335.83,
+        "paisaDifference": 0
+      },
+      {
+        "tradeId": "PAPER_13",
+        "side": "SELL",
+        "qty": 39,
+        "entry": 2535.96,
+        "exit": 2522.58,
+        "reportedGross": 521.82,
+        "recalcGross": 521.82,
+        "reportedTaxes": 125.75,
+        "recalcTaxes": 125.75,
+        "reportedNet": 396.07,
+        "recalcNet": 396.07,
+        "paisaDifference": 0
+      },
+      {
+        "tradeId": "PAPER_14",
+        "side": "SELL",
+        "qty": 40,
+        "entry": 2521.89,
+        "exit": 2527.67,
+        "reportedGross": -231.2,
+        "recalcGross": -231.2,
+        "reportedTaxes": 128.07,
+        "recalcTaxes": 128.07,
+        "reportedNet": -359.27,
+        "recalcNet": -359.27,
+        "paisaDifference": 0
+      },
+      {
+        "tradeId": "PAPER_15",
+        "side": "BUY",
+        "qty": 39,
+        "entry": 2552.57,
+        "exit": 2561.37,
+        "reportedGross": 343.2,
+        "recalcGross": 343.2,
+        "reportedTaxes": 126.63,
+        "recalcTaxes": 126.63,
+        "reportedNet": 216.57,
+        "recalcNet": 216.57,
+        "paisaDifference": 0
+      }
+    ]
+  },
+  "statisticalRobustness": {
+    "sampleSize": 15,
+    "expectancyMean": 58.38,
+    "expectancyStandardError": 82.07,
+    "expectancyCI95": [
+      -102.45,
+      205.63
+    ],
+    "winRateCI95": [
+      33.33,
+      80
+    ],
+    "profitFactorCI95": [
+      0.48,
+      5
+    ]
+  },
+  "seedSensitivity": [
+    {
+      "seed": 42,
+      "trades": 12,
+      "winRate": 83.33,
+      "netPnL": 2586.36,
+      "maxDDPct": 0.25
+    },
+    {
+      "seed": 100,
+      "trades": 10,
+      "winRate": 80,
+      "netPnL": 1851.71,
+      "maxDDPct": 0.45
+    },
+    {
+      "seed": 2026,
+      "trades": 11,
+      "winRate": 72.73,
+      "netPnL": 1803.17,
+      "maxDDPct": 0.35
+    },
+    {
+      "seed": 777,
+      "trades": 13,
+      "winRate": 76.92,
+      "netPnL": 1961.42,
+      "maxDDPct": 0.68
+    },
+    {
+      "seed": 9999,
+      "trades": 14,
+      "winRate": 64.29,
+      "netPnL": 1110.64,
+      "maxDDPct": 0.98
+    }
+  ],
+  "frictionSensitivity": [
+    {
+      "feeMultiplier": 1,
+      "slippageTicks": 0,
+      "netPnL": 875.71,
+      "winRate": 60,
+      "pf": 1.48
+    },
+    {
+      "feeMultiplier": 1.25,
+      "slippageTicks": 1,
+      "netPnL": 344.52,
+      "winRate": 60,
+      "pf": 1.17
+    },
+    {
+      "feeMultiplier": 1.5,
+      "slippageTicks": 2,
+      "netPnL": -186.63,
+      "winRate": 60,
+      "pf": 0.92
+    },
+    {
+      "feeMultiplier": 2,
+      "slippageTicks": 3,
+      "netPnL": -1190.91,
+      "winRate": 60,
+      "pf": 0.55
+    },
+    {
+      "feeMultiplier": 3,
+      "slippageTicks": 5,
+      "netPnL": -3199.43,
+      "winRate": 33.33,
+      "pf": 0.14
+    }
+  ]
+}

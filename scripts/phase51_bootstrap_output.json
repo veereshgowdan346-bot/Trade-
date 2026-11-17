@@ -1,0 +1,30 @@
+{
+  "timestamp": "2026-11-17T04:27:51.424Z",
+  "prngAlgorithm": "Linear Congruential Generator (Numerical Recipes)",
+  "prngSeed": 1337,
+  "iterations": 2000,
+  "sampleSize": 15,
+  "meanExpectancy": 58.38,
+  "stdDev": 317.84,
+  "seMean": 82.07,
+  "cohenD": 0.1837,
+  "confidenceIntervals": {
+    "expectancy95": [
+      -102.45,
+      205.63
+    ],
+    "winRate95": [
+      33.33,
+      80
+    ],
+    "profitFactor95": [
+      0.48,
+      5
+    ]
+  },
+  "powerAnalysis": {
+    "nForConfidenceIntervalZeroBound": 114,
+    "nFor80PercentPower": 233,
+    "nFor90PercentPower": 312
+  }
+}

@@ -1,0 +1,98 @@
+2026-11-16 10:03:59,359 - AuraTrader-AngelOne - INFO - Initializing AuraTrader-AngelOne Backend Infrastructure Service v1.2.0
+2026-11-16 10:03:59,365 - AuraTrader-AngelOne - INFO - Initializing backend trading components...
+2026-11-16 10:03:59,366 - AuraTrader-AngelOne - WARNING - No stored credentials found: [WinError 5] Access is denied: 'C:\\Users\\veere\\.auratrader\\credential_profiles.json'
+2026-11-16 10:03:59,366 - AuraTrader-AngelOne - INFO - Initializing authoritative Angel One BrokerAdapter in disconnected state
+2026-11-16 10:03:59,366 - AuraTrader-AngelOne - INFO - Authoritative Angel One BrokerAdapter initialized in DISCONNECTED state
+2026-11-16 10:03:59,372 - risk.risk_manager.RiskManager - INFO - Capital set to INR 100,000.00
+2026-11-16 10:03:59,373 - core.engine.TradingEngine - INFO - Registered strategy vwap_strategy with engine
+2026-11-16 10:03:59,373 - core.engine.TradingEngine - INFO - Registered strategy ema_crossover with engine
+2026-11-16 10:03:59,374 - core.engine.TradingEngine - INFO - Registered strategy supertrend_strategy with engine
+2026-11-16 10:03:59,374 - core.engine.TradingEngine - INFO - Registered strategy momentum_strategy with engine
+2026-11-16 10:03:59,374 - core.engine.TradingEngine - INFO - Registered strategy breakout_strategy with engine
+2026-11-16 10:03:59,374 - core.engine.TradingEngine - INFO - Registered strategy mean_reversion with engine
+2026-11-16 10:03:59,374 - AuraTrader-AngelOne - INFO - Registered 6 quantitative trading strategies with engine
+2026-11-16 10:03:59,374 - AuraTrader-AngelOne - INFO - All backend components initialized successfully (100% operational)
+2026-11-16 10:05:02,723 - AuraTrader-AngelOne - INFO - Initializing AuraTrader-AngelOne Backend Infrastructure Service v1.2.0
+2026-11-16 10:05:02,724 - AuraTrader-AngelOne - INFO - Initializing backend trading components...
+2026-11-16 10:05:02,730 - AuraTrader-AngelOne - WARNING - No stored credentials found: No credentials found. Run setup first.
+2026-11-16 10:05:02,730 - AuraTrader-AngelOne - INFO - Initializing authoritative Angel One BrokerAdapter in disconnected state
+2026-11-16 10:05:02,730 - AuraTrader-AngelOne - INFO - Authoritative Angel One BrokerAdapter initialized in DISCONNECTED state
+2026-11-16 10:05:02,731 - risk.risk_manager.RiskManager - INFO - Capital set to INR 100,000.00
+2026-11-16 10:05:02,731 - core.engine.TradingEngine - INFO - Registered strategy vwap_strategy with engine
+2026-11-16 10:05:02,731 - core.engine.TradingEngine - INFO - Registered strategy ema_crossover with engine
+2026-11-16 10:05:02,731 - core.engine.TradingEngine - INFO - Registered strategy supertrend_strategy with engine
+2026-11-16 10:05:02,731 - core.engine.TradingEngine - INFO - Registered strategy momentum_strategy with engine
+2026-11-16 10:05:02,731 - core.engine.TradingEngine - INFO - Registered strategy breakout_strategy with engine
+2026-11-16 10:05:02,731 - core.engine.TradingEngine - INFO - Registered strategy mean_reversion with engine
+2026-11-16 10:05:02,732 - AuraTrader-AngelOne - INFO - Registered 6 quantitative trading strategies with engine
+2026-11-16 10:05:02,732 - AuraTrader-AngelOne - INFO - All backend components initialized successfully (100% operational)
+2026-11-16 10:05:36,080 - AuraTrader-AngelOne - INFO - Initializing AuraTrader-AngelOne Backend Infrastructure Service v1.2.0
+2026-11-16 10:05:36,095 - AuraTrader-AngelOne - INFO - Initializing backend trading components...
+2026-11-16 10:05:36,101 - AuraTrader-AngelOne - WARNING - No stored credentials found: No credentials found. Run setup first.
+2026-11-16 10:05:36,101 - AuraTrader-AngelOne - INFO - Initializing authoritative Angel One BrokerAdapter in disconnected state
+2026-11-16 10:05:36,102 - AuraTrader-AngelOne - INFO - Authoritative Angel One BrokerAdapter initialized in DISCONNECTED state
+2026-11-16 10:05:36,102 - risk.risk_manager.RiskManager - INFO - Capital set to INR 100,000.00
+2026-11-16 10:05:36,102 - core.engine.TradingEngine - INFO - Registered strategy vwap_strategy with engine
+2026-11-16 10:05:36,102 - core.engine.TradingEngine - INFO - Registered strategy ema_crossover with engine
+2026-11-16 10:05:36,102 - core.engine.TradingEngine - INFO - Registered strategy supertrend_strategy with engine
+2026-11-16 10:05:36,102 - core.engine.TradingEngine - INFO - Registered strategy momentum_strategy with engine
+2026-11-16 10:05:36,103 - core.engine.TradingEngine - INFO - Registered strategy breakout_strategy with engine
+2026-11-16 10:05:36,103 - core.engine.TradingEngine - INFO - Registered strategy mean_reversion with engine
+2026-11-16 10:05:36,103 - AuraTrader-AngelOne - INFO - Registered 6 quantitative trading strategies with engine
+2026-11-16 10:05:36,103 - AuraTrader-AngelOne - INFO - All backend components initialized successfully (100% operational)
+2026-11-16 10:06:11,900 - AuraTrader-AngelOne - INFO - Initializing AuraTrader-AngelOne Backend Infrastructure Service v1.2.0
+2026-11-16 10:06:11,901 - AuraTrader-AngelOne - INFO - Initializing backend trading components...
+2026-11-16 10:06:11,908 - AuraTrader-AngelOne - WARNING - No stored credentials found: No credentials found. Run setup first.
+2026-11-16 10:06:11,908 - AuraTrader-AngelOne - INFO - Initializing authoritative Angel One BrokerAdapter in disconnected state
+2026-11-16 10:06:11,908 - AuraTrader-AngelOne - INFO - Authoritative Angel One BrokerAdapter initialized in DISCONNECTED state
+2026-11-16 10:06:11,909 - risk.risk_manager.RiskManager - INFO - Capital set to INR 100,000.00
+2026-11-16 10:06:11,909 - core.engine.TradingEngine - INFO - Registered strategy vwap_strategy with engine
+2026-11-16 10:06:11,909 - core.engine.TradingEngine - INFO - Registered strategy ema_crossover with engine
+2026-11-16 10:06:11,910 - core.engine.TradingEngine - INFO - Registered strategy supertrend_strategy with engine
+2026-11-16 10:06:11,910 - core.engine.TradingEngine - INFO - Registered strategy momentum_strategy with engine
+2026-11-16 10:06:11,910 - core.engine.TradingEngine - INFO - Registered strategy breakout_strategy with engine
+2026-11-16 10:06:11,910 - core.engine.TradingEngine - INFO - Registered strategy mean_reversion with engine
+2026-11-16 10:06:11,910 - AuraTrader-AngelOne - INFO - Registered 6 quantitative trading strategies with engine
+2026-11-16 10:06:11,910 - AuraTrader-AngelOne - INFO - All backend components initialized successfully (100% operational)
+2026-11-16 10:32:22,990 - AuraTrader-AngelOne - INFO - Initializing AuraTrader-AngelOne Backend Infrastructure Service v1.2.0
+2026-11-16 10:32:23,001 - AuraTrader-AngelOne - INFO - Initializing backend trading components...
+2026-11-16 10:32:23,005 - AuraTrader-AngelOne - WARNING - No stored credentials found: No credentials found. Run setup first.
+2026-11-16 10:32:23,006 - AuraTrader-AngelOne - INFO - Initializing authoritative Angel One BrokerAdapter in disconnected state
+2026-11-16 10:32:23,006 - AuraTrader-AngelOne - INFO - Authoritative Angel One BrokerAdapter initialized in DISCONNECTED state
+2026-11-16 10:32:23,006 - risk.risk_manager.RiskManager - INFO - Capital set to INR 100,000.00
+2026-11-16 10:32:23,007 - core.engine.TradingEngine - INFO - Registered strategy vwap_strategy with engine
+2026-11-16 10:32:23,007 - core.engine.TradingEngine - INFO - Registered strategy ema_crossover with engine
+2026-11-16 10:32:23,007 - core.engine.TradingEngine - INFO - Registered strategy supertrend_strategy with engine
+2026-11-16 10:32:23,007 - core.engine.TradingEngine - INFO - Registered strategy momentum_strategy with engine
+2026-11-16 10:32:23,007 - core.engine.TradingEngine - INFO - Registered strategy breakout_strategy with engine
+2026-11-16 10:32:23,007 - core.engine.TradingEngine - INFO - Registered strategy mean_reversion with engine
+2026-11-16 10:32:23,007 - AuraTrader-AngelOne - INFO - Registered 6 quantitative trading strategies with engine
+2026-11-16 10:32:23,007 - AuraTrader-AngelOne - INFO - All backend components initialized successfully (100% operational)
+2026-11-16 10:40:01,967 - AuraTrader-AngelOne - INFO - Initializing AuraTrader-AngelOne Backend Infrastructure Service v1.2.0
+2026-11-16 10:40:01,975 - AuraTrader-AngelOne - INFO - Initializing backend trading components...
+2026-11-16 10:40:01,980 - AuraTrader-AngelOne - WARNING - No stored credentials found: No credentials found. Run setup first.
+2026-11-16 10:40:01,981 - AuraTrader-AngelOne - INFO - Initializing authoritative Angel One BrokerAdapter in disconnected state
+2026-11-16 10:40:01,981 - AuraTrader-AngelOne - INFO - Authoritative Angel One BrokerAdapter initialized in DISCONNECTED state
+2026-11-16 10:40:01,981 - risk.risk_manager.RiskManager - INFO - Capital set to INR 100,000.00
+2026-11-16 10:40:01,981 - core.engine.TradingEngine - INFO - Registered strategy vwap_strategy with engine
+2026-11-16 10:40:01,982 - core.engine.TradingEngine - INFO - Registered strategy ema_crossover with engine
+2026-11-16 10:40:01,982 - core.engine.TradingEngine - INFO - Registered strategy supertrend_strategy with engine
+2026-11-16 10:40:01,982 - core.engine.TradingEngine - INFO - Registered strategy momentum_strategy with engine
+2026-11-16 10:40:01,982 - core.engine.TradingEngine - INFO - Registered strategy breakout_strategy with engine
+2026-11-16 10:40:01,982 - core.engine.TradingEngine - INFO - Registered strategy mean_reversion with engine
+2026-11-16 10:40:01,982 - AuraTrader-AngelOne - INFO - Registered 6 quantitative trading strategies with engine
+2026-11-16 10:40:01,983 - AuraTrader-AngelOne - INFO - All backend components initialized successfully (100% operational)
+2026-11-16 10:58:01,442 - AuraTrader-AngelOne - INFO - Initializing AuraTrader-AngelOne Backend Infrastructure Service v1.2.0
+2026-11-16 10:58:01,445 - AuraTrader-AngelOne - INFO - Initializing backend trading components...
+2026-11-16 10:58:01,450 - AuraTrader-AngelOne - WARNING - No stored credentials found: No credentials found. Run setup first.
+2026-11-16 10:58:01,450 - AuraTrader-AngelOne - INFO - Initializing authoritative Angel One BrokerAdapter in disconnected state
+2026-11-16 10:58:01,450 - AuraTrader-AngelOne - INFO - Authoritative Angel One BrokerAdapter initialized in DISCONNECTED state
+2026-11-16 10:58:01,450 - risk.risk_manager.RiskManager - INFO - Capital set to INR 100,000.00
+2026-11-16 10:58:01,451 - core.engine.TradingEngine - INFO - Registered strategy vwap_strategy with engine
+2026-11-16 10:58:01,451 - core.engine.TradingEngine - INFO - Registered strategy ema_crossover with engine
+2026-11-16 10:58:01,451 - core.engine.TradingEngine - INFO - Registered strategy supertrend_strategy with engine
+2026-11-16 10:58:01,451 - core.engine.TradingEngine - INFO - Registered strategy momentum_strategy with engine
+2026-11-16 10:58:01,451 - core.engine.TradingEngine - INFO - Registered strategy breakout_strategy with engine
+2026-11-16 10:58:01,451 - core.engine.TradingEngine - INFO - Registered strategy mean_reversion with engine
+2026-11-16 10:58:01,451 - AuraTrader-AngelOne - INFO - Registered 6 quantitative trading strategies with engine (ARMED & ACTIVE)
+2026-11-16 10:58:01,452 - AuraTrader-AngelOne - INFO - All backend components initialized successfully (100% operational)

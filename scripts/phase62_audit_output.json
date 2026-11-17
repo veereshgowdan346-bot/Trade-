@@ -1,0 +1,44 @@
+{
+  "timestamp": "2026-11-17T05:14:18.535Z",
+  "phase": "6.2",
+  "whipsawLedger": {
+    "totalTrades": 19,
+    "sumGross": -2526.76,
+    "sumCharges": 2336.01,
+    "sumNet": -4862.77,
+    "finalCap": 95137.23,
+    "breakevenTradesCount": 7,
+    "status": "FAILED (Immutable Baseline Preserved)"
+  },
+  "wfeTerminology": {
+    "wfeTotalRatio": 4.64,
+    "wfeAvgTradeRatio": 1.86,
+    "tradeFrequencyMultiplier": 2.5,
+    "status": "NOT VERIFIED (Synthetic Data Only)"
+  },
+  "baselineFairness": {
+    "omniTradePro": {
+      "net": 875.71,
+      "dd": 0.77,
+      "exposure": 18.4
+    },
+    "buyAndHoldUnmanaged": {
+      "net": 2614.41,
+      "dd": 6.84,
+      "exposure": 100
+    },
+    "buyAndHoldRiskMatched": {
+      "qty": 4,
+      "net": 236,
+      "dd": 0.77,
+      "returnPct": 0.24
+    },
+    "status": "VERIFIED"
+  },
+  "marginAudit": {
+    "marginUtilizationPct": 19.89,
+    "marketExposurePct": 18.4,
+    "maxDrawdownPct": 0.77,
+    "status": "VERIFIED"
+  }
+}

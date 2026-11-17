@@ -1,0 +1,10 @@
+2026-11-16 09:12:33,796 [INFO] (OmniTrade.Scheduler) Market Sync Scheduler started.
+2026-11-16 09:12:33,796 [INFO] (OmniTrade.MainWindow) Background workers started successfully.
+2026-11-16 09:12:33,796 [INFO] (OmniTrade.Engine) Quantitative Engine Daemon initialized.
+2026-11-16 09:12:34,106 [INFO] (OmniTrade.Main) OmniTradePro Workstation launched successfully.
+2026-11-16 09:13:03,602 [INFO] (OmniTrade.MainWindow) Application close event triggered. Shutting down worker threads...
+2026-11-16 09:15:08,866 [INFO] (OmniTrade.Scheduler) Market Sync Scheduler started.
+2026-11-16 09:15:08,866 [INFO] (OmniTrade.MainWindow) Background workers started successfully.
+2026-11-16 09:15:08,866 [INFO] (OmniTrade.Engine) Quantitative Engine Daemon initialized.
+2026-11-16 09:15:09,089 [INFO] (OmniTrade.Main) OmniTradePro Workstation launched successfully.
+2026-11-16 09:15:13,983 [INFO] (OmniTrade.MainWindow) Application close event triggered. Shutting down worker threads...

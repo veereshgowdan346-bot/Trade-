@@ -1,0 +1,432 @@
+{
+  "timestamp": "2026-11-17T04:44:35.432Z",
+  "phase": "6.0",
+  "tradeVerification": {
+    "totalTrades": 15,
+    "sumGross": 2768.03,
+    "sumCharges": 1892.32,
+    "sumNet": 875.71,
+    "finalCapital": 100875.71,
+    "paisaVariance": 0,
+    "status": "VERIFIED"
+  },
+  "lookaheadBias": {
+    "causalityViolations": 0,
+    "indicatorLookaheadDetected": false,
+    "fillExecutionCausal": true,
+    "status": "VERIFIED"
+  },
+  "dataIntegrity": {
+    "totalBars": 1500,
+    "duplicateTimestamps": 0,
+    "unorderedTimestamps": 0,
+    "overnightGapCount": 3,
+    "provenance": "100% Synthetic (PRNG Linear Congruential Generator)",
+    "genuineHistoricalDataAvailable": false,
+    "status": "NOT VERIFIED (Synthetic Data Only)"
+  },
+  "costSensitivity": {
+    "breakEvenSlippageShoonyaBps": 14,
+    "angelOneNet": 342.72,
+    "fullServiceNet": -719.28,
+    "shoonyaBaseNet": 875.71,
+    "grid": [
+      {
+        "broker": "Zero Brokerage",
+        "brokerageRoundTrip": 0,
+        "slippageBps": 0,
+        "totalNet": 2240.49,
+        "totalCharges": 527.54,
+        "winRate": 60,
+        "isProfitable": true
+      },
+      {
+        "broker": "Zero Brokerage",
+        "brokerageRoundTrip": 0,
+        "slippageBps": 4,
+        "totalNet": 1645.62,
+        "totalCharges": 1122.41,
+        "winRate": 60,
+        "isProfitable": true
+      },
+      {
+        "broker": "Zero Brokerage",
+        "brokerageRoundTrip": 0,
+        "slippageBps": 8,
+        "totalNet": 1050.72,
+        "totalCharges": 1717.31,
+        "winRate": 60,
+        "isProfitable": true
+      },
+      {
+        "broker": "Zero Brokerage",
+        "brokerageRoundTrip": 0,
+        "slippageBps": 12,
+        "totalNet": 455.86,
+        "totalCharges": 2312.17,
+        "winRate": 60,
+        "isProfitable": true
+      },
+      {
+        "broker": "Zero Brokerage",
+        "brokerageRoundTrip": 0,
+        "slippageBps": 16,
+        "totalNet": -139.01,
+        "totalCharges": 2907.04,
+        "winRate": 60,
+        "isProfitable": false
+      },
+      {
+        "broker": "Zero Brokerage",
+        "brokerageRoundTrip": 0,
+        "slippageBps": 20,
+        "totalNet": -733.92,
+        "totalCharges": 3501.95,
+        "winRate": 60,
+        "isProfitable": false
+      },
+      {
+        "broker": "Zero Brokerage",
+        "brokerageRoundTrip": 0,
+        "slippageBps": 25,
+        "totalNet": -1477.51,
+        "totalCharges": 4245.54,
+        "winRate": 60,
+        "isProfitable": false
+      },
+      {
+        "broker": "Zero Brokerage",
+        "brokerageRoundTrip": 0,
+        "slippageBps": 30,
+        "totalNet": -2221.11,
+        "totalCharges": 4989.14,
+        "winRate": 46.67,
+        "isProfitable": false
+      },
+      {
+        "broker": "Shoonya Flat (Current)",
+        "brokerageRoundTrip": 10,
+        "slippageBps": 0,
+        "totalNet": 2063.49,
+        "totalCharges": 704.54,
+        "winRate": 60,
+        "isProfitable": true
+      },
+      {
+        "broker": "Shoonya Flat (Current)",
+        "brokerageRoundTrip": 10,
+        "slippageBps": 4,
+        "totalNet": 1468.62,
+        "totalCharges": 1299.41,
+        "winRate": 60,
+        "isProfitable": true
+      },
+      {
+        "broker": "Shoonya Flat (Current)",
+        "brokerageRoundTrip": 10,
+        "slippageBps": 8,
+        "totalNet": 873.72,
+        "totalCharges": 1894.31,
+        "winRate": 60,
+        "isProfitable": true
+      },
+      {
+        "broker": "Shoonya Flat (Current)",
+        "brokerageRoundTrip": 10,
+        "slippageBps": 12,
+        "totalNet": 278.86,
+        "totalCharges": 2489.17,
+        "winRate": 60,
+        "isProfitable": true
+      },
+      {
+        "broker": "Shoonya Flat (Current)",
+        "brokerageRoundTrip": 10,
+        "slippageBps": 16,
+        "totalNet": -316.01,
+        "totalCharges": 3084.04,
+        "winRate": 60,
+        "isProfitable": false
+      },
+      {
+        "broker": "Shoonya Flat (Current)",
+        "brokerageRoundTrip": 10,
+        "slippageBps": 20,
+        "totalNet": -910.92,
+        "totalCharges": 3678.95,
+        "winRate": 60,
+        "isProfitable": false
+      },
+      {
+        "broker": "Shoonya Flat (Current)",
+        "brokerageRoundTrip": 10,
+        "slippageBps": 25,
+        "totalNet": -1654.51,
+        "totalCharges": 4422.54,
+        "winRate": 60,
+        "isProfitable": false
+      },
+      {
+        "broker": "Shoonya Flat (Current)",
+        "brokerageRoundTrip": 10,
+        "slippageBps": 30,
+        "totalNet": -2398.11,
+        "totalCharges": 5166.14,
+        "winRate": 33.33,
+        "isProfitable": false
+      },
+      {
+        "broker": "Angel / Zerodha",
+        "brokerageRoundTrip": 40,
+        "slippageBps": 0,
+        "totalNet": 1532.49,
+        "totalCharges": 1235.54,
+        "winRate": 60,
+        "isProfitable": true
+      },
+      {
+        "broker": "Angel / Zerodha",
+        "brokerageRoundTrip": 40,
+        "slippageBps": 4,
+        "totalNet": 937.62,
+        "totalCharges": 1830.41,
+        "winRate": 60,
+        "isProfitable": true
+      },
+      {
+        "broker": "Angel / Zerodha",
+        "brokerageRoundTrip": 40,
+        "slippageBps": 8,
+        "totalNet": 342.72,
+        "totalCharges": 2425.31,
+        "winRate": 60,
+        "isProfitable": true
+      },
+      {
+        "broker": "Angel / Zerodha",
+        "brokerageRoundTrip": 40,
+        "slippageBps": 12,
+        "totalNet": -252.14,
+        "totalCharges": 3020.17,
+        "winRate": 60,
+        "isProfitable": false
+      },
+      {
+        "broker": "Angel / Zerodha",
+        "brokerageRoundTrip": 40,
+        "slippageBps": 16,
+        "totalNet": -847.01,
+        "totalCharges": 3615.04,
+        "winRate": 60,
+        "isProfitable": false
+      },
+      {
+        "broker": "Angel / Zerodha",
+        "brokerageRoundTrip": 40,
+        "slippageBps": 20,
+        "totalNet": -1441.92,
+        "totalCharges": 4209.95,
+        "winRate": 60,
+        "isProfitable": false
+      },
+      {
+        "broker": "Angel / Zerodha",
+        "brokerageRoundTrip": 40,
+        "slippageBps": 25,
+        "totalNet": -2185.51,
+        "totalCharges": 4953.54,
+        "winRate": 46.67,
+        "isProfitable": false
+      },
+      {
+        "broker": "Angel / Zerodha",
+        "brokerageRoundTrip": 40,
+        "slippageBps": 30,
+        "totalNet": -2929.11,
+        "totalCharges": 5697.14,
+        "winRate": 33.33,
+        "isProfitable": false
+      },
+      {
+        "broker": "Full Service Broker",
+        "brokerageRoundTrip": 100,
+        "slippageBps": 0,
+        "totalNet": 470.49,
+        "totalCharges": 2297.54,
+        "winRate": 60,
+        "isProfitable": true
+      },
+      {
+        "broker": "Full Service Broker",
+        "brokerageRoundTrip": 100,
+        "slippageBps": 4,
+        "totalNet": -124.38,
+        "totalCharges": 2892.41,
+        "winRate": 60,
+        "isProfitable": false
+      },
+      {
+        "broker": "Full Service Broker",
+        "brokerageRoundTrip": 100,
+        "slippageBps": 8,
+        "totalNet": -719.28,
+        "totalCharges": 3487.31,
+        "winRate": 60,
+        "isProfitable": false
+      },
+      {
+        "broker": "Full Service Broker",
+        "brokerageRoundTrip": 100,
+        "slippageBps": 12,
+        "totalNet": -1314.14,
+        "totalCharges": 4082.17,
+        "winRate": 60,
+        "isProfitable": false
+      },
+      {
+        "broker": "Full Service Broker",
+        "brokerageRoundTrip": 100,
+        "slippageBps": 16,
+        "totalNet": -1909.01,
+        "totalCharges": 4677.04,
+        "winRate": 60,
+        "isProfitable": false
+      },
+      {
+        "broker": "Full Service Broker",
+        "brokerageRoundTrip": 100,
+        "slippageBps": 20,
+        "totalNet": -2503.92,
+        "totalCharges": 5271.95,
+        "winRate": 33.33,
+        "isProfitable": false
+      },
+      {
+        "broker": "Full Service Broker",
+        "brokerageRoundTrip": 100,
+        "slippageBps": 25,
+        "totalNet": -3247.51,
+        "totalCharges": 6015.54,
+        "winRate": 33.33,
+        "isProfitable": false
+      },
+      {
+        "broker": "Full Service Broker",
+        "brokerageRoundTrip": 100,
+        "slippageBps": 30,
+        "totalNet": -3991.11,
+        "totalCharges": 6759.14,
+        "winRate": 33.33,
+        "isProfitable": false
+      }
+    ],
+    "status": "VERIFIED"
+  },
+  "regimeStressTest": {
+    "results": [
+      {
+        "name": "Bull Trend (Dedicated)",
+        "result": {
+          "trades": 1,
+          "wins": 1,
+          "winRate": 100,
+          "netPnL": 192.9,
+          "maxDDPct": 0
+        }
+      },
+      {
+        "name": "Bear Trend (Dedicated)",
+        "result": {
+          "trades": 9,
+          "wins": 8,
+          "winRate": 88.89,
+          "netPnL": 1524.62,
+          "maxDDPct": 0.05
+        }
+      },
+      {
+        "name": "Choppy Sideways (Dedicated)",
+        "result": {
+          "trades": 0,
+          "wins": 0,
+          "winRate": 0,
+          "netPnL": 0,
+          "maxDDPct": 0
+        }
+      },
+      {
+        "name": "High Vol Whipsaw (Dedicated)",
+        "result": {
+          "trades": 19,
+          "wins": 0,
+          "winRate": 0,
+          "netPnL": -4862.77,
+          "maxDDPct": 4.86
+        }
+      },
+      {
+        "name": "Gap Market (Dedicated)",
+        "result": {
+          "trades": 3,
+          "wins": 0,
+          "winRate": 0,
+          "netPnL": -721.18,
+          "maxDDPct": 0.72
+        }
+      }
+    ],
+    "status": "PARTIALLY VERIFIED (Synthetic Regimes Tested, Real Market Regimes Missing)"
+  },
+  "baselineFairness": {
+    "omniTradePro": {
+      "trades": 15,
+      "netPnL": 875.71,
+      "winRate": 60,
+      "maxDD": 0.77
+    },
+    "dualSMA": {
+      "name": "Dual SMA (20/50)",
+      "trades": 9,
+      "wins": 0,
+      "winRate": 0,
+      "netPnL": -946.03,
+      "maxDDPct": 0.95
+    },
+    "rsiStandalone": {
+      "name": "RSI (14) Standalone",
+      "trades": 24,
+      "wins": 1,
+      "winRate": 4.17,
+      "netPnL": -6858.43,
+      "maxDDPct": 6.91
+    },
+    "buyAndHoldNet": 2614.41,
+    "randomBenchmark": {
+      "name": "Random Noise Benchmark (100 runs)",
+      "trades": 40,
+      "winRate": 21.75,
+      "netPnL": -4835.67
+    },
+    "status": "VERIFIED"
+  },
+  "walkForwardValidation": {
+    "isNet": 327.08,
+    "oosNet": 1517.85,
+    "wfaRatio": 4.64,
+    "historicalValidationStatus": "NOT VERIFIED (Requires Live Historical Data)",
+    "syntheticWalkForwardStatus": "VERIFIED"
+  },
+  "statisticalAssumptions": {
+    "lag1Autocorrelation": 0.1595,
+    "durbinWatson": 1.6506,
+    "blockBootstrapCI95": [
+      -109.73,
+      211.98
+    ],
+    "iidBootstrapCI95": [
+      -102.45,
+      205.63
+    ],
+    "status": "VERIFIED"
+  }
+}

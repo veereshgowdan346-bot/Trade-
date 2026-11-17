@@ -1,0 +1,6 @@
+{
+  "id": "fast_ema_5_13",
+  "name": "Fast EMA Cross (5/13)",
+  "type": "ema_cross",
+  "params": { "fast": 5, "slow": 13 }
+}

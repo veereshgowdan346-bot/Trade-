@@ -1,0 +1,6 @@
+{
+  "id": "donchian_breakout_20",
+  "name": "Donchian Breakout (20)",
+  "type": "breakout",
+  "params": { "lookback": 20 }
+}

@@ -1,0 +1,1750 @@
+{
+  "timestamp": "2026-11-17T04:12:25.787Z",
+  "datasetSummary": {
+    "instrument": "RELIANCE (NSE EQ)",
+    "timeframe": "1-Minute",
+    "totalCandles": 1500,
+    "startDate": "2026-11-17T03:45:00.000Z",
+    "endDate": "2026-11-20T09:59:00.000Z",
+    "qualityScore": 100
+  },
+  "performanceMetrics": {
+    "startingCapital": 100000,
+    "finalCapital": 100875.71,
+    "netProfit": 875.71,
+    "tradeCount": 15,
+    "winRate": 60,
+    "profitFactor": 1.48,
+    "netExpectancy": 58.38,
+    "maxDrawdownPct": 0.76,
+    "maxDrawdownRupees": 771.54,
+    "annualizedSharpe": 7.29,
+    "annualizedSortino": 11.83,
+    "brierScore": 0.25,
+    "averageMaeR": 0.82,
+    "averageMfeR": 1.62
+  },
+  "baselines": {
+    "sma20_50": {
+      "trades": 10,
+      "pnl": 277.2,
+      "winRate": 80
+    },
+    "rsi14": {
+      "trades": 232,
+      "pnl": -40518,
+      "winRate": 7.76
+    },
+    "buyAndHold": 2809.6
+  },
+  "trades": [
+    {
+      "tradeId": "PAPER_1",
+      "symbol": "RELIANCE",
+      "side": "BUY",
+      "entryBar": 64,
+      "exitBar": 85,
+      "entryTime": "2026-11-17T04:49:00.000Z",
+      "exitTime": "2026-11-17T05:10:00.000Z",
+      "entryPrice": 2529.94,
+      "exitPrice": 2538.09,
+      "qty": 39,
+      "slPrice": 2526.68,
+      "targetPrice": 2538.09,
+      "grossPnL": 317.85,
+      "totalCharges": 125.6,
+      "netPnL": 192.25,
+      "exitReason": "TARGET_REACHED",
+      "maxAdverseR": 0.63,
+      "maxFavorableR": 2.52,
+      "regimeAtEntry": "TRENDING_BULL",
+      "quorumPct": 100
+    },
+    {
+      "tradeId": "PAPER_2",
+      "symbol": "RELIANCE",
+      "side": "BUY",
+      "entryBar": 290,
+      "exitBar": 317,
+      "entryTime": "2026-11-17T08:35:00.000Z",
+      "exitTime": "2026-11-17T09:02:00.000Z",
+      "entryPrice": 2563.49,
+      "exitPrice": 2571.72,
+      "qty": 39,
+      "slPrice": 2560.2,
+      "targetPrice": 2571.72,
+      "grossPnL": 320.97,
+      "totalCharges": 127.11,
+      "netPnL": 193.86,
+      "exitReason": "TARGET_REACHED",
+      "maxAdverseR": 0.56,
+      "maxFavorableR": 2.68,
+      "regimeAtEntry": "TRENDING_BULL",
+      "quorumPct": 80
+    },
+    {
+      "tradeId": "PAPER_3",
+      "symbol": "RELIANCE",
+      "side": "BUY",
+      "entryBar": 379,
+      "exitBar": 382,
+      "entryTime": "2026-11-18T03:49:00.000Z",
+      "exitTime": "2026-11-18T03:52:00.000Z",
+      "entryPrice": 2587.35,
+      "exitPrice": 2583.95,
+      "qty": 38,
+      "slPrice": 2583.95,
+      "targetPrice": 2595.85,
+      "grossPnL": -129.2,
+      "totalCharges": 125.07,
+      "netPnL": -254.27,
+      "exitReason": "STOP_LOSS",
+      "maxAdverseR": 1.08,
+      "maxFavorableR": 0.01,
+      "regimeAtEntry": "TRENDING_BULL",
+      "quorumPct": 80
+    },
+    {
+      "tradeId": "PAPER_4",
+      "symbol": "RELIANCE",
+      "side": "BUY",
+      "entryBar": 383,
+      "exitBar": 387,
+      "entryTime": "2026-11-18T03:53:00.000Z",
+      "exitTime": "2026-11-18T03:57:00.000Z",
+      "entryPrice": 2586.42,
+      "exitPrice": 2582.91,
+      "qty": 38,
+      "slPrice": 2582.91,
+      "targetPrice": 2595.19,
+      "grossPnL": -133.38,
+      "totalCharges": 125.03,
+      "netPnL": -258.41,
+      "exitReason": "STOP_LOSS",
+      "maxAdverseR": 1.18,
+      "maxFavorableR": 0,
+      "regimeAtEntry": "TRENDING_BEAR",
+      "quorumPct": 80
+    },
+    {
+      "tradeId": "PAPER_5",
+      "symbol": "RELIANCE",
+      "side": "BUY",
+      "entryBar": 1133,
+      "exitBar": 1134,
+      "entryTime": "2026-11-20T03:53:00.000Z",
+      "exitTime": "2026-11-20T03:54:00.000Z",
+      "entryPrice": 2547.41,
+      "exitPrice": 2544.01,
+      "qty": 39,
+      "slPrice": 2544.01,
+      "targetPrice": 2555.91,
+      "grossPnL": -132.6,
+      "totalCharges": 126.26,
+      "netPnL": -258.86,
+      "exitReason": "STOP_LOSS",
+      "maxAdverseR": 1.01,
+      "maxFavorableR": 0.14,
+      "regimeAtEntry": "VOLATILITY_EXPANSION",
+      "quorumPct": 80
+    },
+    {
+      "tradeId": "PAPER_6",
+      "symbol": "RELIANCE",
+      "side": "BUY",
+      "entryBar": 1135,
+      "exitBar": 1152,
+      "entryTime": "2026-11-20T03:55:00.000Z",
+      "exitTime": "2026-11-20T04:12:00.000Z",
+      "entryPrice": 2547.51,
+      "exitPrice": 2556.33,
+      "qty": 39,
+      "slPrice": 2543.98,
+      "targetPrice": 2556.33,
+      "grossPnL": 343.98,
+      "totalCharges": 126.4,
+      "netPnL": 217.58,
+      "exitReason": "TARGET_REACHED",
+      "maxAdverseR": 0.63,
+      "maxFavorableR": 2.67,
+      "regimeAtEntry": "VOLATILITY_EXPANSION",
+      "quorumPct": 80
+    },
+    {
+      "tradeId": "PAPER_7",
+      "symbol": "RELIANCE",
+      "side": "BUY",
+      "entryBar": 1153,
+      "exitBar": 1167,
+      "entryTime": "2026-11-20T04:13:00.000Z",
+      "exitTime": "2026-11-20T04:27:00.000Z",
+      "entryPrice": 2555.97,
+      "exitPrice": 2568.87,
+      "qty": 39,
+      "slPrice": 2550.81,
+      "targetPrice": 2568.87,
+      "grossPnL": 503.1,
+      "totalCharges": 126.82,
+      "netPnL": 376.28,
+      "exitReason": "TARGET_REACHED",
+      "maxAdverseR": 0.69,
+      "maxFavorableR": 2.51,
+      "regimeAtEntry": "VOLATILITY_EXPANSION",
+      "quorumPct": 100
+    },
+    {
+      "tradeId": "PAPER_8",
+      "symbol": "RELIANCE",
+      "side": "BUY",
+      "entryBar": 1168,
+      "exitBar": 1203,
+      "entryTime": "2026-11-20T04:28:00.000Z",
+      "exitTime": "2026-11-20T05:03:00.000Z",
+      "entryPrice": 2569.51,
+      "exitPrice": 2583.89,
+      "qty": 39,
+      "slPrice": 2563.76,
+      "targetPrice": 2583.89,
+      "grossPnL": 560.82,
+      "totalCharges": 127.45,
+      "netPnL": 433.37,
+      "exitReason": "TARGET_REACHED",
+      "maxAdverseR": 0.55,
+      "maxFavorableR": 2.64,
+      "regimeAtEntry": "VOLATILITY_EXPANSION",
+      "quorumPct": 80
+    },
+    {
+      "tradeId": "PAPER_9",
+      "symbol": "RELIANCE",
+      "side": "BUY",
+      "entryBar": 1204,
+      "exitBar": 1219,
+      "entryTime": "2026-11-20T05:04:00.000Z",
+      "exitTime": "2026-11-20T05:19:00.000Z",
+      "entryPrice": 2583.49,
+      "exitPrice": 2595.97,
+      "qty": 38,
+      "slPrice": 2578.5,
+      "targetPrice": 2595.97,
+      "grossPnL": 474.24,
+      "totalCharges": 125.07,
+      "netPnL": 349.17,
+      "exitReason": "TARGET_REACHED",
+      "maxAdverseR": 0.84,
+      "maxFavorableR": 2.73,
+      "regimeAtEntry": "TRENDING_BULL",
+      "quorumPct": 80
+    },
+    {
+      "tradeId": "PAPER_10",
+      "symbol": "RELIANCE",
+      "side": "BUY",
+      "entryBar": 1220,
+      "exitBar": 1228,
+      "entryTime": "2026-11-20T05:20:00.000Z",
+      "exitTime": "2026-11-20T05:28:00.000Z",
+      "entryPrice": 2596.29,
+      "exitPrice": 2590.43,
+      "qty": 38,
+      "slPrice": 2590.43,
+      "targetPrice": 2610.94,
+      "grossPnL": -222.68,
+      "totalCharges": 125.44,
+      "netPnL": -348.12,
+      "exitReason": "STOP_LOSS",
+      "maxAdverseR": 1.08,
+      "maxFavorableR": 0.55,
+      "regimeAtEntry": "TRENDING_BULL",
+      "quorumPct": 100
+    },
+    {
+      "tradeId": "PAPER_11",
+      "symbol": "RELIANCE",
+      "side": "BUY",
+      "entryBar": 1229,
+      "exitBar": 1237,
+      "entryTime": "2026-11-20T05:29:00.000Z",
+      "exitTime": "2026-11-20T05:37:00.000Z",
+      "entryPrice": 2593.31,
+      "exitPrice": 2587.23,
+      "qty": 38,
+      "slPrice": 2587.23,
+      "targetPrice": 2608.51,
+      "grossPnL": -231.04,
+      "totalCharges": 125.3,
+      "netPnL": -356.34,
+      "exitReason": "STOP_LOSS",
+      "maxAdverseR": 1.07,
+      "maxFavorableR": 0.14,
+      "regimeAtEntry": "TRENDING_BULL",
+      "quorumPct": 80
+    },
+    {
+      "tradeId": "PAPER_12",
+      "symbol": "RELIANCE",
+      "side": "SELL",
+      "entryBar": 1304,
+      "exitBar": 1315,
+      "entryTime": "2026-11-20T06:44:00.000Z",
+      "exitTime": "2026-11-20T06:55:00.000Z",
+      "entryPrice": 2548.75,
+      "exitPrice": 2536.9,
+      "qty": 39,
+      "slPrice": 2553.49,
+      "targetPrice": 2536.9,
+      "grossPnL": 462.15,
+      "totalCharges": 126.32,
+      "netPnL": 335.83,
+      "exitReason": "TARGET_REACHED",
+      "maxAdverseR": 0.71,
+      "maxFavorableR": 2.69,
+      "regimeAtEntry": "TRENDING_BEAR",
+      "quorumPct": 80
+    },
+    {
+      "tradeId": "PAPER_13",
+      "symbol": "RELIANCE",
+      "side": "SELL",
+      "entryBar": 1316,
+      "exitBar": 1338,
+      "entryTime": "2026-11-20T06:56:00.000Z",
+      "exitTime": "2026-11-20T07:18:00.000Z",
+      "entryPrice": 2535.96,
+      "exitPrice": 2522.58,
+      "qty": 39,
+      "slPrice": 2541.31,
+      "targetPrice": 2522.58,
+      "grossPnL": 521.82,
+      "totalCharges": 125.75,
+      "netPnL": 396.07,
+      "exitReason": "TARGET_REACHED",
+      "maxAdverseR": 0.44,
+      "maxFavorableR": 2.82,
+      "regimeAtEntry": "TRENDING_BEAR",
+      "quorumPct": 80
+    },
+    {
+      "tradeId": "PAPER_14",
+      "symbol": "RELIANCE",
+      "side": "SELL",
+      "entryBar": 1339,
+      "exitBar": 1348,
+      "entryTime": "2026-11-20T07:19:00.000Z",
+      "exitTime": "2026-11-20T07:28:00.000Z",
+      "entryPrice": 2521.89,
+      "exitPrice": 2527.67,
+      "qty": 40,
+      "slPrice": 2527.67,
+      "targetPrice": 2507.44,
+      "grossPnL": -231.2,
+      "totalCharges": 128.07,
+      "netPnL": -359.27,
+      "exitReason": "STOP_LOSS",
+      "maxAdverseR": 1.14,
+      "maxFavorableR": 0.37,
+      "regimeAtEntry": "TRENDING_BEAR",
+      "quorumPct": 80
+    },
+    {
+      "tradeId": "PAPER_15",
+      "symbol": "RELIANCE",
+      "side": "BUY",
+      "entryBar": 1435,
+      "exitBar": 1485,
+      "entryTime": "2026-11-20T08:55:00.000Z",
+      "exitTime": "2026-11-20T09:45:00.000Z",
+      "entryPrice": 2552.57,
+      "exitPrice": 2561.37,
+      "qty": 39,
+      "slPrice": 2547.49,
+      "targetPrice": 2565.27,
+      "grossPnL": 343.2,
+      "totalCharges": 126.63,
+      "netPnL": 216.57,
+      "exitReason": "EOD_SQUAREOFF_1515",
+      "maxAdverseR": 0.65,
+      "maxFavorableR": 1.8,
+      "regimeAtEntry": "TRENDING_BULL",
+      "quorumPct": 100
+    }
+  ],
+  "rejectedSignals": [
+    {
+      "bar": 30,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 261.3,
+      "estFriction": 124.82,
+      "ratio": 2.09
+    },
+    {
+      "bar": 31,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 276.9,
+      "estFriction": 124.87,
+      "ratio": 2.22
+    },
+    {
+      "bar": 32,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 274.17,
+      "estFriction": 124.87,
+      "ratio": 2.2
+    },
+    {
+      "bar": 33,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 290.55,
+      "estFriction": 124.93,
+      "ratio": 2.33
+    },
+    {
+      "bar": 34,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 285.87,
+      "estFriction": 124.95,
+      "ratio": 2.29
+    },
+    {
+      "bar": 35,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 294.45,
+      "estFriction": 124.97,
+      "ratio": 2.36
+    },
+    {
+      "bar": 36,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 292.5,
+      "estFriction": 124.99,
+      "ratio": 2.34
+    },
+    {
+      "bar": 37,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 289.77,
+      "estFriction": 125,
+      "ratio": 2.32
+    },
+    {
+      "bar": 38,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 297.57,
+      "estFriction": 124.98,
+      "ratio": 2.38
+    },
+    {
+      "bar": 39,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 308.1,
+      "estFriction": 125.02,
+      "ratio": 2.46
+    },
+    {
+      "bar": 40,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 304.2,
+      "estFriction": 125.05,
+      "ratio": 2.43
+    },
+    {
+      "bar": 41,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 304.2,
+      "estFriction": 125.07,
+      "ratio": 2.43
+    },
+    {
+      "bar": 42,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 306.15,
+      "estFriction": 125.12,
+      "ratio": 2.45
+    },
+    {
+      "bar": 43,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 296.4,
+      "estFriction": 125.14,
+      "ratio": 2.37
+    },
+    {
+      "bar": 44,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 283.92,
+      "estFriction": 125.12,
+      "ratio": 2.27
+    },
+    {
+      "bar": 45,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 278.07,
+      "estFriction": 125.12,
+      "ratio": 2.22
+    },
+    {
+      "bar": 46,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 280.02,
+      "estFriction": 125.15,
+      "ratio": 2.24
+    },
+    {
+      "bar": 47,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 287.82,
+      "estFriction": 125.15,
+      "ratio": 2.3
+    },
+    {
+      "bar": 48,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 293.67,
+      "estFriction": 125.18,
+      "ratio": 2.35
+    },
+    {
+      "bar": 49,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 280.8,
+      "estFriction": 125.17,
+      "ratio": 2.24
+    },
+    {
+      "bar": 50,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 284.7,
+      "estFriction": 125.18,
+      "ratio": 2.27
+    },
+    {
+      "bar": 51,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 280.8,
+      "estFriction": 125.18,
+      "ratio": 2.24
+    },
+    {
+      "bar": 52,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 288.6,
+      "estFriction": 125.22,
+      "ratio": 2.3
+    },
+    {
+      "bar": 53,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 294.45,
+      "estFriction": 125.22,
+      "ratio": 2.35
+    },
+    {
+      "bar": 54,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 296.4,
+      "estFriction": 125.26,
+      "ratio": 2.37
+    },
+    {
+      "bar": 55,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 289.77,
+      "estFriction": 125.29,
+      "ratio": 2.31
+    },
+    {
+      "bar": 56,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 287.82,
+      "estFriction": 125.34,
+      "ratio": 2.3
+    },
+    {
+      "bar": 57,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 285.87,
+      "estFriction": 125.37,
+      "ratio": 2.28
+    },
+    {
+      "bar": 58,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 286.65,
+      "estFriction": 125.39,
+      "ratio": 2.29
+    },
+    {
+      "bar": 59,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 301.47,
+      "estFriction": 125.44,
+      "ratio": 2.4
+    },
+    {
+      "bar": 60,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 306.15,
+      "estFriction": 125.43,
+      "ratio": 2.44
+    },
+    {
+      "bar": 61,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 306.15,
+      "estFriction": 125.48,
+      "ratio": 2.44
+    },
+    {
+      "bar": 62,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 313.17,
+      "estFriction": 125.5,
+      "ratio": 2.5
+    },
+    {
+      "bar": 85,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 313.95,
+      "estFriction": 125.92,
+      "ratio": 2.49
+    },
+    {
+      "bar": 86,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 304.98,
+      "estFriction": 125.92,
+      "ratio": 2.42
+    },
+    {
+      "bar": 87,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 300.3,
+      "estFriction": 125.9,
+      "ratio": 2.39
+    },
+    {
+      "bar": 88,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 301.47,
+      "estFriction": 125.92,
+      "ratio": 2.39
+    },
+    {
+      "bar": 89,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 301.47,
+      "estFriction": 125.94,
+      "ratio": 2.39
+    },
+    {
+      "bar": 90,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 293.67,
+      "estFriction": 125.92,
+      "ratio": 2.33
+    },
+    {
+      "bar": 91,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 294.45,
+      "estFriction": 125.92,
+      "ratio": 2.34
+    },
+    {
+      "bar": 92,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 307.32,
+      "estFriction": 125.98,
+      "ratio": 2.44
+    },
+    {
+      "bar": 93,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 309.27,
+      "estFriction": 125.99,
+      "ratio": 2.45
+    },
+    {
+      "bar": 94,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 311.22,
+      "estFriction": 126.01,
+      "ratio": 2.47
+    },
+    {
+      "bar": 95,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 314.73,
+      "estFriction": 126,
+      "ratio": 2.5
+    },
+    {
+      "bar": 96,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 310.05,
+      "estFriction": 126.02,
+      "ratio": 2.46
+    },
+    {
+      "bar": 97,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 309.27,
+      "estFriction": 126.03,
+      "ratio": 2.45
+    },
+    {
+      "bar": 98,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 307.32,
+      "estFriction": 126.06,
+      "ratio": 2.44
+    },
+    {
+      "bar": 99,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 300.3,
+      "estFriction": 126.04,
+      "ratio": 2.38
+    },
+    {
+      "bar": 100,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 304.98,
+      "estFriction": 126.09,
+      "ratio": 2.42
+    },
+    {
+      "bar": 101,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 295.23,
+      "estFriction": 126.07,
+      "ratio": 2.34
+    },
+    {
+      "bar": 102,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 295.23,
+      "estFriction": 126.11,
+      "ratio": 2.34
+    },
+    {
+      "bar": 103,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 289.77,
+      "estFriction": 126.11,
+      "ratio": 2.3
+    },
+    {
+      "bar": 104,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 278.85,
+      "estFriction": 126.11,
+      "ratio": 2.21
+    },
+    {
+      "bar": 105,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 281.97,
+      "estFriction": 126.15,
+      "ratio": 2.24
+    },
+    {
+      "bar": 106,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 280.02,
+      "estFriction": 126.13,
+      "ratio": 2.22
+    },
+    {
+      "bar": 107,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 282.75,
+      "estFriction": 126.14,
+      "ratio": 2.24
+    },
+    {
+      "bar": 108,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 280.02,
+      "estFriction": 126.13,
+      "ratio": 2.22
+    },
+    {
+      "bar": 109,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 290.55,
+      "estFriction": 126.18,
+      "ratio": 2.3
+    },
+    {
+      "bar": 110,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 278.07,
+      "estFriction": 126.2,
+      "ratio": 2.2
+    },
+    {
+      "bar": 111,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 285.87,
+      "estFriction": 126.19,
+      "ratio": 2.27
+    },
+    {
+      "bar": 112,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 272.22,
+      "estFriction": 126.2,
+      "ratio": 2.16
+    },
+    {
+      "bar": 113,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 270.27,
+      "estFriction": 126.24,
+      "ratio": 2.14
+    },
+    {
+      "bar": 114,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 270.27,
+      "estFriction": 126.26,
+      "ratio": 2.14
+    },
+    {
+      "bar": 115,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 276.9,
+      "estFriction": 126.3,
+      "ratio": 2.19
+    },
+    {
+      "bar": 116,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 283.92,
+      "estFriction": 126.35,
+      "ratio": 2.25
+    },
+    {
+      "bar": 117,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 284.7,
+      "estFriction": 126.34,
+      "ratio": 2.25
+    },
+    {
+      "bar": 118,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 280.02,
+      "estFriction": 126.35,
+      "ratio": 2.22
+    },
+    {
+      "bar": 119,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 289.77,
+      "estFriction": 126.4,
+      "ratio": 2.29
+    },
+    {
+      "bar": 120,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 298.35,
+      "estFriction": 126.44,
+      "ratio": 2.36
+    },
+    {
+      "bar": 121,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 306.15,
+      "estFriction": 126.46,
+      "ratio": 2.42
+    },
+    {
+      "bar": 122,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 301.47,
+      "estFriction": 126.46,
+      "ratio": 2.38
+    },
+    {
+      "bar": 123,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 298.35,
+      "estFriction": 126.48,
+      "ratio": 2.36
+    },
+    {
+      "bar": 124,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 298.35,
+      "estFriction": 126.49,
+      "ratio": 2.36
+    },
+    {
+      "bar": 125,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 292.5,
+      "estFriction": 126.49,
+      "ratio": 2.31
+    },
+    {
+      "bar": 126,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 291.72,
+      "estFriction": 126.5,
+      "ratio": 2.31
+    },
+    {
+      "bar": 127,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 288.6,
+      "estFriction": 126.52,
+      "ratio": 2.28
+    },
+    {
+      "bar": 128,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 281.97,
+      "estFriction": 126.52,
+      "ratio": 2.23
+    },
+    {
+      "bar": 129,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 276.9,
+      "estFriction": 126.53,
+      "ratio": 2.19
+    },
+    {
+      "bar": 130,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 281.97,
+      "estFriction": 126.57,
+      "ratio": 2.23
+    },
+    {
+      "bar": 131,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 278.85,
+      "estFriction": 126.55,
+      "ratio": 2.2
+    },
+    {
+      "bar": 132,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 281.97,
+      "estFriction": 126.52,
+      "ratio": 2.23
+    },
+    {
+      "bar": 133,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 289.77,
+      "estFriction": 126.56,
+      "ratio": 2.29
+    },
+    {
+      "bar": 134,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 299.52,
+      "estFriction": 126.57,
+      "ratio": 2.37
+    },
+    {
+      "bar": 135,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 295.23,
+      "estFriction": 126.54,
+      "ratio": 2.33
+    },
+    {
+      "bar": 136,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 292.5,
+      "estFriction": 126.56,
+      "ratio": 2.31
+    },
+    {
+      "bar": 137,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 290.55,
+      "estFriction": 126.56,
+      "ratio": 2.3
+    },
+    {
+      "bar": 138,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 301.47,
+      "estFriction": 126.54,
+      "ratio": 2.38
+    },
+    {
+      "bar": 139,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 304.2,
+      "estFriction": 126.57,
+      "ratio": 2.4
+    },
+    {
+      "bar": 140,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 294.45,
+      "estFriction": 126.59,
+      "ratio": 2.33
+    },
+    {
+      "bar": 141,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 295.23,
+      "estFriction": 126.57,
+      "ratio": 2.33
+    },
+    {
+      "bar": 142,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 287.82,
+      "estFriction": 126.54,
+      "ratio": 2.27
+    },
+    {
+      "bar": 143,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 285.87,
+      "estFriction": 126.54,
+      "ratio": 2.26
+    },
+    {
+      "bar": 144,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 283.92,
+      "estFriction": 126.53,
+      "ratio": 2.24
+    },
+    {
+      "bar": 145,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 281.97,
+      "estFriction": 126.52,
+      "ratio": 2.23
+    },
+    {
+      "bar": 146,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 273,
+      "estFriction": 126.53,
+      "ratio": 2.16
+    },
+    {
+      "bar": 147,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 264.42,
+      "estFriction": 126.51,
+      "ratio": 2.09
+    },
+    {
+      "bar": 148,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 255.45,
+      "estFriction": 126.49,
+      "ratio": 2.02
+    },
+    {
+      "bar": 186,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 245.7,
+      "estFriction": 126.65,
+      "ratio": 1.94
+    },
+    {
+      "bar": 282,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 296.4,
+      "estFriction": 126.88,
+      "ratio": 2.34
+    },
+    {
+      "bar": 283,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 287.82,
+      "estFriction": 126.9,
+      "ratio": 2.27
+    },
+    {
+      "bar": 284,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 286.65,
+      "estFriction": 126.88,
+      "ratio": 2.26
+    },
+    {
+      "bar": 285,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 288.6,
+      "estFriction": 126.93,
+      "ratio": 2.27
+    },
+    {
+      "bar": 286,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 298.35,
+      "estFriction": 126.97,
+      "ratio": 2.35
+    },
+    {
+      "bar": 287,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 304.2,
+      "estFriction": 127.02,
+      "ratio": 2.39
+    },
+    {
+      "bar": 288,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 310.05,
+      "estFriction": 127.01,
+      "ratio": 2.44
+    },
+    {
+      "bar": 317,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 261.3,
+      "estFriction": 127.46,
+      "ratio": 2.05
+    },
+    {
+      "bar": 318,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 261.3,
+      "estFriction": 127.47,
+      "ratio": 2.05
+    },
+    {
+      "bar": 319,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 252.72,
+      "estFriction": 127.46,
+      "ratio": 1.98
+    },
+    {
+      "bar": 320,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 237.9,
+      "estFriction": 127.46,
+      "ratio": 1.87
+    },
+    {
+      "bar": 321,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 241.02,
+      "estFriction": 127.49,
+      "ratio": 1.89
+    },
+    {
+      "bar": 322,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 246.48,
+      "estFriction": 127.52,
+      "ratio": 1.93
+    },
+    {
+      "bar": 323,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 248.14,
+      "estFriction": 124.6,
+      "ratio": 1.99
+    },
+    {
+      "bar": 324,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 246.24,
+      "estFriction": 124.59,
+      "ratio": 1.98
+    },
+    {
+      "bar": 325,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 251.55,
+      "estFriction": 127.56,
+      "ratio": 1.97
+    },
+    {
+      "bar": 326,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 255.74,
+      "estFriction": 124.62,
+      "ratio": 2.05
+    },
+    {
+      "bar": 327,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 255.74,
+      "estFriction": 124.62,
+      "ratio": 2.05
+    },
+    {
+      "bar": 328,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 253.84,
+      "estFriction": 124.64,
+      "ratio": 2.04
+    },
+    {
+      "bar": 329,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 269.04,
+      "estFriction": 124.68,
+      "ratio": 2.16
+    },
+    {
+      "bar": 330,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 280.44,
+      "estFriction": 124.71,
+      "ratio": 2.25
+    },
+    {
+      "bar": 331,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 278.54,
+      "estFriction": 124.7,
+      "ratio": 2.23
+    },
+    {
+      "bar": 332,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 281.2,
+      "estFriction": 124.75,
+      "ratio": 2.25
+    },
+    {
+      "bar": 333,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 288.8,
+      "estFriction": 124.79,
+      "ratio": 2.31
+    },
+    {
+      "bar": 334,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 288.8,
+      "estFriction": 124.77,
+      "ratio": 2.31
+    },
+    {
+      "bar": 335,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 293.74,
+      "estFriction": 124.81,
+      "ratio": 2.35
+    },
+    {
+      "bar": 336,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 299.44,
+      "estFriction": 124.78,
+      "ratio": 2.4
+    },
+    {
+      "bar": 337,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 294.5,
+      "estFriction": 124.78,
+      "ratio": 2.36
+    },
+    {
+      "bar": 338,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 298.3,
+      "estFriction": 124.81,
+      "ratio": 2.39
+    },
+    {
+      "bar": 339,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 288.8,
+      "estFriction": 124.79,
+      "ratio": 2.31
+    },
+    {
+      "bar": 340,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 290.7,
+      "estFriction": 124.8,
+      "ratio": 2.33
+    },
+    {
+      "bar": 341,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 283.1,
+      "estFriction": 124.81,
+      "ratio": 2.27
+    },
+    {
+      "bar": 342,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 295.64,
+      "estFriction": 124.86,
+      "ratio": 2.37
+    },
+    {
+      "bar": 343,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 294.5,
+      "estFriction": 124.83,
+      "ratio": 2.36
+    },
+    {
+      "bar": 344,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 300.2,
+      "estFriction": 124.86,
+      "ratio": 2.4
+    },
+    {
+      "bar": 345,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 306.66,
+      "estFriction": 124.91,
+      "ratio": 2.46
+    },
+    {
+      "bar": 346,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 293.74,
+      "estFriction": 124.89,
+      "ratio": 2.35
+    },
+    {
+      "bar": 347,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 291.84,
+      "estFriction": 124.86,
+      "ratio": 2.34
+    },
+    {
+      "bar": 348,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 279.3,
+      "estFriction": 124.86,
+      "ratio": 2.24
+    },
+    {
+      "bar": 349,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 272.84,
+      "estFriction": 124.91,
+      "ratio": 2.18
+    },
+    {
+      "bar": 350,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 272.84,
+      "estFriction": 124.92,
+      "ratio": 2.18
+    },
+    {
+      "bar": 351,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 273.6,
+      "estFriction": 124.95,
+      "ratio": 2.19
+    },
+    {
+      "bar": 352,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 258.4,
+      "estFriction": 124.93,
+      "ratio": 2.07
+    },
+    {
+      "bar": 353,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 259.54,
+      "estFriction": 124.92,
+      "ratio": 2.08
+    },
+    {
+      "bar": 354,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 260.3,
+      "estFriction": 124.95,
+      "ratio": 2.08
+    },
+    {
+      "bar": 355,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 263.34,
+      "estFriction": 124.92,
+      "ratio": 2.11
+    },
+    {
+      "bar": 356,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 267.14,
+      "estFriction": 124.96,
+      "ratio": 2.14
+    },
+    {
+      "bar": 357,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 269.8,
+      "estFriction": 125,
+      "ratio": 2.16
+    },
+    {
+      "bar": 358,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 272.84,
+      "estFriction": 124.98,
+      "ratio": 2.18
+    },
+    {
+      "bar": 359,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 270.94,
+      "estFriction": 124.97,
+      "ratio": 2.17
+    },
+    {
+      "bar": 375,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 310.84,
+      "estFriction": 125.22,
+      "ratio": 2.48
+    },
+    {
+      "bar": 376,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 305.14,
+      "estFriction": 125.2,
+      "ratio": 2.44
+    },
+    {
+      "bar": 377,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 305.14,
+      "estFriction": 125.19,
+      "ratio": 2.44
+    },
+    {
+      "bar": 479,
+      "side": "SELL",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 270.27,
+      "estFriction": 126.45,
+      "ratio": 2.14
+    },
+    {
+      "bar": 480,
+      "side": "SELL",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 278.07,
+      "estFriction": 126.47,
+      "ratio": 2.2
+    },
+    {
+      "bar": 491,
+      "side": "SELL",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 271.05,
+      "estFriction": 126.34,
+      "ratio": 2.15
+    },
+    {
+      "bar": 496,
+      "side": "SELL",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 292.5,
+      "estFriction": 126.28,
+      "ratio": 2.32
+    },
+    {
+      "bar": 497,
+      "side": "SELL",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 301.47,
+      "estFriction": 126.26,
+      "ratio": 2.39
+    },
+    {
+      "bar": 498,
+      "side": "SELL",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 288.6,
+      "estFriction": 126.24,
+      "ratio": 2.29
+    },
+    {
+      "bar": 503,
+      "side": "SELL",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 269.1,
+      "estFriction": 126.17,
+      "ratio": 2.13
+    },
+    {
+      "bar": 504,
+      "side": "SELL",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 262.47,
+      "estFriction": 126.17,
+      "ratio": 2.08
+    },
+    {
+      "bar": 505,
+      "side": "SELL",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 258.57,
+      "estFriction": 126.12,
+      "ratio": 2.05
+    },
+    {
+      "bar": 506,
+      "side": "SELL",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 264.42,
+      "estFriction": 126.08,
+      "ratio": 2.1
+    },
+    {
+      "bar": 507,
+      "side": "SELL",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 271.05,
+      "estFriction": 126.04,
+      "ratio": 2.15
+    },
+    {
+      "bar": 508,
+      "side": "SELL",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 269.1,
+      "estFriction": 125.99,
+      "ratio": 2.14
+    },
+    {
+      "bar": 509,
+      "side": "SELL",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 268.32,
+      "estFriction": 126,
+      "ratio": 2.13
+    },
+    {
+      "bar": 510,
+      "side": "SELL",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 268.32,
+      "estFriction": 125.98,
+      "ratio": 2.13
+    },
+    {
+      "bar": 512,
+      "side": "SELL",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 264.42,
+      "estFriction": 125.94,
+      "ratio": 2.1
+    },
+    {
+      "bar": 533,
+      "side": "SELL",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 289.77,
+      "estFriction": 125.97,
+      "ratio": 2.3
+    },
+    {
+      "bar": 683,
+      "side": "SELL",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 274.95,
+      "estFriction": 125.8,
+      "ratio": 2.19
+    },
+    {
+      "bar": 701,
+      "side": "SELL",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 239.07,
+      "estFriction": 125.69,
+      "ratio": 1.9
+    },
+    {
+      "bar": 702,
+      "side": "SELL",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 249.6,
+      "estFriction": 125.68,
+      "ratio": 1.99
+    },
+    {
+      "bar": 703,
+      "side": "SELL",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 249.6,
+      "estFriction": 125.66,
+      "ratio": 1.99
+    },
+    {
+      "bar": 1130,
+      "side": "BUY",
+      "reason": "REJECTED_NET_YIELD_HURDLE",
+      "estGross": 294.45,
+      "estFriction": 126.3,
+      "ratio": 2.33
+    }
+  ]
+}

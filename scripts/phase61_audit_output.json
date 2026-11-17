@@ -1,0 +1,129 @@
+{
+  "timestamp": "2026-11-17T04:56:12.551Z",
+  "phase": "6.1",
+  "wfeAudit": {
+    "inSampleNet": 327.08,
+    "inSampleTrades": 4,
+    "inSampleAvgNet": 81.77,
+    "outOfSampleNet": 1517.85,
+    "outOfSampleTrades": 10,
+    "outOfSampleAvgNet": 151.79,
+    "wfeTotalRatio": 4.64,
+    "wfeAvgTradeRatio": 1.86,
+    "discrepancyResolved": true,
+    "status": "NOT VERIFIED (Statistically Unreliable on N=14 Synthetic Trades)"
+  },
+  "slippageAudit": {
+    "sumGross": 2768.03,
+    "sumEntryTurnover": 1487949.57,
+    "sumExitTurnover": 1489212.06,
+    "sumBuyTurnover": 1487196.8,
+    "sumSellTurnover": 1489964.83,
+    "sumStatutoryZeroSlip": 701.95,
+    "exactBreakEvenBps": 13.8854,
+    "scenarios": [
+      {
+        "bps": 0,
+        "slipCost": 0,
+        "totalCost": 701.95,
+        "netPnL": 2066.08,
+        "profitable": true
+      },
+      {
+        "bps": 4,
+        "slipCost": 595.17,
+        "totalCost": 1297.12,
+        "netPnL": 1470.91,
+        "profitable": true
+      },
+      {
+        "bps": 8,
+        "slipCost": 1190.37,
+        "totalCost": 1892.32,
+        "netPnL": 875.71,
+        "profitable": true
+      },
+      {
+        "bps": 12,
+        "slipCost": 1785.52,
+        "totalCost": 2487.47,
+        "netPnL": 280.56,
+        "profitable": true
+      },
+      {
+        "bps": 13.8854,
+        "slipCost": 2066.07,
+        "totalCost": 2768.02,
+        "netPnL": 0.01,
+        "profitable": true
+      },
+      {
+        "bps": 14,
+        "slipCost": 2083.13,
+        "totalCost": 2785.08,
+        "netPnL": -17.05,
+        "profitable": false
+      },
+      {
+        "bps": 16,
+        "slipCost": 2380.7,
+        "totalCost": 3082.65,
+        "netPnL": -314.62,
+        "profitable": false
+      },
+      {
+        "bps": 20,
+        "slipCost": 2975.91,
+        "totalCost": 3677.86,
+        "netPnL": -909.83,
+        "profitable": false
+      }
+    ],
+    "status": "VERIFIED"
+  },
+  "baselineAudit": {
+    "baselines": [
+      {
+        "name": "OmniTradePro Quorum",
+        "netPnL": 875.71,
+        "returnPct": 0.88,
+        "maxDD": 0.77,
+        "exposurePct": 18.4,
+        "trades": 15
+      },
+      {
+        "name": "Dual SMA (20/50)",
+        "netPnL": -946.03,
+        "returnPct": -0.95,
+        "maxDD": 0.95,
+        "exposurePct": 9,
+        "trades": 9
+      },
+      {
+        "name": "RSI (14) Standalone",
+        "netPnL": -6858.43,
+        "returnPct": -6.86,
+        "maxDD": 6.91,
+        "exposurePct": 16,
+        "trades": 24
+      },
+      {
+        "name": "Passive Buy & Hold",
+        "netPnL": 2614.41,
+        "returnPct": 2.61,
+        "maxDD": 6.84,
+        "exposurePct": 100,
+        "trades": 1
+      },
+      {
+        "name": "Random Noise (MC 100)",
+        "netPnL": -4835.67,
+        "returnPct": -4.84,
+        "maxDD": 5.2,
+        "exposurePct": 40,
+        "trades": 40
+      }
+    ],
+    "status": "VERIFIED"
+  }
+}

@@ -1,0 +1,41 @@
+# Dependencies
+node_modules/
+dist_test_cjs/
+dist/
+.next/
+out/
+build/
+*.log
+
+# Python cache & artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+*.log
+
+# Sensitive Credentials & Environment Configs
+.env
+.env.local
+.env.*.local
+data/credentials.json
+data/credentials*.json
+*.pem
+*.key
+*.cert
+*.enc
+
+# Database storage
+data/omnitrade-pg/
+data/.auratrader/
+*.sqlite
+*.db
+
+# Agent state & logs
+.claude-flow/
+.swarm/
+
+# Build artifacts & caches
+tsconfig.tsbuildinfo
+.DS_Store
+Thumbs.db
