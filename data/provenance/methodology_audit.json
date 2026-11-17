@@ -1,0 +1,83 @@
+{
+  "generatedAt": "2026-11-17T17:36:37.305Z",
+  "command": "node scripts/audit_methodology.js",
+  "dataset": "NIFTY50_1min_2024 (REAL_REDISTRIBUTION, authenticity UNVERIFIED)",
+  "bucketMinutes": 15,
+  "checks": [
+    {
+      "id": "M1",
+      "name": "15-min aggregation values exact and bars partitioned once (independent recomputation)",
+      "ok": true,
+      "detail": "6171 buckets compared, 0 mismatches, 92523/92523 raw bars partitioned"
+    },
+    {
+      "id": "M2",
+      "name": "regular sessions start at 09:15 and produce exactly 25 buckets; off-grid sessions enumerated",
+      "ok": true,
+      "detail": "246 full sessions, 3 partial (2024-03-02:9, 2024-05-18:8, 2024-11-01:4), off-grid: 2024-11-01@18:14"
+    },
+    {
+      "id": "M3",
+      "name": "mutating bar k leaves every trade closed before k bit-identical (no look-ahead)",
+      "ok": true,
+      "detail": "494 vs 494 pre-cutoff trades (bar 3702 of 6171)"
+    },
+    {
+      "id": "M4",
+      "name": "signal depends only on the prefix passed in",
+      "ok": true,
+      "detail": "signal=-1, confidence=65"
+    },
+    {
+      "id": "M5",
+      "name": "default session mode is STRICT_INTRADAY and no trade crosses a session",
+      "ok": true,
+      "detail": "mode=STRICT_INTRADAY, spanning=0, violations=0, trades=813"
+    },
+    {
+      "id": "M5b",
+      "name": "no position remains open past its session's last bar",
+      "ok": true,
+      "detail": "0 late exits"
+    },
+    {
+      "id": "M5c",
+      "name": "EOD liquidation is recorded and fills exactly at the session's last bar close",
+      "ok": true,
+      "detail": "240 liquidations, 0 mismatched fills"
+    },
+    {
+      "id": "M5d",
+      "name": "historical CARRY_OVERNIGHT mode still reproducible by explicit opt-in (documented defect)",
+      "ok": true,
+      "detail": "246/835 legacy trades carry overnight (29.5%)"
+    },
+    {
+      "id": "M5e",
+      "name": "special/partial sessions flatten inside the session (no padding, no carry)",
+      "ok": true,
+      "detail": "3 partial sessions (2024-03-02, 2024-05-18, 2024-11-01), 3 trades, 0 carry-outs"
+    },
+    {
+      "id": "M5f",
+      "name": "missing candles create no artificial fills and no cross-session trades",
+      "ok": true,
+      "detail": "18 + 17 bars removed, 24 trades, 0 inside a gap, 0 spanning"
+    },
+    {
+      "id": "M6",
+      "name": "train/validation/OOS ranges are disjoint and chronologically ordered",
+      "ok": true,
+      "detail": "{\"TRAIN\":{\"from\":\"2022-01-03\",\"to\":\"2022-12-30\",\"n\":92617},\"VALIDATION\":{\"from\":\"2023-01-02\",\"to\":\"2023-12-29\",\"n\":91931},\"OOS\":{\"from\":\"2024-01-01\",\"to\":\"2024-12-31\",\"n\":92523}}"
+    },
+    {
+      "id": "M7",
+      "name": "no parameter grid/optimisation and no strategy-parameter overrides",
+      "ok": true,
+      "detail": "hits=[]; sessionMode-only options=3"
+    }
+  ],
+  "passed": 12,
+  "failed": 0,
+  "verdict": "METHODOLOGY_CHECKS_PASS"
+}

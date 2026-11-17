@@ -1,56 +1,41 @@
-import subprocess
-import re
-import os
+#!/usr/bin/env python3
+"""
+SEC-001: scan every git-tracked file for credential material.
 
-# Get all git tracked files
-res = subprocess.run(["git", "ls-files"], capture_output=True, text=True, check=True)
-tracked_files = [f.strip() for f in res.stdout.splitlines() if f.strip()]
+Detection is hash-based for the known leaked identifiers (see scripts/secret_scan_lib.py) so that the
+scanner does not itself re-commit the secrets it looks for. Generic patterns cover the usual shapes.
 
-# Regex patterns for detecting potential secrets
-SECRET_PATTERNS = [
-    (r'(?i)(api[_-]?key|apikey|secret|token|password|passwd|auth[_-]?token)\s*[:=]\s*["\']([^"\']{8,})["\']', "Potential credential assignment"),
-    (r'(?i)(bearer\s+[a-zA-Z0-9_\-\.]{16,})', "Bearer token"),
-    (r'-----BEGIN (?:RSA|OPENSSH|DSA|EC|PGP) PRIVATE KEY-----', "Private key header"),
-    (r'(?i)FN2447' + r'56', "Known leaked broker User ID"),
-    (r'(?i)7em759a2468d601cf', "Known leaked API secret prefix"),
-    (r'R4I473[a-zA-Z0-9]{10,}', "Known leaked TOTP prefix"),
-]
+Exit codes: 0 = no findings, 1 = findings present.
 
-findings = []
+Usage: python3 scripts/scan_repo_secrets.py
+"""
+import sys
 
-for filepath in tracked_files:
-    if not os.path.exists(filepath):
-        continue
-    # Skip node_modules, .next, binary files, lockfiles, images, etc.
-    if filepath.startswith("node_modules/") or filepath.startswith(".next/"):
-        continue
-    if any(filepath.endswith(ext) for ext in [".png", ".jpg", ".gz", ".tar", ".ico", ".woff", ".woff2", ".pyc", ".pack", ".idx"]):
-        continue
-    
-    try:
-        with open(filepath, "r", encoding="utf-8", errors="ignore") as f:
-            lines = f.readlines()
-    except Exception as e:
-        continue
+from secret_scan_lib import FIXTURE_ALLOWLIST, iter_files, load_identifiers, scan_text
 
-    for line_num, line in enumerate(lines, 1):
-        for pattern, desc in SECRET_PATTERNS:
-            match = re.search(pattern, line)
-            if match:
-                # Mask secret
-                val = match.group(0)
-                if len(val) > 8:
-                    masked = val[:4] + "***" + val[-4:]
-                else:
-                    masked = "***"
-                findings.append({
-                    "file": filepath,
-                    "line": line_num,
-                    "desc": desc,
-                    "snippet_masked": masked
-                })
 
-print(f"Scanned {len(tracked_files)} tracked files.")
-print(f"Total findings: {len(findings)}")
-for item in findings:
-    print(f"  {item['file']}:{item['line']} [{item['desc']}] -> {item['snippet_masked']}")
+def main():
+    digests = load_identifiers()
+    findings = []
+    for rel, full in iter_files(use_git=True):
+        try:
+            with open(full, encoding="utf-8", errors="ignore") as fh:
+                text = fh.read()
+        except OSError:
+            continue
+        for f in scan_text(text, digests):
+            f["file"] = rel
+            f["allowlisted"] = rel in FIXTURE_ALLOWLIST
+            findings.append(f)
+
+    blocking = [f for f in findings if not f["allowlisted"]]
+    print(f"scanned tracked files; known-identifier digests: {len(digests)}")
+    for f in findings:
+        tag = "ALLOWLISTED" if f["allowlisted"] else f["severity"]
+        print(f"  [{tag}] {f['file']}: {f['kind']} -> {f['evidence']}")
+    print(f"\nblocking findings: {len(blocking)}")
+    return 0 if not blocking else 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())

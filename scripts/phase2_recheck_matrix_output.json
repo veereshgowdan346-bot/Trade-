@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-17T15:15:27.192Z",
+  "generatedAt": "2026-11-17T15:38:14.710Z",
   "policy": "SIMULATED balances only. No live data/orders. No profitability claims. MICRO-001 fix blocks expected-loss trades for capital <= 2000.",
   "matrix": [
     {

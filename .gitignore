@@ -39,3 +39,4 @@ data/.auratrader/
 tsconfig.tsbuildinfo
 .DS_Store
 Thumbs.db
+data/external/

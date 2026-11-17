@@ -20,14 +20,17 @@ def test_shoonya_auth_payload():
         "client_id": "FA123456_U",
         "password": "test_password",
         "api_secret": "test_api_secret",
-        "totp_secret": "JBSWY3DPEHPK3PXP"
+        # RFC 4226 requires a TOTP secret of at least 112 bits (16 base32 chars = 80 bits is
+        # rejected by current pyotp). This is a 160-bit dummy fixture; the assertion below is
+        # unchanged — only the fixture length was invalid.
+        "totp_secret": "JBSWY3DPEHPK3PXPJBSWY3DPEHPK3PXP"
     }
     broker.set_credentials(test_creds)
     
     assert broker._uid == "FA123456_U"
     assert broker._pwd == "test_password"
     assert broker._app_key == "test_api_secret"
-    assert broker._totp_secret == "JBSWY3DPEHPK3PXP"
+    assert broker._totp_secret == "JBSWY3DPEHPK3PXPJBSWY3DPEHPK3PXP"
 
     # Test TOTP generation
     totp = broker._generate_totp()

@@ -1,0 +1,1504 @@
+{
+  "generatedAt": "2026-11-17T16:01:34.254Z",
+  "scope": "RESEARCH ONLY — no execution policy is changed by this study",
+  "method": {
+    "sessionsPerRegime": 30,
+    "barsPerSession": 375,
+    "regimes": [
+      "TRENDING",
+      "CHOPPY",
+      "VOLATILE"
+    ],
+    "signals": "full-prefix (no windowing — windowed signals were measured at ~99.6% agreement and rejected as inexact)",
+    "harness": "src/lib/experimental_harness.ts (shared with experimental_research.js — single source of truth)",
+    "reliabilityThresholds": {
+      "INSUFFICIENT_SAMPLE": "< 30 sessions",
+      "PRELIMINARY": "30-59 sessions",
+      "RELIABLE": ">= 60 sessions",
+      "UNVERIFIED": "zero variance / undefined"
+    },
+    "statisticalCaveat": "30 sessions is PRELIMINARY by the project's own rule. Correlations here must not be treated as stable estimates; they are reported to show direction and overlap, not to support allocation decisions."
+  },
+  "reliability": "PRELIMINARY",
+  "perStrategy": {
+    "x_macd_momentum": {
+      "name": "x_macd_momentum",
+      "byRegime": {
+        "TRENDING": {
+          "sessions": 30,
+          "net": -213347.62,
+          "maxDrawdown": 213347.62,
+          "dailyVolatility": 1902.42,
+          "annualisedVolatility": 30199.95,
+          "recoveryFactor": -1,
+          "turnoverProxy": 2.133,
+          "bestDay": 0,
+          "worstDay": -11061.44,
+          "positiveDays": 0,
+          "negativeDays": 30,
+          "trades": 1022,
+          "charges": 210671.73
+        },
+        "CHOPPY": {
+          "sessions": 30,
+          "net": -204888.26,
+          "maxDrawdown": 204888.26,
+          "dailyVolatility": 2810.56,
+          "annualisedVolatility": 44616.27,
+          "recoveryFactor": -1,
+          "turnoverProxy": 2.049,
+          "bestDay": 0,
+          "worstDay": -14442.06,
+          "positiveDays": 0,
+          "negativeDays": 30,
+          "trades": 1007,
+          "charges": 207609.81
+        },
+        "VOLATILE": {
+          "sessions": 30,
+          "net": -327544.94,
+          "maxDrawdown": 327544.94,
+          "dailyVolatility": 3155.2,
+          "annualisedVolatility": 50087.18,
+          "recoveryFactor": -1,
+          "turnoverProxy": 3.275,
+          "bestDay": 0,
+          "worstDay": -20190.38,
+          "positiveDays": 0,
+          "negativeDays": 30,
+          "trades": 1458,
+          "charges": 300328.98
+        }
+      },
+      "aggregateNet": -745780.82,
+      "aggregateTrades": 3487,
+      "aggregateCharges": 718610.52
+    },
+    "x_ichimoku_cloud": {
+      "name": "x_ichimoku_cloud",
+      "byRegime": {
+        "TRENDING": {
+          "sessions": 30,
+          "net": -69438.97,
+          "maxDrawdown": 69438.97,
+          "dailyVolatility": 1647.42,
+          "annualisedVolatility": 26151.96,
+          "recoveryFactor": -1,
+          "turnoverProxy": 0.706,
+          "bestDay": 337.49,
+          "worstDay": -6244.21,
+          "positiveDays": 2,
+          "negativeDays": 28,
+          "trades": 383,
+          "charges": 78966.71
+        },
+        "CHOPPY": {
+          "sessions": 30,
+          "net": -64968.33,
+          "maxDrawdown": 65947.6,
+          "dailyVolatility": 2059.93,
+          "annualisedVolatility": 32700.43,
+          "recoveryFactor": -0.985,
+          "turnoverProxy": 0.686,
+          "bestDay": 564.22,
+          "worstDay": -8170.28,
+          "positiveDays": 6,
+          "negativeDays": 24,
+          "trades": 393,
+          "charges": 81006.91
+        },
+        "VOLATILE": {
+          "sessions": 30,
+          "net": -153015.26,
+          "maxDrawdown": 153015.26,
+          "dailyVolatility": 3957.48,
+          "annualisedVolatility": 62822.97,
+          "recoveryFactor": -1,
+          "turnoverProxy": 1.593,
+          "bestDay": 2179.97,
+          "worstDay": -14393.63,
+          "positiveDays": 2,
+          "negativeDays": 28,
+          "trades": 701,
+          "charges": 144433.41
+        }
+      },
+      "aggregateNet": -287422.56,
+      "aggregateTrades": 1477,
+      "aggregateCharges": 304407.03
+    },
+    "x_keltner_channel": {
+      "name": "x_keltner_channel",
+      "byRegime": {
+        "TRENDING": {
+          "sessions": 30,
+          "net": -2707.01,
+          "maxDrawdown": 4433.33,
+          "dailyVolatility": 525.96,
+          "annualisedVolatility": 8349.28,
+          "recoveryFactor": -0.611,
+          "turnoverProxy": 0.072,
+          "bestDay": 611.65,
+          "worstDay": -2039.73,
+          "positiveDays": 4,
+          "negativeDays": 5,
+          "trades": 13,
+          "charges": 2683.12
+        },
+        "CHOPPY": {
+          "sessions": 30,
+          "net": 490.12,
+          "maxDrawdown": 2782.22,
+          "dailyVolatility": 524.12,
+          "annualisedVolatility": 8320.14,
+          "recoveryFactor": 0.176,
+          "turnoverProxy": 0.096,
+          "bestDay": 1513,
+          "worstDay": -840.71,
+          "positiveDays": 6,
+          "negativeDays": 8,
+          "trades": 17,
+          "charges": 3509.18
+        },
+        "VOLATILE": {
+          "sessions": 30,
+          "net": -110801.28,
+          "maxDrawdown": 110801.28,
+          "dailyVolatility": 3157.36,
+          "annualisedVolatility": 50121.55,
+          "recoveryFactor": -1,
+          "turnoverProxy": 1.225,
+          "bestDay": 2336.38,
+          "worstDay": -10034.96,
+          "positiveDays": 5,
+          "negativeDays": 25,
+          "trades": 489,
+          "charges": 100734.57
+        }
+      },
+      "aggregateNet": -113018.17,
+      "aggregateTrades": 519,
+      "aggregateCharges": 106926.87
+    },
+    "x_choppiness_index": {
+      "name": "x_choppiness_index",
+      "byRegime": {
+        "TRENDING": {
+          "sessions": 30,
+          "net": 0,
+          "maxDrawdown": 0,
+          "dailyVolatility": 0,
+          "annualisedVolatility": 0,
+          "recoveryFactor": 0,
+          "turnoverProxy": 0,
+          "bestDay": 0,
+          "worstDay": 0,
+          "positiveDays": 0,
+          "negativeDays": 0,
+          "trades": 0,
+          "charges": 0
+        },
+        "CHOPPY": {
+          "sessions": 30,
+          "net": 0,
+          "maxDrawdown": 0,
+          "dailyVolatility": 0,
+          "annualisedVolatility": 0,
+          "recoveryFactor": 0,
+          "turnoverProxy": 0,
+          "bestDay": 0,
+          "worstDay": 0,
+          "positiveDays": 0,
+          "negativeDays": 0,
+          "trades": 0,
+          "charges": 0
+        },
+        "VOLATILE": {
+          "sessions": 30,
+          "net": -41767.14,
+          "maxDrawdown": 41767.14,
+          "dailyVolatility": 2005.36,
+          "annualisedVolatility": 31834.08,
+          "recoveryFactor": -1,
+          "turnoverProxy": 0.539,
+          "bestDay": 1643.93,
+          "worstDay": -6066.92,
+          "positiveDays": 7,
+          "negativeDays": 23,
+          "trades": 182,
+          "charges": 37483.73
+        }
+      },
+      "aggregateNet": -41767.14,
+      "aggregateTrades": 182,
+      "aggregateCharges": 37483.73
+    },
+    "x_obv_confirmation": {
+      "name": "x_obv_confirmation",
+      "byRegime": {
+        "TRENDING": {
+          "sessions": 30,
+          "net": -170693.81,
+          "maxDrawdown": 170693.81,
+          "dailyVolatility": 5535.68,
+          "annualisedVolatility": 87876.24,
+          "recoveryFactor": -1,
+          "turnoverProxy": 1.707,
+          "bestDay": 0,
+          "worstDay": -19218.56,
+          "positiveDays": 0,
+          "negativeDays": 30,
+          "trades": 820,
+          "charges": 169044.4
+        },
+        "CHOPPY": {
+          "sessions": 30,
+          "net": -264521.54,
+          "maxDrawdown": 266705.86,
+          "dailyVolatility": 4785.82,
+          "annualisedVolatility": 75972.51,
+          "recoveryFactor": -0.992,
+          "turnoverProxy": 2.689,
+          "bestDay": 2184.32,
+          "worstDay": -16640.24,
+          "positiveDays": 1,
+          "negativeDays": 29,
+          "trades": 1375,
+          "charges": 283456.5
+        },
+        "VOLATILE": {
+          "sessions": 30,
+          "net": -248565.64,
+          "maxDrawdown": 248565.64,
+          "dailyVolatility": 5990.46,
+          "annualisedVolatility": 95095.65,
+          "recoveryFactor": -1,
+          "turnoverProxy": 2.5,
+          "bestDay": 705.93,
+          "worstDay": -22517.04,
+          "positiveDays": 1,
+          "negativeDays": 29,
+          "trades": 1077,
+          "charges": 221920.53
+        }
+      },
+      "aggregateNet": -683780.99,
+      "aggregateTrades": 3272,
+      "aggregateCharges": 674421.43
+    },
+    "x_parabolic_sar": {
+      "name": "x_parabolic_sar",
+      "byRegime": {
+        "TRENDING": {
+          "sessions": 30,
+          "net": -377895.81,
+          "maxDrawdown": 377895.81,
+          "dailyVolatility": 1655.12,
+          "annualisedVolatility": 26274.29,
+          "recoveryFactor": -1,
+          "turnoverProxy": 3.779,
+          "bestDay": 0,
+          "worstDay": -15448.42,
+          "positiveDays": 0,
+          "negativeDays": 30,
+          "trades": 1755,
+          "charges": 361756.11
+        },
+        "CHOPPY": {
+          "sessions": 30,
+          "net": -336125.66,
+          "maxDrawdown": 336125.66,
+          "dailyVolatility": 1879.37,
+          "annualisedVolatility": 29834.07,
+          "recoveryFactor": -1,
+          "turnoverProxy": 3.361,
+          "bestDay": 0,
+          "worstDay": -16449.12,
+          "positiveDays": 0,
+          "negativeDays": 30,
+          "trades": 1695,
+          "charges": 349487.15
+        },
+        "VOLATILE": {
+          "sessions": 30,
+          "net": -340709.67,
+          "maxDrawdown": 340709.67,
+          "dailyVolatility": 3222.74,
+          "annualisedVolatility": 51159.35,
+          "recoveryFactor": -1,
+          "turnoverProxy": 3.407,
+          "bestDay": 0,
+          "worstDay": -18391.21,
+          "positiveDays": 0,
+          "negativeDays": 30,
+          "trades": 1572,
+          "charges": 323811.93
+        }
+      },
+      "aggregateNet": -1054731.14,
+      "aggregateTrades": 5022,
+      "aggregateCharges": 1035055.19
+    },
+    "x_fibonacci_retracement": {
+      "name": "x_fibonacci_retracement",
+      "byRegime": {
+        "TRENDING": {
+          "sessions": 30,
+          "net": -193206.73,
+          "maxDrawdown": 193206.73,
+          "dailyVolatility": 2640.39,
+          "annualisedVolatility": 41914.92,
+          "recoveryFactor": -1,
+          "turnoverProxy": 1.932,
+          "bestDay": 0,
+          "worstDay": -12599.55,
+          "positiveDays": 0,
+          "negativeDays": 30,
+          "trades": 951,
+          "charges": 196042.77
+        },
+        "CHOPPY": {
+          "sessions": 30,
+          "net": -172228.66,
+          "maxDrawdown": 172228.66,
+          "dailyVolatility": 2590.32,
+          "annualisedVolatility": 41120.03,
+          "recoveryFactor": -1,
+          "turnoverProxy": 1.722,
+          "bestDay": 0,
+          "worstDay": -13056.65,
+          "positiveDays": 0,
+          "negativeDays": 30,
+          "trades": 882,
+          "charges": 181843.68
+        },
+        "VOLATILE": {
+          "sessions": 30,
+          "net": -144119.42,
+          "maxDrawdown": 144119.42,
+          "dailyVolatility": 2965.17,
+          "annualisedVolatility": 47070.59,
+          "recoveryFactor": -1,
+          "turnoverProxy": 1.517,
+          "bestDay": 3796.47,
+          "worstDay": -11697.73,
+          "positiveDays": 1,
+          "negativeDays": 29,
+          "trades": 781,
+          "charges": 160885.69
+        }
+      },
+      "aggregateNet": -509554.81,
+      "aggregateTrades": 2614,
+      "aggregateCharges": 538772.14
+    },
+    "x_volume_profile": {
+      "name": "x_volume_profile",
+      "byRegime": {
+        "TRENDING": {
+          "sessions": 30,
+          "net": -101487.66,
+          "maxDrawdown": 101487.66,
+          "dailyVolatility": 949.48,
+          "annualisedVolatility": 15072.55,
+          "recoveryFactor": -1,
+          "turnoverProxy": 1.015,
+          "bestDay": 0,
+          "worstDay": -5140.54,
+          "positiveDays": 0,
+          "negativeDays": 30,
+          "trades": 431,
+          "charges": 88857.89
+        },
+        "CHOPPY": {
+          "sessions": 30,
+          "net": -112280.39,
+          "maxDrawdown": 112280.39,
+          "dailyVolatility": 1550.85,
+          "annualisedVolatility": 24618.92,
+          "recoveryFactor": -1,
+          "turnoverProxy": 1.123,
+          "bestDay": 0,
+          "worstDay": -6861.82,
+          "positiveDays": 0,
+          "negativeDays": 30,
+          "trades": 439,
+          "charges": 90506.68
+        },
+        "VOLATILE": {
+          "sessions": 30,
+          "net": -179317.19,
+          "maxDrawdown": 180602.84,
+          "dailyVolatility": 3740.59,
+          "annualisedVolatility": 59379.97,
+          "recoveryFactor": -0.993,
+          "turnoverProxy": 1.835,
+          "bestDay": 1285.64,
+          "worstDay": -11825.57,
+          "positiveDays": 2,
+          "negativeDays": 28,
+          "trades": 799,
+          "charges": 164608.54
+        }
+      },
+      "aggregateNet": -393085.24,
+      "aggregateTrades": 1669,
+      "aggregateCharges": 343973.11
+    },
+    "x_donchian_trend_50": {
+      "name": "x_donchian_trend_50",
+      "byRegime": {
+        "TRENDING": {
+          "sessions": 30,
+          "net": 101.77,
+          "maxDrawdown": 767.37,
+          "dailyVolatility": 200.41,
+          "annualisedVolatility": 3181.47,
+          "recoveryFactor": 0.133,
+          "turnoverProxy": 0.02,
+          "bestDay": 541.01,
+          "worstDay": -767.37,
+          "positiveDays": 2,
+          "negativeDays": 2,
+          "trades": 5,
+          "charges": 1032.19
+        },
+        "CHOPPY": {
+          "sessions": 30,
+          "net": 1236.44,
+          "maxDrawdown": 830.06,
+          "dailyVolatility": 367.72,
+          "annualisedVolatility": 5837.38,
+          "recoveryFactor": 1.49,
+          "turnoverProxy": 0.056,
+          "bestDay": 760.44,
+          "worstDay": -830.06,
+          "positiveDays": 5,
+          "negativeDays": 3,
+          "trades": 8,
+          "charges": 1645.99
+        },
+        "VOLATILE": {
+          "sessions": 30,
+          "net": -78588.52,
+          "maxDrawdown": 78588.52,
+          "dailyVolatility": 2174,
+          "annualisedVolatility": 34511.14,
+          "recoveryFactor": -1,
+          "turnoverProxy": 0.862,
+          "bestDay": 2007.3,
+          "worstDay": -8261.8,
+          "positiveDays": 4,
+          "negativeDays": 26,
+          "trades": 316,
+          "charges": 65098.63
+        }
+      },
+      "aggregateNet": -77250.31,
+      "aggregateTrades": 329,
+      "aggregateCharges": 67776.81
+    },
+    "x_mtf_trend_confirmation": {
+      "name": "x_mtf_trend_confirmation",
+      "byRegime": {
+        "TRENDING": {
+          "sessions": 30,
+          "net": -209671.31,
+          "maxDrawdown": 209671.31,
+          "dailyVolatility": 3104.74,
+          "annualisedVolatility": 49286.25,
+          "recoveryFactor": -1,
+          "turnoverProxy": 2.097,
+          "bestDay": 0,
+          "worstDay": -12640.36,
+          "positiveDays": 0,
+          "negativeDays": 30,
+          "trades": 992,
+          "charges": 204515.51
+        },
+        "CHOPPY": {
+          "sessions": 30,
+          "net": -166345.02,
+          "maxDrawdown": 166345.02,
+          "dailyVolatility": 3450.45,
+          "annualisedVolatility": 54774.19,
+          "recoveryFactor": -1,
+          "turnoverProxy": 1.688,
+          "bestDay": 1097.31,
+          "worstDay": -13979.15,
+          "positiveDays": 2,
+          "negativeDays": 28,
+          "trades": 921,
+          "charges": 189902.21
+        },
+        "VOLATILE": {
+          "sessions": 30,
+          "net": -263451.63,
+          "maxDrawdown": 263451.63,
+          "dailyVolatility": 4621.79,
+          "annualisedVolatility": 73368.69,
+          "recoveryFactor": -1,
+          "turnoverProxy": 2.635,
+          "bestDay": 0,
+          "worstDay": -19628.41,
+          "positiveDays": 0,
+          "negativeDays": 30,
+          "trades": 1244,
+          "charges": 256229.69
+        }
+      },
+      "aggregateNet": -639467.96,
+      "aggregateTrades": 3157,
+      "aggregateCharges": 650647.41
+    }
+  },
+  "correlations": {
+    "reliability": "PRELIMINARY",
+    "pairs": 45,
+    "definedPairs": 45,
+    "highCorrelationPairs": [
+      {
+        "a": "x_keltner_channel",
+        "b": "x_donchian_trend_50",
+        "corr": 0.796
+      },
+      {
+        "a": "x_choppiness_index",
+        "b": "x_donchian_trend_50",
+        "corr": 0.73
+      }
+    ],
+    "meanAbsCorrelation": 0.299,
+    "meanAbsExposureOverlap": 0.718,
+    "matrix": [
+      {
+        "a": "x_macd_momentum",
+        "b": "x_ichimoku_cloud",
+        "pooledCorr": 0.258,
+        "meanByRegime": -0.055,
+        "byRegime": {
+          "TRENDING": -0.07,
+          "CHOPPY": -0.206,
+          "VOLATILE": 0.112
+        },
+        "drawdownCorr": 0.993,
+        "exposureOverlap": 1,
+        "rolling30": {
+          "TRENDING": -0.07,
+          "CHOPPY": -0.206,
+          "VOLATILE": 0.112
+        }
+      },
+      {
+        "a": "x_macd_momentum",
+        "b": "x_keltner_channel",
+        "pooledCorr": 0.463,
+        "meanByRegime": -0.054,
+        "byRegime": {
+          "TRENDING": -0.196,
+          "CHOPPY": -0.187,
+          "VOLATILE": 0.221
+        },
+        "drawdownCorr": 0.88,
+        "exposureOverlap": 0.633,
+        "rolling30": {
+          "TRENDING": -0.196,
+          "CHOPPY": -0.187,
+          "VOLATILE": 0.221
+        }
+      },
+      {
+        "a": "x_macd_momentum",
+        "b": "x_choppiness_index",
+        "pooledCorr": 0.254,
+        "meanByRegime": -0.071,
+        "byRegime": {
+          "TRENDING": null,
+          "CHOPPY": null,
+          "VOLATILE": -0.071
+        },
+        "drawdownCorr": 0.863,
+        "exposureOverlap": 0.333,
+        "rolling30": {
+          "TRENDING": null,
+          "CHOPPY": null,
+          "VOLATILE": -0.071
+        }
+      },
+      {
+        "a": "x_macd_momentum",
+        "b": "x_obv_confirmation",
+        "pooledCorr": 0.268,
+        "meanByRegime": 0.261,
+        "byRegime": {
+          "TRENDING": 0.082,
+          "CHOPPY": 0.224,
+          "VOLATILE": 0.455
+        },
+        "drawdownCorr": 0.99,
+        "exposureOverlap": 1,
+        "rolling30": {
+          "TRENDING": 0.082,
+          "CHOPPY": 0.224,
+          "VOLATILE": 0.455
+        }
+      },
+      {
+        "a": "x_macd_momentum",
+        "b": "x_parabolic_sar",
+        "pooledCorr": 0.288,
+        "meanByRegime": 0.451,
+        "byRegime": {
+          "TRENDING": 0.458,
+          "CHOPPY": 0.481,
+          "VOLATILE": 0.414
+        },
+        "drawdownCorr": 0.992,
+        "exposureOverlap": 1,
+        "rolling30": {
+          "TRENDING": 0.458,
+          "CHOPPY": 0.481,
+          "VOLATILE": 0.414
+        }
+      },
+      {
+        "a": "x_macd_momentum",
+        "b": "x_fibonacci_retracement",
+        "pooledCorr": -0.134,
+        "meanByRegime": 0.074,
+        "byRegime": {
+          "TRENDING": 0.465,
+          "CHOPPY": 0.058,
+          "VOLATILE": -0.327
+        },
+        "drawdownCorr": 0.987,
+        "exposureOverlap": 1,
+        "rolling30": {
+          "TRENDING": 0.465,
+          "CHOPPY": 0.058,
+          "VOLATILE": -0.327
+        }
+      },
+      {
+        "a": "x_macd_momentum",
+        "b": "x_volume_profile",
+        "pooledCorr": 0.198,
+        "meanByRegime": -0.05,
+        "byRegime": {
+          "TRENDING": -0.095,
+          "CHOPPY": 0.068,
+          "VOLATILE": -0.122
+        },
+        "drawdownCorr": 0.999,
+        "exposureOverlap": 1,
+        "rolling30": {
+          "TRENDING": -0.095,
+          "CHOPPY": 0.068,
+          "VOLATILE": -0.122
+        }
+      },
+      {
+        "a": "x_macd_momentum",
+        "b": "x_donchian_trend_50",
+        "pooledCorr": 0.413,
+        "meanByRegime": -0.061,
+        "byRegime": {
+          "TRENDING": -0.058,
+          "CHOPPY": -0.169,
+          "VOLATILE": 0.046
+        },
+        "drawdownCorr": 0.849,
+        "exposureOverlap": 0.478,
+        "rolling30": {
+          "TRENDING": -0.058,
+          "CHOPPY": -0.169,
+          "VOLATILE": 0.046
+        }
+      },
+      {
+        "a": "x_macd_momentum",
+        "b": "x_mtf_trend_confirmation",
+        "pooledCorr": 0.056,
+        "meanByRegime": -0.126,
+        "byRegime": {
+          "TRENDING": -0.028,
+          "CHOPPY": -0.065,
+          "VOLATILE": -0.278
+        },
+        "drawdownCorr": 0.997,
+        "exposureOverlap": 1,
+        "rolling30": {
+          "TRENDING": -0.028,
+          "CHOPPY": -0.065,
+          "VOLATILE": -0.278
+        }
+      },
+      {
+        "a": "x_ichimoku_cloud",
+        "b": "x_keltner_channel",
+        "pooledCorr": 0.677,
+        "meanByRegime": 0.337,
+        "byRegime": {
+          "TRENDING": -0.058,
+          "CHOPPY": 0.267,
+          "VOLATILE": 0.684
+        },
+        "drawdownCorr": 0.922,
+        "exposureOverlap": 0.633,
+        "rolling30": {
+          "TRENDING": -0.058,
+          "CHOPPY": 0.267,
+          "VOLATILE": 0.684
+        }
+      },
+      {
+        "a": "x_ichimoku_cloud",
+        "b": "x_choppiness_index",
+        "pooledCorr": 0.626,
+        "meanByRegime": 0.624,
+        "byRegime": {
+          "TRENDING": null,
+          "CHOPPY": null,
+          "VOLATILE": 0.624
+        },
+        "drawdownCorr": 0.911,
+        "exposureOverlap": 0.333,
+        "rolling30": {
+          "TRENDING": null,
+          "CHOPPY": null,
+          "VOLATILE": 0.624
+        }
+      },
+      {
+        "a": "x_ichimoku_cloud",
+        "b": "x_obv_confirmation",
+        "pooledCorr": 0.453,
+        "meanByRegime": 0.46,
+        "byRegime": {
+          "TRENDING": 0.485,
+          "CHOPPY": 0.174,
+          "VOLATILE": 0.656
+        },
+        "drawdownCorr": 0.982,
+        "exposureOverlap": 1,
+        "rolling30": {
+          "TRENDING": 0.485,
+          "CHOPPY": 0.174,
+          "VOLATILE": 0.656
+        }
+      },
+      {
+        "a": "x_ichimoku_cloud",
+        "b": "x_parabolic_sar",
+        "pooledCorr": 0.212,
+        "meanByRegime": 0.203,
+        "byRegime": {
+          "TRENDING": 0.095,
+          "CHOPPY": 0.101,
+          "VOLATILE": 0.398
+        },
+        "drawdownCorr": 0.974,
+        "exposureOverlap": 1,
+        "rolling30": {
+          "TRENDING": 0.095,
+          "CHOPPY": 0.101,
+          "VOLATILE": 0.398
+        }
+      },
+      {
+        "a": "x_ichimoku_cloud",
+        "b": "x_fibonacci_retracement",
+        "pooledCorr": 0.096,
+        "meanByRegime": 0.321,
+        "byRegime": {
+          "TRENDING": 0.342,
+          "CHOPPY": 0.528,
+          "VOLATILE": 0.056
+        },
+        "drawdownCorr": 0.965,
+        "exposureOverlap": 1,
+        "rolling30": {
+          "TRENDING": 0.342,
+          "CHOPPY": 0.528,
+          "VOLATILE": 0.056
+        }
+      },
+      {
+        "a": "x_ichimoku_cloud",
+        "b": "x_volume_profile",
+        "pooledCorr": -0.367,
+        "meanByRegime": -0.656,
+        "byRegime": {
+          "TRENDING": -0.651,
+          "CHOPPY": -0.559,
+          "VOLATILE": -0.74
+        },
+        "drawdownCorr": 0.993,
+        "exposureOverlap": 1,
+        "rolling30": {
+          "TRENDING": -0.651,
+          "CHOPPY": -0.559,
+          "VOLATILE": -0.74
+        }
+      },
+      {
+        "a": "x_ichimoku_cloud",
+        "b": "x_donchian_trend_50",
+        "pooledCorr": 0.632,
+        "meanByRegime": 0.241,
+        "byRegime": {
+          "TRENDING": -0.17,
+          "CHOPPY": 0.216,
+          "VOLATILE": 0.598
+        },
+        "drawdownCorr": 0.896,
+        "exposureOverlap": 0.478,
+        "rolling30": {
+          "TRENDING": -0.17,
+          "CHOPPY": 0.216,
+          "VOLATILE": 0.598
+        }
+      },
+      {
+        "a": "x_ichimoku_cloud",
+        "b": "x_mtf_trend_confirmation",
+        "pooledCorr": 0.627,
+        "meanByRegime": 0.582,
+        "byRegime": {
+          "TRENDING": 0.498,
+          "CHOPPY": 0.636,
+          "VOLATILE": 0.604
+        },
+        "drawdownCorr": 0.986,
+        "exposureOverlap": 1,
+        "rolling30": {
+          "TRENDING": 0.498,
+          "CHOPPY": 0.636,
+          "VOLATILE": 0.604
+        }
+      },
+      {
+        "a": "x_keltner_channel",
+        "b": "x_choppiness_index",
+        "pooledCorr": 0.662,
+        "meanByRegime": 0.522,
+        "byRegime": {
+          "TRENDING": null,
+          "CHOPPY": null,
+          "VOLATILE": 0.522
+        },
+        "drawdownCorr": 0.997,
+        "exposureOverlap": 0.333,
+        "rolling30": {
+          "TRENDING": null,
+          "CHOPPY": null,
+          "VOLATILE": 0.522
+        }
+      },
+      {
+        "a": "x_keltner_channel",
+        "b": "x_obv_confirmation",
+        "pooledCorr": 0.327,
+        "meanByRegime": 0.284,
+        "byRegime": {
+          "TRENDING": -0.088,
+          "CHOPPY": 0.265,
+          "VOLATILE": 0.599
+        },
+        "drawdownCorr": 0.847,
+        "exposureOverlap": 0.633,
+        "rolling30": {
+          "TRENDING": -0.088,
+          "CHOPPY": 0.265,
+          "VOLATILE": 0.599
+        }
+      },
+      {
+        "a": "x_keltner_channel",
+        "b": "x_parabolic_sar",
+        "pooledCorr": 0.124,
+        "meanByRegime": 0.099,
+        "byRegime": {
+          "TRENDING": -0.102,
+          "CHOPPY": 0.021,
+          "VOLATILE": 0.362
+        },
+        "drawdownCorr": 0.815,
+        "exposureOverlap": 0.633,
+        "rolling30": {
+          "TRENDING": -0.102,
+          "CHOPPY": 0.021,
+          "VOLATILE": 0.362
+        }
+      },
+      {
+        "a": "x_keltner_channel",
+        "b": "x_fibonacci_retracement",
+        "pooledCorr": -0.097,
+        "meanByRegime": 0.099,
+        "byRegime": {
+          "TRENDING": -0.199,
+          "CHOPPY": 0.387,
+          "VOLATILE": 0.091
+        },
+        "drawdownCorr": 0.795,
+        "exposureOverlap": 0.633,
+        "rolling30": {
+          "TRENDING": -0.199,
+          "CHOPPY": 0.387,
+          "VOLATILE": 0.091
+        }
+      },
+      {
+        "a": "x_keltner_channel",
+        "b": "x_volume_profile",
+        "pooledCorr": 0.013,
+        "meanByRegime": -0.318,
+        "byRegime": {
+          "TRENDING": -0.052,
+          "CHOPPY": -0.413,
+          "VOLATILE": -0.461
+        },
+        "drawdownCorr": 0.888,
+        "exposureOverlap": 0.633,
+        "rolling30": {
+          "TRENDING": -0.052,
+          "CHOPPY": -0.413,
+          "VOLATILE": -0.461
+        }
+      },
+      {
+        "a": "x_keltner_channel",
+        "b": "x_donchian_trend_50",
+        "pooledCorr": 0.796,
+        "meanByRegime": 0.204,
+        "byRegime": {
+          "TRENDING": -0.099,
+          "CHOPPY": -0.035,
+          "VOLATILE": 0.638
+        },
+        "drawdownCorr": 0.996,
+        "exposureOverlap": 0.542,
+        "rolling30": {
+          "TRENDING": -0.099,
+          "CHOPPY": -0.035,
+          "VOLATILE": 0.638
+        }
+      },
+      {
+        "a": "x_keltner_channel",
+        "b": "x_mtf_trend_confirmation",
+        "pooledCorr": 0.384,
+        "meanByRegime": 0.129,
+        "byRegime": {
+          "TRENDING": -0.16,
+          "CHOPPY": 0.16,
+          "VOLATILE": 0.371
+        },
+        "drawdownCorr": 0.856,
+        "exposureOverlap": 0.633,
+        "rolling30": {
+          "TRENDING": -0.16,
+          "CHOPPY": 0.16,
+          "VOLATILE": 0.371
+        }
+      },
+      {
+        "a": "x_choppiness_index",
+        "b": "x_obv_confirmation",
+        "pooledCorr": 0.277,
+        "meanByRegime": 0.438,
+        "byRegime": {
+          "TRENDING": null,
+          "CHOPPY": null,
+          "VOLATILE": 0.438
+        },
+        "drawdownCorr": 0.833,
+        "exposureOverlap": 0.333,
+        "rolling30": {
+          "TRENDING": null,
+          "CHOPPY": null,
+          "VOLATILE": 0.438
+        }
+      },
+      {
+        "a": "x_choppiness_index",
+        "b": "x_parabolic_sar",
+        "pooledCorr": 0.05,
+        "meanByRegime": 0.157,
+        "byRegime": {
+          "TRENDING": null,
+          "CHOPPY": null,
+          "VOLATILE": 0.157
+        },
+        "drawdownCorr": 0.797,
+        "exposureOverlap": 0.333,
+        "rolling30": {
+          "TRENDING": null,
+          "CHOPPY": null,
+          "VOLATILE": 0.157
+        }
+      },
+      {
+        "a": "x_choppiness_index",
+        "b": "x_fibonacci_retracement",
+        "pooledCorr": -0.097,
+        "meanByRegime": 0.024,
+        "byRegime": {
+          "TRENDING": null,
+          "CHOPPY": null,
+          "VOLATILE": 0.024
+        },
+        "drawdownCorr": 0.774,
+        "exposureOverlap": 0.333,
+        "rolling30": {
+          "TRENDING": null,
+          "CHOPPY": null,
+          "VOLATILE": 0.024
+        }
+      },
+      {
+        "a": "x_choppiness_index",
+        "b": "x_volume_profile",
+        "pooledCorr": -0.211,
+        "meanByRegime": -0.609,
+        "byRegime": {
+          "TRENDING": null,
+          "CHOPPY": null,
+          "VOLATILE": -0.609
+        },
+        "drawdownCorr": 0.871,
+        "exposureOverlap": 0.333,
+        "rolling30": {
+          "TRENDING": null,
+          "CHOPPY": null,
+          "VOLATILE": -0.609
+        }
+      },
+      {
+        "a": "x_choppiness_index",
+        "b": "x_donchian_trend_50",
+        "pooledCorr": 0.73,
+        "meanByRegime": 0.626,
+        "byRegime": {
+          "TRENDING": null,
+          "CHOPPY": null,
+          "VOLATILE": 0.626
+        },
+        "drawdownCorr": 0.994,
+        "exposureOverlap": 0.333,
+        "rolling30": {
+          "TRENDING": null,
+          "CHOPPY": null,
+          "VOLATILE": 0.626
+        }
+      },
+      {
+        "a": "x_choppiness_index",
+        "b": "x_mtf_trend_confirmation",
+        "pooledCorr": 0.466,
+        "meanByRegime": 0.549,
+        "byRegime": {
+          "TRENDING": null,
+          "CHOPPY": null,
+          "VOLATILE": 0.549
+        },
+        "drawdownCorr": 0.837,
+        "exposureOverlap": 0.333,
+        "rolling30": {
+          "TRENDING": null,
+          "CHOPPY": null,
+          "VOLATILE": 0.549
+        }
+      },
+      {
+        "a": "x_obv_confirmation",
+        "b": "x_parabolic_sar",
+        "pooledCorr": 0.212,
+        "meanByRegime": 0.28,
+        "byRegime": {
+          "TRENDING": 0.221,
+          "CHOPPY": 0.249,
+          "VOLATILE": 0.367
+        },
+        "drawdownCorr": 0.988,
+        "exposureOverlap": 1,
+        "rolling30": {
+          "TRENDING": 0.221,
+          "CHOPPY": 0.249,
+          "VOLATILE": 0.367
+        }
+      },
+      {
+        "a": "x_obv_confirmation",
+        "b": "x_fibonacci_retracement",
+        "pooledCorr": 0.114,
+        "meanByRegime": 0.192,
+        "byRegime": {
+          "TRENDING": 0.227,
+          "CHOPPY": 0.34,
+          "VOLATILE": -0.003
+        },
+        "drawdownCorr": 0.984,
+        "exposureOverlap": 1,
+        "rolling30": {
+          "TRENDING": 0.227,
+          "CHOPPY": 0.34,
+          "VOLATILE": -0.003
+        }
+      },
+      {
+        "a": "x_obv_confirmation",
+        "b": "x_volume_profile",
+        "pooledCorr": -0.359,
+        "meanByRegime": -0.476,
+        "byRegime": {
+          "TRENDING": -0.364,
+          "CHOPPY": -0.459,
+          "VOLATILE": -0.588
+        },
+        "drawdownCorr": 0.986,
+        "exposureOverlap": 1,
+        "rolling30": {
+          "TRENDING": -0.364,
+          "CHOPPY": -0.459,
+          "VOLATILE": -0.588
+        }
+      },
+      {
+        "a": "x_obv_confirmation",
+        "b": "x_donchian_trend_50",
+        "pooledCorr": 0.274,
+        "meanByRegime": 0.257,
+        "byRegime": {
+          "TRENDING": 0.188,
+          "CHOPPY": 0.085,
+          "VOLATILE": 0.472
+        },
+        "drawdownCorr": 0.812,
+        "exposureOverlap": 0.478,
+        "rolling30": {
+          "TRENDING": 0.188,
+          "CHOPPY": 0.085,
+          "VOLATILE": 0.472
+        }
+      },
+      {
+        "a": "x_obv_confirmation",
+        "b": "x_mtf_trend_confirmation",
+        "pooledCorr": 0.204,
+        "meanByRegime": 0.264,
+        "byRegime": {
+          "TRENDING": 0.379,
+          "CHOPPY": 0.294,
+          "VOLATILE": 0.109
+        },
+        "drawdownCorr": 0.986,
+        "exposureOverlap": 1,
+        "rolling30": {
+          "TRENDING": 0.379,
+          "CHOPPY": 0.294,
+          "VOLATILE": 0.109
+        }
+      },
+      {
+        "a": "x_parabolic_sar",
+        "b": "x_fibonacci_retracement",
+        "pooledCorr": 0.049,
+        "meanByRegime": 0.119,
+        "byRegime": {
+          "TRENDING": 0.34,
+          "CHOPPY": 0.32,
+          "VOLATILE": -0.317
+        },
+        "drawdownCorr": 0.999,
+        "exposureOverlap": 1,
+        "rolling30": {
+          "TRENDING": 0.34,
+          "CHOPPY": 0.32,
+          "VOLATILE": -0.317
+        }
+      },
+      {
+        "a": "x_parabolic_sar",
+        "b": "x_volume_profile",
+        "pooledCorr": -0.352,
+        "meanByRegime": -0.232,
+        "byRegime": {
+          "TRENDING": 0.088,
+          "CHOPPY": -0.355,
+          "VOLATILE": -0.401
+        },
+        "drawdownCorr": 0.988,
+        "exposureOverlap": 1,
+        "rolling30": {
+          "TRENDING": 0.088,
+          "CHOPPY": -0.355,
+          "VOLATILE": -0.401
+        }
+      },
+      {
+        "a": "x_parabolic_sar",
+        "b": "x_donchian_trend_50",
+        "pooledCorr": 0.034,
+        "meanByRegime": 0.134,
+        "byRegime": {
+          "TRENDING": 0.123,
+          "CHOPPY": 0.092,
+          "VOLATILE": 0.186
+        },
+        "drawdownCorr": 0.779,
+        "exposureOverlap": 0.478,
+        "rolling30": {
+          "TRENDING": 0.123,
+          "CHOPPY": 0.092,
+          "VOLATILE": 0.186
+        }
+      },
+      {
+        "a": "x_parabolic_sar",
+        "b": "x_mtf_trend_confirmation",
+        "pooledCorr": 0.141,
+        "meanByRegime": 0.213,
+        "byRegime": {
+          "TRENDING": 0.23,
+          "CHOPPY": 0.363,
+          "VOLATILE": 0.035
+        },
+        "drawdownCorr": 0.996,
+        "exposureOverlap": 1,
+        "rolling30": {
+          "TRENDING": 0.23,
+          "CHOPPY": 0.363,
+          "VOLATILE": 0.035
+        }
+      },
+      {
+        "a": "x_fibonacci_retracement",
+        "b": "x_volume_profile",
+        "pooledCorr": -0.318,
+        "meanByRegime": -0.444,
+        "byRegime": {
+          "TRENDING": -0.322,
+          "CHOPPY": -0.764,
+          "VOLATILE": -0.093
+        },
+        "drawdownCorr": 0.983,
+        "exposureOverlap": 1,
+        "rolling30": {
+          "TRENDING": -0.322,
+          "CHOPPY": -0.764,
+          "VOLATILE": -0.093
+        }
+      },
+      {
+        "a": "x_fibonacci_retracement",
+        "b": "x_donchian_trend_50",
+        "pooledCorr": -0.008,
+        "meanByRegime": 0.155,
+        "byRegime": {
+          "TRENDING": -0.051,
+          "CHOPPY": 0.188,
+          "VOLATILE": 0.319
+        },
+        "drawdownCorr": 0.758,
+        "exposureOverlap": 0.478,
+        "rolling30": {
+          "TRENDING": -0.051,
+          "CHOPPY": 0.188,
+          "VOLATILE": 0.319
+        }
+      },
+      {
+        "a": "x_fibonacci_retracement",
+        "b": "x_mtf_trend_confirmation",
+        "pooledCorr": 0.367,
+        "meanByRegime": 0.487,
+        "byRegime": {
+          "TRENDING": 0.29,
+          "CHOPPY": 0.702,
+          "VOLATILE": 0.403
+        },
+        "drawdownCorr": 0.993,
+        "exposureOverlap": 1,
+        "rolling30": {
+          "TRENDING": 0.29,
+          "CHOPPY": 0.702,
+          "VOLATILE": 0.403
+        }
+      },
+      {
+        "a": "x_volume_profile",
+        "b": "x_donchian_trend_50",
+        "pooledCorr": -0.054,
+        "meanByRegime": -0.305,
+        "byRegime": {
+          "TRENDING": 0.154,
+          "CHOPPY": -0.367,
+          "VOLATILE": -0.613
+        },
+        "drawdownCorr": 0.861,
+        "exposureOverlap": 0.478,
+        "rolling30": {
+          "TRENDING": 0.154,
+          "CHOPPY": -0.367,
+          "VOLATILE": -0.613
+        }
+      },
+      {
+        "a": "x_volume_profile",
+        "b": "x_mtf_trend_confirmation",
+        "pooledCorr": -0.259,
+        "meanByRegime": -0.479,
+        "byRegime": {
+          "TRENDING": -0.427,
+          "CHOPPY": -0.537,
+          "VOLATILE": -0.47
+        },
+        "drawdownCorr": 0.996,
+        "exposureOverlap": 1,
+        "rolling30": {
+          "TRENDING": -0.427,
+          "CHOPPY": -0.537,
+          "VOLATILE": -0.47
+        }
+      },
+      {
+        "a": "x_donchian_trend_50",
+        "b": "x_mtf_trend_confirmation",
+        "pooledCorr": 0.472,
+        "meanByRegime": 0.258,
+        "byRegime": {
+          "TRENDING": 0.028,
+          "CHOPPY": 0.162,
+          "VOLATILE": 0.537
+        },
+        "drawdownCorr": 0.825,
+        "exposureOverlap": 0.478,
+        "rolling30": {
+          "TRENDING": 0.028,
+          "CHOPPY": 0.162,
+          "VOLATILE": 0.537
+        }
+      }
+    ]
+  },
+  "portfolio": {
+    "pooled": {
+      "sessions": 90,
+      "net": -454585.91,
+      "maxDrawdown": 454585.91,
+      "dailyVolatility": 1555.69,
+      "annualisedVolatility": null,
+      "recoveryFactor": -1,
+      "turnoverProxy": 4.546,
+      "bestDay": 0,
+      "worstDay": -10709.39,
+      "positiveDays": 0,
+      "negativeDays": 90
+    },
+    "pooledNote": "annualisedVolatility is intentionally null for the pooled figure: the three regimes are separate synthetic tapes, so scaling their concatenated daily volatility by sqrt(252) would imply a continuous 90-day record that does not exist. Per-regime figures below are annualised.",
+    "byRegime": {
+      "TRENDING": {
+        "sessions": 30,
+        "net": -133834.71,
+        "maxDrawdown": 133834.71,
+        "dailyVolatility": 1026.13,
+        "annualisedVolatility": 16289.32,
+        "recoveryFactor": -1,
+        "turnoverProxy": 1.338,
+        "bestDay": 0,
+        "worstDay": -6500.76,
+        "positiveDays": 0,
+        "negativeDays": 30
+      },
+      "CHOPPY": {
+        "sessions": 30,
+        "net": -131963.13,
+        "maxDrawdown": 131963.13,
+        "dailyVolatility": 1046.8,
+        "annualisedVolatility": 16617.39,
+        "recoveryFactor": -1,
+        "turnoverProxy": 1.32,
+        "bestDay": 0,
+        "worstDay": -6722.98,
+        "positiveDays": 0,
+        "negativeDays": 30
+      },
+      "VOLATILE": {
+        "sessions": 30,
+        "net": -188788.07,
+        "maxDrawdown": 188788.07,
+        "dailyVolatility": 1697.98,
+        "annualisedVolatility": 26954.53,
+        "recoveryFactor": -1,
+        "turnoverProxy": 1.888,
+        "bestDay": 0,
+        "worstDay": -10709.39,
+        "positiveDays": 0,
+        "negativeDays": 30
+      }
+    },
+    "concentration": [
+      {
+        "id": "x_parabolic_sar",
+        "contribution": -1054731.14,
+        "shareOfGrossAbs": 0.232
+      },
+      {
+        "id": "x_macd_momentum",
+        "contribution": -745780.82,
+        "shareOfGrossAbs": 0.164
+      },
+      {
+        "id": "x_obv_confirmation",
+        "contribution": -683780.99,
+        "shareOfGrossAbs": 0.15
+      },
+      {
+        "id": "x_mtf_trend_confirmation",
+        "contribution": -639467.96,
+        "shareOfGrossAbs": 0.141
+      },
+      {
+        "id": "x_fibonacci_retracement",
+        "contribution": -509554.81,
+        "shareOfGrossAbs": 0.112
+      },
+      {
+        "id": "x_volume_profile",
+        "contribution": -393085.24,
+        "shareOfGrossAbs": 0.086
+      },
+      {
+        "id": "x_ichimoku_cloud",
+        "contribution": -287422.56,
+        "shareOfGrossAbs": 0.063
+      },
+      {
+        "id": "x_keltner_channel",
+        "contribution": -113018.17,
+        "shareOfGrossAbs": 0.025
+      },
+      {
+        "id": "x_donchian_trend_50",
+        "contribution": -77250.31,
+        "shareOfGrossAbs": 0.017
+      },
+      {
+        "id": "x_choppiness_index",
+        "contribution": -41767.14,
+        "shareOfGrossAbs": 0.009
+      }
+    ],
+    "totalCharges": 4478074.24,
+    "costToAbsNetRatio": 9.851
+  },
+  "conclusions": {
+    "diversificationClaim": "NOT_SUPPORTED",
+    "primaryCorrelationStatistic": "meanByRegime (Fisher z-averaged across regimes); pooledCorr is descriptive only",
+    "reason": "The equal-weight portfolio remains net negative in every regime. Diversification can reduce variance around a positive expectancy; it cannot create one. With PRELIMINARY sample sizes, no allocation recommendation is made.",
+    "promotionCandidates": [],
+    "executionPolicyChanged": false
+  }
+}

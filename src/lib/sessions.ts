@@ -160,7 +160,12 @@ async function loadBag(): Promise<SessionBag> {
 async function saveBag(bag: SessionBag) {
   g.__omniSessions = bag;
   g.__omniSessionLoaded = true;
-  await setSetting("brokerSessions", encrypt(JSON.stringify(bag)));
+  try {
+    await setSetting("brokerSessions", encrypt(JSON.stringify(bag)));
+  } catch {
+    // SEC-003: without VAULT_KEY we refuse to encrypt rather than use a published key. The in-memory
+    // bag stays authoritative for this process; persistence resumes once an operator sets VAULT_KEY.
+  }
 }
 
 export async function clearSession(broker: BrokerKey) {

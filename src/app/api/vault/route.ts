@@ -57,7 +57,14 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  await saveCreds(b.broker as VaultKey, fields);
+  try {
+    await saveCreds(b.broker as VaultKey, fields);
+  } catch (err) {
+    if (err instanceof Error && err.name === "VaultKeyMissingError") {
+      return Response.json({ ok: false, error: err.message, code: "VAULT_KEY_MISSING" }, { status: 503 });
+    }
+    throw err;
+  }
   if (b.broker !== "smtp") await clearSession(b.broker as BrokerKey);
   if (b.broker === "angel") stopAngelWs();
   await audit("INFO", "VAULT", `Credentials updated (AES-256-GCM) for ${b.broker}`);

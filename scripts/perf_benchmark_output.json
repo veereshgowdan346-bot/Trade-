@@ -1,0 +1,125 @@
+{
+  "generatedAt": "2026-11-17T16:55:24.001Z",
+  "environment": {
+    "node": "v22.22.3",
+    "platform": "linux",
+    "arch": "x64"
+  },
+  "legacyMaxBars": 8000,
+  "note": "Legacy path is O(n^2) and is not attempted above LEGACY_MAX; those rows are fast-only.",
+  "rows": [
+    {
+      "bars": 1000,
+      "legacyMs": 105.521462,
+      "legacyRssMb": 14,
+      "legacyTrades": 6,
+      "legacyNet": -1975.7,
+      "fastMs": 16.680782,
+      "fastRssMb": 3,
+      "fastTrades": 6,
+      "fastNet": -1975.7,
+      "usPerBar": 16.68,
+      "speedup": 6.3,
+      "identical": true
+    },
+    {
+      "bars": 2000,
+      "legacyMs": 340.641746,
+      "legacyRssMb": 10,
+      "legacyTrades": 21,
+      "legacyNet": -3432.71,
+      "fastMs": 15.823572,
+      "fastRssMb": 2,
+      "fastTrades": 21,
+      "fastNet": -3432.71,
+      "usPerBar": 7.91,
+      "speedup": 21.5,
+      "identical": true
+    },
+    {
+      "bars": 4000,
+      "legacyMs": 959.787703,
+      "legacyRssMb": 16,
+      "legacyTrades": 23,
+      "legacyNet": -4016.46,
+      "fastMs": 21.679248,
+      "fastRssMb": 2,
+      "fastTrades": 23,
+      "fastNet": -4016.46,
+      "usPerBar": 5.42,
+      "speedup": 44.3,
+      "identical": true
+    },
+    {
+      "bars": 8000,
+      "legacyMs": 2926.644595,
+      "legacyRssMb": 0,
+      "legacyTrades": 34,
+      "legacyNet": -7096.43,
+      "fastMs": 33.909545,
+      "fastRssMb": 1,
+      "fastTrades": 34,
+      "fastNet": -7096.43,
+      "usPerBar": 4.24,
+      "speedup": 86.3,
+      "identical": true
+    },
+    {
+      "bars": 16000,
+      "fastMs": 71.167917,
+      "fastRssMb": 2,
+      "fastTrades": 56,
+      "fastNet": -12788.46,
+      "usPerBar": 4.45
+    },
+    {
+      "bars": 25000,
+      "fastMs": 123.85953,
+      "fastRssMb": 10,
+      "fastTrades": 71,
+      "fastNet": -16337.41,
+      "usPerBar": 4.95
+    },
+    {
+      "bars": 32000,
+      "fastMs": 146.213889,
+      "fastRssMb": 14,
+      "fastTrades": 76,
+      "fastNet": -16902.06,
+      "usPerBar": 4.57
+    },
+    {
+      "bars": 50000,
+      "fastMs": 214.311866,
+      "fastRssMb": 10,
+      "fastTrades": 123,
+      "fastNet": -26988.13,
+      "usPerBar": 4.29
+    },
+    {
+      "bars": 64000,
+      "fastMs": 274.463062,
+      "fastRssMb": 7,
+      "fastTrades": 153,
+      "fastNet": -34021.99,
+      "usPerBar": 4.29
+    },
+    {
+      "bars": 100000,
+      "fastMs": 459.688218,
+      "fastRssMb": 9,
+      "fastTrades": 227,
+      "fastNet": -48195.4,
+      "usPerBar": 4.6
+    },
+    {
+      "bars": 200000,
+      "fastMs": 923.497331,
+      "fastRssMb": 33,
+      "fastTrades": 395,
+      "fastNet": -82192.86,
+      "usPerBar": 4.62
+    }
+  ],
+  "allComparedRunsIdentical": true
+}

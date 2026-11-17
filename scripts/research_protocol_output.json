@@ -1,0 +1,1155 @@
+{
+  "generatedAt": "2026-11-17T17:37:02.739Z",
+  "protocol": {
+    "version": "1.0.0",
+    "predefined": true,
+    "data": "NIFTY 50 index, 1-minute, aggregated to 15-minute bars",
+    "instrumentWarning": "The NIFTY 50 index is a reference series: it is not tradable, carries no volume and is NOT the equity instrument the strategies are specified for. The equity intraday cost schedule is applied as a documented research proxy (INSTR-001).",
+    "periods": [
+      {
+        "name": "TRAIN",
+        "year": 2022,
+        "sessions": 247,
+        "bars15m": 6175
+      },
+      {
+        "name": "VALIDATION",
+        "year": 2023,
+        "sessions": 246,
+        "bars15m": 6130
+      },
+      {
+        "name": "OOS",
+        "year": 2024,
+        "sessions": 249,
+        "bars15m": 6171
+      }
+    ],
+    "splits": "chronological years; no overlap, no shuffling, no OOS-informed selection",
+    "signalComputation": "full prefix, identical to production convention",
+    "parameterSearch": "none — default registry configs only",
+    "costs": {
+      "model": "statutory round-trip (Shoonya, NSE equity intraday) + slippage, per trade",
+      "caveat": "The NIFTY 50 index is not directly tradable and every statutory/brokerage rate is UNVERIFIED (RATE-001). Cost figures are a proxy, not a broker statement."
+    },
+    "volumePolicy": "volume-dependent strategies reported NOT_EVALUABLE rather than run on zeros",
+    "decisionRule": "OOS_SUPPORTED requires net > 0 in validation AND OOS, >= 100 trades in each, and a bootstrap 95% CI for mean trade net with a positive lower bound.",
+    "promotionPolicy": "no outcome of this study promotes a strategy; production execution stays disabled",
+    "harness": {
+      "sleeve": 100000,
+      "minConfidence": 55,
+      "sourceOfTruth": "src/lib/experimental_harness.ts"
+    },
+    "sessionMode": {
+      "mode": "CARRY_OVERNIGHT",
+      "meaning": "HISTORICAL RULE — a position open at a session end fills at the next session's open and therefore carries overnight gap exposure",
+      "status": "LEGACY_RETAINED_FOR_REPRODUCTION"
+    },
+    "aggregation": "1-min -> 15-min (o=first, h=max, l=min, c=last, v=sum), stamped at bucket close"
+  },
+  "datasets": "data/external (REAL_REDISTRIBUTION, authenticity UNVERIFIED) — see data/provenance/external_dataset_manifest.json",
+  "results": [
+    {
+      "id": "x_macd_momentum",
+      "name": "MACD Momentum (12,26,9)",
+      "enabled": false,
+      "volumeDependent": false,
+      "periods": {
+        "TRAIN": {
+          "label": "x_macd_momentum/TRAIN",
+          "trades": 790,
+          "sessions": 245,
+          "gross": 19738.46,
+          "charges": 149001.42,
+          "net": -129262.96,
+          "winRatePct": 32.03,
+          "profitFactor": 0.39,
+          "expectancy": -163.62,
+          "avgNet": -163.62,
+          "maxDrawdown": 129415.6,
+          "ci95": {
+            "low": -191.597,
+            "high": -135.6105,
+            "iters": 10000,
+            "resamples": 790
+          },
+          "tStat": -11.4,
+          "costToGrossRatio": 7.549,
+          "statutoryCharges": 34538.62,
+          "slippageAssumption": 114463.14,
+          "slippageSharePct": 76.8,
+          "perTrade": {
+            "gross": 24.99,
+            "statutory": 43.72,
+            "slippage": 144.89,
+            "net": -163.62
+          },
+          "slippageSensitivity": {
+            "0": -14800.16,
+            "1": -129263.3,
+            "0.25": -43415.95,
+            "0.5": -72031.73,
+            "1.5": -186494.87
+          }
+        },
+        "VALIDATION": {
+          "label": "x_macd_momentum/VALIDATION",
+          "trades": 842,
+          "sessions": 244,
+          "gross": 7185.89,
+          "charges": 161606.98,
+          "net": -154421.09,
+          "winRatePct": 24.58,
+          "profitFactor": 0.202,
+          "expectancy": -183.4,
+          "avgNet": -183.4,
+          "maxDrawdown": 154421.09,
+          "ci95": {
+            "low": -201.1553,
+            "high": -166.0933,
+            "iters": 10000,
+            "resamples": 842
+          },
+          "tStat": -20.48,
+          "costToGrossRatio": 22.489,
+          "statutoryCharges": 37315.64,
+          "slippageAssumption": 124291.62,
+          "slippageSharePct": 76.9,
+          "perTrade": {
+            "gross": 8.53,
+            "statutory": 44.32,
+            "slippage": 147.61,
+            "net": -183.4
+          },
+          "slippageSensitivity": {
+            "0": -30129.75,
+            "1": -154421.37,
+            "0.25": -61202.65,
+            "0.5": -92275.56,
+            "1.5": -216567.18
+          }
+        },
+        "OOS": {
+          "label": "x_macd_momentum/OOS",
+          "trades": 835,
+          "sessions": 247,
+          "gross": 22196.62,
+          "charges": 158232.83,
+          "net": -136036.21,
+          "winRatePct": 27.43,
+          "profitFactor": 0.321,
+          "expectancy": -162.92,
+          "avgNet": -162.92,
+          "maxDrawdown": 136036.21,
+          "ci95": {
+            "low": -185.8477,
+            "high": -139.7933,
+            "iters": 10000,
+            "resamples": 835
+          },
+          "tStat": -13.75,
+          "costToGrossRatio": 7.129,
+          "statutoryCharges": 36640.08,
+          "slippageAssumption": 121592.66,
+          "slippageSharePct": 76.8,
+          "perTrade": {
+            "gross": 26.58,
+            "statutory": 43.88,
+            "slippage": 145.62,
+            "net": -162.92
+          },
+          "slippageSensitivity": {
+            "0": -14443.46,
+            "1": -136036.12,
+            "0.25": -44841.62,
+            "0.5": -75239.79,
+            "1.5": -196832.45
+          }
+        }
+      },
+      "decision": {
+        "positiveInValidation": false,
+        "positiveInOos": false,
+        "minTradesMet": true,
+        "ciExcludesZero": true,
+        "ciLowerBoundPositive": false
+      },
+      "verdict": "NOT_SUPPORTED"
+    },
+    {
+      "id": "x_ichimoku_cloud",
+      "name": "Ichimoku Cloud (9,26,52)",
+      "enabled": false,
+      "volumeDependent": false,
+      "periods": {
+        "TRAIN": {
+          "label": "x_ichimoku_cloud/TRAIN",
+          "trades": 453,
+          "sessions": 234,
+          "gross": 5585.61,
+          "charges": 85630.83,
+          "net": -80045.22,
+          "winRatePct": 39.07,
+          "profitFactor": 0.463,
+          "expectancy": -176.7,
+          "avgNet": -176.7,
+          "maxDrawdown": 80045.22,
+          "ci95": {
+            "low": -221.5251,
+            "high": -130.4961,
+            "iters": 10000,
+            "resamples": 453
+          },
+          "tStat": -7.51,
+          "costToGrossRatio": 15.331,
+          "statutoryCharges": 19838.89,
+          "slippageAssumption": 65792,
+          "slippageSharePct": 76.8,
+          "perTrade": {
+            "gross": 12.33,
+            "statutory": 43.79,
+            "slippage": 145.24,
+            "net": -176.7
+          },
+          "slippageSensitivity": {
+            "0": -14253.28,
+            "1": -80045.28,
+            "0.25": -30701.28,
+            "0.5": -47149.28,
+            "1.5": -112941.28
+          }
+        },
+        "VALIDATION": {
+          "label": "x_ichimoku_cloud/VALIDATION",
+          "trades": 457,
+          "sessions": 239,
+          "gross": 20341.66,
+          "charges": 87703.93,
+          "net": -67362.27,
+          "winRatePct": 40.04,
+          "profitFactor": 0.349,
+          "expectancy": -147.4,
+          "avgNet": -147.4,
+          "maxDrawdown": 67556.87,
+          "ci95": {
+            "low": -176.6446,
+            "high": -117.5728,
+            "iters": 10000,
+            "resamples": 457
+          },
+          "tStat": -9.92,
+          "costToGrossRatio": 4.312,
+          "statutoryCharges": 20253.21,
+          "slippageAssumption": 67450.97,
+          "slippageSharePct": 76.9,
+          "perTrade": {
+            "gross": 44.51,
+            "statutory": 44.32,
+            "slippage": 147.6,
+            "net": -147.4
+          },
+          "slippageSensitivity": {
+            "0": 88.45,
+            "1": -67362.52,
+            "0.25": -16774.29,
+            "0.5": -33637.03,
+            "1.5": -101088
+          }
+        },
+        "OOS": {
+          "label": "x_ichimoku_cloud/OOS",
+          "trades": 480,
+          "sessions": 236,
+          "gross": 2764.26,
+          "charges": 90751.34,
+          "net": -87987.08,
+          "winRatePct": 35.42,
+          "profitFactor": 0.359,
+          "expectancy": -183.31,
+          "avgNet": -183.31,
+          "maxDrawdown": 87987.08,
+          "ci95": {
+            "low": -219.7442,
+            "high": -145.4314,
+            "iters": 10000,
+            "resamples": 480
+          },
+          "tStat": -9.65,
+          "costToGrossRatio": 32.83,
+          "statutoryCharges": 21024.08,
+          "slippageAssumption": 69727.32,
+          "slippageSharePct": 76.8,
+          "perTrade": {
+            "gross": 5.76,
+            "statutory": 43.8,
+            "slippage": 145.27,
+            "net": -183.31
+          },
+          "slippageSensitivity": {
+            "0": -18259.82,
+            "1": -87987.14,
+            "0.25": -35691.65,
+            "0.5": -53123.48,
+            "1.5": -122850.8
+          }
+        }
+      },
+      "decision": {
+        "positiveInValidation": false,
+        "positiveInOos": false,
+        "minTradesMet": true,
+        "ciExcludesZero": true,
+        "ciLowerBoundPositive": false
+      },
+      "verdict": "NOT_SUPPORTED"
+    },
+    {
+      "id": "x_keltner_channel",
+      "name": "Keltner Channel (20, 1.5 ATR)",
+      "enabled": false,
+      "volumeDependent": false,
+      "periods": {
+        "TRAIN": {
+          "label": "x_keltner_channel/TRAIN",
+          "trades": 370,
+          "sessions": 213,
+          "gross": 5448.14,
+          "charges": 69780.77,
+          "net": -64332.63,
+          "winRatePct": 41.62,
+          "profitFactor": 0.479,
+          "expectancy": -173.87,
+          "avgNet": -173.87,
+          "maxDrawdown": 65278.46,
+          "ci95": {
+            "low": -227.0132,
+            "high": -120.6282,
+            "iters": 10000,
+            "resamples": 370
+          },
+          "tStat": -6.4,
+          "costToGrossRatio": 12.808,
+          "statutoryCharges": 16174.97,
+          "slippageAssumption": 53605.82,
+          "slippageSharePct": 76.8,
+          "perTrade": {
+            "gross": 14.72,
+            "statutory": 43.72,
+            "slippage": 144.88,
+            "net": -173.87
+          },
+          "slippageSensitivity": {
+            "0": -10726.83,
+            "1": -64332.65,
+            "0.25": -24128.28,
+            "0.5": -37529.74,
+            "1.5": -91135.56
+          }
+        },
+        "VALIDATION": {
+          "label": "x_keltner_channel/VALIDATION",
+          "trades": 379,
+          "sessions": 217,
+          "gross": 20418.96,
+          "charges": 72515.13,
+          "net": -52096.17,
+          "winRatePct": 42.74,
+          "profitFactor": 0.388,
+          "expectancy": -137.46,
+          "avgNet": -137.46,
+          "maxDrawdown": 52235.04,
+          "ci95": {
+            "low": -170.8311,
+            "high": -104.2143,
+            "iters": 10000,
+            "resamples": 379
+          },
+          "tStat": -8.1,
+          "costToGrossRatio": 3.551,
+          "statutoryCharges": 16757.27,
+          "slippageAssumption": 55758.23,
+          "slippageSharePct": 76.9,
+          "perTrade": {
+            "gross": 53.88,
+            "statutory": 44.21,
+            "slippage": 147.12,
+            "net": -137.46
+          },
+          "slippageSensitivity": {
+            "0": 3661.69,
+            "1": -52096.54,
+            "0.25": -10277.87,
+            "0.5": -24217.43,
+            "1.5": -79975.66
+          }
+        },
+        "OOS": {
+          "label": "x_keltner_channel/OOS",
+          "trades": 362,
+          "sessions": 218,
+          "gross": 10205.29,
+          "charges": 68206.29,
+          "net": -58001,
+          "winRatePct": 36.74,
+          "profitFactor": 0.429,
+          "expectancy": -160.22,
+          "avgNet": -160.22,
+          "maxDrawdown": 58001,
+          "ci95": {
+            "low": -204.0253,
+            "high": -114.8221,
+            "iters": 10000,
+            "resamples": 362
+          },
+          "tStat": -6.93,
+          "costToGrossRatio": 6.683,
+          "statutoryCharges": 15813.91,
+          "slippageAssumption": 52392.4,
+          "slippageSharePct": 76.8,
+          "perTrade": {
+            "gross": 28.19,
+            "statutory": 43.68,
+            "slippage": 144.73,
+            "net": -160.22
+          },
+          "slippageSensitivity": {
+            "0": -5608.62,
+            "1": -58001.02,
+            "0.25": -18706.72,
+            "0.5": -31804.82,
+            "1.5": -84197.22
+          }
+        }
+      },
+      "decision": {
+        "positiveInValidation": false,
+        "positiveInOos": false,
+        "minTradesMet": true,
+        "ciExcludesZero": true,
+        "ciLowerBoundPositive": false
+      },
+      "verdict": "NOT_SUPPORTED"
+    },
+    {
+      "id": "x_choppiness_index",
+      "name": "Choppiness Index Filter",
+      "enabled": false,
+      "volumeDependent": false,
+      "periods": {
+        "TRAIN": {
+          "label": "x_choppiness_index/TRAIN",
+          "trades": 291,
+          "sessions": 188,
+          "gross": 474.67,
+          "charges": 54892.69,
+          "net": -54418.02,
+          "winRatePct": 39.52,
+          "profitFactor": 0.444,
+          "expectancy": -187,
+          "avgNet": -187,
+          "maxDrawdown": 54418.02,
+          "ci95": {
+            "low": -245.7641,
+            "high": -127.3207,
+            "iters": 10000,
+            "resamples": 291
+          },
+          "tStat": -6.24,
+          "costToGrossRatio": 115.645,
+          "statutoryCharges": 12723.25,
+          "slippageAssumption": 42169.62,
+          "slippageSharePct": 76.8,
+          "perTrade": {
+            "gross": 1.63,
+            "statutory": 43.72,
+            "slippage": 144.91,
+            "net": -187
+          },
+          "slippageSensitivity": {
+            "0": -12248.58,
+            "1": -54418.2,
+            "0.25": -22790.99,
+            "0.5": -33333.39,
+            "1.5": -75503.01
+          }
+        },
+        "VALIDATION": {
+          "label": "x_choppiness_index/VALIDATION",
+          "trades": 257,
+          "sessions": 179,
+          "gross": 19207.29,
+          "charges": 49247.22,
+          "net": -30039.93,
+          "winRatePct": 45.53,
+          "profitFactor": 0.447,
+          "expectancy": -116.89,
+          "avgNet": -116.89,
+          "maxDrawdown": 30039.93,
+          "ci95": {
+            "low": -158.3421,
+            "high": -75.4181,
+            "iters": 10000,
+            "resamples": 257
+          },
+          "tStat": -5.65,
+          "costToGrossRatio": 2.564,
+          "statutoryCharges": 11376.94,
+          "slippageAssumption": 37870.2,
+          "slippageSharePct": 76.9,
+          "perTrade": {
+            "gross": 74.74,
+            "statutory": 44.27,
+            "slippage": 147.35,
+            "net": -116.89
+          },
+          "slippageSensitivity": {
+            "0": 7830.35,
+            "1": -30039.85,
+            "0.25": -1637.2,
+            "0.5": -11104.75,
+            "1.5": -48974.95
+          }
+        },
+        "OOS": {
+          "label": "x_choppiness_index/OOS",
+          "trades": 239,
+          "sessions": 168,
+          "gross": 12979.02,
+          "charges": 45138.85,
+          "net": -32159.83,
+          "winRatePct": 40.17,
+          "profitFactor": 0.496,
+          "expectancy": -134.56,
+          "avgNet": -134.56,
+          "maxDrawdown": 32307.56,
+          "ci95": {
+            "low": -191.4282,
+            "high": -77.0337,
+            "iters": 10000,
+            "resamples": 239
+          },
+          "tStat": -4.57,
+          "costToGrossRatio": 3.478,
+          "statutoryCharges": 10460.53,
+          "slippageAssumption": 34678.21,
+          "slippageSharePct": 76.8,
+          "perTrade": {
+            "gross": 54.31,
+            "statutory": 43.77,
+            "slippage": 145.1,
+            "net": -134.56
+          },
+          "slippageSensitivity": {
+            "0": 2518.49,
+            "1": -32159.72,
+            "0.25": -6151.06,
+            "0.5": -14820.61,
+            "1.5": -49498.82
+          }
+        }
+      },
+      "decision": {
+        "positiveInValidation": false,
+        "positiveInOos": false,
+        "minTradesMet": true,
+        "ciExcludesZero": true,
+        "ciLowerBoundPositive": false
+      },
+      "verdict": "NOT_SUPPORTED"
+    },
+    {
+      "id": "x_obv_confirmation",
+      "name": "OBV Volume Confirmation",
+      "enabled": false,
+      "volumeDependent": true,
+      "verdict": "NOT_EVALUABLE",
+      "reason": "requires volume; the NIFTY 50 index series publishes none — refusing to run it on zeros"
+    },
+    {
+      "id": "x_parabolic_sar",
+      "name": "Parabolic SAR",
+      "enabled": false,
+      "volumeDependent": false,
+      "periods": {
+        "TRAIN": {
+          "label": "x_parabolic_sar/TRAIN",
+          "trades": 839,
+          "sessions": 245,
+          "gross": 15376.97,
+          "charges": 158549.27,
+          "net": -143172.3,
+          "winRatePct": 31.23,
+          "profitFactor": 0.374,
+          "expectancy": -170.65,
+          "avgNet": -170.65,
+          "maxDrawdown": 143507.43,
+          "ci95": {
+            "low": -197.6978,
+            "high": -142.6588,
+            "iters": 10000,
+            "resamples": 839
+          },
+          "tStat": -12.23,
+          "costToGrossRatio": 10.311,
+          "statutoryCharges": 36735.46,
+          "slippageAssumption": 121813.93,
+          "slippageSharePct": 76.8,
+          "perTrade": {
+            "gross": 18.33,
+            "statutory": 43.78,
+            "slippage": 145.19,
+            "net": -170.65
+          },
+          "slippageSensitivity": {
+            "0": -21358.49,
+            "1": -143172.42,
+            "0.25": -51811.97,
+            "0.5": -82265.45,
+            "1.5": -204079.38
+          }
+        },
+        "VALIDATION": {
+          "label": "x_parabolic_sar/VALIDATION",
+          "trades": 848,
+          "sessions": 244,
+          "gross": 11518.56,
+          "charges": 162697.15,
+          "net": -151178.59,
+          "winRatePct": 25.83,
+          "profitFactor": 0.202,
+          "expectancy": -178.28,
+          "avgNet": -178.28,
+          "maxDrawdown": 151178.59,
+          "ci95": {
+            "low": -195.2526,
+            "high": -161.2376,
+            "iters": 10000,
+            "resamples": 848
+          },
+          "tStat": -20.37,
+          "costToGrossRatio": 14.125,
+          "statutoryCharges": 37570.57,
+          "slippageAssumption": 125126.3,
+          "slippageSharePct": 76.9,
+          "perTrade": {
+            "gross": 13.58,
+            "statutory": 44.3,
+            "slippage": 147.55,
+            "net": -178.28
+          },
+          "slippageSensitivity": {
+            "0": -26052.01,
+            "1": -151178.31,
+            "0.25": -57333.58,
+            "0.5": -88615.16,
+            "1.5": -213741.46
+          }
+        },
+        "OOS": {
+          "label": "x_parabolic_sar/OOS",
+          "trades": 866,
+          "sessions": 247,
+          "gross": 24665.47,
+          "charges": 163715.78,
+          "net": -139050.31,
+          "winRatePct": 27.71,
+          "profitFactor": 0.319,
+          "expectancy": -160.57,
+          "avgNet": -160.57,
+          "maxDrawdown": 139050.31,
+          "ci95": {
+            "low": -183.1261,
+            "high": -137.8735,
+            "iters": 10000,
+            "resamples": 866
+          },
+          "tStat": -13.89,
+          "costToGrossRatio": 6.637,
+          "statutoryCharges": 37930.03,
+          "slippageAssumption": 125785.9,
+          "slippageSharePct": 76.8,
+          "perTrade": {
+            "gross": 28.48,
+            "statutory": 43.8,
+            "slippage": 145.25,
+            "net": -160.57
+          },
+          "slippageSensitivity": {
+            "0": -13264.56,
+            "1": -139050.46,
+            "0.25": -44711.04,
+            "0.5": -76157.51,
+            "1.5": -201943.41
+          }
+        }
+      },
+      "decision": {
+        "positiveInValidation": false,
+        "positiveInOos": false,
+        "minTradesMet": true,
+        "ciExcludesZero": true,
+        "ciLowerBoundPositive": false
+      },
+      "verdict": "NOT_SUPPORTED"
+    },
+    {
+      "id": "x_fibonacci_retracement",
+      "name": "Fibonacci Retracement Pullback",
+      "enabled": false,
+      "volumeDependent": false,
+      "periods": {
+        "TRAIN": {
+          "label": "x_fibonacci_retracement/TRAIN",
+          "trades": 347,
+          "sessions": 156,
+          "gross": 7954.25,
+          "charges": 65608.8,
+          "net": -57654.55,
+          "winRatePct": 31.7,
+          "profitFactor": 0.33,
+          "expectancy": -166.15,
+          "avgNet": -166.15,
+          "maxDrawdown": 57654.55,
+          "ci95": {
+            "low": -204.1839,
+            "high": -127.4232,
+            "iters": 10000,
+            "resamples": 347
+          },
+          "tStat": -8.56,
+          "costToGrossRatio": 8.248,
+          "statutoryCharges": 15199.83,
+          "slippageAssumption": 50409.15,
+          "slippageSharePct": 76.8,
+          "perTrade": {
+            "gross": 22.92,
+            "statutory": 43.8,
+            "slippage": 145.27,
+            "net": -166.15
+          },
+          "slippageSensitivity": {
+            "0": -7245.58,
+            "1": -57654.73,
+            "0.25": -19847.87,
+            "0.5": -32450.16,
+            "1.5": -82859.31
+          }
+        },
+        "VALIDATION": {
+          "label": "x_fibonacci_retracement/VALIDATION",
+          "trades": 368,
+          "sessions": 170,
+          "gross": 5064.95,
+          "charges": 70968.46,
+          "net": -65903.51,
+          "winRatePct": 25.27,
+          "profitFactor": 0.199,
+          "expectancy": -179.09,
+          "avgNet": -179.09,
+          "maxDrawdown": 65903.51,
+          "ci95": {
+            "low": -205.7737,
+            "high": -153.0959,
+            "iters": 10000,
+            "resamples": 368
+          },
+          "tStat": -13.39,
+          "costToGrossRatio": 14.012,
+          "statutoryCharges": 16370.3,
+          "slippageAssumption": 54598.29,
+          "slippageSharePct": 76.9,
+          "perTrade": {
+            "gross": 13.76,
+            "statutory": 44.48,
+            "slippage": 148.36,
+            "net": -179.09
+          },
+          "slippageSensitivity": {
+            "0": -11305.35,
+            "1": -65903.64,
+            "0.25": -24954.92,
+            "0.5": -38604.49,
+            "1.5": -93202.78
+          }
+        },
+        "OOS": {
+          "label": "x_fibonacci_retracement/OOS",
+          "trades": 390,
+          "sessions": 170,
+          "gross": 13156.78,
+          "charges": 73179.72,
+          "net": -60022.94,
+          "winRatePct": 30.77,
+          "profitFactor": 0.299,
+          "expectancy": -153.9,
+          "avgNet": -153.9,
+          "maxDrawdown": 60351.71,
+          "ci95": {
+            "low": -186.1571,
+            "high": -121.311,
+            "iters": 10000,
+            "resamples": 390
+          },
+          "tStat": -9.29,
+          "costToGrossRatio": 5.562,
+          "statutoryCharges": 16982.64,
+          "slippageAssumption": 56197,
+          "slippageSharePct": 76.8,
+          "perTrade": {
+            "gross": 33.74,
+            "statutory": 43.55,
+            "slippage": 144.09,
+            "net": -153.9
+          },
+          "slippageSensitivity": {
+            "0": -3825.86,
+            "1": -60022.86,
+            "0.25": -17875.11,
+            "0.5": -31924.36,
+            "1.5": -88121.36
+          }
+        }
+      },
+      "decision": {
+        "positiveInValidation": false,
+        "positiveInOos": false,
+        "minTradesMet": true,
+        "ciExcludesZero": true,
+        "ciLowerBoundPositive": false
+      },
+      "verdict": "NOT_SUPPORTED"
+    },
+    {
+      "id": "x_volume_profile",
+      "name": "Volume Profile (POC/Value Area)",
+      "enabled": false,
+      "volumeDependent": true,
+      "verdict": "NOT_EVALUABLE",
+      "reason": "requires volume; the NIFTY 50 index series publishes none — refusing to run it on zeros"
+    },
+    {
+      "id": "x_donchian_trend_50",
+      "name": "Donchian Trend (50)",
+      "enabled": false,
+      "volumeDependent": false,
+      "periods": {
+        "TRAIN": {
+          "label": "x_donchian_trend_50/TRAIN",
+          "trades": 212,
+          "sessions": 156,
+          "gross": 6334.91,
+          "charges": 39941.73,
+          "net": -33606.82,
+          "winRatePct": 41.04,
+          "profitFactor": 0.51,
+          "expectancy": -158.52,
+          "avgNet": -158.52,
+          "maxDrawdown": 33906.5,
+          "ci95": {
+            "low": -229.2441,
+            "high": -87.3113,
+            "iters": 10000,
+            "resamples": 212
+          },
+          "tStat": -4.39,
+          "costToGrossRatio": 6.305,
+          "statutoryCharges": 9260.83,
+          "slippageAssumption": 30680.93,
+          "slippageSharePct": 76.8,
+          "perTrade": {
+            "gross": 29.88,
+            "statutory": 43.68,
+            "slippage": 144.72,
+            "net": -158.52
+          },
+          "slippageSensitivity": {
+            "0": -2925.92,
+            "1": -33606.85,
+            "0.25": -10596.15,
+            "0.5": -18266.38,
+            "1.5": -48947.31
+          }
+        },
+        "VALIDATION": {
+          "label": "x_donchian_trend_50/VALIDATION",
+          "trades": 234,
+          "sessions": 169,
+          "gross": 8017.12,
+          "charges": 44880.46,
+          "net": -36863.34,
+          "winRatePct": 41.45,
+          "profitFactor": 0.331,
+          "expectancy": -157.54,
+          "avgNet": -157.54,
+          "maxDrawdown": 37127.12,
+          "ci95": {
+            "low": -199.127,
+            "high": -116.6253,
+            "iters": 10000,
+            "resamples": 234
+          },
+          "tStat": -7.46,
+          "costToGrossRatio": 5.598,
+          "statutoryCharges": 10365.42,
+          "slippageAssumption": 34515.27,
+          "slippageSharePct": 76.9,
+          "perTrade": {
+            "gross": 34.26,
+            "statutory": 44.3,
+            "slippage": 147.5,
+            "net": -157.54
+          },
+          "slippageSensitivity": {
+            "0": -2348.3,
+            "1": -36863.57,
+            "0.25": -10977.12,
+            "0.5": -19605.93,
+            "1.5": -54121.2
+          }
+        },
+        "OOS": {
+          "label": "x_donchian_trend_50/OOS",
+          "trades": 216,
+          "sessions": 153,
+          "gross": 11508.28,
+          "charges": 40636.28,
+          "net": -29128,
+          "winRatePct": 39.81,
+          "profitFactor": 0.475,
+          "expectancy": -134.85,
+          "avgNet": -134.85,
+          "maxDrawdown": 29128,
+          "ci95": {
+            "low": -191.0907,
+            "high": -76.6821,
+            "iters": 10000,
+            "resamples": 216
+          },
+          "tStat": -4.61,
+          "costToGrossRatio": 3.531,
+          "statutoryCharges": 9425.26,
+          "slippageAssumption": 31210.98,
+          "slippageSharePct": 76.8,
+          "perTrade": {
+            "gross": 53.28,
+            "statutory": 43.64,
+            "slippage": 144.5,
+            "net": -134.85
+          },
+          "slippageSensitivity": {
+            "0": 2083.02,
+            "1": -29127.96,
+            "0.25": -5719.72,
+            "0.5": -13522.47,
+            "1.5": -44733.45
+          }
+        }
+      },
+      "decision": {
+        "positiveInValidation": false,
+        "positiveInOos": false,
+        "minTradesMet": true,
+        "ciExcludesZero": true,
+        "ciLowerBoundPositive": false
+      },
+      "verdict": "NOT_SUPPORTED"
+    },
+    {
+      "id": "x_mtf_trend_confirmation",
+      "name": "Multi-Timeframe Trend Confirmation",
+      "enabled": false,
+      "volumeDependent": false,
+      "periods": {
+        "TRAIN": {
+          "label": "x_mtf_trend_confirmation/TRAIN",
+          "trades": 623,
+          "sessions": 243,
+          "gross": 10951.38,
+          "charges": 117399.69,
+          "net": -106448.31,
+          "winRatePct": 34.35,
+          "profitFactor": 0.435,
+          "expectancy": -170.86,
+          "avgNet": -170.86,
+          "maxDrawdown": 106448.31,
+          "ci95": {
+            "low": -207.1944,
+            "high": -133.9404,
+            "iters": 10000,
+            "resamples": 623
+          },
+          "tStat": -9.25,
+          "costToGrossRatio": 10.72,
+          "statutoryCharges": 27218.24,
+          "slippageAssumption": 90181.66,
+          "slippageSharePct": 76.8,
+          "perTrade": {
+            "gross": 17.58,
+            "statutory": 43.69,
+            "slippage": 144.75,
+            "net": -170.86
+          },
+          "slippageSensitivity": {
+            "0": -16266.86,
+            "1": -106448.52,
+            "0.25": -38812.27,
+            "0.5": -61357.69,
+            "1.5": -151539.35
+          }
+        },
+        "VALIDATION": {
+          "label": "x_mtf_trend_confirmation/VALIDATION",
+          "trades": 651,
+          "sessions": 242,
+          "gross": 14199.46,
+          "charges": 125422.52,
+          "net": -111223.06,
+          "winRatePct": 30.57,
+          "profitFactor": 0.268,
+          "expectancy": -170.85,
+          "avgNet": -170.85,
+          "maxDrawdown": 111759.82,
+          "ci95": {
+            "low": -192.9512,
+            "high": -148.4156,
+            "iters": 10000,
+            "resamples": 651
+          },
+          "tStat": -14.86,
+          "costToGrossRatio": 8.833,
+          "statutoryCharges": 28937.8,
+          "slippageAssumption": 96485.32,
+          "slippageSharePct": 76.9,
+          "perTrade": {
+            "gross": 21.81,
+            "statutory": 44.45,
+            "slippage": 148.21,
+            "net": -170.85
+          },
+          "slippageSensitivity": {
+            "0": -14738.34,
+            "1": -111223.66,
+            "0.25": -38859.67,
+            "0.5": -62981,
+            "1.5": -159466.32
+          }
+        },
+        "OOS": {
+          "label": "x_mtf_trend_confirmation/OOS",
+          "trades": 697,
+          "sessions": 245,
+          "gross": 20804.48,
+          "charges": 130963.58,
+          "net": -110159.1,
+          "winRatePct": 31.99,
+          "profitFactor": 0.366,
+          "expectancy": -158.05,
+          "avgNet": -158.05,
+          "maxDrawdown": 110159.1,
+          "ci95": {
+            "low": -185.4475,
+            "high": -129.7305,
+            "iters": 10000,
+            "resamples": 697
+          },
+          "tStat": -11.14,
+          "costToGrossRatio": 6.295,
+          "statutoryCharges": 30383.16,
+          "slippageAssumption": 100580.52,
+          "slippageSharePct": 76.8,
+          "perTrade": {
+            "gross": 29.85,
+            "statutory": 43.59,
+            "slippage": 144.3,
+            "net": -158.05
+          },
+          "slippageSensitivity": {
+            "0": -9578.68,
+            "1": -110159.2,
+            "0.25": -34723.81,
+            "0.5": -59868.94,
+            "1.5": -160449.46
+          }
+        }
+      },
+      "decision": {
+        "positiveInValidation": false,
+        "positiveInOos": false,
+        "minTradesMet": true,
+        "ciExcludesZero": true,
+        "ciLowerBoundPositive": false
+      },
+      "verdict": "NOT_SUPPORTED"
+    }
+  ],
+  "portfolio": {
+    "TRAIN": {
+      "strategies": 8,
+      "totalNet": -668940.81,
+      "meanStrategyNet": -83617.6,
+      "positiveStrategies": 0,
+      "negativeStrategies": 8,
+      "gross": 71864.39,
+      "statutoryCharges": 171690.09,
+      "slippageAssumption": 569116.25,
+      "netAtSlippageScale": {
+        "0": -99825.7,
+        "1": -668941.95,
+        "0.25": -242104.76,
+        "0.5": -384383.82,
+        "1.5": -953500.07
+      }
+    },
+    "VALIDATION": {
+      "strategies": 8,
+      "totalNet": -669087.96,
+      "meanStrategyNet": -83635.99,
+      "positiveStrategies": 0,
+      "negativeStrategies": 8,
+      "gross": 105953.89,
+      "statutoryCharges": 178947.15,
+      "slippageAssumption": 596096.2,
+      "netAtSlippageScale": {
+        "0": -72993.26,
+        "1": -669089.46,
+        "0.25": -222017.31,
+        "0.5": -371041.36,
+        "1.5": -967137.56
+      }
+    },
+    "OOS": {
+      "strategies": 8,
+      "totalNet": -652544.47,
+      "meanStrategyNet": -81568.06,
+      "positiveStrategies": 0,
+      "negativeStrategies": 8,
+      "gross": 118280.2,
+      "statutoryCharges": 178659.69,
+      "slippageAssumption": 592164.99,
+      "netAtSlippageScale": {
+        "0": -60379.49,
+        "1": -652544.48,
+        "0.25": -208420.74,
+        "0.5": -356461.99,
+        "1.5": -948626.97
+      }
+    }
+  },
+  "summary": {
+    "evaluated": 8,
+    "notEvaluable": 2,
+    "oosSupported": [],
+    "notSupported": [
+      "x_macd_momentum",
+      "x_ichimoku_cloud",
+      "x_keltner_channel",
+      "x_choppiness_index",
+      "x_parabolic_sar",
+      "x_fibonacci_retracement",
+      "x_donchian_trend_50",
+      "x_mtf_trend_confirmation"
+    ],
+    "profitabilityClaim": "NONE — this study does not establish profitability",
+    "productionChanged": false
+  }
+}

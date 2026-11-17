@@ -1,0 +1,60 @@
+{
+  "generatedAt": "2026-11-17T17:36:12.783Z",
+  "datasets": {
+    "trend": {
+      "bars": 1200,
+      "barsCompared": 1199,
+      "divergences": 0,
+      "status": "EXACT_MATCH"
+    },
+    "choppy": {
+      "bars": 1200,
+      "barsCompared": 1199,
+      "divergences": 0,
+      "status": "EXACT_MATCH"
+    },
+    "volatile": {
+      "bars": 1200,
+      "barsCompared": 1199,
+      "divergences": 0,
+      "status": "EXACT_MATCH"
+    },
+    "switching": {
+      "bars": 1500,
+      "barsCompared": 1499,
+      "divergences": 0,
+      "status": "EXACT_MATCH"
+    }
+  },
+  "tradeLevel": {
+    "trend_3000": {
+      "bars": 3000,
+      "trades": 163,
+      "legacyNet": -1738.39,
+      "fastNet": -1738.39,
+      "divergences": 0,
+      "status": "EXACT_MATCH"
+    },
+    "volatile_2500": {
+      "bars": 2500,
+      "trades": 10,
+      "legacyNet": -469.7,
+      "fastNet": -469.7,
+      "divergences": 0,
+      "status": "EXACT_MATCH"
+    },
+    "switching_1500": {
+      "bars": 1500,
+      "trades": 31,
+      "legacyNet": 261.3,
+      "fastNet": 261.3,
+      "divergences": 0,
+      "status": "EXACT_MATCH"
+    }
+  },
+  "verdict": "EXACT_EQUIVALENCE_VERIFIED",
+  "determinism": {
+    "status": "EXACT_MATCH"
+  },
+  "totalDivergences": 0
+}

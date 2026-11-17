@@ -25,8 +25,9 @@ folds, and paper-trading simulation. No parameter was optimised on the final OOS
   distinguish a small edge from noise; no confidence interval supports a positive expectancy.
 * **Cost-to-profit ratio:** with negative net outcomes the ratio is undefined/negative.
 * **Regime robustness across market conditions:** only synthetic regimes are available.
-* **Multi-year OOS performance:** blocked by PERF-001 (quadratic runtime) and by the absence
-  of a large historical dataset.
+* **Multi-year OOS performance:** the runtime blocker is gone (PERF-001 PASS — 200,000 bars in
+  ~0.9 s), so this is now blocked **solely** by the absence of a large *real* historical dataset
+  (DATA-001). Synthetic tape cannot substitute: the data itself is the constraint, not the speed.
 
 ## Classification
 **Negative evidence** on every reproducible dataset in the current code. Earlier documents in

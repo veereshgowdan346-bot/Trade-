@@ -1,5 +1,12 @@
 # Performance & Reliability Audit
 
+> **SUPERSEDED (PERF-001):** the O(n²) finding below was RESOLVED in a later session.
+> `src/lib/consensus_fast.ts` evaluates the decision layer in O(n) with exact bar-for-bar
+> equivalence (0 divergences); 8,000 bars 3,568 ms → 36 ms, 200,000 bars ≈ 944 ms (re-measured 2026-11-17 on the same host: 8,000 bars 2,697 → 31 ms, 86.4×; 200,000 bars 879 ms — see `PERFORMANCE_BENCHMARKS.md`).
+> Current numbers and methodology: **`PERFORMANCE_BENCHMARKS.md`**. The determinism,
+> concurrency, memory and restart-recovery results below still stand.
+
+
 ## Inspected
 `src/lib/backtest_engine.ts` (per-bar decision loop), `runWalkForward`, indicator
 implementations, paper-session concurrency, API handlers, logging volume, restart recovery.

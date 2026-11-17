@@ -1,0 +1,21 @@
+{
+  "note": "SHA-256 digests only (uppercase-normalised). Plaintext credential material was removed from the working tree by SEC-001 remediation. These digests keep leak-detection working without storing the secrets. ROTATION IS STILL REQUIRED: the values remain in git history and must be treated as compromised.",
+  "issuedBy": "SEC-001 remediation",
+  "identifiers": [
+    {
+      "sha256": "75722e9b35483e92e311303934b826ac6c618f3f8139ba2847e8b6e2564c78f5",
+      "kind": "api_secret",
+      "length": 17
+    },
+    {
+      "sha256": "5a50c32f289f4bc70c168204846afa1e628e3c2e0c50ec3fe0f39ffcf4e3f230",
+      "kind": "client_or_user_id",
+      "length": 8
+    },
+    {
+      "sha256": "309e4dcb5da1722309257f74cd04f9717a211ba20a97e30badbcfc99dddad6f4",
+      "kind": "totp_seed_prefix",
+      "length": 6
+    }
+  ]
+}

@@ -4,6 +4,7 @@ Handles encrypted storage for API Key, Client ID, PIN/TOTP
 """
 
 import os
+import secrets
 import re
 import json
 import base64
@@ -108,9 +109,41 @@ class CredentialManager:
     CRED_DIR = Path.home() / ".auratrader" / "credentials"
     CRED_FILE = Path.home() / ".auratrader" / "encrypted_credentials.enc"
     KEY_FILE = Path.home() / ".auratrader" / "key.bin"
+    # SEC-002: per-installation random master key. Previously the manager fell back to a CONSTANT
+    # default password published in this repository, which meant any vault created without VAULT_KEY
+    # was encrypted with a publicly known key. The constant is gone; a random key is generated once
+    # and stored with owner-only permissions.
+    MASTER_KEY_FILE = Path.home() / ".auratrader" / "master.key"
     SALT_FILE = Path.home() / ".auratrader" / "salt.bin"
     PROFILES_FILE = Path.home() / ".auratrader" / "credential_profiles.json"
     SELECTED_PROFILE_FILE = Path.home() / ".auratrader" / "selected_profile.json"
+
+    def _load_or_create_master_key(self) -> str:
+        """Return the per-installation master key, creating it on first use (SEC-002).
+
+        Never returns a constant: a hardcoded fallback would make every vault decryptable with a key
+        that is public in the repository. If the key file already exists it is reused so existing
+        vaults stay readable.
+        """
+        path = self.MASTER_KEY_FILE
+        try:
+            if path.exists():
+                value = path.read_text(encoding="utf-8").strip()
+                if value:
+                    return value
+            path.parent.mkdir(parents=True, exist_ok=True)
+            value = secrets.token_hex(32)
+            # Create with owner-only permissions from the outset (no chmod-after-write race).
+            fd = os.open(str(path), os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
+            with os.fdopen(fd, "w", encoding="utf-8") as fh:
+                fh.write(value)
+            os.chmod(str(path), 0o600)
+            return value
+        except OSError as exc:
+            raise RuntimeError(
+                "VAULT_KEY is not set and a local master key could not be created; refusing to "
+                "encrypt credentials with a predictable key"
+            ) from exc
 
     def __init__(self, master_password: Optional[str] = None):
         """
@@ -121,7 +154,7 @@ class CredentialManager:
         """
         self._fernet: Optional[Fernet] = None
         if master_password is None:
-            master_password = os.environ.get("VAULT_KEY") or "omnitradepro-dev-vault-key"
+            master_password = os.environ.get("VAULT_KEY") or self._load_or_create_master_key()
         self._master_password = master_password
         self._ensure_credential_directory()
         self._ensure_credential_profiles()

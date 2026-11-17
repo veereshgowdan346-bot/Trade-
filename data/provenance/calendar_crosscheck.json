@@ -1,0 +1,74 @@
+{
+  "generatedAt": "2026-11-17T17:36:43.310270+00:00",
+  "command": "python3 scripts/calendar_crosscheck.py",
+  "calendarSource": {
+    "library": "pandas_market_calendars",
+    "calendar": "NSE",
+    "authority": "THIRD_PARTY",
+    "note": "Independent of the dataset vendor but NOT an official NSE/SEBI publication. Agreement does not establish authenticity."
+  },
+  "appCalendarCoverage": {
+    "module": "src/lib/nse_calendar.ts",
+    "modelledYears": [
+      2026
+    ],
+    "note": "The application's own holiday model covers 2026 only, so 2022-2025 remain UNCHECKED internally."
+  },
+  "years": [
+    {
+      "year": 2022,
+      "status": "THIRD_PARTY_CROSSCHECKED",
+      "dataSessions": 247,
+      "calendarSessions": 248,
+      "agree": false,
+      "dataOnly": [],
+      "calendarOnly": [
+        {
+          "date": "2022-10-24",
+          "classification": "weekday_discrepancy (Monday) \u2014 requires manual adjudication"
+        }
+      ]
+    },
+    {
+      "year": 2023,
+      "status": "THIRD_PARTY_CROSSCHECKED",
+      "dataSessions": 246,
+      "calendarSessions": 245,
+      "agree": false,
+      "dataOnly": [
+        {
+          "date": "2023-11-12",
+          "classification": "weekend_special_session (Sunday)"
+        }
+      ],
+      "calendarOnly": []
+    },
+    {
+      "year": 2024,
+      "status": "THIRD_PARTY_CROSSCHECKED",
+      "dataSessions": 249,
+      "calendarSessions": 246,
+      "agree": false,
+      "dataOnly": [
+        {
+          "date": "2024-01-20",
+          "classification": "weekend_special_session (Saturday)"
+        },
+        {
+          "date": "2024-03-02",
+          "classification": "weekend_special_session (Saturday)"
+        },
+        {
+          "date": "2024-05-18",
+          "classification": "weekend_special_session (Saturday)"
+        }
+      ],
+      "calendarOnly": []
+    },
+    {
+      "year": 2025,
+      "status": "UNCHECKED",
+      "reason": "no dataset for 2025; not assessed"
+    }
+  ]
+}

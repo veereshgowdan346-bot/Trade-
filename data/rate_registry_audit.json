@@ -1,0 +1,366 @@
+{
+  "generatedAt": "2026-11-17T17:36:29.236Z",
+  "specVersion": "2026.11.17-phase2",
+  "specSha256": "95ba7ebb986993f602407ea869fc198ad5d50d643f33259772d1d3007c7a0383",
+  "blockerStatus": "OPEN — every statutory/brokerage rate remains UNVERIFIED",
+  "whyStillUnverified": {
+    "localEvidence": [
+      "EXECUTION_COST_RESEARCH.md (undated secondary narrative, attributions only)",
+      "BROKERAGE_COST_VALIDATION.md (undated secondary narrative)",
+      "APEX_V2_BROKER_COMPLIANCE.md (undated secondary narrative)"
+    ],
+    "localEvidenceAssessment": "Secondary, undated in-repo narratives. NOT official source documents. Status remains UNVERIFIED.",
+    "network": "outbound access limited to github.com, npmjs.org, pypi.org — NSE/SEBI/GST/broker tariff pages are unreachable from this environment",
+    "therefore": "Rate VALUES cannot be verified here. They are unchanged and must not be treated as authoritative for live trading."
+  },
+  "inventory": [
+    {
+      "segment": "NSE_EQ_INTRADAY",
+      "head": "stt",
+      "value": 0.00025,
+      "status": "UNVERIFIED",
+      "effectiveDate": null,
+      "source": null,
+      "verified": false
+    },
+    {
+      "segment": "NSE_EQ_INTRADAY",
+      "head": "exchangeTxn",
+      "value": 0.0000297,
+      "status": "UNVERIFIED",
+      "effectiveDate": null,
+      "source": null,
+      "verified": false
+    },
+    {
+      "segment": "NSE_EQ_INTRADAY",
+      "head": "stampDuty",
+      "value": 0.00003,
+      "status": "UNVERIFIED",
+      "effectiveDate": null,
+      "source": null,
+      "verified": false
+    },
+    {
+      "segment": "NSE_FUT",
+      "head": "stt",
+      "value": 0.0002,
+      "status": "UNVERIFIED",
+      "effectiveDate": null,
+      "source": null,
+      "verified": false
+    },
+    {
+      "segment": "NSE_FUT",
+      "head": "exchangeTxn",
+      "value": 0.0000183,
+      "status": "UNVERIFIED",
+      "effectiveDate": null,
+      "source": null,
+      "verified": false
+    },
+    {
+      "segment": "NSE_FUT",
+      "head": "stampDuty",
+      "value": 0.00002,
+      "status": "UNVERIFIED",
+      "effectiveDate": null,
+      "source": null,
+      "verified": false
+    },
+    {
+      "segment": "NSE_OPT",
+      "head": "stt",
+      "value": 0.001,
+      "status": "UNVERIFIED",
+      "effectiveDate": null,
+      "source": null,
+      "verified": false
+    },
+    {
+      "segment": "NSE_OPT",
+      "head": "exchangeTxn",
+      "value": 0.0003503,
+      "status": "UNVERIFIED",
+      "effectiveDate": null,
+      "source": null,
+      "verified": false
+    },
+    {
+      "segment": "NSE_OPT",
+      "head": "stampDuty",
+      "value": 0.00003,
+      "status": "UNVERIFIED",
+      "effectiveDate": null,
+      "source": null,
+      "verified": false
+    },
+    {
+      "segment": "MCX_ANY",
+      "head": "stt",
+      "value": 0.0001,
+      "status": "UNVERIFIED",
+      "effectiveDate": null,
+      "source": null,
+      "verified": false
+    },
+    {
+      "segment": "MCX_ANY",
+      "head": "exchangeTxn",
+      "value": 0.000021,
+      "status": "UNVERIFIED",
+      "effectiveDate": null,
+      "source": null,
+      "verified": false
+    },
+    {
+      "segment": "MCX_ANY",
+      "head": "stampDuty",
+      "value": 0.00002,
+      "status": "UNVERIFIED",
+      "effectiveDate": null,
+      "source": null,
+      "verified": false
+    },
+    {
+      "segment": "NSE_EQ_DELIVERY",
+      "head": "<segment unsupported>",
+      "value": null,
+      "status": "UNSUPPORTED_NO_EVIDENCE",
+      "effectiveDate": null,
+      "source": null,
+      "verified": false,
+      "reason": "No locally-supplied official delivery-rate evidence. The Phase 1 audit found the engine silently applying intraday sell-only STT to delivery product types (defect TAX-001). Per policy the calculation must fail closed instead of inventing or approximating rates."
+    },
+    {
+      "segment": "CDS_ANY",
+      "head": "<segment unsupported>",
+      "value": null,
+      "status": "UNSUPPORTED_NO_EVIDENCE",
+      "effectiveDate": null,
+      "source": null,
+      "verified": false,
+      "reason": "Currency derivatives rate table is absent. Unknown segments must fail closed (Phase 1 finding: they previously fell through to NSE equity rates)."
+    },
+    {
+      "segment": "GLOBAL",
+      "head": "gst",
+      "value": 0.18,
+      "status": "UNVERIFIED",
+      "effectiveDate": null,
+      "source": null,
+      "verified": false
+    },
+    {
+      "segment": "GLOBAL",
+      "head": "sebiTurnoverFee",
+      "value": 0.000001,
+      "status": "UNVERIFIED",
+      "effectiveDate": null,
+      "source": null,
+      "verified": false
+    },
+    {
+      "segment": "BROKER:shoonya",
+      "head": "intradayPerLeg",
+      "value": 5,
+      "status": "UNVERIFIED",
+      "effectiveDate": null,
+      "source": null,
+      "verified": false
+    },
+    {
+      "segment": "BROKER:shoonya",
+      "head": "deliveryPerLeg",
+      "value": 0,
+      "status": "UNVERIFIED",
+      "effectiveDate": null,
+      "source": null,
+      "verified": false
+    },
+    {
+      "segment": "BROKER:shoonya",
+      "head": "roundTripBrokerageFloor",
+      "value": 10,
+      "status": "UNVERIFIED",
+      "effectiveDate": null,
+      "source": null,
+      "verified": false
+    },
+    {
+      "segment": "BROKER:shoonya",
+      "head": "minimumRoundTripDeduction",
+      "value": 25,
+      "status": "UNVERIFIED",
+      "effectiveDate": null,
+      "source": null,
+      "verified": false,
+      "note": "modeled construct, not an official tariff line"
+    },
+    {
+      "segment": "BROKER:angel",
+      "head": "deliveryPerLeg",
+      "value": 0,
+      "status": "UNVERIFIED",
+      "effectiveDate": null,
+      "source": null,
+      "verified": false
+    },
+    {
+      "segment": "BROKER:angel",
+      "head": "roundTripBrokerageFloor",
+      "value": 40,
+      "status": "UNVERIFIED",
+      "effectiveDate": null,
+      "source": null,
+      "verified": false
+    },
+    {
+      "segment": "BROKER:angel",
+      "head": "minimumRoundTripDeduction",
+      "value": 55,
+      "status": "UNVERIFIED",
+      "effectiveDate": null,
+      "source": null,
+      "verified": false,
+      "note": "modeled construct, not an official tariff line"
+    },
+    {
+      "segment": "BROKER:groww",
+      "head": "deliveryPerLeg",
+      "value": 0,
+      "status": "UNVERIFIED_ASSUMED_SAME_AS_ANGEL",
+      "effectiveDate": null,
+      "source": null,
+      "verified": false
+    },
+    {
+      "segment": "BROKER:groww",
+      "head": "roundTripBrokerageFloor",
+      "value": 40,
+      "status": "UNVERIFIED_ASSUMED_SAME_AS_ANGEL",
+      "effectiveDate": null,
+      "source": null,
+      "verified": false
+    },
+    {
+      "segment": "BROKER:groww",
+      "head": "minimumRoundTripDeduction",
+      "value": 55,
+      "status": "UNVERIFIED_ASSUMED_SAME_AS_ANGEL",
+      "effectiveDate": null,
+      "source": null,
+      "verified": false,
+      "note": "modeled construct, not an official tariff line"
+    }
+  ],
+  "byStatus": {
+    "UNVERIFIED": 21,
+    "UNSUPPORTED_NO_EVIDENCE": 2,
+    "UNVERIFIED_ASSUMED_SAME_AS_ANGEL": 3
+  },
+  "failClosed": {
+    "delivery": {
+      "threw": true,
+      "name": "UnsupportedSegmentError",
+      "message": "Delivery/CNC statutory costing is UNSUPPORTED (status UNSUPPORTED_NO_EVIDENCE): no locally-supplied official delivery-rate evidence (delivery STT both sides, delivery stamp duty, DP charges). Refusing to compute with intraday rates (Phase 1 defect TAX-001)."
+    },
+    "cnc": {
+      "threw": true,
+      "name": "UnsupportedSegmentError",
+      "message": "Delivery/CNC statutory costing is UNSUPPORTED (status UNSUPPORTED_NO_EVIDENCE): no locally-supplied official delivery-rate evidence (delivery STT both sides, delivery stamp duty, DP charges). Refusing to compute with intraday rates (Phase 1 defect TAX-001)."
+    },
+    "cds": {
+      "threw": true,
+      "name": "UnsupportedSegmentError",
+      "message": "No evidenced rate table for exchange=CDS kind=FUT (fail closed)."
+    },
+    "intradayOk": true,
+    "pythonUnsupported": true
+  },
+  "parity": {
+    "tsSpecVersion": "2026.11.17-phase2",
+    "pySpecVersion": "2026.11.17-phase2",
+    "sha256Match": true
+  },
+  "shadowRateLiterals": [],
+  "checks": [
+    {
+      "name": "every rate head carries a status field",
+      "ok": true,
+      "detail": "0 missing"
+    },
+    {
+      "name": "every broker declares a verification status",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no rate is VERIFIED without an official source and effective date",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "verified rate count is consistent with available evidence (found 0, official documents unavailable)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "all unsupported segments are explicitly marked",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Python can load the authoritative spec",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "TS and Python read byte-identical spec (sha256)",
+      "ok": true,
+      "detail": "95ba7ebb9869 vs 95ba7ebb9869"
+    },
+    {
+      "name": "TS and Python agree on specVersion",
+      "ok": true,
+      "detail": "2026.11.17-phase2 vs 2026.11.17-phase2"
+    },
+    {
+      "name": "TS and Python agree on the segment list",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "NSE_EQ DELIVERY fails closed",
+      "ok": true,
+      "detail": "Delivery/CNC statutory costing is UNSUPPORTED (status UNSUPPORTED_NO_EVIDENCE): no locally-supplied official delivery-rate evidence (delivery STT both sides, delivery stamp duty, DP charges). Refusing to compute with intraday rates (Phase 1 defect TAX-001)."
+    },
+    {
+      "name": "NSE_EQ CNC fails closed",
+      "ok": true,
+      "detail": "Delivery/CNC statutory costing is UNSUPPORTED (status UNSUPPORTED_NO_EVIDENCE): no locally-supplied official delivery-rate evidence (delivery STT both sides, delivery stamp duty, DP charges). Refusing to compute with intraday rates (Phase 1 defect TAX-001)."
+    },
+    {
+      "name": "CDS_ANY fails closed",
+      "ok": true,
+      "detail": "No evidenced rate table for exchange=CDS kind=FUT (fail closed)."
+    },
+    {
+      "name": "supported NSE_EQ INTRADAY still prices",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Python side treats DELIVERY/CDS as unsupported",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no hardcoded statutory rate literals outside the spec",
+      "ok": true,
+      "detail": ""
+    }
+  ],
+  "passed": 15,
+  "failed": 0
+}
