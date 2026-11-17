@@ -1,0 +1,343 @@
+{
+  "schemaVersion": "1.0.0",
+  "generatedAt": "2026-11-17T17:36:40.299Z",
+  "environment": {
+    "reachable": [
+      "github.com",
+      "api.github.com",
+      "codeload.github.com",
+      "pypi.org",
+      "registry.npmjs.org"
+    ],
+    "blocked": [
+      {
+        "host": "www.nseindia.com",
+        "evidence": "curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL"
+      },
+      {
+        "host": "www.sebi.gov.in",
+        "evidence": "curl: (35) OpenSSL SSL_connect: SSL_ERROR_SYSCALL"
+      },
+      {
+        "host": "www.cbic.gov.in (GST)",
+        "evidence": "http=000"
+      },
+      {
+        "host": "raw.githubusercontent.com",
+        "evidence": "http=000"
+      }
+    ],
+    "consequence": "Official downloads are impossible. Real data is therefore only obtainable as third-party redistribution, which cannot establish authenticity against the exchange."
+  },
+  "separationPolicy": {
+    "syntheticFixtures": "data/fixtures/** — committed, always labelled SYNTHETIC",
+    "realExternal": "data/external/** — gitignored, labelled REAL_REDISTRIBUTION with authenticity UNVERIFIED",
+    "rule": "A REAL_REDISTRIBUTION dataset still cannot support a profitability claim until authenticity and cost rates are verified."
+  },
+  "datasets": [
+    {
+      "id": "NIFTY50_1min_2022",
+      "kind": "REAL_REDISTRIBUTION",
+      "instrument": "NIFTY 50 (index)",
+      "symbol": null,
+      "timeframe": "1m",
+      "rows": 92617,
+      "sessions": 247,
+      "firstSession": "2022-01-03",
+      "lastSession": "2022-12-30",
+      "barsPerSessionMin": 372,
+      "barsPerSessionMax": 375,
+      "barsPerSessionMean": 374.97,
+      "shortSessions": [],
+      "priceRange": {
+        "first": 17392.3,
+        "last": 18117.05,
+        "minLow": 15185.55,
+        "maxHigh": 18886.7
+      },
+      "integrity": {
+        "badOhlc": 0,
+        "nonPositive": 0,
+        "dup": 0,
+        "unordered": 0,
+        "nonPositiveVolume": 0
+      },
+      "volumePublished": false,
+      "provenance": {
+        "upstream": "technovusin/nifty50-historical-data",
+        "upstreamUrl": "https://github.com/technovusin/nifty50-historical-data",
+        "licence": "MIT",
+        "redistributionAllowed": true,
+        "downloadMethod": "GitHub contents/git-blobs API (base64). raw.githubusercontent.com and NSE are unreachable from this environment.",
+        "retrievedAt": "2026-11-17T17:36:38.752Z",
+        "fileSha256": "930acb495657287f8873ddb37a9c8517ea9baa56aeb86a7d4712cee658045ee3",
+        "fileBytes": 6019857,
+        "upstreamBlobSha": "4f05c9804c956b8662dabb7d106b1e4702f3a77e",
+        "upstreamHeadCommit": "088a7a856da9b670c505c0831d2f472f0d69027c",
+        "upstreamBlobSizeMatches": true,
+        "authenticity": "UNVERIFIED_REDISTRIBUTION",
+        "limitations": [
+          "Third-party redistribution; bytes not verified against NSE originals",
+          "Index series: volume is not published, so volume-based strategies are NOT_EVALUABLE",
+          "Index level is not directly tradable; equity cost model applied as a proxy"
+        ]
+      }
+    },
+    {
+      "id": "NIFTY50_1min_2023",
+      "kind": "REAL_REDISTRIBUTION",
+      "instrument": "NIFTY 50 (index)",
+      "symbol": null,
+      "timeframe": "1m",
+      "rows": 91931,
+      "sessions": 246,
+      "firstSession": "2023-01-02",
+      "lastSession": "2023-12-29",
+      "barsPerSessionMin": 61,
+      "barsPerSessionMax": 375,
+      "barsPerSessionMean": 373.7,
+      "shortSessions": [
+        {
+          "date": "2023-11-12",
+          "bars": 61
+        }
+      ],
+      "priceRange": {
+        "first": 18131.7,
+        "last": 21728.3,
+        "minLow": 16830.75,
+        "maxHigh": 21798.6
+      },
+      "integrity": {
+        "badOhlc": 0,
+        "nonPositive": 0,
+        "dup": 0,
+        "unordered": 0,
+        "nonPositiveVolume": 0
+      },
+      "volumePublished": false,
+      "provenance": {
+        "upstream": "technovusin/nifty50-historical-data",
+        "upstreamUrl": "https://github.com/technovusin/nifty50-historical-data",
+        "licence": "MIT",
+        "redistributionAllowed": true,
+        "downloadMethod": "GitHub contents/git-blobs API (base64). raw.githubusercontent.com and NSE are unreachable from this environment.",
+        "retrievedAt": "2026-11-17T17:36:39.021Z",
+        "fileSha256": "cc261ba326b3c61c5e54c58d4d6732263985d7f24e343111e916ca7625a0dde4",
+        "fileBytes": 5975228,
+        "upstreamBlobSha": "eec7d0efbfab465e9c686c8e9479c875fc60c2bd",
+        "upstreamHeadCommit": "088a7a856da9b670c505c0831d2f472f0d69027c",
+        "upstreamBlobSizeMatches": true,
+        "authenticity": "UNVERIFIED_REDISTRIBUTION",
+        "limitations": [
+          "Third-party redistribution; bytes not verified against NSE originals",
+          "Index series: volume is not published, so volume-based strategies are NOT_EVALUABLE",
+          "Index level is not directly tradable; equity cost model applied as a proxy"
+        ]
+      }
+    },
+    {
+      "id": "NIFTY50_1min_2024",
+      "kind": "REAL_REDISTRIBUTION",
+      "instrument": "NIFTY 50 (index)",
+      "symbol": null,
+      "timeframe": "1m",
+      "rows": 92523,
+      "sessions": 249,
+      "firstSession": "2024-01-01",
+      "lastSession": "2024-12-31",
+      "barsPerSessionMin": 60,
+      "barsPerSessionMax": 375,
+      "barsPerSessionMean": 371.58,
+      "shortSessions": [
+        {
+          "date": "2024-03-02",
+          "bars": 107
+        },
+        {
+          "date": "2024-05-18",
+          "bars": 106
+        },
+        {
+          "date": "2024-11-01",
+          "bars": 60
+        }
+      ],
+      "priceRange": {
+        "first": 21727.75,
+        "last": 23668.8,
+        "minLow": 21137.95,
+        "maxHigh": 26277.35
+      },
+      "integrity": {
+        "badOhlc": 0,
+        "nonPositive": 0,
+        "dup": 0,
+        "unordered": 0,
+        "nonPositiveVolume": 0
+      },
+      "volumePublished": false,
+      "provenance": {
+        "upstream": "technovusin/nifty50-historical-data",
+        "upstreamUrl": "https://github.com/technovusin/nifty50-historical-data",
+        "licence": "MIT",
+        "redistributionAllowed": true,
+        "downloadMethod": "GitHub contents/git-blobs API (base64). raw.githubusercontent.com and NSE are unreachable from this environment.",
+        "retrievedAt": "2026-11-17T17:36:39.265Z",
+        "fileSha256": "f0a82b04aeb8722c8fae0431daf8507feb70e4c7783c75010f9dfbbbee00951b",
+        "fileBytes": 6014477,
+        "upstreamBlobSha": "35e0c5727c29b50e54c91ca756126c1697adb557",
+        "upstreamHeadCommit": "088a7a856da9b670c505c0831d2f472f0d69027c",
+        "upstreamBlobSizeMatches": true,
+        "authenticity": "UNVERIFIED_REDISTRIBUTION",
+        "limitations": [
+          "Third-party redistribution; bytes not verified against NSE originals",
+          "Index series: volume is not published, so volume-based strategies are NOT_EVALUABLE",
+          "Index level is not directly tradable; equity cost model applied as a proxy"
+        ]
+      }
+    },
+    {
+      "id": "20200108",
+      "kind": "REAL_REDISTRIBUTION",
+      "instrument": "NSE equity tape",
+      "symbol": "194 symbols",
+      "timeframe": "1m",
+      "rows": 141346,
+      "sessions": 1,
+      "firstSession": "2020-01-08",
+      "lastSession": "2020-01-08",
+      "barsPerSessionMin": 141346,
+      "barsPerSessionMax": 141346,
+      "barsPerSessionMean": 141346,
+      "shortSessions": [],
+      "priceRange": {
+        "first": 180.2,
+        "last": 439.1,
+        "minLow": 2.97,
+        "maxHigh": 65400
+      },
+      "integrity": {
+        "badOhlc": 0,
+        "nonPositive": 0,
+        "dup": 140970,
+        "unordered": 0,
+        "nonPositiveVolume": 0
+      },
+      "volumePublished": true,
+      "provenance": {
+        "upstream": "hunterabhi/daily-1-minute-eod-data",
+        "upstreamUrl": "https://github.com/hunterabhi/daily-1-minute-eod-data",
+        "licence": "none declared",
+        "redistributionAllowed": false,
+        "downloadMethod": "GitHub git-blobs API (base64).",
+        "retrievedAt": "2026-11-17T17:36:39.695Z",
+        "fileSha256": "1396acc67ad32ce93f6b2b0940fea0151ccf4eeebe7878071fa666909b7e7d97",
+        "fileBytes": 7850611,
+        "upstreamBlobSha": "e30c473ef60b732aa5bf53275e5cef66d8cfb3dc",
+        "upstreamHeadCommit": "f482c664a0726aa5726cc98146ca3818c8f09064",
+        "upstreamBlobSizeMatches": true,
+        "authenticity": "UNVERIFIED_REDISTRIBUTION",
+        "limitations": [
+          "No licence declared upstream — data is NOT redistributed in this repository",
+          "Only two sessions are available, so no performance inference is possible",
+          "Third-party redistribution; bytes not verified against NSE originals"
+        ]
+      },
+      "symbolCount": 194,
+      "topSymbols": [
+        {
+          "symbol": "TATAMOTORS",
+          "bars": 752
+        },
+        {
+          "symbol": "INDIGO",
+          "bars": 752
+        },
+        {
+          "symbol": "SUNTV",
+          "bars": 752
+        },
+        {
+          "symbol": "COALINDIA",
+          "bars": 752
+        },
+        {
+          "symbol": "BAJFINANCE",
+          "bars": 752
+        }
+      ]
+    },
+    {
+      "id": "20200110",
+      "kind": "REAL_REDISTRIBUTION",
+      "instrument": "NSE equity tape",
+      "symbol": "194 symbols",
+      "timeframe": "1m",
+      "rows": 142020,
+      "sessions": 1,
+      "firstSession": "2020-01-10",
+      "lastSession": "2020-01-10",
+      "barsPerSessionMin": 142020,
+      "barsPerSessionMax": 142020,
+      "barsPerSessionMean": 142020,
+      "shortSessions": [],
+      "priceRange": {
+        "first": 192,
+        "last": 444.75,
+        "minLow": 2.6,
+        "maxHigh": 68100
+      },
+      "integrity": {
+        "badOhlc": 0,
+        "nonPositive": 0,
+        "dup": 141644,
+        "unordered": 0,
+        "nonPositiveVolume": 0
+      },
+      "volumePublished": true,
+      "provenance": {
+        "upstream": "hunterabhi/daily-1-minute-eod-data",
+        "upstreamUrl": "https://github.com/hunterabhi/daily-1-minute-eod-data",
+        "licence": "none declared",
+        "redistributionAllowed": false,
+        "downloadMethod": "GitHub git-blobs API (base64).",
+        "retrievedAt": "2026-11-17T17:36:40.190Z",
+        "fileSha256": "e55c17d9b18f033a1eb6da0d633372451f98b0cb05a274b7304f7267a1c52282",
+        "fileBytes": 7911222,
+        "upstreamBlobSha": "91521f18604ff4a158ac9ddcc7710be7d2c1aed4",
+        "upstreamHeadCommit": "f482c664a0726aa5726cc98146ca3818c8f09064",
+        "upstreamBlobSizeMatches": true,
+        "authenticity": "UNVERIFIED_REDISTRIBUTION",
+        "limitations": [
+          "No licence declared upstream — data is NOT redistributed in this repository",
+          "Only two sessions are available, so no performance inference is possible",
+          "Third-party redistribution; bytes not verified against NSE originals"
+        ]
+      },
+      "symbolCount": 194,
+      "topSymbols": [
+        {
+          "symbol": "TATAMOTORS",
+          "bars": 752
+        },
+        {
+          "symbol": "INDIGO",
+          "bars": 752
+        },
+        {
+          "symbol": "SUNTV",
+          "bars": 752
+        },
+        {
+          "symbol": "COALINDIA",
+          "bars": 752
+        },
+        {
+          "symbol": "BAJFINANCE",
+          "bars": 752
+        }
+      ]
+    }
+  ]
+}

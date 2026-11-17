@@ -1,0 +1,297 @@
+{
+  "generatedAt": "2026-11-17T17:36:42.788Z",
+  "command": "node scripts/audit_external_datasets.js",
+  "separation": {
+    "synthetic": "data/fixtures/** (committed, SYNTHETIC, audited by scripts/data_quality_audit.js)",
+    "real": "data/external/** (gitignored, REAL_REDISTRIBUTION, audited here)",
+    "rule": "the two are never combined into one series or one results table"
+  },
+  "datasets": [
+    {
+      "id": "NIFTY50_1min_2022",
+      "role": "REAL",
+      "instrument": "NIFTY 50 (index)",
+      "rows": 92617,
+      "sessions": 247,
+      "dateRange": {
+        "startMs": 1641181500000,
+        "endMs": 1672394340000,
+        "startIst": "2022-01-03 09:15 IST",
+        "endIst": "2022-12-30 15:29 IST"
+      },
+      "checksum": {
+        "algorithm": "SHA-256",
+        "value": "c448663a13fbbd176ea1ed0ee3c981173b448b8c5e45771ae32afa3a967ec8a6",
+        "rows": 92617
+      },
+      "grade": "A",
+      "qualityScorePct": 100,
+      "stats": {
+        "missingCandlePct": 0.01,
+        "sessionsIncomplete": 0,
+        "zeroVolumePct": 100,
+        "staleRepeatPct": 0.036,
+        "outsideSessionBars": 0,
+        "holidayBars": 0,
+        "duplicateBars": 0,
+        "unorderedBars": 0,
+        "invalidOhlcBars": 0
+      },
+      "holidayCoverage": {
+        "checkedYears": [],
+        "uncheckedYears": [
+          2022
+        ],
+        "status": "UNCHECKED"
+      },
+      "relaxations": [
+        "zero-volume: instrument publishes no volume (index series)",
+        "session window: special/muhurat sessions run outside 09:15-15:30 IST"
+      ],
+      "researchUsable": true,
+      "profitClaimAllowed": false,
+      "blockers": [],
+      "shortSessions": [],
+      "authenticity": "UNVERIFIED_REDISTRIBUTION"
+    },
+    {
+      "id": "NIFTY50_1min_2023",
+      "role": "REAL",
+      "instrument": "NIFTY 50 (index)",
+      "rows": 91931,
+      "sessions": 246,
+      "dateRange": {
+        "startMs": 1672631100000,
+        "endMs": 1703843940000,
+        "startIst": "2023-01-02 09:15 IST",
+        "endIst": "2023-12-29 15:29 IST"
+      },
+      "checksum": {
+        "algorithm": "SHA-256",
+        "value": "9865566c8745c05bf7a8f2e4f9fb02e2559ace07a52d68ff4d8c6daba77ebe39",
+        "rows": 91931
+      },
+      "grade": "A",
+      "qualityScorePct": 99.8,
+      "stats": {
+        "missingCandlePct": 0.35,
+        "sessionsIncomplete": 1,
+        "zeroVolumePct": 100,
+        "staleRepeatPct": 0,
+        "outsideSessionBars": 61,
+        "holidayBars": 0,
+        "duplicateBars": 0,
+        "unorderedBars": 0,
+        "invalidOhlcBars": 0
+      },
+      "holidayCoverage": {
+        "checkedYears": [],
+        "uncheckedYears": [
+          2023
+        ],
+        "status": "UNCHECKED"
+      },
+      "relaxations": [
+        "zero-volume: instrument publishes no volume (index series)",
+        "session window: special/muhurat sessions run outside 09:15-15:30 IST"
+      ],
+      "researchUsable": true,
+      "profitClaimAllowed": false,
+      "blockers": [],
+      "shortSessions": [
+        {
+          "date": "2023-11-12",
+          "bars": 61
+        }
+      ],
+      "authenticity": "UNVERIFIED_REDISTRIBUTION"
+    },
+    {
+      "id": "NIFTY50_1min_2024",
+      "role": "REAL",
+      "instrument": "NIFTY 50 (index)",
+      "rows": 92523,
+      "sessions": 249,
+      "dateRange": {
+        "startMs": 1704080700000,
+        "endMs": 1735639140000,
+        "startIst": "2024-01-01 09:15 IST",
+        "endIst": "2024-12-31 15:29 IST"
+      },
+      "checksum": {
+        "algorithm": "SHA-256",
+        "value": "ab85ada63910d5b7141bff20e97f40054c2bbbb954e78cf527b4a88815195dd2",
+        "rows": 92523
+      },
+      "grade": "A",
+      "qualityScorePct": 99.5,
+      "stats": {
+        "missingCandlePct": 0.91,
+        "sessionsIncomplete": 3,
+        "zeroVolumePct": 100,
+        "staleRepeatPct": 0,
+        "outsideSessionBars": 60,
+        "holidayBars": 0,
+        "duplicateBars": 0,
+        "unorderedBars": 0,
+        "invalidOhlcBars": 0
+      },
+      "holidayCoverage": {
+        "checkedYears": [],
+        "uncheckedYears": [
+          2024
+        ],
+        "status": "UNCHECKED"
+      },
+      "relaxations": [
+        "zero-volume: instrument publishes no volume (index series)",
+        "session window: special/muhurat sessions run outside 09:15-15:30 IST"
+      ],
+      "researchUsable": true,
+      "profitClaimAllowed": false,
+      "blockers": [],
+      "shortSessions": [
+        {
+          "date": "2024-03-02",
+          "bars": 107
+        },
+        {
+          "date": "2024-05-18",
+          "bars": 106
+        },
+        {
+          "date": "2024-11-01",
+          "bars": 60
+        }
+      ],
+      "authenticity": "UNVERIFIED_REDISTRIBUTION"
+    },
+    {
+      "id": "20200108",
+      "role": "REAL_MIXED_INSTRUMENTS",
+      "instrument": "NSE equity tape (194 symbols)",
+      "seriesSemantics": "MIXED_INSTRUMENTS",
+      "note": "This file interleaves many symbols in one series. It is audited for integrity only; it is NOT a tradable time series and must never be backtested as one.",
+      "rows": 141346,
+      "sessions": 1,
+      "checksum": {
+        "algorithm": "SHA-256",
+        "value": "fef92d5a1bbed6f7230701e410cddc5d845c31c89fff4b78b49b9ddf836a973d",
+        "rows": 141346
+      },
+      "grade": "F",
+      "qualityScorePct": 0,
+      "stats": {
+        "missingCandlePct": 0,
+        "sessionsIncomplete": 0,
+        "zeroVolumePct": 21.443,
+        "staleRepeatPct": 0.848,
+        "outsideSessionBars": 0,
+        "holidayBars": 0,
+        "duplicateBars": 140970,
+        "unorderedBars": 0,
+        "invalidOhlcBars": 0
+      },
+      "holidayCoverage": {
+        "checkedYears": [],
+        "uncheckedYears": [
+          2020
+        ],
+        "status": "UNCHECKED"
+      },
+      "relaxations": [],
+      "researchUsable": false,
+      "profitClaimAllowed": false,
+      "blockers": [
+        "140970 duplicate timestamp(s)",
+        "quality score 0% below 70% threshold",
+        "sessions 1 < minimum 20 for time-series research",
+        "series interleaves multiple instruments"
+      ],
+      "authenticity": "UNVERIFIED_REDISTRIBUTION"
+    },
+    {
+      "id": "20200110",
+      "role": "REAL_MIXED_INSTRUMENTS",
+      "instrument": "NSE equity tape (194 symbols)",
+      "seriesSemantics": "MIXED_INSTRUMENTS",
+      "note": "This file interleaves many symbols in one series. It is audited for integrity only; it is NOT a tradable time series and must never be backtested as one.",
+      "rows": 142020,
+      "sessions": 1,
+      "checksum": {
+        "algorithm": "SHA-256",
+        "value": "6a89d6ea4462353b226e630379634165881fefd9d88b42088cc83fbda8e883d2",
+        "rows": 142020
+      },
+      "grade": "F",
+      "qualityScorePct": 0,
+      "stats": {
+        "missingCandlePct": 0,
+        "sessionsIncomplete": 0,
+        "zeroVolumePct": 18.797,
+        "staleRepeatPct": 0.901,
+        "outsideSessionBars": 0,
+        "holidayBars": 0,
+        "duplicateBars": 141644,
+        "unorderedBars": 0,
+        "invalidOhlcBars": 0
+      },
+      "holidayCoverage": {
+        "checkedYears": [],
+        "uncheckedYears": [
+          2020
+        ],
+        "status": "UNCHECKED"
+      },
+      "relaxations": [],
+      "researchUsable": false,
+      "profitClaimAllowed": false,
+      "blockers": [
+        "141644 duplicate timestamp(s)",
+        "quality score 0% below 70% threshold",
+        "sessions 1 < minimum 20 for time-series research",
+        "series interleaves multiple instruments"
+      ],
+      "authenticity": "UNVERIFIED_REDISTRIBUTION"
+    }
+  ],
+  "checks": [
+    {
+      "name": "every external dataset carries a sha256 checksum matching the raw file",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no external dataset claims verified authenticity",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no external dataset may support a profitability claim",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "holiday coverage is reported honestly (2022-2024 are outside the calendar)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mixed-instrument tapes are never research-usable",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "at least one real dataset is research-usable for mechanical study",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "index series reports zero volume as a declared relaxation",
+      "ok": true,
+      "detail": ""
+    }
+  ],
+  "passed": 7,
+  "failed": 0
+}

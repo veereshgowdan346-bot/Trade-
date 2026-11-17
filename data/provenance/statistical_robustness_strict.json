@@ -1,0 +1,1211 @@
+{
+  "generatedAt": "2026-11-17T17:37:44.982Z",
+  "command": "node scripts/statistical_robustness.js",
+  "sessionMode": "STRICT_INTRADAY",
+  "method": {
+    "reps": 10000,
+    "blockLength": 5,
+    "interval": "95%",
+    "seed": "mulberry32 deterministic"
+  },
+  "caveats": [
+    "P&L per trade is after the harness cost model, whose statutory and slippage rates are UNVERIFIED (RATE-001).",
+    "Instrument is the NIFTY 50 index (authenticity UNVERIFIED_REDISTRIBUTION); it is not directly tradable.",
+    "Session-cluster bootstrap is the primary interval; trade-level is shown only to expose the design effect."
+  ],
+  "strategies": [
+    {
+      "year": 2022,
+      "period": "TRAIN",
+      "role": "exploratory",
+      "results": [
+        {
+          "id": "x_macd_momentum",
+          "name": "MACD Momentum (12,26,9)",
+          "period": "TRAIN",
+          "role": "exploratory",
+          "evaluable": true,
+          "trades": 752,
+          "sessionsTraded": 245,
+          "sessionsInPeriod": 247,
+          "shareOfSessionsTraded": 0.9919,
+          "tradesPerSession": 3.07,
+          "exposureMinutes": 84371,
+          "exposureShareOfSessionTime": 0.9109,
+          "overnightCarriedTrades": 0,
+          "overnightCarriedShare": 0,
+          "meanGrossPerTrade": 21.51,
+          "meanNetPerTrade": -167.01,
+          "sdNetPerTrade": 351.28,
+          "netTotal": -125588.19,
+          "maxDrawdownNet": 125588.19,
+          "lag1AutocorrNet": 0.0308,
+          "ci95": {
+            "tradeLevel": {
+              "low": -191.61,
+              "high": -141.38,
+              "se": 12.85
+            },
+            "sessionCluster": {
+              "low": -192.75,
+              "high": -140.7,
+              "se": 13.29
+            },
+            "blockBootstrap": {
+              "low": -193.11,
+              "high": -140.23,
+              "se": 13.37
+            }
+          },
+          "designEffect": 1.03,
+          "sessionMeanNet": -143.45,
+          "sessionMeanNetCI": {
+            "low": -603.4,
+            "high": -424.13
+          },
+          "signStableAcrossMethods": "NEGATIVE_ALL_METHODS"
+        },
+        {
+          "id": "x_ichimoku_cloud",
+          "name": "Ichimoku Cloud (9,26,52)",
+          "period": "TRAIN",
+          "role": "exploratory",
+          "evaluable": true,
+          "trades": 433,
+          "sessionsTraded": 245,
+          "sessionsInPeriod": 247,
+          "shareOfSessionsTraded": 0.9919,
+          "tradesPerSession": 1.77,
+          "exposureMinutes": 70782,
+          "exposureShareOfSessionTime": 0.7642,
+          "overnightCarriedTrades": 0,
+          "overnightCarriedShare": 0,
+          "meanGrossPerTrade": -3.68,
+          "meanNetPerTrade": -192.62,
+          "sdNetPerTrade": 420.15,
+          "netTotal": -83403.02,
+          "maxDrawdownNet": 83439.34,
+          "lag1AutocorrNet": 0.0002,
+          "ci95": {
+            "tradeLevel": {
+              "low": -231.08,
+              "high": -152.93,
+              "se": 20.05
+            },
+            "sessionCluster": {
+              "low": -232.25,
+              "high": -153.83,
+              "se": 19.83
+            },
+            "blockBootstrap": {
+              "low": -231.87,
+              "high": -152.16,
+              "se": 20.23
+            }
+          },
+          "designEffect": 0.99,
+          "sessionMeanNet": -187.19,
+          "sessionMeanNetCI": {
+            "low": -414.19,
+            "high": -268.09
+          },
+          "signStableAcrossMethods": "NEGATIVE_ALL_METHODS"
+        },
+        {
+          "id": "x_keltner_channel",
+          "name": "Keltner Channel (20, 1.5 ATR)",
+          "period": "TRAIN",
+          "role": "exploratory",
+          "evaluable": true,
+          "trades": 345,
+          "sessionsTraded": 225,
+          "sessionsInPeriod": 247,
+          "shareOfSessionsTraded": 0.9109,
+          "tradesPerSession": 1.53,
+          "exposureMinutes": 60898,
+          "exposureShareOfSessionTime": 0.6575,
+          "overnightCarriedTrades": 0,
+          "overnightCarriedShare": 0,
+          "meanGrossPerTrade": 2.24,
+          "meanNetPerTrade": -186.35,
+          "sdNetPerTrade": 443.35,
+          "netTotal": -64289.04,
+          "maxDrawdownNet": 64434.94,
+          "lag1AutocorrNet": 0.0438,
+          "ci95": {
+            "tradeLevel": {
+              "low": -232.52,
+              "high": -139.52,
+              "se": 23.69
+            },
+            "sessionCluster": {
+              "low": -233.78,
+              "high": -139.38,
+              "se": 24.18
+            },
+            "blockBootstrap": {
+              "low": -239.15,
+              "high": -134.81,
+              "se": 26.98
+            }
+          },
+          "designEffect": 1.02,
+          "sessionMeanNet": -202.06,
+          "sessionMeanNetCI": {
+            "low": -359.56,
+            "high": -212.68
+          },
+          "signStableAcrossMethods": "NEGATIVE_ALL_METHODS"
+        },
+        {
+          "id": "x_choppiness_index",
+          "name": "Choppiness Index Filter",
+          "period": "TRAIN",
+          "role": "exploratory",
+          "evaluable": true,
+          "trades": 276,
+          "sessionsTraded": 189,
+          "sessionsInPeriod": 247,
+          "shareOfSessionsTraded": 0.7652,
+          "tradesPerSession": 1.46,
+          "exposureMinutes": 49153,
+          "exposureShareOfSessionTime": 0.5307,
+          "overnightCarriedTrades": 0,
+          "overnightCarriedShare": 0,
+          "meanGrossPerTrade": -5.7,
+          "meanNetPerTrade": -194.36,
+          "sdNetPerTrade": 407.51,
+          "netTotal": -53643.4,
+          "maxDrawdownNet": 53643.4,
+          "lag1AutocorrNet": 0.1495,
+          "ci95": {
+            "tradeLevel": {
+              "low": -241.7,
+              "high": -146.87,
+              "se": 24.37
+            },
+            "sessionCluster": {
+              "low": -244.76,
+              "high": -142.06,
+              "se": 26.37
+            },
+            "blockBootstrap": {
+              "low": -245,
+              "high": -139.13,
+              "se": 27.21
+            }
+          },
+          "designEffect": 1.08,
+          "sessionMeanNet": -161.69,
+          "sessionMeanNetCI": {
+            "low": -369.43,
+            "high": -200.61
+          },
+          "signStableAcrossMethods": "NEGATIVE_ALL_METHODS"
+        },
+        {
+          "id": "x_parabolic_sar",
+          "name": "Parabolic SAR",
+          "period": "TRAIN",
+          "role": "exploratory",
+          "evaluable": true,
+          "trades": 794,
+          "sessionsTraded": 245,
+          "sessionsInPeriod": 247,
+          "shareOfSessionsTraded": 0.9919,
+          "tradesPerSession": 3.24,
+          "exposureMinutes": 84371,
+          "exposureShareOfSessionTime": 0.9109,
+          "overnightCarriedTrades": 0,
+          "overnightCarriedShare": 0,
+          "meanGrossPerTrade": 6.12,
+          "meanNetPerTrade": -182.84,
+          "sdNetPerTrade": 353.62,
+          "netTotal": -145176.22,
+          "maxDrawdownNet": 145609.09,
+          "lag1AutocorrNet": 0.0351,
+          "ci95": {
+            "tradeLevel": {
+              "low": -207.43,
+              "high": -158.21,
+              "se": 12.54
+            },
+            "sessionCluster": {
+              "low": -206.72,
+              "high": -158.89,
+              "se": 12.26
+            },
+            "blockBootstrap": {
+              "low": -208.65,
+              "high": -159.44,
+              "se": 12.66
+            }
+          },
+          "designEffect": 0.98,
+          "sessionMeanNet": -162.26,
+          "sessionMeanNetCI": {
+            "low": -680.96,
+            "high": -502.72
+          },
+          "signStableAcrossMethods": "NEGATIVE_ALL_METHODS"
+        },
+        {
+          "id": "x_fibonacci_retracement",
+          "name": "Fibonacci Retracement Pullback",
+          "period": "TRAIN",
+          "role": "exploratory",
+          "evaluable": true,
+          "trades": 329,
+          "sessionsTraded": 136,
+          "sessionsInPeriod": 247,
+          "shareOfSessionsTraded": 0.5506,
+          "tradesPerSession": 2.42,
+          "exposureMinutes": 29623,
+          "exposureShareOfSessionTime": 0.3198,
+          "overnightCarriedTrades": 0,
+          "overnightCarriedShare": 0,
+          "meanGrossPerTrade": 22.23,
+          "meanNetPerTrade": -166.78,
+          "sdNetPerTrade": 302.69,
+          "netTotal": -54871.88,
+          "maxDrawdownNet": 55065.93,
+          "lag1AutocorrNet": -0.0867,
+          "ci95": {
+            "tradeLevel": {
+              "low": -200.41,
+              "high": -134.77,
+              "se": 16.59
+            },
+            "sessionCluster": {
+              "low": -195.47,
+              "high": -138.21,
+              "se": 14.54
+            },
+            "blockBootstrap": {
+              "low": -195.49,
+              "high": -137.42,
+              "se": 14.85
+            }
+          },
+          "designEffect": 0.88,
+          "sessionMeanNet": -179.43,
+          "sessionMeanNetCI": {
+            "low": -486.89,
+            "high": -322.79
+          },
+          "signStableAcrossMethods": "NEGATIVE_ALL_METHODS"
+        },
+        {
+          "id": "x_donchian_trend_50",
+          "name": "Donchian Trend (50)",
+          "period": "TRAIN",
+          "role": "exploratory",
+          "evaluable": true,
+          "trades": 194,
+          "sessionsTraded": 158,
+          "sessionsInPeriod": 247,
+          "shareOfSessionsTraded": 0.6397,
+          "tradesPerSession": 1.23,
+          "exposureMinutes": 38007,
+          "exposureShareOfSessionTime": 0.4103,
+          "overnightCarriedTrades": 0,
+          "overnightCarriedShare": 0,
+          "meanGrossPerTrade": -8.59,
+          "meanNetPerTrade": -196.92,
+          "sdNetPerTrade": 439.8,
+          "netTotal": -38201.61,
+          "maxDrawdownNet": 38201.61,
+          "lag1AutocorrNet": 0.0833,
+          "ci95": {
+            "tradeLevel": {
+              "low": -259.09,
+              "high": -135.36,
+              "se": 31.56
+            },
+            "sessionCluster": {
+              "low": -264.31,
+              "high": -132.31,
+              "se": 33.41
+            },
+            "blockBootstrap": {
+              "low": -251,
+              "high": -142.36,
+              "se": 28.08
+            }
+          },
+          "designEffect": 1.06,
+          "sessionMeanNet": -250.86,
+          "sessionMeanNetCI": {
+            "low": -313.68,
+            "high": -165.26
+          },
+          "signStableAcrossMethods": "NEGATIVE_ALL_METHODS"
+        },
+        {
+          "id": "x_mtf_trend_confirmation",
+          "name": "Multi-Timeframe Trend Confirmation",
+          "period": "TRAIN",
+          "role": "exploratory",
+          "evaluable": true,
+          "trades": 599,
+          "sessionsTraded": 243,
+          "sessionsInPeriod": 247,
+          "shareOfSessionsTraded": 0.9838,
+          "tradesPerSession": 2.47,
+          "exposureMinutes": 83831,
+          "exposureShareOfSessionTime": 0.9051,
+          "overnightCarriedTrades": 0,
+          "overnightCarriedShare": 0,
+          "meanGrossPerTrade": 6.66,
+          "meanNetPerTrade": -181.67,
+          "sdNetPerTrade": 383.78,
+          "netTotal": -108818.21,
+          "maxDrawdownNet": 108818.21,
+          "lag1AutocorrNet": 0.0535,
+          "ci95": {
+            "tradeLevel": {
+              "low": -212.67,
+              "high": -151.2,
+              "se": 15.62
+            },
+            "sessionCluster": {
+              "low": -213.29,
+              "high": -149.53,
+              "se": 16.26
+            },
+            "blockBootstrap": {
+              "low": -210.29,
+              "high": -151.25,
+              "se": 15.01
+            }
+          },
+          "designEffect": 1.04,
+          "sessionMeanNet": -148.32,
+          "sessionMeanNetCI": {
+            "low": -540.42,
+            "high": -357.06
+          },
+          "signStableAcrossMethods": "NEGATIVE_ALL_METHODS"
+        }
+      ]
+    },
+    {
+      "year": 2023,
+      "period": "VALIDATION",
+      "role": "exploratory",
+      "results": [
+        {
+          "id": "x_macd_momentum",
+          "name": "MACD Momentum (12,26,9)",
+          "period": "VALIDATION",
+          "role": "exploratory",
+          "evaluable": true,
+          "trades": 805,
+          "sessionsTraded": 244,
+          "sessionsInPeriod": 246,
+          "shareOfSessionsTraded": 0.9919,
+          "tradesPerSession": 3.3,
+          "exposureMinutes": 83711,
+          "exposureShareOfSessionTime": 0.9104,
+          "overnightCarriedTrades": 0,
+          "overnightCarriedShare": 0,
+          "meanGrossPerTrade": 3.36,
+          "meanNetPerTrade": -188.46,
+          "sdNetPerTrade": 224.58,
+          "netTotal": -151714.07,
+          "maxDrawdownNet": 151714.07,
+          "lag1AutocorrNet": 0.0036,
+          "ci95": {
+            "tradeLevel": {
+              "low": -203.63,
+              "high": -173.27,
+              "se": 7.79
+            },
+            "sessionCluster": {
+              "low": -203.55,
+              "high": -173.63,
+              "se": 7.61
+            },
+            "blockBootstrap": {
+              "low": -203.67,
+              "high": -171.8,
+              "se": 8.09
+            }
+          },
+          "designEffect": 0.98,
+          "sessionMeanNet": -172.14,
+          "sessionMeanNetCI": {
+            "low": -688.37,
+            "high": -554.15
+          },
+          "signStableAcrossMethods": "NEGATIVE_ALL_METHODS"
+        },
+        {
+          "id": "x_ichimoku_cloud",
+          "name": "Ichimoku Cloud (9,26,52)",
+          "period": "VALIDATION",
+          "role": "exploratory",
+          "evaluable": true,
+          "trades": 439,
+          "sessionsTraded": 242,
+          "sessionsInPeriod": 246,
+          "shareOfSessionsTraded": 0.9837,
+          "tradesPerSession": 1.81,
+          "exposureMinutes": 71126,
+          "exposureShareOfSessionTime": 0.7735,
+          "overnightCarriedTrades": 0,
+          "overnightCarriedShare": 0,
+          "meanGrossPerTrade": 25.68,
+          "meanNetPerTrade": -166.27,
+          "sdNetPerTrade": 270.83,
+          "netTotal": -72992.6,
+          "maxDrawdownNet": 72993.83,
+          "lag1AutocorrNet": 0.0391,
+          "ci95": {
+            "tradeLevel": {
+              "low": -191.55,
+              "high": -140.44,
+              "se": 12.96
+            },
+            "sessionCluster": {
+              "low": -191.75,
+              "high": -140.3,
+              "se": 13.11
+            },
+            "blockBootstrap": {
+              "low": -192.85,
+              "high": -140.9,
+              "se": 13.18
+            }
+          },
+          "designEffect": 1.01,
+          "sessionMeanNet": -158.61,
+          "sessionMeanNetCI": {
+            "low": -353.11,
+            "high": -252.09
+          },
+          "signStableAcrossMethods": "NEGATIVE_ALL_METHODS"
+        },
+        {
+          "id": "x_keltner_channel",
+          "name": "Keltner Channel (20, 1.5 ATR)",
+          "period": "VALIDATION",
+          "role": "exploratory",
+          "evaluable": true,
+          "trades": 349,
+          "sessionsTraded": 221,
+          "sessionsInPeriod": 246,
+          "shareOfSessionsTraded": 0.8984,
+          "tradesPerSession": 1.58,
+          "exposureMinutes": 59007,
+          "exposureShareOfSessionTime": 0.6417,
+          "overnightCarriedTrades": 0,
+          "overnightCarriedShare": 0,
+          "meanGrossPerTrade": 29,
+          "meanNetPerTrade": -162.45,
+          "sdNetPerTrade": 291.23,
+          "netTotal": -56695.39,
+          "maxDrawdownNet": 56862.37,
+          "lag1AutocorrNet": -0.114,
+          "ci95": {
+            "tradeLevel": {
+              "low": -192.62,
+              "high": -132.36,
+              "se": 15.46
+            },
+            "sessionCluster": {
+              "low": -189.84,
+              "high": -135.84,
+              "se": 13.84
+            },
+            "blockBootstrap": {
+              "low": -191.92,
+              "high": -134.44,
+              "se": 14.43
+            }
+          },
+          "designEffect": 0.9,
+          "sessionMeanNet": -176.71,
+          "sessionMeanNetCI": {
+            "low": -299.83,
+            "high": -214.12
+          },
+          "signStableAcrossMethods": "NEGATIVE_ALL_METHODS"
+        },
+        {
+          "id": "x_choppiness_index",
+          "name": "Choppiness Index Filter",
+          "period": "VALIDATION",
+          "role": "exploratory",
+          "evaluable": true,
+          "trades": 242,
+          "sessionsTraded": 170,
+          "sessionsInPeriod": 246,
+          "shareOfSessionsTraded": 0.6911,
+          "tradesPerSession": 1.42,
+          "exposureMinutes": 41127,
+          "exposureShareOfSessionTime": 0.4473,
+          "overnightCarriedTrades": 0,
+          "overnightCarriedShare": 0,
+          "meanGrossPerTrade": 42.23,
+          "meanNetPerTrade": -149.44,
+          "sdNetPerTrade": 279.71,
+          "netTotal": -36164.92,
+          "maxDrawdownNet": 36308.56,
+          "lag1AutocorrNet": -0.0656,
+          "ci95": {
+            "tradeLevel": {
+              "low": -185.48,
+              "high": -114.36,
+              "se": 17.91
+            },
+            "sessionCluster": {
+              "low": -181.44,
+              "high": -116.8,
+              "se": 16.54
+            },
+            "blockBootstrap": {
+              "low": -181.91,
+              "high": -113.52,
+              "se": 17.48
+            }
+          },
+          "designEffect": 0.92,
+          "sessionMeanNet": -151.78,
+          "sessionMeanNetCI": {
+            "low": -260.4,
+            "high": -166.24
+          },
+          "signStableAcrossMethods": "NEGATIVE_ALL_METHODS"
+        },
+        {
+          "id": "x_parabolic_sar",
+          "name": "Parabolic SAR",
+          "period": "VALIDATION",
+          "role": "exploratory",
+          "evaluable": true,
+          "trades": 799,
+          "sessionsTraded": 244,
+          "sessionsInPeriod": 246,
+          "shareOfSessionsTraded": 0.9919,
+          "tradesPerSession": 3.27,
+          "exposureMinutes": 83711,
+          "exposureShareOfSessionTime": 0.9104,
+          "overnightCarriedTrades": 0,
+          "overnightCarriedShare": 0,
+          "meanGrossPerTrade": 10.24,
+          "meanNetPerTrade": -181.51,
+          "sdNetPerTrade": 224.58,
+          "netTotal": -145026.41,
+          "maxDrawdownNet": 145026.41,
+          "lag1AutocorrNet": -0.0285,
+          "ci95": {
+            "tradeLevel": {
+              "low": -196.95,
+              "high": -166.06,
+              "se": 7.9
+            },
+            "sessionCluster": {
+              "low": -196.49,
+              "high": -166.12,
+              "se": 7.67
+            },
+            "blockBootstrap": {
+              "low": -196.92,
+              "high": -165.82,
+              "se": 7.93
+            }
+          },
+          "designEffect": 0.97,
+          "sessionMeanNet": -161.98,
+          "sessionMeanNetCI": {
+            "low": -661.34,
+            "high": -529.81
+          },
+          "signStableAcrossMethods": "NEGATIVE_ALL_METHODS"
+        },
+        {
+          "id": "x_fibonacci_retracement",
+          "name": "Fibonacci Retracement Pullback",
+          "period": "VALIDATION",
+          "role": "exploratory",
+          "evaluable": true,
+          "trades": 355,
+          "sessionsTraded": 158,
+          "sessionsInPeriod": 246,
+          "shareOfSessionsTraded": 0.6423,
+          "tradesPerSession": 2.25,
+          "exposureMinutes": 37557,
+          "exposureShareOfSessionTime": 0.4085,
+          "overnightCarriedTrades": 0,
+          "overnightCarriedShare": 0,
+          "meanGrossPerTrade": 0.99,
+          "meanNetPerTrade": -191.81,
+          "sdNetPerTrade": 218.28,
+          "netTotal": -68091.45,
+          "maxDrawdownNet": 68091.45,
+          "lag1AutocorrNet": -0.0248,
+          "ci95": {
+            "tradeLevel": {
+              "low": -214.05,
+              "high": -168.76,
+              "se": 11.58
+            },
+            "sessionCluster": {
+              "low": -213.05,
+              "high": -169.86,
+              "se": 11
+            },
+            "blockBootstrap": {
+              "low": -212.27,
+              "high": -169.63,
+              "se": 10.85
+            }
+          },
+          "designEffect": 0.95,
+          "sessionMeanNet": -175.81,
+          "sessionMeanNetCI": {
+            "low": -507.47,
+            "high": -357.33
+          },
+          "signStableAcrossMethods": "NEGATIVE_ALL_METHODS"
+        },
+        {
+          "id": "x_donchian_trend_50",
+          "name": "Donchian Trend (50)",
+          "period": "VALIDATION",
+          "role": "exploratory",
+          "evaluable": true,
+          "trades": 211,
+          "sessionsTraded": 170,
+          "sessionsInPeriod": 246,
+          "shareOfSessionsTraded": 0.6911,
+          "tradesPerSession": 1.24,
+          "exposureMinutes": 35773,
+          "exposureShareOfSessionTime": 0.389,
+          "overnightCarriedTrades": 0,
+          "overnightCarriedShare": 0,
+          "meanGrossPerTrade": 10.45,
+          "meanNetPerTrade": -181.44,
+          "sdNetPerTrade": 284.69,
+          "netTotal": -38282.94,
+          "maxDrawdownNet": 38449.92,
+          "lag1AutocorrNet": -0.0558,
+          "ci95": {
+            "tradeLevel": {
+              "low": -220.71,
+              "high": -143.07,
+              "se": 19.69
+            },
+            "sessionCluster": {
+              "low": -218.65,
+              "high": -146.46,
+              "se": 18.52
+            },
+            "blockBootstrap": {
+              "low": -217.58,
+              "high": -143.96,
+              "se": 18.75
+            }
+          },
+          "designEffect": 0.94,
+          "sessionMeanNet": -207.45,
+          "sessionMeanNetCI": {
+            "low": -266.88,
+            "high": -183.65
+          },
+          "signStableAcrossMethods": "NEGATIVE_ALL_METHODS"
+        },
+        {
+          "id": "x_mtf_trend_confirmation",
+          "name": "Multi-Timeframe Trend Confirmation",
+          "period": "VALIDATION",
+          "role": "exploratory",
+          "evaluable": true,
+          "trades": 629,
+          "sessionsTraded": 242,
+          "sessionsInPeriod": 246,
+          "shareOfSessionsTraded": 0.9837,
+          "tradesPerSession": 2.6,
+          "exposureMinutes": 83171,
+          "exposureShareOfSessionTime": 0.9045,
+          "overnightCarriedTrades": 0,
+          "overnightCarriedShare": 0,
+          "meanGrossPerTrade": 10.75,
+          "meanNetPerTrade": -181.88,
+          "sdNetPerTrade": 255.76,
+          "netTotal": -114402.4,
+          "maxDrawdownNet": 115074.53,
+          "lag1AutocorrNet": 0.0183,
+          "ci95": {
+            "tradeLevel": {
+              "low": -201.32,
+              "high": -162.66,
+              "se": 9.95
+            },
+            "sessionCluster": {
+              "low": -201.12,
+              "high": -161.51,
+              "se": 10.19
+            },
+            "blockBootstrap": {
+              "low": -202.63,
+              "high": -162.4,
+              "se": 10.34
+            }
+          },
+          "designEffect": 1.02,
+          "sessionMeanNet": -148.43,
+          "sessionMeanNetCI": {
+            "low": -549.88,
+            "high": -397.03
+          },
+          "signStableAcrossMethods": "NEGATIVE_ALL_METHODS"
+        }
+      ]
+    },
+    {
+      "year": 2024,
+      "period": "OOS",
+      "role": "confirmatory",
+      "results": [
+        {
+          "id": "x_macd_momentum",
+          "name": "MACD Momentum (12,26,9)",
+          "period": "OOS",
+          "role": "confirmatory",
+          "evaluable": true,
+          "trades": 813,
+          "sessionsTraded": 247,
+          "sessionsInPeriod": 249,
+          "shareOfSessionsTraded": 0.992,
+          "tradesPerSession": 3.29,
+          "exposureMinutes": 84392,
+          "exposureShareOfSessionTime": 0.9117,
+          "overnightCarriedTrades": 0,
+          "overnightCarriedShare": 0,
+          "meanGrossPerTrade": 26.82,
+          "meanNetPerTrade": -162.73,
+          "sdNetPerTrade": 313.65,
+          "netTotal": -132301.29,
+          "maxDrawdownNet": 132395.49,
+          "lag1AutocorrNet": -0.0196,
+          "ci95": {
+            "tradeLevel": {
+              "low": -184.73,
+              "high": -140.67,
+              "se": 11.1
+            },
+            "sessionCluster": {
+              "low": -182.31,
+              "high": -142.06,
+              "se": 10.33
+            },
+            "blockBootstrap": {
+              "low": -181.79,
+              "high": -142.44,
+              "se": 10.06
+            }
+          },
+          "designEffect": 0.93,
+          "sessionMeanNet": -145.47,
+          "sessionMeanNetCI": {
+            "low": -615.17,
+            "high": -457.82
+          },
+          "signStableAcrossMethods": "NEGATIVE_ALL_METHODS"
+        },
+        {
+          "id": "x_ichimoku_cloud",
+          "name": "Ichimoku Cloud (9,26,52)",
+          "period": "OOS",
+          "role": "confirmatory",
+          "evaluable": true,
+          "trades": 467,
+          "sessionsTraded": 245,
+          "sessionsInPeriod": 249,
+          "shareOfSessionsTraded": 0.9839,
+          "tradesPerSession": 1.91,
+          "exposureMinutes": 71327,
+          "exposureShareOfSessionTime": 0.7706,
+          "overnightCarriedTrades": 0,
+          "overnightCarriedShare": 0,
+          "meanGrossPerTrade": -10.44,
+          "meanNetPerTrade": -199.6,
+          "sdNetPerTrade": 365.41,
+          "netTotal": -93212.33,
+          "maxDrawdownNet": 93214.04,
+          "lag1AutocorrNet": -0.0663,
+          "ci95": {
+            "tradeLevel": {
+              "low": -233.06,
+              "high": -166.85,
+              "se": 16.96
+            },
+            "sessionCluster": {
+              "low": -230.14,
+              "high": -168.11,
+              "se": 15.87
+            },
+            "blockBootstrap": {
+              "low": -228.15,
+              "high": -168.32,
+              "se": 15.42
+            }
+          },
+          "designEffect": 0.94,
+          "sessionMeanNet": -193.12,
+          "sessionMeanNetCI": {
+            "low": -444.57,
+            "high": -314.5
+          },
+          "signStableAcrossMethods": "NEGATIVE_ALL_METHODS"
+        },
+        {
+          "id": "x_keltner_channel",
+          "name": "Keltner Channel (20, 1.5 ATR)",
+          "period": "OOS",
+          "role": "confirmatory",
+          "evaluable": true,
+          "trades": 349,
+          "sessionsTraded": 215,
+          "sessionsInPeriod": 249,
+          "shareOfSessionsTraded": 0.8635,
+          "tradesPerSession": 1.62,
+          "exposureMinutes": 54991,
+          "exposureShareOfSessionTime": 0.5941,
+          "overnightCarriedTrades": 0,
+          "overnightCarriedShare": 0,
+          "meanGrossPerTrade": 15.74,
+          "meanNetPerTrade": -172.85,
+          "sdNetPerTrade": 390.14,
+          "netTotal": -60323.96,
+          "maxDrawdownNet": 60323.96,
+          "lag1AutocorrNet": -0.0381,
+          "ci95": {
+            "tradeLevel": {
+              "low": -213.1,
+              "high": -132.5,
+              "se": 20.58
+            },
+            "sessionCluster": {
+              "low": -208.65,
+              "high": -136.76,
+              "se": 18.6
+            },
+            "blockBootstrap": {
+              "low": -205.54,
+              "high": -138.02,
+              "se": 17.14
+            }
+          },
+          "designEffect": 0.9,
+          "sessionMeanNet": -192.86,
+          "sessionMeanNetCI": {
+            "low": -340.13,
+            "high": -220.04
+          },
+          "signStableAcrossMethods": "NEGATIVE_ALL_METHODS"
+        },
+        {
+          "id": "x_choppiness_index",
+          "name": "Choppiness Index Filter",
+          "period": "OOS",
+          "role": "confirmatory",
+          "evaluable": true,
+          "trades": 233,
+          "sessionsTraded": 164,
+          "sessionsInPeriod": 249,
+          "shareOfSessionsTraded": 0.6586,
+          "tradesPerSession": 1.42,
+          "exposureMinutes": 37411,
+          "exposureShareOfSessionTime": 0.4042,
+          "overnightCarriedTrades": 0,
+          "overnightCarriedShare": 0,
+          "meanGrossPerTrade": 41.46,
+          "meanNetPerTrade": -147.46,
+          "sdNetPerTrade": 404.92,
+          "netTotal": -34357.37,
+          "maxDrawdownNet": 34357.37,
+          "lag1AutocorrNet": -0.1151,
+          "ci95": {
+            "tradeLevel": {
+              "low": -199.72,
+              "high": -96.03,
+              "se": 26.48
+            },
+            "sessionCluster": {
+              "low": -188.53,
+              "high": -105.77,
+              "se": 21.14
+            },
+            "blockBootstrap": {
+              "low": -181.16,
+              "high": -105.7,
+              "se": 19.17
+            }
+          },
+          "designEffect": 0.8,
+          "sessionMeanNet": -160.96,
+          "sessionMeanNetCI": {
+            "low": -269.85,
+            "high": -151.15
+          },
+          "signStableAcrossMethods": "NEGATIVE_ALL_METHODS"
+        },
+        {
+          "id": "x_parabolic_sar",
+          "name": "Parabolic SAR",
+          "period": "OOS",
+          "role": "confirmatory",
+          "evaluable": true,
+          "trades": 832,
+          "sessionsTraded": 247,
+          "sessionsInPeriod": 249,
+          "shareOfSessionsTraded": 0.992,
+          "tradesPerSession": 3.37,
+          "exposureMinutes": 84392,
+          "exposureShareOfSessionTime": 0.9117,
+          "overnightCarriedTrades": 0,
+          "overnightCarriedShare": 0,
+          "meanGrossPerTrade": 20.79,
+          "meanNetPerTrade": -168.25,
+          "sdNetPerTrade": 315.35,
+          "netTotal": -139981.86,
+          "maxDrawdownNet": 139981.86,
+          "lag1AutocorrNet": -0.0094,
+          "ci95": {
+            "tradeLevel": {
+              "low": -189.3,
+              "high": -146.21,
+              "se": 10.92
+            },
+            "sessionCluster": {
+              "low": -188.12,
+              "high": -148.18,
+              "se": 10.08
+            },
+            "blockBootstrap": {
+              "low": -187.86,
+              "high": -148.39,
+              "se": 10.03
+            }
+          },
+          "designEffect": 0.92,
+          "sessionMeanNet": -156.22,
+          "sessionMeanNetCI": {
+            "low": -643.95,
+            "high": -489.09
+          },
+          "signStableAcrossMethods": "NEGATIVE_ALL_METHODS"
+        },
+        {
+          "id": "x_fibonacci_retracement",
+          "name": "Fibonacci Retracement Pullback",
+          "period": "OOS",
+          "role": "confirmatory",
+          "evaluable": true,
+          "trades": 369,
+          "sessionsTraded": 157,
+          "sessionsInPeriod": 249,
+          "shareOfSessionsTraded": 0.6305,
+          "tradesPerSession": 2.35,
+          "exposureMinutes": 33555,
+          "exposureShareOfSessionTime": 0.3625,
+          "overnightCarriedTrades": 0,
+          "overnightCarriedShare": 0,
+          "meanGrossPerTrade": 17,
+          "meanNetPerTrade": -170.84,
+          "sdNetPerTrade": 290.1,
+          "netTotal": -63041.17,
+          "maxDrawdownNet": 63189.68,
+          "lag1AutocorrNet": -0.069,
+          "ci95": {
+            "tradeLevel": {
+              "low": -200.58,
+              "high": -140.6,
+              "se": 15.22
+            },
+            "sessionCluster": {
+              "low": -202.51,
+              "high": -140.04,
+              "se": 15.88
+            },
+            "blockBootstrap": {
+              "low": -199.01,
+              "high": -144.34,
+              "se": 13.71
+            }
+          },
+          "designEffect": 1.04,
+          "sessionMeanNet": -166.98,
+          "sessionMeanNetCI": {
+            "low": -494.53,
+            "high": -314.53
+          },
+          "signStableAcrossMethods": "NEGATIVE_ALL_METHODS"
+        },
+        {
+          "id": "x_donchian_trend_50",
+          "name": "Donchian Trend (50)",
+          "period": "OOS",
+          "role": "confirmatory",
+          "evaluable": true,
+          "trades": 211,
+          "sessionsTraded": 156,
+          "sessionsInPeriod": 249,
+          "shareOfSessionsTraded": 0.6265,
+          "tradesPerSession": 1.35,
+          "exposureMinutes": 33677,
+          "exposureShareOfSessionTime": 0.3638,
+          "overnightCarriedTrades": 0,
+          "overnightCarriedShare": 0,
+          "meanGrossPerTrade": 18.46,
+          "meanNetPerTrade": -169.75,
+          "sdNetPerTrade": 394.23,
+          "netTotal": -35817.21,
+          "maxDrawdownNet": 35817.21,
+          "lag1AutocorrNet": -0.1312,
+          "ci95": {
+            "tradeLevel": {
+              "low": -222,
+              "high": -115.68,
+              "se": 27.13
+            },
+            "sessionCluster": {
+              "low": -214.87,
+              "high": -126.99,
+              "se": 22.55
+            },
+            "blockBootstrap": {
+              "low": -209.22,
+              "high": -122.92,
+              "se": 21.86
+            }
+          },
+          "designEffect": 0.83,
+          "sessionMeanNet": -218.7,
+          "sessionMeanNetCI": {
+            "low": -283.58,
+            "high": -174.08
+          },
+          "signStableAcrossMethods": "NEGATIVE_ALL_METHODS"
+        },
+        {
+          "id": "x_mtf_trend_confirmation",
+          "name": "Multi-Timeframe Trend Confirmation",
+          "period": "OOS",
+          "role": "confirmatory",
+          "evaluable": true,
+          "trades": 682,
+          "sessionsTraded": 245,
+          "sessionsInPeriod": 249,
+          "shareOfSessionsTraded": 0.9839,
+          "tradesPerSession": 2.78,
+          "exposureMinutes": 83852,
+          "exposureShareOfSessionTime": 0.9059,
+          "overnightCarriedTrades": 0,
+          "overnightCarriedShare": 0,
+          "meanGrossPerTrade": 11.66,
+          "meanNetPerTrade": -176.19,
+          "sdNetPerTrade": 333.7,
+          "netTotal": -120160.24,
+          "maxDrawdownNet": 120160.24,
+          "lag1AutocorrNet": 0.0176,
+          "ci95": {
+            "tradeLevel": {
+              "low": -201.18,
+              "high": -151.36,
+              "se": 12.76
+            },
+            "sessionCluster": {
+              "low": -199.19,
+              "high": -153.38,
+              "se": 11.82
+            },
+            "blockBootstrap": {
+              "low": -197.17,
+              "high": -152.91,
+              "se": 11.39
+            }
+          },
+          "designEffect": 0.93,
+          "sessionMeanNet": -157.94,
+          "sessionMeanNetCI": {
+            "low": -575.78,
+            "high": -407.92
+          },
+          "signStableAcrossMethods": "NEGATIVE_ALL_METHODS"
+        }
+      ]
+    }
+  ],
+  "pooledPortfolio": [
+    {
+      "year": 2022,
+      "period": "TRAIN",
+      "role": "exploratory",
+      "sessions": 245,
+      "netTotal": -673991.56,
+      "meanNetPerSession": -2750.99,
+      "maxDrawdownNet": 673991.56,
+      "ci95SessionCluster": {
+        "low": -3128.45,
+        "high": -2383.52,
+        "se": 191.55
+      }
+    },
+    {
+      "year": 2023,
+      "period": "VALIDATION",
+      "role": "exploratory",
+      "sessions": 244,
+      "netTotal": -683370.18,
+      "meanNetPerSession": -2800.7,
+      "maxDrawdownNet": 683370.18,
+      "ci95SessionCluster": {
+        "low": -3066.12,
+        "high": -2537.39,
+        "se": 134.89
+      }
+    },
+    {
+      "year": 2024,
+      "period": "OOS",
+      "role": "confirmatory",
+      "sessions": 247,
+      "netTotal": -679195.42,
+      "meanNetPerSession": -2749.78,
+      "maxDrawdownNet": 679195.42,
+      "ci95SessionCluster": {
+        "low": -3077.49,
+        "high": -2430.22,
+        "se": 165.61
+      }
+    }
+  ],
+  "summary": {
+    "evaluableStrategies": 8,
+    "oosTrades": 3956,
+    "oosSessionsInPeriod": 249,
+    "oosSessionsTradedMin": 156,
+    "oosSessionsTradedMax": 247,
+    "oosOvernightCarriedTrades": 0,
+    "negativeAllMethods": 8,
+    "positiveAllMethods": 0,
+    "ambiguous": 0,
+    "medianDesignEffect": 0.93,
+    "maxDesignEffect": 1.04
+  },
+  "verdict": "NEGATIVE_RESULT_ROBUST_TO_CLUSTERING",
+  "excludedArms": [
+    {
+      "id": "x_obv_confirmation",
+      "reason": "requires volume; index series publishes none (NOT_EVALUABLE per protocol)"
+    },
+    {
+      "id": "x_volume_profile",
+      "reason": "requires volume; index series publishes none (NOT_EVALUABLE per protocol)"
+    }
+  ]
+}

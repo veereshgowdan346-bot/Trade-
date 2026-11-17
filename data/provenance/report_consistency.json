@@ -1,0 +1,11 @@
+{
+  "generatedAt": "2026-11-17T17:35:36.594Z",
+  "command": "node scripts/verify_report_consistency.js",
+  "reportFiles": [
+    "APEX_V2_FINAL_AUDIT_REPORT.md",
+    "SECURITY_AND_RESEARCH_CERTIFICATION.md"
+  ],
+  "claimsChecked": 54,
+  "failures": [],
+  "verdict": "REPORT_MATCHES_ARTIFACTS"
+}

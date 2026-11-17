@@ -1,0 +1,77 @@
+{
+  "generatedAt": "2026-11-17T17:39:15.553345+00:00",
+  "command": "python3 scripts/scan_git_history_secrets.py",
+  "scanner": "digest-based; no matched value is ever printed or stored",
+  "coverage": {
+    "commitsScanned": 1,
+    "blobsScanned": 386,
+    "refs": [
+      "--all"
+    ],
+    "shallowClone": true,
+    "shallowBoundary": [
+      "60d7c418f89beb392661642a95bfaadd2f99068c"
+    ],
+    "limitation": "Shallow clone: commits before the shallow boundary are absent locally and were NOT scanned. They remain in any remote or other clone that contains them."
+  },
+  "findings": [
+    {
+      "commit": "60d7c418f89beb392661642a95bfaadd2f99068c",
+      "path": "SECURITY_AUDIT.md",
+      "blob": "bf98a068e8811443afc6617ce877f74970a66d4f",
+      "kind": "client_or_user_id",
+      "reachableFromOriginMaster": true
+    },
+    {
+      "commit": "60d7c418f89beb392661642a95bfaadd2f99068c",
+      "path": "scripts/scan_repo_secrets.py",
+      "blob": "ce9242aa459f502c19d03717a7d8acd325c53bff",
+      "kind": "api_secret",
+      "reachableFromOriginMaster": true
+    },
+    {
+      "commit": "60d7c418f89beb392661642a95bfaadd2f99068c",
+      "path": "scripts/scan_repo_secrets.py",
+      "blob": "ce9242aa459f502c19d03717a7d8acd325c53bff",
+      "kind": "totp_seed_prefix",
+      "reachableFromOriginMaster": true
+    },
+    {
+      "commit": "60d7c418f89beb392661642a95bfaadd2f99068c",
+      "path": "scripts/scan_source_files.py",
+      "blob": "3651e9a5f02c94cd79f09b7ba0489a35f51393b6",
+      "kind": "client_or_user_id",
+      "reachableFromOriginMaster": true
+    },
+    {
+      "commit": "60d7c418f89beb392661642a95bfaadd2f99068c",
+      "path": "scripts/scan_source_files.py",
+      "blob": "3651e9a5f02c94cd79f09b7ba0489a35f51393b6",
+      "kind": "api_secret",
+      "reachableFromOriginMaster": true
+    },
+    {
+      "commit": "60d7c418f89beb392661642a95bfaadd2f99068c",
+      "path": "scripts/scan_source_files.py",
+      "blob": "3651e9a5f02c94cd79f09b7ba0489a35f51393b6",
+      "kind": "totp_seed_prefix",
+      "reachableFromOriginMaster": true
+    }
+  ],
+  "summary": {
+    "findingCount": 6,
+    "distinctCommitsAffected": 1,
+    "commitList": [
+      "60d7c418f89beb392661642a95bfaadd2f99068c"
+    ],
+    "affectsHeadWorkingTree": false,
+    "reachableFromOriginMaster": 6,
+    "publicExposure": true,
+    "kinds": [
+      "api_secret",
+      "client_or_user_id",
+      "totp_seed_prefix"
+    ]
+  },
+  "verdict": "HISTORY_EXPOSURE_FOUND"
+}

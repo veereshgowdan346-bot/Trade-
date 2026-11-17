@@ -3,6 +3,7 @@ import { isRegularNseSession, toIstDate } from "./historical_research";
 import { isExchangeHoliday } from "./nse_calendar";
 import { sizePosition, type RiskConfig } from "./risk";
 import { evaluateConsensus } from "./strategies";
+import { buildSnapshot, evaluateConsensusAt } from "./consensus_fast";
 import { roundTripCharges } from "./tax";
 import type { Instrument } from "./instruments";
 
@@ -37,13 +38,61 @@ export type BacktestSummary = {
   grossPnl: number;
   totalCharges: number;
   netPnl: number;
-  sharpeRatio: number;
-  sortinoRatio: number;
+  /**
+   * BT-004 FIX: these are computed from SESSION equity returns and annualised with sqrt(252)
+   * for a daily sampling frequency. They are `null` when the run has fewer than
+   * MIN_SESSIONS_FOR_RISK_ADJUSTED sessions, because annualising a handful of observations
+   * is statistically meaningless (the previous implementation annualised PER-TRADE returns,
+   * producing values like -81.37 that must never be compared to a real Sharpe ratio).
+   */
+  sharpeRatio: number | null;
+  sortinoRatio: number | null;
+  /**
+   * `basis` describes the SAMPLING FREQUENCY used, not the reliability alone:
+   * INSUFFICIENT_SAMPLE  -> fewer than MIN_SESSIONS_FOR_RISK_ADJUSTED sessions; ratios are null.
+   * DAILY_ANNUALIZED     -> session returns were annualised with sqrt(252). A null ratio under
+   *                         this basis means dispersion was numerically zero (undefined, not zero).
+   */
+  riskAdjustedBasis: "DAILY_ANNUALIZED" | "INSUFFICIENT_SAMPLE";
+  /** Number of IST sessions that closed at least one trade. */
+  sessions: number;
   recoveryFactor: number;
   trades: SimulatedTrade[];
 };
 
 const r2 = (v: number) => Math.round(v * 100) / 100;
+
+/** BT-004: minimum number of trading sessions before risk-adjusted ratios are reported. */
+export const MIN_SESSIONS_FOR_RISK_ADJUSTED = 20;
+
+/**
+ * BT-004: risk-adjusted ratios from SESSION returns (not per-trade returns).
+ *
+ * Correct annualisation requires a time-series sampling frequency. A backtest with N trades
+ * spread over S sessions has S daily observations, not N. Annualising per-trade returns with
+ * sqrt(252) is invalid and produced absurd figures on short samples.
+ *
+ * Returns nulls plus an explicit basis when the sample is too small, so callers can never
+ * mistake an unreliable number for a real Sharpe/Sortino ratio.
+ */
+export function computeRiskAdjustedRatios(
+  sessionReturns: number[],
+  minSessions = MIN_SESSIONS_FOR_RISK_ADJUSTED,
+): { sharpeRatio: number | null; sortinoRatio: number | null; basis: "DAILY_ANNUALIZED" | "INSUFFICIENT_SAMPLE" } {
+  const n = sessionReturns.length;
+  if (n < minSessions) return { sharpeRatio: null, sortinoRatio: null, basis: "INSUFFICIENT_SAMPLE" };
+  const mean = sessionReturns.reduce((a, b) => a + b, 0) / n;
+  const variance = sessionReturns.reduce((a, b) => a + (b - mean) ** 2, 0) / Math.max(1, n - 1);
+  const sd = Math.sqrt(variance);
+  // A numerically-zero dispersion must NOT be annualised: dividing by ~1e-17 yields a
+  // meaningless blow-up (caught by scripts/metric_tests.js on a constant-return series).
+  const EPS = 1e-12;
+  const sharpe = sd > EPS ? r2((mean / sd) * Math.sqrt(252)) : null;
+  // Standard Sortino downside deviation: sqrt(mean(min(r,0)^2)) over ALL observations.
+  const dd = Math.sqrt(sessionReturns.reduce((a, b) => a + Math.min(b, 0) ** 2, 0) / n);
+  const sortino = dd > EPS ? r2((mean / dd) * Math.sqrt(252)) : null;
+  return { sharpeRatio: sharpe, sortinoRatio: sortino, basis: "DAILY_ANNUALIZED" };
+}
 
 /**
  * Phase 2 (BT-003) backtest controls — exchange-session boundaries, holiday calendar,
@@ -59,6 +108,13 @@ export type BacktestControls = {
   enforceHolidays?: boolean;
   eodSquareOff?: boolean;
   warmupBars?: number;
+  /**
+   * PERF-001: evaluate the decision layer with the O(n) fast path (indicator arrays are
+   * computed once and read by index) instead of rebuilding the prefix and recomputing every
+   * indicator per bar. Values are identical — proven bar-for-bar by scripts/perf_equivalence.js.
+   * Defaults to true; set false to force the original O(n^2) path.
+   */
+  fastEval?: boolean;
 };
 
 const DAY_GAP_MS = 4 * 3600 * 1000; // > 4h between bars = session/day boundary (gap-aware)
@@ -103,10 +159,14 @@ export function runBacktest(
   const enforceSessions = controls.enforceSessions !== false;
   const enforceHolidays = controls.enforceHolidays !== false;
   const eodSquareOff = controls.eodSquareOff !== false;
+  // PERF-001: one O(n) snapshot per run; null when the legacy path is explicitly requested.
+  const snap = controls.fastEval === false ? null : buildSnapshot(candles);
 
   // Bar-by-bar chronological replay (strictly preventing look-ahead bias)
   for (let i = warmup; i < candles.length; i++) {
-    const historicalSlice = candles.slice(0, i);
+    // PERF-001: the legacy decision prefix is candles.slice(0, i) — the CURRENT bar is
+    // excluded, so the fast path reads index i-1. The slice is only built on the legacy path.
+    const historicalSlice = snap ? null : candles.slice(0, i);
     const curBar = candles[i];
     const nxtBar = candles[i + 1];
 
@@ -191,7 +251,7 @@ export function runBacktest(
     // 2. Scan for New Entry (only if flat; only on tradable in-session bars; never on the
     //    day's final bar when EOD square-off is enforced — no same-bar round trip)
     if (!currentPos && tradable && !(eodSquareOff && isDayEndBar)) {
-      const consensus = evaluateConsensus(historicalSlice, cfg);
+      const consensus = snap ? evaluateConsensusAt(candles, i - 1, snap, cfg) : evaluateConsensus(historicalSlice as Candle[], cfg);
       if (consensus.qualifies && consensus.direction !== "NONE" && consensus.waveGate?.active) {
         const side = consensus.direction;
         const entryPx = curBar.c;
@@ -404,11 +464,10 @@ function computeSummary(trades: SimulatedTrade[], initialCapital: number): Backt
   let peak = equity;
   let maxDrawdown = 0;
   let maxDrawdownPct = 0;
-  const dailyReturns: number[] = [];
-
+  // BT-004: note that per-trade returns are deliberately NOT collected here. They are not daily
+  // returns, and using them for annualisation was the defect this fixes.
   for (const t of trades) {
     equity += t.netPnl;
-    dailyReturns.push(t.netPnl / initialCapital);
     if (equity > peak) peak = equity;
     const dd = peak - equity;
     if (dd > maxDrawdown) {
@@ -417,15 +476,21 @@ function computeSummary(trades: SimulatedTrade[], initialCapital: number): Backt
     }
   }
 
-  // Sharpe & Sortino
-  const meanRet = dailyReturns.reduce((a, b) => a + b, 0) / Math.max(1, dailyReturns.length);
-  const variance = dailyReturns.reduce((a, b) => a + (b - meanRet) ** 2, 0) / Math.max(1, dailyReturns.length - 1);
-  const stdDev = Math.sqrt(variance) || 1e-9;
-  const sharpeRatio = r2((meanRet / stdDev) * Math.sqrt(252));
-
-  const downReturns = dailyReturns.filter((r) => r < 0);
-  const downVariance = downReturns.length ? downReturns.reduce((a, b) => a + b ** 2, 0) / downReturns.length : 1e-9;
-  const sortinoRatio = r2((meanRet / Math.sqrt(downVariance)) * Math.sqrt(252));
+  // BT-004: genuine SESSION equity returns. A session is an IST calendar day with at least one
+  // closed trade; flat sessions (no trade closed) are NOT imputed as zero-return days, because the
+  // candle range is not available here and inventing zeros would change the dispersion. This is
+  // documented as a limitation in RISK_ADJUSTED_METRICS.md rather than silently assumed.
+  const bySession = new Map<string, number>();
+  for (const t of trades) {
+    const day = toIstDate(t.exitTime).isoIst.slice(0, 10);
+    bySession.set(day, (bySession.get(day) ?? 0) + t.netPnl);
+  }
+  const sessionReturns = [...bySession.values()].map((pnl) => pnl / initialCapital);
+  const ra = computeRiskAdjustedRatios(sessionReturns);
+  const sharpeRatio = ra.sharpeRatio;
+  const sortinoRatio = ra.sortinoRatio;
+  const riskAdjustedBasis = ra.basis;
+  const sessions = sessionReturns.length;
 
   const recoveryFactor = maxDrawdown > 0 ? r2(netPnl / maxDrawdown) : netPnl > 0 ? 999 : 0;
 
@@ -445,6 +510,8 @@ function computeSummary(trades: SimulatedTrade[], initialCapital: number): Backt
     netPnl,
     sharpeRatio,
     sortinoRatio,
+    riskAdjustedBasis,
+    sessions,
     recoveryFactor,
     trades,
   };
@@ -465,8 +532,10 @@ function emptySummary(): BacktestSummary {
     grossPnl: 0,
     totalCharges: 0,
     netPnl: 0,
-    sharpeRatio: 0,
-    sortinoRatio: 0,
+    sharpeRatio: null,
+    sortinoRatio: null,
+    riskAdjustedBasis: "INSUFFICIENT_SAMPLE" as const,
+    sessions: 0,
     recoveryFactor: 0,
     trades: [],
   };

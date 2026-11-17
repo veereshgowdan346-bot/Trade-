@@ -1,0 +1,73 @@
+{
+  "generatedAt": "2026-11-17T17:36:29.373Z",
+  "command": "node scripts/anchor_reproduction.js",
+  "config": {
+    "capital": 500000,
+    "broker": "shoonya",
+    "friction": "STANDARD_SHOONYA"
+  },
+  "checks": {
+    "fixtureTrades": {
+      "expected": 74,
+      "observed": 74,
+      "match": true
+    },
+    "fixtureNet": {
+      "expected": -7576.06,
+      "observed": -7576.06,
+      "match": true
+    },
+    "fixtureCrossDay": {
+      "expected": 0,
+      "observed": 0,
+      "match": true
+    },
+    "fixtureEodExits": {
+      "expected": 1,
+      "observed": 1,
+      "match": true
+    },
+    "researchTrades": {
+      "expected": 72,
+      "observed": 72,
+      "match": true
+    },
+    "researchNet": {
+      "expected": -7177.69,
+      "observed": -7177.69,
+      "match": true
+    },
+    "wfFolds": {
+      "expected": 2,
+      "observed": 2,
+      "match": true
+    },
+    "wfOosTrades": {
+      "expected": 30,
+      "observed": 30,
+      "match": true
+    },
+    "wfOosNet": {
+      "expected": -4023.54,
+      "observed": -4023.54,
+      "match": true
+    },
+    "multidayTrades": {
+      "expected": 3,
+      "observed": 3,
+      "match": true
+    },
+    "multidayNet": {
+      "expected": -602.96,
+      "observed": -602.96,
+      "match": true
+    },
+    "multidayCharges": {
+      "expected": 474.59,
+      "observed": 474.59,
+      "match": true
+    }
+  },
+  "chronologyOk": true,
+  "verdict": "ANCHORS_REPRODUCED_EXACTLY"
+}

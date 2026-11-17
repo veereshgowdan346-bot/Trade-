@@ -1,0 +1,355 @@
+{
+  "generatedAt": "2026-11-17T17:36:38.428Z",
+  "command": "node scripts/instrument_compatibility.js",
+  "issue": "INSTR-001",
+  "intendedInstrument": {
+    "class": "EQUITY",
+    "segment": "NSE cash market, intraday",
+    "rationale": "The repository models NSE equity intraday execution (kind: 'EQ', productType: 'INTRADAY'), and the engine refuses spot-index orders ('route orders via NIFTY/BANKNIFTY NFO futures'), so equity is the declared trading intent."
+  },
+  "segmentInventory": [
+    {
+      "class": "EQUITY",
+      "status": "BLOCKED",
+      "datasets": [
+        {
+          "id": "20200108",
+          "upstream": "hunterabhi/daily-1-minute-eod-data",
+          "blobSha": "e30c473ef60b732aa5bf53275e5cef66d8cfb3dc",
+          "licence": "none declared",
+          "authenticity": "UNVERIFIED_REDISTRIBUTION",
+          "localSha256": "1396acc67ad32ce93f6b2b0940fea0151ccf4eeebe7878071fa666909b7e7d97"
+        },
+        {
+          "id": "20200110",
+          "upstream": "hunterabhi/daily-1-minute-eod-data",
+          "blobSha": "91521f18604ff4a158ac9ddcc7710be7d2c1aed4",
+          "licence": "none declared",
+          "authenticity": "UNVERIFIED_REDISTRIBUTION",
+          "localSha256": "e55c17d9b18f033a1eb6da0d633372451f98b0cb05a274b7304f7267a1c52282"
+        }
+      ],
+      "tradable": true,
+      "volume": "present in the tapes",
+      "why": "Two 2020 tapes only, no licence (all rights reserved), multiple symbols interleaved without per-symbol separation (grade F). They cannot support a per-strategy equity study, and they may not be redistributed."
+    },
+    {
+      "class": "INDEX_REFERENCE",
+      "status": "PROXY_ONLY",
+      "datasets": [
+        {
+          "id": "NIFTY50_1min_2022",
+          "upstream": "technovusin/nifty50-historical-data",
+          "blobSha": "4f05c9804c956b8662dabb7d106b1e4702f3a77e",
+          "licence": "MIT",
+          "authenticity": "UNVERIFIED_REDISTRIBUTION",
+          "localSha256": "930acb495657287f8873ddb37a9c8517ea9baa56aeb86a7d4712cee658045ee3"
+        },
+        {
+          "id": "NIFTY50_1min_2023",
+          "upstream": "technovusin/nifty50-historical-data",
+          "blobSha": "eec7d0efbfab465e9c686c8e9479c875fc60c2bd",
+          "licence": "MIT",
+          "authenticity": "UNVERIFIED_REDISTRIBUTION",
+          "localSha256": "cc261ba326b3c61c5e54c58d4d6732263985d7f24e343111e916ca7625a0dde4"
+        },
+        {
+          "id": "NIFTY50_1min_2024",
+          "upstream": "technovusin/nifty50-historical-data",
+          "blobSha": "35e0c5727c29b50e54c91ca756126c1697adb557",
+          "licence": "MIT",
+          "authenticity": "UNVERIFIED_REDISTRIBUTION",
+          "localSha256": "f0a82b04aeb8722c8fae0431daf8507feb70e4c7783c75010f9dfbbbee00951b"
+        }
+      ],
+      "tradable": false,
+      "volume": "absent by construction (index series publishes zero volume)",
+      "contractSpec": "not applicable — a spot index is a reference series, not a contract",
+      "lotSize": "not applicable",
+      "why": "This is the only multi-year series available. It supports a mechanical proxy study, not validation of an equity strategy: the price path is not the traded instrument, and the engine itself rejects spot-index orders."
+    },
+    {
+      "class": "FUTURES",
+      "status": "BLOCKED",
+      "datasets": [],
+      "tradable": true,
+      "volume": "not available",
+      "contractSpec": "UNVERIFIED — no contract master or lot size verified in this environment",
+      "lotSize": "UNVERIFIED",
+      "why": "No futures price series exists in the repository and the lot-size/expiry basis is unverified, so a futures study cannot be run honestly."
+    },
+    {
+      "class": "OPTIONS",
+      "status": "NOT_APPLICABLE",
+      "datasets": [],
+      "tradable": true,
+      "volume": "not available",
+      "contractSpec": "UNVERIFIED",
+      "lotSize": "UNVERIFIED",
+      "why": "No option chains, strikes, expiries or IV surfaces are present; no strategy in the registry is an options strategy."
+    }
+  ],
+  "strategies": [
+    {
+      "id": "x_macd_momentum",
+      "name": "MACD Momentum (12,26,9)",
+      "family": "MOMENTUM",
+      "enabled": false,
+      "intendedInstrument": "EQUITY — NSE cash market, intraday",
+      "requiresVolume": false,
+      "dataUsedInStudy": "NIFTY50_1min_{2022,2023,2024}",
+      "dataClass": "INDEX_REFERENCE",
+      "tradable": false,
+      "volumeAvailable": false,
+      "contractSpec": "not applicable (spot index)",
+      "lotSize": "not applicable (spot index)",
+      "sessions": "09:15-15:30 IST, plus enumerated special sessions (2024-03-02, 2024-05-18, 2024-11-01)",
+      "costModelApplied": "NSE EQUITY intraday (Shoonya defaults) — a documented proxy, NOT this instrument's schedule",
+      "costModelMatchesInstrument": false,
+      "provenance": "data/provenance/external_dataset_manifest.json",
+      "equityValidation": "BLOCKED",
+      "equityValidationReason": "No licensed, authenticated, per-symbol equity series exists in the repository",
+      "proxyStudy": "COMPLETED (proxy only)",
+      "limitations": [
+        "The index is a reference series and cannot be traded; the study is a per-Rs 1,00,000 notional normalisation, not an implementable P&L.",
+        "An equity intraday cost schedule is applied to an index series; the two errors (wrong schedule, non-tradable series) bias in opposite directions and neither is quantified."
+      ]
+    },
+    {
+      "id": "x_ichimoku_cloud",
+      "name": "Ichimoku Cloud (9,26,52)",
+      "family": "TREND_FOLLOWING",
+      "enabled": false,
+      "intendedInstrument": "EQUITY — NSE cash market, intraday",
+      "requiresVolume": false,
+      "dataUsedInStudy": "NIFTY50_1min_{2022,2023,2024}",
+      "dataClass": "INDEX_REFERENCE",
+      "tradable": false,
+      "volumeAvailable": false,
+      "contractSpec": "not applicable (spot index)",
+      "lotSize": "not applicable (spot index)",
+      "sessions": "09:15-15:30 IST, plus enumerated special sessions (2024-03-02, 2024-05-18, 2024-11-01)",
+      "costModelApplied": "NSE EQUITY intraday (Shoonya defaults) — a documented proxy, NOT this instrument's schedule",
+      "costModelMatchesInstrument": false,
+      "provenance": "data/provenance/external_dataset_manifest.json",
+      "equityValidation": "BLOCKED",
+      "equityValidationReason": "No licensed, authenticated, per-symbol equity series exists in the repository",
+      "proxyStudy": "COMPLETED (proxy only)",
+      "limitations": [
+        "The index is a reference series and cannot be traded; the study is a per-Rs 1,00,000 notional normalisation, not an implementable P&L.",
+        "An equity intraday cost schedule is applied to an index series; the two errors (wrong schedule, non-tradable series) bias in opposite directions and neither is quantified."
+      ]
+    },
+    {
+      "id": "x_keltner_channel",
+      "name": "Keltner Channel (20, 1.5 ATR)",
+      "family": "VOLATILITY_REGIME",
+      "enabled": false,
+      "intendedInstrument": "EQUITY — NSE cash market, intraday",
+      "requiresVolume": false,
+      "dataUsedInStudy": "NIFTY50_1min_{2022,2023,2024}",
+      "dataClass": "INDEX_REFERENCE",
+      "tradable": false,
+      "volumeAvailable": false,
+      "contractSpec": "not applicable (spot index)",
+      "lotSize": "not applicable (spot index)",
+      "sessions": "09:15-15:30 IST, plus enumerated special sessions (2024-03-02, 2024-05-18, 2024-11-01)",
+      "costModelApplied": "NSE EQUITY intraday (Shoonya defaults) — a documented proxy, NOT this instrument's schedule",
+      "costModelMatchesInstrument": false,
+      "provenance": "data/provenance/external_dataset_manifest.json",
+      "equityValidation": "BLOCKED",
+      "equityValidationReason": "No licensed, authenticated, per-symbol equity series exists in the repository",
+      "proxyStudy": "COMPLETED (proxy only)",
+      "limitations": [
+        "The index is a reference series and cannot be traded; the study is a per-Rs 1,00,000 notional normalisation, not an implementable P&L.",
+        "An equity intraday cost schedule is applied to an index series; the two errors (wrong schedule, non-tradable series) bias in opposite directions and neither is quantified."
+      ]
+    },
+    {
+      "id": "x_choppiness_index",
+      "name": "Choppiness Index Filter",
+      "family": "REGIME_CONDITIONED",
+      "enabled": false,
+      "intendedInstrument": "EQUITY — NSE cash market, intraday",
+      "requiresVolume": false,
+      "dataUsedInStudy": "NIFTY50_1min_{2022,2023,2024}",
+      "dataClass": "INDEX_REFERENCE",
+      "tradable": false,
+      "volumeAvailable": false,
+      "contractSpec": "not applicable (spot index)",
+      "lotSize": "not applicable (spot index)",
+      "sessions": "09:15-15:30 IST, plus enumerated special sessions (2024-03-02, 2024-05-18, 2024-11-01)",
+      "costModelApplied": "NSE EQUITY intraday (Shoonya defaults) — a documented proxy, NOT this instrument's schedule",
+      "costModelMatchesInstrument": false,
+      "provenance": "data/provenance/external_dataset_manifest.json",
+      "equityValidation": "BLOCKED",
+      "equityValidationReason": "No licensed, authenticated, per-symbol equity series exists in the repository",
+      "proxyStudy": "COMPLETED (proxy only)",
+      "limitations": [
+        "The index is a reference series and cannot be traded; the study is a per-Rs 1,00,000 notional normalisation, not an implementable P&L.",
+        "An equity intraday cost schedule is applied to an index series; the two errors (wrong schedule, non-tradable series) bias in opposite directions and neither is quantified."
+      ]
+    },
+    {
+      "id": "x_obv_confirmation",
+      "name": "OBV Volume Confirmation",
+      "family": "VOLUME_CONFIRMATION",
+      "enabled": false,
+      "intendedInstrument": "EQUITY — NSE cash market, intraday",
+      "requiresVolume": true,
+      "dataUsedInStudy": "NIFTY50_1min_{2022,2023,2024}",
+      "dataClass": "INDEX_REFERENCE",
+      "tradable": false,
+      "volumeAvailable": false,
+      "contractSpec": "not applicable (spot index)",
+      "lotSize": "not applicable (spot index)",
+      "sessions": "09:15-15:30 IST, plus enumerated special sessions (2024-03-02, 2024-05-18, 2024-11-01)",
+      "costModelApplied": "NSE EQUITY intraday (Shoonya defaults) — a documented proxy, NOT this instrument's schedule",
+      "costModelMatchesInstrument": false,
+      "provenance": "data/provenance/external_dataset_manifest.json",
+      "equityValidation": "BLOCKED",
+      "equityValidationReason": "No licensed, authenticated, per-symbol equity series exists in the repository",
+      "proxyStudy": "NOT_EVALUABLE",
+      "limitations": [
+        "The index is a reference series and cannot be traded; the study is a per-Rs 1,00,000 notional normalisation, not an implementable P&L.",
+        "An equity intraday cost schedule is applied to an index series; the two errors (wrong schedule, non-tradable series) bias in opposite directions and neither is quantified.",
+        "The strategy requires volume, which an index series does not publish: results are NOT_EVALUABLE, not negative."
+      ]
+    },
+    {
+      "id": "x_parabolic_sar",
+      "name": "Parabolic SAR",
+      "family": "TREND_FOLLOWING",
+      "enabled": false,
+      "intendedInstrument": "EQUITY — NSE cash market, intraday",
+      "requiresVolume": false,
+      "dataUsedInStudy": "NIFTY50_1min_{2022,2023,2024}",
+      "dataClass": "INDEX_REFERENCE",
+      "tradable": false,
+      "volumeAvailable": false,
+      "contractSpec": "not applicable (spot index)",
+      "lotSize": "not applicable (spot index)",
+      "sessions": "09:15-15:30 IST, plus enumerated special sessions (2024-03-02, 2024-05-18, 2024-11-01)",
+      "costModelApplied": "NSE EQUITY intraday (Shoonya defaults) — a documented proxy, NOT this instrument's schedule",
+      "costModelMatchesInstrument": false,
+      "provenance": "data/provenance/external_dataset_manifest.json",
+      "equityValidation": "BLOCKED",
+      "equityValidationReason": "No licensed, authenticated, per-symbol equity series exists in the repository",
+      "proxyStudy": "COMPLETED (proxy only)",
+      "limitations": [
+        "The index is a reference series and cannot be traded; the study is a per-Rs 1,00,000 notional normalisation, not an implementable P&L.",
+        "An equity intraday cost schedule is applied to an index series; the two errors (wrong schedule, non-tradable series) bias in opposite directions and neither is quantified."
+      ]
+    },
+    {
+      "id": "x_fibonacci_retracement",
+      "name": "Fibonacci Retracement Pullback",
+      "family": "MEAN_REVERSION",
+      "enabled": false,
+      "intendedInstrument": "EQUITY — NSE cash market, intraday",
+      "requiresVolume": false,
+      "dataUsedInStudy": "NIFTY50_1min_{2022,2023,2024}",
+      "dataClass": "INDEX_REFERENCE",
+      "tradable": false,
+      "volumeAvailable": false,
+      "contractSpec": "not applicable (spot index)",
+      "lotSize": "not applicable (spot index)",
+      "sessions": "09:15-15:30 IST, plus enumerated special sessions (2024-03-02, 2024-05-18, 2024-11-01)",
+      "costModelApplied": "NSE EQUITY intraday (Shoonya defaults) — a documented proxy, NOT this instrument's schedule",
+      "costModelMatchesInstrument": false,
+      "provenance": "data/provenance/external_dataset_manifest.json",
+      "equityValidation": "BLOCKED",
+      "equityValidationReason": "No licensed, authenticated, per-symbol equity series exists in the repository",
+      "proxyStudy": "COMPLETED (proxy only)",
+      "limitations": [
+        "The index is a reference series and cannot be traded; the study is a per-Rs 1,00,000 notional normalisation, not an implementable P&L.",
+        "An equity intraday cost schedule is applied to an index series; the two errors (wrong schedule, non-tradable series) bias in opposite directions and neither is quantified."
+      ]
+    },
+    {
+      "id": "x_volume_profile",
+      "name": "Volume Profile (POC/Value Area)",
+      "family": "MOMENTUM",
+      "enabled": false,
+      "intendedInstrument": "EQUITY — NSE cash market, intraday",
+      "requiresVolume": true,
+      "dataUsedInStudy": "NIFTY50_1min_{2022,2023,2024}",
+      "dataClass": "INDEX_REFERENCE",
+      "tradable": false,
+      "volumeAvailable": false,
+      "contractSpec": "not applicable (spot index)",
+      "lotSize": "not applicable (spot index)",
+      "sessions": "09:15-15:30 IST, plus enumerated special sessions (2024-03-02, 2024-05-18, 2024-11-01)",
+      "costModelApplied": "NSE EQUITY intraday (Shoonya defaults) — a documented proxy, NOT this instrument's schedule",
+      "costModelMatchesInstrument": false,
+      "provenance": "data/provenance/external_dataset_manifest.json",
+      "equityValidation": "BLOCKED",
+      "equityValidationReason": "No licensed, authenticated, per-symbol equity series exists in the repository",
+      "proxyStudy": "NOT_EVALUABLE",
+      "limitations": [
+        "The index is a reference series and cannot be traded; the study is a per-Rs 1,00,000 notional normalisation, not an implementable P&L.",
+        "An equity intraday cost schedule is applied to an index series; the two errors (wrong schedule, non-tradable series) bias in opposite directions and neither is quantified.",
+        "The strategy requires volume, which an index series does not publish: results are NOT_EVALUABLE, not negative."
+      ]
+    },
+    {
+      "id": "x_donchian_trend_50",
+      "name": "Donchian Trend (50)",
+      "family": "BREAKOUT",
+      "enabled": false,
+      "intendedInstrument": "EQUITY — NSE cash market, intraday",
+      "requiresVolume": false,
+      "dataUsedInStudy": "NIFTY50_1min_{2022,2023,2024}",
+      "dataClass": "INDEX_REFERENCE",
+      "tradable": false,
+      "volumeAvailable": false,
+      "contractSpec": "not applicable (spot index)",
+      "lotSize": "not applicable (spot index)",
+      "sessions": "09:15-15:30 IST, plus enumerated special sessions (2024-03-02, 2024-05-18, 2024-11-01)",
+      "costModelApplied": "NSE EQUITY intraday (Shoonya defaults) — a documented proxy, NOT this instrument's schedule",
+      "costModelMatchesInstrument": false,
+      "provenance": "data/provenance/external_dataset_manifest.json",
+      "equityValidation": "BLOCKED",
+      "equityValidationReason": "No licensed, authenticated, per-symbol equity series exists in the repository",
+      "proxyStudy": "COMPLETED (proxy only)",
+      "limitations": [
+        "The index is a reference series and cannot be traded; the study is a per-Rs 1,00,000 notional normalisation, not an implementable P&L.",
+        "An equity intraday cost schedule is applied to an index series; the two errors (wrong schedule, non-tradable series) bias in opposite directions and neither is quantified."
+      ]
+    },
+    {
+      "id": "x_mtf_trend_confirmation",
+      "name": "Multi-Timeframe Trend Confirmation",
+      "family": "MULTI_TIMEFRAME",
+      "enabled": false,
+      "intendedInstrument": "EQUITY — NSE cash market, intraday",
+      "requiresVolume": false,
+      "dataUsedInStudy": "NIFTY50_1min_{2022,2023,2024}",
+      "dataClass": "INDEX_REFERENCE",
+      "tradable": false,
+      "volumeAvailable": false,
+      "contractSpec": "not applicable (spot index)",
+      "lotSize": "not applicable (spot index)",
+      "sessions": "09:15-15:30 IST, plus enumerated special sessions (2024-03-02, 2024-05-18, 2024-11-01)",
+      "costModelApplied": "NSE EQUITY intraday (Shoonya defaults) — a documented proxy, NOT this instrument's schedule",
+      "costModelMatchesInstrument": false,
+      "provenance": "data/provenance/external_dataset_manifest.json",
+      "equityValidation": "BLOCKED",
+      "equityValidationReason": "No licensed, authenticated, per-symbol equity series exists in the repository",
+      "proxyStudy": "COMPLETED (proxy only)",
+      "limitations": [
+        "The index is a reference series and cannot be traded; the study is a per-Rs 1,00,000 notional normalisation, not an implementable P&L.",
+        "An equity intraday cost schedule is applied to an index series; the two errors (wrong schedule, non-tradable series) bias in opposite directions and neither is quantified."
+      ]
+    }
+  ],
+  "summary": {
+    "strategies": 10,
+    "equityValidationBlocked": 10,
+    "proxyStudiesCompleted": 8,
+    "notEvaluableVolume": 2,
+    "segmentsBlocked": 2
+  },
+  "conclusion": "The equity strategy mandate cannot be validated with the data in this repository: the equity segment is BLOCKED and the index segment is a proxy only. The proxy study is reported as a mechanical study of the price series, never as equity validation, and never as a tradable result.",
+  "verdict": "INSTRUMENT_INCOMPATIBLE_FOR_EQUITY_VALIDATION"
+}

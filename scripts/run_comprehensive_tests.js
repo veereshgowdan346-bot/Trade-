@@ -392,7 +392,25 @@ test("Backtest Engine: Executes 100-candle simulation, computes Sharpe and metri
   assert.ok(typeof summary.totalTrades === "number");
   assert.ok(typeof summary.netPnl === "number");
   assert.ok(typeof summary.winRatePct === "number");
-  assert.ok(typeof summary.sharpeRatio === "number");
+  // BT-004: a short run must NOT report an annualised ratio — annualising per-trade returns
+  // with sqrt(252) was the defect. The contract is now: null + an explicit basis, or a real
+  // session-annualised number once enough sessions exist. Asserting null-for-short-runs is
+  // STRICTER than the previous "is a number" check, which accepted the invalid value.
+  assert.ok(
+    summary.sharpeRatio === null || typeof summary.sharpeRatio === "number",
+    "sharpeRatio must be null or a finite number",
+  );
+  assert.ok(
+    summary.riskAdjustedBasis === "INSUFFICIENT_SAMPLE" || summary.riskAdjustedBasis === "DAILY_ANNUALIZED",
+    "riskAdjustedBasis must be declared",
+  );
+  if (summary.sharpeRatio === null) {
+    assert.strictEqual(summary.riskAdjustedBasis, "INSUFFICIENT_SAMPLE");
+    assert.ok(summary.sessions < 20, "null Sharpe only permitted below the session threshold");
+  } else {
+    assert.strictEqual(summary.riskAdjustedBasis, "DAILY_ANNUALIZED");
+    assert.ok(summary.sessions >= 20, "daily-annualised Sharpe requires >= 20 sessions");
+  }
   assert.ok(summary.maxDrawdown >= 0);
 });
 

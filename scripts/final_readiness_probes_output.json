@@ -1,11 +1,9 @@
 {
-  "generatedAt": "2026-11-17T15:15:26.522Z",
+  "generatedAt": "2026-11-17T17:39:15.961Z",
   "probeCount": 12,
-  "passed": 11,
-  "failed": 1,
-  "failedProbes": [
-    "P5_linear_or_better"
-  ],
+  "passed": 12,
+  "failed": 0,
+  "failedProbes": [],
   "results": {
     "P1_regime_no_throw_no_nan": {
       "status": "PASS",
@@ -180,52 +178,52 @@
             "candles": 500,
             "trades": 4,
             "netPnl": -348.17,
-            "elapsedMs": 70,
-            "usPerCandle": 139.29,
-            "rssDeltaMb": 6
+            "elapsedMs": 9,
+            "usPerCandle": 17.43,
+            "rssDeltaMb": 3
           },
           {
             "candles": 1000,
             "trades": 4,
             "netPnl": -348.17,
-            "elapsedMs": 60,
-            "usPerCandle": 60.5,
-            "rssDeltaMb": 2
+            "elapsedMs": 10,
+            "usPerCandle": 9.52,
+            "rssDeltaMb": 1
           },
           {
             "candles": 2000,
             "trades": 7,
             "netPnl": -734.35,
-            "elapsedMs": 384,
-            "usPerCandle": 192.02,
-            "rssDeltaMb": 9
+            "elapsedMs": 19,
+            "usPerCandle": 9.62,
+            "rssDeltaMb": 4
           },
           {
             "candles": 4000,
             "trades": 12,
             "netPnl": -817.53,
-            "elapsedMs": 904,
-            "usPerCandle": 226.1,
-            "rssDeltaMb": 17
+            "elapsedMs": 37,
+            "usPerCandle": 9.14,
+            "rssDeltaMb": 1
           },
           {
             "candles": 8000,
             "trades": 29,
             "netPnl": -1645.07,
-            "elapsedMs": 2932,
-            "usPerCandle": 366.44,
-            "rssDeltaMb": 6
+            "elapsedMs": 49,
+            "usPerCandle": 6.1,
+            "rssDeltaMb": 17
           }
         ],
-        "doublingRatio_1000_to_2000": 6.4,
+        "doublingRatio_1000_to_2000": 1.9,
         "ceilingTested": 8000
       }
     },
     "P5_linear_or_better": {
-      "status": "FAIL",
+      "status": "PASS",
       "detail": {
-        "measuredDoublingRatio": 6.4,
-        "verdict": "SUPER-LINEAR (consistent with O(n^2) full-prefix recomputation)"
+        "measuredDoublingRatio": 1.9,
+        "verdict": "linear-ish"
       }
     },
     "P6_concurrent_determinism": {

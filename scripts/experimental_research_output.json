@@ -1,0 +1,995 @@
+{
+  "generatedAt": "2026-11-17T17:36:28.607Z",
+  "scope": "RESEARCH ONLY — experimental strategies are disabled and not connected to the production quorum",
+  "harnessRules": {
+    "signalPrefix": "candles.slice(0,i) (excludes current bar)",
+    "fillModel": "entry at c[i].c, stop/target at level, EOD at next-day open",
+    "minConfidence": 55,
+    "sleeve": 100000,
+    "sourceOfTruth": "src/lib/experimental_harness.ts",
+    "costModel": "statutory round-trip (Shoonya) + slippage; rates UNVERIFIED against official tariffs",
+    "leverage": "none",
+    "parameterSearch": "none"
+  },
+  "registryValidation": {
+    "ok": true,
+    "count": 10
+  },
+  "datasets": {
+    "TRENDING": {
+      "bars": 4500,
+      "barsPerDay": 375
+    },
+    "CHOPPY": {
+      "bars": 4500,
+      "barsPerDay": 375
+    },
+    "VOLATILE": {
+      "bars": 4500,
+      "barsPerDay": 375
+    }
+  },
+  "perStrategy": {
+    "x_macd_momentum": {
+      "name": "MACD Momentum (12,26,9)",
+      "family": "MOMENTUM",
+      "status": "EXPLORATORY",
+      "byRegime": {
+        "TRENDING": {
+          "label": "x_macd_momentum@TRENDING",
+          "trades": 546,
+          "gross": -13218.28,
+          "net": -125507.92,
+          "totalCharges": 112289.64,
+          "winRatePct": 17,
+          "profitFactor": 0.137,
+          "expectancy": -229.87,
+          "avgWin": 215,
+          "avgLoss": -321.2,
+          "maxDrawdown": 125629.51,
+          "costToGrossRatio": 8.495
+        },
+        "CHOPPY": {
+          "label": "x_macd_momentum@CHOPPY",
+          "trades": 474,
+          "gross": 162304,
+          "net": 64643.28,
+          "totalCharges": 97660.72,
+          "winRatePct": 49.4,
+          "profitFactor": 1.51,
+          "expectancy": 136.38,
+          "avgWin": 818.29,
+          "avgLoss": -528.49,
+          "maxDrawdown": 1225.48,
+          "costToGrossRatio": 0.602
+        },
+        "VOLATILE": {
+          "label": "x_macd_momentum@VOLATILE",
+          "trades": 487,
+          "gross": 38513.19,
+          "net": -61928.71,
+          "totalCharges": 100441.9,
+          "winRatePct": 37,
+          "profitFactor": 0.825,
+          "expectancy": -127.16,
+          "avgWin": 1626.28,
+          "avgLoss": -1155.24,
+          "maxDrawdown": 65211.02,
+          "costToGrossRatio": 2.608
+        }
+      },
+      "aggregate": {
+        "trades": 1507,
+        "net": -122793.35,
+        "regimesPositive": 1,
+        "regimesTested": 3
+      }
+    },
+    "x_ichimoku_cloud": {
+      "name": "Ichimoku Cloud (9,26,52)",
+      "family": "TREND_FOLLOWING",
+      "status": "EXPLORATORY",
+      "byRegime": {
+        "TRENDING": {
+          "label": "x_ichimoku_cloud@TRENDING",
+          "trades": 203,
+          "gross": 108518.81,
+          "net": 66702.52,
+          "totalCharges": 41816.29,
+          "winRatePct": 98.5,
+          "profitFactor": 161.546,
+          "expectancy": 328.58,
+          "avgWin": 335.59,
+          "avgLoss": -138.49,
+          "maxDrawdown": 241.79,
+          "costToGrossRatio": 0.385
+        },
+        "CHOPPY": {
+          "label": "x_ichimoku_cloud@CHOPPY",
+          "trades": 243,
+          "gross": -164591.96,
+          "net": -214629.73,
+          "totalCharges": 50037.77,
+          "winRatePct": 0.4,
+          "profitFactor": 0,
+          "expectancy": -883.25,
+          "avgWin": 8.57,
+          "avgLoss": -886.94,
+          "maxDrawdown": 214629.73,
+          "costToGrossRatio": 0.304
+        },
+        "VOLATILE": {
+          "label": "x_ichimoku_cloud@VOLATILE",
+          "trades": 254,
+          "gross": -44560.52,
+          "net": -96944.7,
+          "totalCharges": 52384.18,
+          "winRatePct": 33.5,
+          "profitFactor": 0.705,
+          "expectancy": -381.67,
+          "avgWin": 2719.77,
+          "avgLoss": -1941.57,
+          "maxDrawdown": 112105.48,
+          "costToGrossRatio": 1.176
+        }
+      },
+      "aggregate": {
+        "trades": 700,
+        "net": -244871.91,
+        "regimesPositive": 1,
+        "regimesTested": 3
+      }
+    },
+    "x_keltner_channel": {
+      "name": "Keltner Channel (20, 1.5 ATR)",
+      "family": "VOLATILITY_REGIME",
+      "status": "EXPLORATORY",
+      "byRegime": {
+        "TRENDING": {
+          "label": "x_keltner_channel@TRENDING",
+          "trades": 142,
+          "gross": 74633.7,
+          "net": 45386.04,
+          "totalCharges": 29247.66,
+          "winRatePct": 99.3,
+          "profitFactor": 618.289,
+          "expectancy": 319.62,
+          "avgWin": 322.41,
+          "avgLoss": -73.52,
+          "maxDrawdown": 73.52,
+          "costToGrossRatio": 0.392
+        },
+        "CHOPPY": {
+          "label": "x_keltner_channel@CHOPPY",
+          "trades": 236,
+          "gross": -160669.23,
+          "net": -209256.84,
+          "totalCharges": 48587.61,
+          "winRatePct": 0.4,
+          "profitFactor": 0,
+          "expectancy": -886.68,
+          "avgWin": 18.43,
+          "avgLoss": -890.53,
+          "maxDrawdown": 209256.84,
+          "costToGrossRatio": 0.302
+        },
+        "VOLATILE": {
+          "label": "x_keltner_channel@VOLATILE",
+          "trades": 152,
+          "gross": -53747.89,
+          "net": -85095.42,
+          "totalCharges": 31347.53,
+          "winRatePct": 34.2,
+          "profitFactor": 0.631,
+          "expectancy": -559.84,
+          "avgWin": 2803.93,
+          "avgLoss": -2309,
+          "maxDrawdown": 92513.92,
+          "costToGrossRatio": 0.583
+        }
+      },
+      "aggregate": {
+        "trades": 530,
+        "net": -248966.22,
+        "regimesPositive": 1,
+        "regimesTested": 3
+      }
+    },
+    "x_choppiness_index": {
+      "name": "Choppiness Index Filter",
+      "family": "REGIME_CONDITIONED",
+      "status": "EXPLORATORY",
+      "byRegime": {
+        "TRENDING": {
+          "label": "x_choppiness_index@TRENDING",
+          "trades": 1,
+          "gross": 401.33,
+          "net": 194.26,
+          "totalCharges": 207.07,
+          "winRatePct": 100,
+          "profitFactor": null,
+          "expectancy": 194.26,
+          "avgWin": 194.26,
+          "avgLoss": 0,
+          "maxDrawdown": 0,
+          "costToGrossRatio": 0.516
+        },
+        "CHOPPY": {
+          "label": "x_choppiness_index@CHOPPY",
+          "trades": 127,
+          "gross": -86180.49,
+          "net": -112354.62,
+          "totalCharges": 26174.13,
+          "winRatePct": 0,
+          "profitFactor": 0,
+          "expectancy": -884.68,
+          "avgWin": 0,
+          "avgLoss": -884.68,
+          "maxDrawdown": 112354.62,
+          "costToGrossRatio": 0.304
+        },
+        "VOLATILE": {
+          "label": "x_choppiness_index@VOLATILE",
+          "trades": 40,
+          "gross": -1837.46,
+          "net": -10096.71,
+          "totalCharges": 8259.25,
+          "winRatePct": 42.5,
+          "profitFactor": 0.816,
+          "expectancy": -252.42,
+          "avgWin": 2642.18,
+          "avgLoss": -2391.9,
+          "maxDrawdown": 19500.73,
+          "costToGrossRatio": 4.495
+        }
+      },
+      "aggregate": {
+        "trades": 168,
+        "net": -122257.07,
+        "regimesPositive": 1,
+        "regimesTested": 3
+      }
+    },
+    "x_obv_confirmation": {
+      "name": "OBV Volume Confirmation",
+      "family": "VOLUME_CONFIRMATION",
+      "status": "EXPLORATORY",
+      "byRegime": {
+        "TRENDING": {
+          "label": "x_obv_confirmation@TRENDING",
+          "trades": 81,
+          "gross": 50718.04,
+          "net": 33990.82,
+          "totalCharges": 16727.22,
+          "winRatePct": 91.4,
+          "profitFactor": 17.828,
+          "expectancy": 419.64,
+          "avgWin": 486.63,
+          "avgLoss": -288.56,
+          "maxDrawdown": 1073.49,
+          "costToGrossRatio": 0.33
+        },
+        "CHOPPY": {
+          "label": "x_obv_confirmation@CHOPPY",
+          "trades": 452,
+          "gross": 89520.69,
+          "net": -3691.31,
+          "totalCharges": 93212,
+          "winRatePct": 43.1,
+          "profitFactor": 0.975,
+          "expectancy": -8.17,
+          "avgWin": 732.79,
+          "avgLoss": -570.37,
+          "maxDrawdown": 6852.35,
+          "costToGrossRatio": 1.041
+        },
+        "VOLATILE": {
+          "label": "x_obv_confirmation@VOLATILE",
+          "trades": 684,
+          "gross": 23394.96,
+          "net": -117670.93,
+          "totalCharges": 141065.89,
+          "winRatePct": 37.9,
+          "profitFactor": 0.729,
+          "expectancy": -172.03,
+          "avgWin": 1222.53,
+          "avgLoss": -1021.9,
+          "maxDrawdown": 124340.91,
+          "costToGrossRatio": 6.03
+        }
+      },
+      "aggregate": {
+        "trades": 1217,
+        "net": -87371.42,
+        "regimesPositive": 1,
+        "regimesTested": 3
+      }
+    },
+    "x_parabolic_sar": {
+      "name": "Parabolic SAR",
+      "family": "TREND_FOLLOWING",
+      "status": "EXPLORATORY",
+      "byRegime": {
+        "TRENDING": {
+          "label": "x_parabolic_sar@TRENDING",
+          "trades": 679,
+          "gross": 67738.22,
+          "net": -71857.71,
+          "totalCharges": 139595.93,
+          "winRatePct": 25.8,
+          "profitFactor": 0.327,
+          "expectancy": -105.83,
+          "avgWin": 199.07,
+          "avgLoss": -211.7,
+          "maxDrawdown": 71857.71,
+          "costToGrossRatio": 2.061
+        },
+        "CHOPPY": {
+          "label": "x_parabolic_sar@CHOPPY",
+          "trades": 589,
+          "gross": 355884.82,
+          "net": 234450.93,
+          "totalCharges": 121433.89,
+          "winRatePct": 80.3,
+          "profitFactor": 10.544,
+          "expectancy": 398.05,
+          "avgWin": 547.6,
+          "avgLoss": -211.77,
+          "maxDrawdown": 833.21,
+          "costToGrossRatio": 0.341
+        },
+        "VOLATILE": {
+          "label": "x_parabolic_sar@VOLATILE",
+          "trades": 597,
+          "gross": 34961.6,
+          "net": -88141.4,
+          "totalCharges": 123103,
+          "winRatePct": 35,
+          "profitFactor": 0.789,
+          "expectancy": -147.64,
+          "avgWin": 1572.36,
+          "avgLoss": -1074.14,
+          "maxDrawdown": 92793.31,
+          "costToGrossRatio": 3.521
+        }
+      },
+      "aggregate": {
+        "trades": 1865,
+        "net": 74451.82,
+        "regimesPositive": 1,
+        "regimesTested": 3
+      }
+    },
+    "x_fibonacci_retracement": {
+      "name": "Fibonacci Retracement Pullback",
+      "family": "MEAN_REVERSION",
+      "status": "EXPLORATORY",
+      "byRegime": {
+        "TRENDING": {
+          "label": "x_fibonacci_retracement@TRENDING",
+          "trades": 9,
+          "gross": 3699.65,
+          "net": 1850.56,
+          "totalCharges": 1849.09,
+          "winRatePct": 100,
+          "profitFactor": null,
+          "expectancy": 205.62,
+          "avgWin": 205.62,
+          "avgLoss": 0,
+          "maxDrawdown": 0,
+          "costToGrossRatio": 0.5
+        },
+        "CHOPPY": {
+          "label": "x_fibonacci_retracement@CHOPPY",
+          "trades": 421,
+          "gross": -58340.64,
+          "net": -145190.2,
+          "totalCharges": 86849.56,
+          "winRatePct": 38,
+          "profitFactor": 0.191,
+          "expectancy": -344.87,
+          "avgWin": 214.73,
+          "avgLoss": -687.92,
+          "maxDrawdown": 145190.2,
+          "costToGrossRatio": 1.489
+        },
+        "VOLATILE": {
+          "label": "x_fibonacci_retracement@VOLATILE",
+          "trades": 231,
+          "gross": 19656.81,
+          "net": -28009.98,
+          "totalCharges": 47666.79,
+          "winRatePct": 54.1,
+          "profitFactor": 0.841,
+          "expectancy": -121.26,
+          "avgWin": 1186.71,
+          "avgLoss": -1663.67,
+          "maxDrawdown": 50029.78,
+          "costToGrossRatio": 2.425
+        }
+      },
+      "aggregate": {
+        "trades": 661,
+        "net": -171349.62,
+        "regimesPositive": 1,
+        "regimesTested": 3
+      }
+    },
+    "x_volume_profile": {
+      "name": "Volume Profile (POC/Value Area)",
+      "family": "MOMENTUM",
+      "status": "EXPLORATORY",
+      "byRegime": {
+        "TRENDING": {
+          "label": "x_volume_profile@TRENDING",
+          "trades": 312,
+          "gross": -111637.68,
+          "net": -175807.33,
+          "totalCharges": 64169.65,
+          "winRatePct": 0,
+          "profitFactor": 0,
+          "expectancy": -563.49,
+          "avgWin": 0,
+          "avgLoss": -563.49,
+          "maxDrawdown": 175807.33,
+          "costToGrossRatio": 0.575
+        },
+        "CHOPPY": {
+          "label": "x_volume_profile@CHOPPY",
+          "trades": 545,
+          "gross": -133076.28,
+          "net": -245396.81,
+          "totalCharges": 112320.53,
+          "winRatePct": 29.9,
+          "profitFactor": 0.158,
+          "expectancy": -450.27,
+          "avgWin": 283.36,
+          "avgLoss": -763.31,
+          "maxDrawdown": 245396.81,
+          "costToGrossRatio": 0.844
+        },
+        "VOLATILE": {
+          "label": "x_volume_profile@VOLATILE",
+          "trades": 282,
+          "gross": -4623.88,
+          "net": -62772.86,
+          "totalCharges": 58148.98,
+          "winRatePct": 46.5,
+          "profitFactor": 0.803,
+          "expectancy": -222.6,
+          "avgWin": 1950.01,
+          "avgLoss": -2107.45,
+          "maxDrawdown": 103559.72,
+          "costToGrossRatio": 12.576
+        }
+      },
+      "aggregate": {
+        "trades": 1139,
+        "net": -483977,
+        "regimesPositive": 0,
+        "regimesTested": 3
+      }
+    },
+    "x_donchian_trend_50": {
+      "name": "Donchian Trend (50)",
+      "family": "BREAKOUT",
+      "status": "EXPLORATORY",
+      "byRegime": {
+        "TRENDING": {
+          "label": "x_donchian_trend_50@TRENDING",
+          "trades": 108,
+          "gross": 57105.59,
+          "net": 34844.77,
+          "totalCharges": 22260.82,
+          "winRatePct": 98.1,
+          "profitFactor": 156.484,
+          "expectancy": 322.64,
+          "avgWin": 330.84,
+          "avgLoss": -112.05,
+          "maxDrawdown": 195.25,
+          "costToGrossRatio": 0.39
+        },
+        "CHOPPY": {
+          "label": "x_donchian_trend_50@CHOPPY",
+          "trades": 0,
+          "gross": 0,
+          "net": 0,
+          "winRatePct": 0,
+          "profitFactor": 0,
+          "expectancy": 0,
+          "avgWin": 0,
+          "avgLoss": 0,
+          "maxDrawdown": 0,
+          "totalCharges": 0,
+          "costToGrossRatio": null,
+          "note": "no trades"
+        },
+        "VOLATILE": {
+          "label": "x_donchian_trend_50@VOLATILE",
+          "trades": 113,
+          "gross": -17048.27,
+          "net": -40375.68,
+          "totalCharges": 23327.41,
+          "winRatePct": 38.1,
+          "profitFactor": 0.749,
+          "expectancy": -357.31,
+          "avgWin": 2801.43,
+          "avgLoss": -2297.68,
+          "maxDrawdown": 48396.81,
+          "costToGrossRatio": 1.368
+        }
+      },
+      "aggregate": {
+        "trades": 221,
+        "net": -5530.91,
+        "regimesPositive": 1,
+        "regimesTested": 3
+      }
+    },
+    "x_mtf_trend_confirmation": {
+      "name": "Multi-Timeframe Trend Confirmation",
+      "family": "MULTI_TIMEFRAME",
+      "status": "EXPLORATORY",
+      "byRegime": {
+        "TRENDING": {
+          "label": "x_mtf_trend_confirmation@TRENDING",
+          "trades": 201,
+          "gross": 107036.92,
+          "net": 65628.92,
+          "totalCharges": 41408,
+          "winRatePct": 98.5,
+          "profitFactor": 325.041,
+          "expectancy": 326.51,
+          "avgWin": 332.48,
+          "avgLoss": -67.51,
+          "maxDrawdown": 100.16,
+          "costToGrossRatio": 0.387
+        },
+        "CHOPPY": {
+          "label": "x_mtf_trend_confirmation@CHOPPY",
+          "trades": 291,
+          "gross": -45307.77,
+          "net": -105375.32,
+          "totalCharges": 60067.55,
+          "winRatePct": 9.3,
+          "profitFactor": 0.147,
+          "expectancy": -362.11,
+          "avgWin": 671.97,
+          "avgLoss": -467.87,
+          "maxDrawdown": 105375.32,
+          "costToGrossRatio": 1.326
+        },
+        "VOLATILE": {
+          "label": "x_mtf_trend_confirmation@VOLATILE",
+          "trades": 481,
+          "gross": -8874.51,
+          "net": -108068.91,
+          "totalCharges": 99194.4,
+          "winRatePct": 32.6,
+          "profitFactor": 0.729,
+          "expectancy": -224.68,
+          "avgWin": 1851.14,
+          "avgLoss": -1230.55,
+          "maxDrawdown": 119587.43,
+          "costToGrossRatio": 11.177
+        }
+      },
+      "aggregate": {
+        "trades": 973,
+        "net": -147815.31,
+        "regimesPositive": 1,
+        "regimesTested": 3
+      }
+    }
+  },
+  "correlation": {
+    "pairs": 45,
+    "definedPairs": 45,
+    "highCorrelationPairs": [
+      {
+        "a": "x_macd_momentum",
+        "b": "x_fibonacci_retracement",
+        "corr": -0.989
+      },
+      {
+        "a": "x_macd_momentum",
+        "b": "x_volume_profile",
+        "corr": -0.896
+      },
+      {
+        "a": "x_ichimoku_cloud",
+        "b": "x_keltner_channel",
+        "corr": 0.869
+      },
+      {
+        "a": "x_ichimoku_cloud",
+        "b": "x_choppiness_index",
+        "corr": 0.961
+      },
+      {
+        "a": "x_ichimoku_cloud",
+        "b": "x_parabolic_sar",
+        "corr": -0.798
+      },
+      {
+        "a": "x_ichimoku_cloud",
+        "b": "x_mtf_trend_confirmation",
+        "corr": 0.939
+      },
+      {
+        "a": "x_keltner_channel",
+        "b": "x_choppiness_index",
+        "corr": 0.71
+      },
+      {
+        "a": "x_keltner_channel",
+        "b": "x_mtf_trend_confirmation",
+        "corr": 0.75
+      },
+      {
+        "a": "x_choppiness_index",
+        "b": "x_parabolic_sar",
+        "corr": -0.902
+      },
+      {
+        "a": "x_choppiness_index",
+        "b": "x_mtf_trend_confirmation",
+        "corr": 0.902
+      },
+      {
+        "a": "x_obv_confirmation",
+        "b": "x_donchian_trend_50",
+        "corr": 0.997
+      },
+      {
+        "a": "x_parabolic_sar",
+        "b": "x_volume_profile",
+        "corr": -0.861
+      },
+      {
+        "a": "x_fibonacci_retracement",
+        "b": "x_volume_profile",
+        "corr": 0.94
+      }
+    ],
+    "sampleDays": 4,
+    "reliability": "INSUFFICIENT_SAMPLE_DO_NOT_ACT_ON",
+    "matrix": [
+      {
+        "a": "x_macd_momentum",
+        "b": "x_ichimoku_cloud",
+        "corr": -0.195
+      },
+      {
+        "a": "x_macd_momentum",
+        "b": "x_keltner_channel",
+        "corr": -0.319
+      },
+      {
+        "a": "x_macd_momentum",
+        "b": "x_choppiness_index",
+        "corr": -0.215
+      },
+      {
+        "a": "x_macd_momentum",
+        "b": "x_obv_confirmation",
+        "corr": 0.413
+      },
+      {
+        "a": "x_macd_momentum",
+        "b": "x_parabolic_sar",
+        "corr": 0.547
+      },
+      {
+        "a": "x_macd_momentum",
+        "b": "x_fibonacci_retracement",
+        "corr": -0.989
+      },
+      {
+        "a": "x_macd_momentum",
+        "b": "x_volume_profile",
+        "corr": -0.896
+      },
+      {
+        "a": "x_macd_momentum",
+        "b": "x_donchian_trend_50",
+        "corr": 0.477
+      },
+      {
+        "a": "x_macd_momentum",
+        "b": "x_mtf_trend_confirmation",
+        "corr": 0.151
+      },
+      {
+        "a": "x_ichimoku_cloud",
+        "b": "x_keltner_channel",
+        "corr": 0.869
+      },
+      {
+        "a": "x_ichimoku_cloud",
+        "b": "x_choppiness_index",
+        "corr": 0.961
+      },
+      {
+        "a": "x_ichimoku_cloud",
+        "b": "x_obv_confirmation",
+        "corr": -0.072
+      },
+      {
+        "a": "x_ichimoku_cloud",
+        "b": "x_parabolic_sar",
+        "corr": -0.798
+      },
+      {
+        "a": "x_ichimoku_cloud",
+        "b": "x_fibonacci_retracement",
+        "corr": 0.257
+      },
+      {
+        "a": "x_ichimoku_cloud",
+        "b": "x_volume_profile",
+        "corr": 0.556
+      },
+      {
+        "a": "x_ichimoku_cloud",
+        "b": "x_donchian_trend_50",
+        "corr": -0.121
+      },
+      {
+        "a": "x_ichimoku_cloud",
+        "b": "x_mtf_trend_confirmation",
+        "corr": 0.939
+      },
+      {
+        "a": "x_keltner_channel",
+        "b": "x_choppiness_index",
+        "corr": 0.71
+      },
+      {
+        "a": "x_keltner_channel",
+        "b": "x_obv_confirmation",
+        "corr": 0.304
+      },
+      {
+        "a": "x_keltner_channel",
+        "b": "x_parabolic_sar",
+        "corr": -0.542
+      },
+      {
+        "a": "x_keltner_channel",
+        "b": "x_fibonacci_retracement",
+        "corr": 0.307
+      },
+      {
+        "a": "x_keltner_channel",
+        "b": "x_volume_profile",
+        "corr": 0.504
+      },
+      {
+        "a": "x_keltner_channel",
+        "b": "x_donchian_trend_50",
+        "corr": 0.237
+      },
+      {
+        "a": "x_keltner_channel",
+        "b": "x_mtf_trend_confirmation",
+        "corr": 0.75
+      },
+      {
+        "a": "x_choppiness_index",
+        "b": "x_obv_confirmation",
+        "corr": -0.331
+      },
+      {
+        "a": "x_choppiness_index",
+        "b": "x_parabolic_sar",
+        "corr": -0.902
+      },
+      {
+        "a": "x_choppiness_index",
+        "b": "x_fibonacci_retracement",
+        "corr": 0.31
+      },
+      {
+        "a": "x_choppiness_index",
+        "b": "x_volume_profile",
+        "corr": 0.616
+      },
+      {
+        "a": "x_choppiness_index",
+        "b": "x_donchian_trend_50",
+        "corr": -0.371
+      },
+      {
+        "a": "x_choppiness_index",
+        "b": "x_mtf_trend_confirmation",
+        "corr": 0.902
+      },
+      {
+        "a": "x_obv_confirmation",
+        "b": "x_parabolic_sar",
+        "corr": 0.631
+      },
+      {
+        "a": "x_obv_confirmation",
+        "b": "x_fibonacci_retracement",
+        "corr": -0.528
+      },
+      {
+        "a": "x_obv_confirmation",
+        "b": "x_volume_profile",
+        "corr": -0.563
+      },
+      {
+        "a": "x_obv_confirmation",
+        "b": "x_donchian_trend_50",
+        "corr": 0.997
+      },
+      {
+        "a": "x_obv_confirmation",
+        "b": "x_mtf_trend_confirmation",
+        "corr": 0.043
+      },
+      {
+        "a": "x_parabolic_sar",
+        "b": "x_fibonacci_retracement",
+        "corr": -0.647
+      },
+      {
+        "a": "x_parabolic_sar",
+        "b": "x_volume_profile",
+        "corr": -0.861
+      },
+      {
+        "a": "x_parabolic_sar",
+        "b": "x_donchian_trend_50",
+        "corr": 0.678
+      },
+      {
+        "a": "x_parabolic_sar",
+        "b": "x_mtf_trend_confirmation",
+        "corr": -0.627
+      },
+      {
+        "a": "x_fibonacci_retracement",
+        "b": "x_volume_profile",
+        "corr": 0.94
+      },
+      {
+        "a": "x_fibonacci_retracement",
+        "b": "x_donchian_trend_50",
+        "corr": -0.59
+      },
+      {
+        "a": "x_fibonacci_retracement",
+        "b": "x_mtf_trend_confirmation",
+        "corr": -0.081
+      },
+      {
+        "a": "x_volume_profile",
+        "b": "x_donchian_trend_50",
+        "corr": -0.628
+      },
+      {
+        "a": "x_volume_profile",
+        "b": "x_mtf_trend_confirmation",
+        "corr": 0.255
+      },
+      {
+        "a": "x_donchian_trend_50",
+        "b": "x_mtf_trend_confirmation",
+        "corr": 0.017
+      }
+    ]
+  },
+  "portfolio": {
+    "days": [
+      "2026-01-05",
+      "2026-01-06",
+      "2026-01-07",
+      "2026-01-08"
+    ],
+    "equalWeightNet": -156048.1,
+    "equalWeightMaxDrawdown": 156048.1,
+    "strategiesWithAnyPnl": 10,
+    "concentration": [
+      {
+        "id": "x_volume_profile",
+        "contribution": -483976.99
+      },
+      {
+        "id": "x_keltner_channel",
+        "contribution": -248966.22
+      },
+      {
+        "id": "x_ichimoku_cloud",
+        "contribution": -244871.91
+      },
+      {
+        "id": "x_fibonacci_retracement",
+        "contribution": -171349.62
+      },
+      {
+        "id": "x_mtf_trend_confirmation",
+        "contribution": -147815.31
+      },
+      {
+        "id": "x_macd_momentum",
+        "contribution": -122793.35
+      },
+      {
+        "id": "x_choppiness_index",
+        "contribution": -122257.07
+      },
+      {
+        "id": "x_obv_confirmation",
+        "contribution": -87371.41
+      },
+      {
+        "id": "x_parabolic_sar",
+        "contribution": 74451.82
+      },
+      {
+        "id": "x_donchian_trend_50",
+        "contribution": -5530.92
+      }
+    ],
+    "costContribution": [
+      {
+        "id": "x_macd_momentum",
+        "charges": 310392.26,
+        "net": -122793.35
+      },
+      {
+        "id": "x_ichimoku_cloud",
+        "charges": 144238.24,
+        "net": -244871.91
+      },
+      {
+        "id": "x_keltner_channel",
+        "charges": 109182.8,
+        "net": -248966.22
+      },
+      {
+        "id": "x_choppiness_index",
+        "charges": 34640.45,
+        "net": -122257.07
+      },
+      {
+        "id": "x_obv_confirmation",
+        "charges": 251005.11,
+        "net": -87371.42
+      },
+      {
+        "id": "x_parabolic_sar",
+        "charges": 384132.82,
+        "net": 74451.82
+      },
+      {
+        "id": "x_fibonacci_retracement",
+        "charges": 136365.44,
+        "net": -171349.62
+      },
+      {
+        "id": "x_volume_profile",
+        "charges": 234639.16,
+        "net": -483977
+      },
+      {
+        "id": "x_donchian_trend_50",
+        "charges": 45588.23,
+        "net": -5530.91
+      },
+      {
+        "id": "x_mtf_trend_confirmation",
+        "charges": 200669.95,
+        "net": -147815.31
+      }
+    ]
+  },
+  "verdict": {
+    "promotionCandidates": "NONE",
+    "reason": "No experimental strategy is net positive across all tested regimes on this harness; none is a promotion candidate.",
+    "profitabilityEvidence": "NEGATIVE_INSUFFICIENT"
+  }
+}

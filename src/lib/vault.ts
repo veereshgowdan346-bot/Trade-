@@ -41,19 +41,9 @@ export const VAULT_FIELDS: Record<VaultKey, VaultFieldDef[]> = {
   ],
 };
 
-let warned = false;
-function masterKey(): Buffer {
-  const pass = process.env.VAULT_KEY;
-  if (!pass && !warned) {
-    warned = true;
-    console.warn("[vault] VAULT_KEY not set - using development fallback key. Set VAULT_KEY in .env for production.");
-  }
-  return crypto.scryptSync(pass || "omnitradepro-dev-vault-key", "omnitrade-vault-salt-v1", 32);
-}
-
-export function vaultUsingFallbackKey(): boolean {
-  return !process.env.VAULT_KEY;
-}
+// SEC-003: key derivation lives in ./vault_key (no DB dependency) so it is unit-testable.
+export { VaultKeyMissingError, vaultConfigured, vaultUsingFallbackKey } from "./vault_key";
+import { masterKey } from "./vault_key";
 
 export function encrypt(plain: string) {
   const iv = crypto.randomBytes(12);

@@ -7,6 +7,25 @@
 
 ---
 
+## 0. UPDATE — PERF-001 and experimental research (this session)
+
+This report was the Phase-3 hand-off. It has been **superseded in two places** since:
+
+| Item | Phase-3 status | Current status |
+|---|---|---|
+| PERF-001 (O(n²) backtest) | FAIL — documented, not fixed | **PASS — FIXED.** `src/lib/consensus_fast.ts` evaluates decisions in O(n); exact bar-for-bar equivalence proven (0 divergences); 8,000 bars 3,568 ms → 36 ms (98.5×); 200,000 bars 944 ms (re-measured 2026-11-17 on the same host: 8,000 bars 2,697 → 31 ms, 86.4×; 200,000 bars 879 ms — see `PERFORMANCE_BENCHMARKS.md`). |
+| Subsystem probes | 11 / 12 | **12 / 12 PASS** |
+| Financial anchors | −7,576.06 / −4,023.54 / −602.96 | **Unchanged, bit-identical** (`scripts/anchor_reproduction.js`) |
+| Experimental strategies | none | **10-strategy registry built, all disabled, 9/10 net negative, 0 promoted.** See `EXPERIMENTAL_STRATEGIES.md`, `PORTFOLIO_RESEARCH.md` |
+| Test totals | 597 | **636 PASS / 0 FAIL** |
+
+Everything else in this report (defects PAUSE-001/PAPER-002/UI-01/TEST-002, cost model, risk,
+security, UI, paper trading) was re-verified in this session and still holds. RATE-001 and
+PROFIT-001 remain open/blocked — PERF-001 no longer limits profitability research; the missing
+representative dataset now does.
+
+---
+
 ## 1. Scope executed
 
 Every layer of the repository was re-inspected from scratch — prior PASS marks were not
@@ -84,10 +103,13 @@ out-of-sample evidence for the current code and must not be quoted as such. Clas
    12-stage bot workflow, and the live-execution interlock.
 3. **What was fixed?** UI-01 (lint/React effect), PAUSE-001 (paused engine accepted orders),
    PAPER-002 (engine never started the paper engine), TEST-002 (remote-branch allowlist).
-4. **What remains unresolved?** PERF-001 (quadratic backtest scaling, documented not fixed);
-   statutory rate verification (BLOCKED — no official dated documents); three Category-C
-   items carried from earlier phases (RT-001, WAVE-001, QUORUM-002) requiring explicit
-   authorisation; BT-004 open (MEDIUM).
+4. **What remains unresolved?** Statutory rate verification (RATE-001, BLOCKED — no official dated
+   documents, fail-closed paths intact); real market data (DATA-001 — pipeline now resolved, data
+   itself BLOCKED); profitability (PROFIT-001 — FAIL); three Category-C items carried from earlier
+   phases (RT-001, WAVE-001, QUORUM-002) requiring explicit authorisation.
+   **PERF-001 is PASS** (fixed and equivalence-proven; ladder completed 1k–200k incl. 32k/64k) and
+   **BT-004 is FIXED** (Sharpe/Sortino now computed on IST-session returns, `null` below 20 sessions).
+   See `APEX_V2_CONSOLIDATED_REPORT.md`.
 5. **Is paper trading ready?** **Yes, within the isolated simulation scope** — start, stop,
    pause, resume, fills, fees, slippage, positions, P&L, restart recovery and duplicate-order
    protection all verified; no path to a real broker exists.

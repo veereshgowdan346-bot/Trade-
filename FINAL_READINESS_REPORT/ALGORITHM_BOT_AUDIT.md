@@ -1,5 +1,7 @@
 # Algorithm Bot Automation Audit
 
+> **Note:** `ALGORITHM_SIMULATION_AUDIT.md` is the current authoritative workflow audit (15-stage). This file is retained for history.
+
 ## Scope
 The documented 12-stage automated paper workflow, verified stage by stage and then as one
 integrated run. Simulation only.

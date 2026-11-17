@@ -44,8 +44,8 @@ export function encryptJson(obj: unknown, masterKey: string): { ciphertext: stri
    When `GET /api/vault` is queried by the frontend dashboard, it returns `vaultSummary()`:
    ```json
    {
-     "shoonya": { "configured": true, "uid": "FN244756", "hasTotp": true },
-     "angel": { "configured": true, "clientCode": "P41...", "hasTotp": true }
+     "shoonya": { "configured": true, "uid": "[REDACTED-SEC-001]", "hasTotp": true },
+     "angel": { "configured": true, "clientCode": "[REDACTED-SEC-001]", "hasTotp": true }
    }
    ```
    Passphrases, AppKeys, and TOTP secrets are strictly excluded from API payloads.

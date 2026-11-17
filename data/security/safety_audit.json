@@ -1,0 +1,98 @@
+{
+  "generatedAt": "2026-11-17T17:36:37.716Z",
+  "command": "node scripts/audit_safety.js",
+  "checks": [
+    {
+      "id": "SAFE-01",
+      "name": "tradingMode is forced to PAPER even when LIVE is requested",
+      "status": "PASS",
+      "detail": "requested LIVE -> PAPER"
+    },
+    {
+      "id": "SAFE-02",
+      "name": "environment variables cannot enable LIVE",
+      "status": "PASS",
+      "detail": "TRADING_MODE=LIVE -> PAPER"
+    },
+    {
+      "id": "SAFE-03",
+      "name": "live broker execution interlock constant is true",
+      "status": "PASS",
+      "detail": "LIVE_BROKER_EXECUTION_DISABLED === true"
+    },
+    {
+      "id": "SAFE-04",
+      "name": "default risk config ships in PAPER mode",
+      "status": "PASS",
+      "detail": "DEFAULT_RISK.tradingMode = PAPER"
+    },
+    {
+      "id": "SAFE-05",
+      "name": "every experimental strategy is disabled",
+      "status": "PASS",
+      "detail": "10/10 disabled"
+    },
+    {
+      "id": "SAFE-06",
+      "name": "unsupported segment throws instead of inventing a rate",
+      "status": "PASS",
+      "detail": "CURRENCY segment rejected"
+    },
+    {
+      "id": "SAFE-07",
+      "name": "unknown broker fails closed",
+      "status": "PASS",
+      "detail": "unknown broker rejected"
+    },
+    {
+      "id": "SAFE-08",
+      "name": "mutating request from outside is rejected when no token is configured",
+      "status": "PASS",
+      "detail": "status 401"
+    },
+    {
+      "id": "SAFE-09",
+      "name": "mutating request is allowed from loopback",
+      "status": "PASS",
+      "detail": "loopback allowed"
+    },
+    {
+      "id": "SAFE-10",
+      "name": "configured token is required and compared exactly",
+      "status": "PASS",
+      "detail": "missing/wrong rejected, correct accepted (runtime-generated token)"
+    },
+    {
+      "id": "SAFE-11",
+      "name": "rate limiter returns 429 once the budget is exhausted",
+      "status": "PASS",
+      "detail": "429 after 30 writes (limit 30/min)"
+    },
+    {
+      "id": "SAFE-12",
+      "name": "no known leaked identifier remains in the tracked tree",
+      "status": "PASS",
+      "detail": "463 files, 3 digests, 0 matches"
+    },
+    {
+      "id": "SAFE-13",
+      "name": "vault uses a per-install random key, not a published constant",
+      "status": "PASS",
+      "detail": "64-hex per-install key, 0600, stable, no constant fallback"
+    },
+    {
+      "id": "SAFE-14",
+      "name": "credential vault fails closed without VAULT_KEY (no published fallback)",
+      "status": "PASS",
+      "detail": "throws without key, rejects short keys, derives 32 bytes with a key"
+    }
+  ],
+  "passed": 14,
+  "failed": 0,
+  "limitations": [
+    "The engine's order path itself requires a database and live feed; its LIVE rejection is covered by the existing comprehensive suite and by the interlock constant checked here, not re-exercised end-to-end in this script.",
+    "WebSocket stream authentication and vault TOTP are covered by tests/ and were not re-driven here.",
+    "Credential material remains in git history: rotation is required and cannot be performed from this environment."
+  ],
+  "verdict": "PAPER_ONLY_SAFETY_PASS"
+}

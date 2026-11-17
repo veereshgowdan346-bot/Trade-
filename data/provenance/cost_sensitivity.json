@@ -1,0 +1,1232 @@
+{
+  "generatedAt": "2026-11-17T17:16:54.680Z",
+  "command": "SESSION_MODE=CARRY_OVERNIGHT node scripts/cost_sensitivity.js",
+  "sessionMode": "CARRY_OVERNIGHT",
+  "statutoryStatus": "UNVERIFIED",
+  "statutoryNote": "Every statutory head (STT, exchange transaction charge, SEBI turnover fee, GST, stamp duty, brokerage) is UNVERIFIED against any regulator, exchange or broker publication (RATE-001: 0/26 heads). Values used are the model's existing rates and are carried as unverified assumptions, never as official figures.",
+  "slippageNote": "Slippage is varied independently of statutory charges. Zero slippage is an optimistic bound, not a realistic case.",
+  "baseBpsPerSide": 16,
+  "assumptions": [
+    {
+      "id": "M0",
+      "multiplier": 0,
+      "bpsPerSide": 0,
+      "label": "ZERO_SLIPPAGE_STATUTORY_ONLY",
+      "realistic": false,
+      "note": "Perfect fills at the modelled price. NOT REALISTIC; shown as an optimistic bound only."
+    },
+    {
+      "id": "M25",
+      "multiplier": 0.25,
+      "bpsPerSide": 4,
+      "label": "ULTRA_LIQUID_4BPS",
+      "realistic": "plausible_only_for_top_liquidity",
+      "note": "Assumes 4 bps/side — achievable only in the most liquid names; the NIFTY index itself is not tradable."
+    },
+    {
+      "id": "M50",
+      "multiplier": 0.5,
+      "bpsPerSide": 8,
+      "label": "LIQUID_8BPS",
+      "realistic": "plausible",
+      "note": "8 bps/side, a common assumption for liquid large caps."
+    },
+    {
+      "id": "M100",
+      "multiplier": 1,
+      "bpsPerSide": 16,
+      "label": "HARNESS_BASELINE_16BPS",
+      "realistic": "harness_default_unverified",
+      "note": "The model's default (16 bps/side). Not evidence-backed; a documented assumption."
+    },
+    {
+      "id": "M150",
+      "multiplier": 1.5,
+      "bpsPerSide": 24,
+      "label": "STRESSED_24BPS",
+      "realistic": "stressed",
+      "note": "24 bps/side."
+    },
+    {
+      "id": "M200",
+      "multiplier": 2,
+      "bpsPerSide": 32,
+      "label": "SEVERE_32BPS",
+      "realistic": "severe",
+      "note": "32 bps/side."
+    }
+  ],
+  "periods": [
+    {
+      "year": 2022,
+      "period": "TRAIN",
+      "trades": 3925,
+      "gross": 71864.39,
+      "statutoryAtBaseline": 171688.95,
+      "slippageAtBaseline": 569116.25,
+      "statutoryShareOfCosts": 0.2318,
+      "perArm": [
+        {
+          "id": "x_macd_momentum",
+          "trades": 790,
+          "gross": 19738.46,
+          "netByAssumption": {
+            "M0": {
+              "net": -14799.82,
+              "perTrade": -18.73
+            },
+            "M25": {
+              "net": -43415.61,
+              "perTrade": -54.96
+            },
+            "M50": {
+              "net": -72031.39,
+              "perTrade": -91.18
+            },
+            "M100": {
+              "net": -129262.96,
+              "perTrade": -163.62
+            },
+            "M150": {
+              "net": -186494.53,
+              "perTrade": -236.07
+            },
+            "M200": {
+              "net": -243726.1,
+              "perTrade": -308.51
+            }
+          }
+        },
+        {
+          "id": "x_ichimoku_cloud",
+          "trades": 453,
+          "gross": 5585.61,
+          "netByAssumption": {
+            "M0": {
+              "net": -14253.22,
+              "perTrade": -31.46
+            },
+            "M25": {
+              "net": -30701.22,
+              "perTrade": -67.77
+            },
+            "M50": {
+              "net": -47149.22,
+              "perTrade": -104.08
+            },
+            "M100": {
+              "net": -80045.22,
+              "perTrade": -176.7
+            },
+            "M150": {
+              "net": -112941.22,
+              "perTrade": -249.32
+            },
+            "M200": {
+              "net": -145837.22,
+              "perTrade": -321.94
+            }
+          }
+        },
+        {
+          "id": "x_keltner_channel",
+          "trades": 370,
+          "gross": 5448.14,
+          "netByAssumption": {
+            "M0": {
+              "net": -10726.81,
+              "perTrade": -28.99
+            },
+            "M25": {
+              "net": -24128.26,
+              "perTrade": -65.21
+            },
+            "M50": {
+              "net": -37529.72,
+              "perTrade": -101.43
+            },
+            "M100": {
+              "net": -64332.63,
+              "perTrade": -173.87
+            },
+            "M150": {
+              "net": -91135.54,
+              "perTrade": -246.31
+            },
+            "M200": {
+              "net": -117938.45,
+              "perTrade": -318.75
+            }
+          }
+        },
+        {
+          "id": "x_choppiness_index",
+          "trades": 291,
+          "gross": 474.67,
+          "netByAssumption": {
+            "M0": {
+              "net": -12248.4,
+              "perTrade": -42.09
+            },
+            "M25": {
+              "net": -22790.81,
+              "perTrade": -78.32
+            },
+            "M50": {
+              "net": -33333.21,
+              "perTrade": -114.55
+            },
+            "M100": {
+              "net": -54418.02,
+              "perTrade": -187
+            },
+            "M150": {
+              "net": -75502.83,
+              "perTrade": -259.46
+            },
+            "M200": {
+              "net": -96587.64,
+              "perTrade": -331.92
+            }
+          }
+        },
+        {
+          "id": "x_parabolic_sar",
+          "trades": 839,
+          "gross": 15376.97,
+          "netByAssumption": {
+            "M0": {
+              "net": -21358.37,
+              "perTrade": -25.46
+            },
+            "M25": {
+              "net": -51811.85,
+              "perTrade": -61.75
+            },
+            "M50": {
+              "net": -82265.33,
+              "perTrade": -98.05
+            },
+            "M100": {
+              "net": -143172.3,
+              "perTrade": -170.65
+            },
+            "M150": {
+              "net": -204079.26,
+              "perTrade": -243.24
+            },
+            "M200": {
+              "net": -264986.23,
+              "perTrade": -315.84
+            }
+          }
+        },
+        {
+          "id": "x_fibonacci_retracement",
+          "trades": 347,
+          "gross": 7954.25,
+          "netByAssumption": {
+            "M0": {
+              "net": -7245.4,
+              "perTrade": -20.88
+            },
+            "M25": {
+              "net": -19847.69,
+              "perTrade": -57.2
+            },
+            "M50": {
+              "net": -32449.98,
+              "perTrade": -93.52
+            },
+            "M100": {
+              "net": -57654.55,
+              "perTrade": -166.15
+            },
+            "M150": {
+              "net": -82859.13,
+              "perTrade": -238.79
+            },
+            "M200": {
+              "net": -108063.7,
+              "perTrade": -311.42
+            }
+          }
+        },
+        {
+          "id": "x_donchian_trend_50",
+          "trades": 212,
+          "gross": 6334.91,
+          "netByAssumption": {
+            "M0": {
+              "net": -2925.89,
+              "perTrade": -13.8
+            },
+            "M25": {
+              "net": -10596.12,
+              "perTrade": -49.98
+            },
+            "M50": {
+              "net": -18266.35,
+              "perTrade": -86.16
+            },
+            "M100": {
+              "net": -33606.82,
+              "perTrade": -158.52
+            },
+            "M150": {
+              "net": -48947.28,
+              "perTrade": -230.88
+            },
+            "M200": {
+              "net": -64287.75,
+              "perTrade": -303.24
+            }
+          }
+        },
+        {
+          "id": "x_mtf_trend_confirmation",
+          "trades": 623,
+          "gross": 10951.38,
+          "netByAssumption": {
+            "M0": {
+              "net": -16266.65,
+              "perTrade": -26.11
+            },
+            "M25": {
+              "net": -38812.06,
+              "perTrade": -62.3
+            },
+            "M50": {
+              "net": -61357.48,
+              "perTrade": -98.49
+            },
+            "M100": {
+              "net": -106448.31,
+              "perTrade": -170.86
+            },
+            "M150": {
+              "net": -151539.14,
+              "perTrade": -243.24
+            },
+            "M200": {
+              "net": -196629.97,
+              "perTrade": -315.62
+            }
+          }
+        }
+      ],
+      "pooled": {
+        "M0": {
+          "label": "ZERO_SLIPPAGE_STATUTORY_ONLY",
+          "bpsPerSide": 0,
+          "realistic": false,
+          "trades": 3925,
+          "gross": 71864.39,
+          "statutory": 171688.95,
+          "slippage": 0,
+          "net": -99824.56,
+          "perTrade": -25.43,
+          "sign": "NEGATIVE"
+        },
+        "M25": {
+          "label": "ULTRA_LIQUID_4BPS",
+          "bpsPerSide": 4,
+          "realistic": "plausible_only_for_top_liquidity",
+          "trades": 3925,
+          "gross": 71864.39,
+          "statutory": 171688.95,
+          "slippage": 142279.06,
+          "net": -242103.62,
+          "perTrade": -61.68,
+          "sign": "NEGATIVE"
+        },
+        "M50": {
+          "label": "LIQUID_8BPS",
+          "bpsPerSide": 8,
+          "realistic": "plausible",
+          "trades": 3925,
+          "gross": 71864.39,
+          "statutory": 171688.95,
+          "slippage": 284558.13,
+          "net": -384382.69,
+          "perTrade": -97.93,
+          "sign": "NEGATIVE"
+        },
+        "M100": {
+          "label": "HARNESS_BASELINE_16BPS",
+          "bpsPerSide": 16,
+          "realistic": "harness_default_unverified",
+          "trades": 3925,
+          "gross": 71864.39,
+          "statutory": 171688.95,
+          "slippage": 569116.25,
+          "net": -668940.81,
+          "perTrade": -170.43,
+          "sign": "NEGATIVE"
+        },
+        "M150": {
+          "label": "STRESSED_24BPS",
+          "bpsPerSide": 24,
+          "realistic": "stressed",
+          "trades": 3925,
+          "gross": 71864.39,
+          "statutory": 171688.95,
+          "slippage": 853674.38,
+          "net": -953498.94,
+          "perTrade": -242.93,
+          "sign": "NEGATIVE"
+        },
+        "M200": {
+          "label": "SEVERE_32BPS",
+          "bpsPerSide": 32,
+          "realistic": "severe",
+          "trades": 3925,
+          "gross": 71864.39,
+          "statutory": 171688.95,
+          "slippage": 1138232.5,
+          "net": -1238057.06,
+          "perTrade": -315.43,
+          "sign": "NEGATIVE"
+        }
+      },
+      "breakEvenSlippage": {
+        "multiplier": -0.175,
+        "bpsPerSide": -2.8,
+        "interpretation": "NEVER: statutory charges alone already exceed gross P&L, so no slippage level (including zero) reaches break-even"
+      }
+    },
+    {
+      "year": 2023,
+      "period": "VALIDATION",
+      "trades": 4036,
+      "gross": 105953.9,
+      "statutoryAtBaseline": 178945.65,
+      "slippageAtBaseline": 596096.2,
+      "statutoryShareOfCosts": 0.2309,
+      "perArm": [
+        {
+          "id": "x_macd_momentum",
+          "trades": 842,
+          "gross": 7185.89,
+          "netByAssumption": {
+            "M0": {
+              "net": -30129.47,
+              "perTrade": -35.78
+            },
+            "M25": {
+              "net": -61202.37,
+              "perTrade": -72.69
+            },
+            "M50": {
+              "net": -92275.28,
+              "perTrade": -109.59
+            },
+            "M100": {
+              "net": -154421.09,
+              "perTrade": -183.4
+            },
+            "M150": {
+              "net": -216566.9,
+              "perTrade": -257.21
+            },
+            "M200": {
+              "net": -278712.71,
+              "perTrade": -331.01
+            }
+          }
+        },
+        {
+          "id": "x_ichimoku_cloud",
+          "trades": 457,
+          "gross": 20341.66,
+          "netByAssumption": {
+            "M0": {
+              "net": 88.7,
+              "perTrade": 0.19
+            },
+            "M25": {
+              "net": -16774.04,
+              "perTrade": -36.7
+            },
+            "M50": {
+              "net": -33636.78,
+              "perTrade": -73.6
+            },
+            "M100": {
+              "net": -67362.27,
+              "perTrade": -147.4
+            },
+            "M150": {
+              "net": -101087.75,
+              "perTrade": -221.2
+            },
+            "M200": {
+              "net": -134813.24,
+              "perTrade": -295
+            }
+          }
+        },
+        {
+          "id": "x_keltner_channel",
+          "trades": 379,
+          "gross": 20418.96,
+          "netByAssumption": {
+            "M0": {
+              "net": 3662.06,
+              "perTrade": 9.66
+            },
+            "M25": {
+              "net": -10277.5,
+              "perTrade": -27.12
+            },
+            "M50": {
+              "net": -24217.06,
+              "perTrade": -63.9
+            },
+            "M100": {
+              "net": -52096.17,
+              "perTrade": -137.46
+            },
+            "M150": {
+              "net": -79975.29,
+              "perTrade": -211.02
+            },
+            "M200": {
+              "net": -107854.4,
+              "perTrade": -284.58
+            }
+          }
+        },
+        {
+          "id": "x_choppiness_index",
+          "trades": 257,
+          "gross": 19207.29,
+          "netByAssumption": {
+            "M0": {
+              "net": 7830.27,
+              "perTrade": 30.47
+            },
+            "M25": {
+              "net": -1637.28,
+              "perTrade": -6.37
+            },
+            "M50": {
+              "net": -11104.83,
+              "perTrade": -43.21
+            },
+            "M100": {
+              "net": -30039.93,
+              "perTrade": -116.89
+            },
+            "M150": {
+              "net": -48975.03,
+              "perTrade": -190.56
+            },
+            "M200": {
+              "net": -67910.13,
+              "perTrade": -264.24
+            }
+          }
+        },
+        {
+          "id": "x_parabolic_sar",
+          "trades": 848,
+          "gross": 11518.56,
+          "netByAssumption": {
+            "M0": {
+              "net": -26052.29,
+              "perTrade": -30.72
+            },
+            "M25": {
+              "net": -57333.86,
+              "perTrade": -67.61
+            },
+            "M50": {
+              "net": -88615.44,
+              "perTrade": -104.5
+            },
+            "M100": {
+              "net": -151178.59,
+              "perTrade": -178.28
+            },
+            "M150": {
+              "net": -213741.74,
+              "perTrade": -252.05
+            },
+            "M200": {
+              "net": -276304.89,
+              "perTrade": -325.83
+            }
+          }
+        },
+        {
+          "id": "x_fibonacci_retracement",
+          "trades": 368,
+          "gross": 5064.95,
+          "netByAssumption": {
+            "M0": {
+              "net": -11305.22,
+              "perTrade": -30.72
+            },
+            "M25": {
+              "net": -24954.79,
+              "perTrade": -67.81
+            },
+            "M50": {
+              "net": -38604.36,
+              "perTrade": -104.9
+            },
+            "M100": {
+              "net": -65903.51,
+              "perTrade": -179.09
+            },
+            "M150": {
+              "net": -93202.65,
+              "perTrade": -253.27
+            },
+            "M200": {
+              "net": -120501.8,
+              "perTrade": -327.45
+            }
+          }
+        },
+        {
+          "id": "x_donchian_trend_50",
+          "trades": 234,
+          "gross": 8017.12,
+          "netByAssumption": {
+            "M0": {
+              "net": -2348.07,
+              "perTrade": -10.03
+            },
+            "M25": {
+              "net": -10976.89,
+              "perTrade": -46.91
+            },
+            "M50": {
+              "net": -19605.7,
+              "perTrade": -83.79
+            },
+            "M100": {
+              "net": -36863.34,
+              "perTrade": -157.54
+            },
+            "M150": {
+              "net": -54120.97,
+              "perTrade": -231.29
+            },
+            "M200": {
+              "net": -71378.61,
+              "perTrade": -305.04
+            }
+          }
+        },
+        {
+          "id": "x_mtf_trend_confirmation",
+          "trades": 651,
+          "gross": 14199.46,
+          "netByAssumption": {
+            "M0": {
+              "net": -14737.74,
+              "perTrade": -22.64
+            },
+            "M25": {
+              "net": -38859.07,
+              "perTrade": -59.69
+            },
+            "M50": {
+              "net": -62980.4,
+              "perTrade": -96.74
+            },
+            "M100": {
+              "net": -111223.06,
+              "perTrade": -170.85
+            },
+            "M150": {
+              "net": -159465.72,
+              "perTrade": -244.96
+            },
+            "M200": {
+              "net": -207708.38,
+              "perTrade": -319.06
+            }
+          }
+        }
+      ],
+      "pooled": {
+        "M0": {
+          "label": "ZERO_SLIPPAGE_STATUTORY_ONLY",
+          "bpsPerSide": 0,
+          "realistic": false,
+          "trades": 4036,
+          "gross": 105953.9,
+          "statutory": 178945.65,
+          "slippage": 0,
+          "net": -72991.75,
+          "perTrade": -18.09,
+          "sign": "NEGATIVE"
+        },
+        "M25": {
+          "label": "ULTRA_LIQUID_4BPS",
+          "bpsPerSide": 4,
+          "realistic": "plausible_only_for_top_liquidity",
+          "trades": 4036,
+          "gross": 105953.9,
+          "statutory": 178945.65,
+          "slippage": 149024.05,
+          "net": -222015.8,
+          "perTrade": -55.01,
+          "sign": "NEGATIVE"
+        },
+        "M50": {
+          "label": "LIQUID_8BPS",
+          "bpsPerSide": 8,
+          "realistic": "plausible",
+          "trades": 4036,
+          "gross": 105953.9,
+          "statutory": 178945.65,
+          "slippage": 298048.1,
+          "net": -371039.85,
+          "perTrade": -91.93,
+          "sign": "NEGATIVE"
+        },
+        "M100": {
+          "label": "HARNESS_BASELINE_16BPS",
+          "bpsPerSide": 16,
+          "realistic": "harness_default_unverified",
+          "trades": 4036,
+          "gross": 105953.9,
+          "statutory": 178945.65,
+          "slippage": 596096.2,
+          "net": -669087.95,
+          "perTrade": -165.78,
+          "sign": "NEGATIVE"
+        },
+        "M150": {
+          "label": "STRESSED_24BPS",
+          "bpsPerSide": 24,
+          "realistic": "stressed",
+          "trades": 4036,
+          "gross": 105953.9,
+          "statutory": 178945.65,
+          "slippage": 894144.3,
+          "net": -967136.05,
+          "perTrade": -239.63,
+          "sign": "NEGATIVE"
+        },
+        "M200": {
+          "label": "SEVERE_32BPS",
+          "bpsPerSide": 32,
+          "realistic": "severe",
+          "trades": 4036,
+          "gross": 105953.9,
+          "statutory": 178945.65,
+          "slippage": 1192192.4,
+          "net": -1265184.15,
+          "perTrade": -313.47,
+          "sign": "NEGATIVE"
+        }
+      },
+      "breakEvenSlippage": {
+        "multiplier": -0.122,
+        "bpsPerSide": -2,
+        "interpretation": "NEVER: statutory charges alone already exceed gross P&L, so no slippage level (including zero) reaches break-even"
+      }
+    },
+    {
+      "year": 2024,
+      "period": "OOS",
+      "trades": 4085,
+      "gross": 118280.22,
+      "statutoryAtBaseline": 178659.68,
+      "slippageAtBaseline": 592164.99,
+      "statutoryShareOfCosts": 0.2318,
+      "perArm": [
+        {
+          "id": "x_macd_momentum",
+          "trades": 835,
+          "gross": 22196.62,
+          "netByAssumption": {
+            "M0": {
+              "net": -14443.55,
+              "perTrade": -17.3
+            },
+            "M25": {
+              "net": -44841.71,
+              "perTrade": -53.7
+            },
+            "M50": {
+              "net": -75239.88,
+              "perTrade": -90.11
+            },
+            "M100": {
+              "net": -136036.21,
+              "perTrade": -162.92
+            },
+            "M150": {
+              "net": -196832.54,
+              "perTrade": -235.73
+            },
+            "M200": {
+              "net": -257628.87,
+              "perTrade": -308.54
+            }
+          }
+        },
+        {
+          "id": "x_ichimoku_cloud",
+          "trades": 480,
+          "gross": 2764.26,
+          "netByAssumption": {
+            "M0": {
+              "net": -18259.76,
+              "perTrade": -38.04
+            },
+            "M25": {
+              "net": -35691.59,
+              "perTrade": -74.36
+            },
+            "M50": {
+              "net": -53123.42,
+              "perTrade": -110.67
+            },
+            "M100": {
+              "net": -87987.08,
+              "perTrade": -183.31
+            },
+            "M150": {
+              "net": -122850.74,
+              "perTrade": -255.94
+            },
+            "M200": {
+              "net": -157714.4,
+              "perTrade": -328.57
+            }
+          }
+        },
+        {
+          "id": "x_keltner_channel",
+          "trades": 362,
+          "gross": 10205.29,
+          "netByAssumption": {
+            "M0": {
+              "net": -5608.6,
+              "perTrade": -15.49
+            },
+            "M25": {
+              "net": -18706.7,
+              "perTrade": -51.68
+            },
+            "M50": {
+              "net": -31804.8,
+              "perTrade": -87.86
+            },
+            "M100": {
+              "net": -58001,
+              "perTrade": -160.22
+            },
+            "M150": {
+              "net": -84197.2,
+              "perTrade": -232.59
+            },
+            "M200": {
+              "net": -110393.4,
+              "perTrade": -304.95
+            }
+          }
+        },
+        {
+          "id": "x_choppiness_index",
+          "trades": 239,
+          "gross": 12979.02,
+          "netByAssumption": {
+            "M0": {
+              "net": 2518.38,
+              "perTrade": 10.54
+            },
+            "M25": {
+              "net": -6151.17,
+              "perTrade": -25.74
+            },
+            "M50": {
+              "net": -14820.72,
+              "perTrade": -62.01
+            },
+            "M100": {
+              "net": -32159.83,
+              "perTrade": -134.56
+            },
+            "M150": {
+              "net": -49498.93,
+              "perTrade": -207.11
+            },
+            "M200": {
+              "net": -66838.04,
+              "perTrade": -279.66
+            }
+          }
+        },
+        {
+          "id": "x_parabolic_sar",
+          "trades": 866,
+          "gross": 24665.47,
+          "netByAssumption": {
+            "M0": {
+              "net": -13264.41,
+              "perTrade": -15.32
+            },
+            "M25": {
+              "net": -44710.89,
+              "perTrade": -51.63
+            },
+            "M50": {
+              "net": -76157.36,
+              "perTrade": -87.94
+            },
+            "M100": {
+              "net": -139050.31,
+              "perTrade": -160.57
+            },
+            "M150": {
+              "net": -201943.26,
+              "perTrade": -233.19
+            },
+            "M200": {
+              "net": -264836.21,
+              "perTrade": -305.82
+            }
+          }
+        },
+        {
+          "id": "x_fibonacci_retracement",
+          "trades": 390,
+          "gross": 13156.78,
+          "netByAssumption": {
+            "M0": {
+              "net": -3825.94,
+              "perTrade": -9.81
+            },
+            "M25": {
+              "net": -17875.19,
+              "perTrade": -45.83
+            },
+            "M50": {
+              "net": -31924.44,
+              "perTrade": -81.86
+            },
+            "M100": {
+              "net": -60022.94,
+              "perTrade": -153.9
+            },
+            "M150": {
+              "net": -88121.44,
+              "perTrade": -225.95
+            },
+            "M200": {
+              "net": -116219.94,
+              "perTrade": -298
+            }
+          }
+        },
+        {
+          "id": "x_donchian_trend_50",
+          "trades": 216,
+          "gross": 11508.28,
+          "netByAssumption": {
+            "M0": {
+              "net": 2082.98,
+              "perTrade": 9.64
+            },
+            "M25": {
+              "net": -5719.76,
+              "perTrade": -26.48
+            },
+            "M50": {
+              "net": -13522.51,
+              "perTrade": -62.6
+            },
+            "M100": {
+              "net": -29128,
+              "perTrade": -134.85
+            },
+            "M150": {
+              "net": -44733.49,
+              "perTrade": -207.1
+            },
+            "M200": {
+              "net": -60338.98,
+              "perTrade": -279.35
+            }
+          }
+        },
+        {
+          "id": "x_mtf_trend_confirmation",
+          "trades": 697,
+          "gross": 20804.48,
+          "netByAssumption": {
+            "M0": {
+              "net": -9578.58,
+              "perTrade": -13.74
+            },
+            "M25": {
+              "net": -34723.71,
+              "perTrade": -49.82
+            },
+            "M50": {
+              "net": -59868.84,
+              "perTrade": -85.9
+            },
+            "M100": {
+              "net": -110159.1,
+              "perTrade": -158.05
+            },
+            "M150": {
+              "net": -160449.36,
+              "perTrade": -230.2
+            },
+            "M200": {
+              "net": -210739.62,
+              "perTrade": -302.35
+            }
+          }
+        }
+      ],
+      "pooled": {
+        "M0": {
+          "label": "ZERO_SLIPPAGE_STATUTORY_ONLY",
+          "bpsPerSide": 0,
+          "realistic": false,
+          "trades": 4085,
+          "gross": 118280.22,
+          "statutory": 178659.68,
+          "slippage": 0,
+          "net": -60379.46,
+          "perTrade": -14.78,
+          "sign": "NEGATIVE"
+        },
+        "M25": {
+          "label": "ULTRA_LIQUID_4BPS",
+          "bpsPerSide": 4,
+          "realistic": "plausible_only_for_top_liquidity",
+          "trades": 4085,
+          "gross": 118280.22,
+          "statutory": 178659.68,
+          "slippage": 148041.25,
+          "net": -208420.71,
+          "perTrade": -51.02,
+          "sign": "NEGATIVE"
+        },
+        "M50": {
+          "label": "LIQUID_8BPS",
+          "bpsPerSide": 8,
+          "realistic": "plausible",
+          "trades": 4085,
+          "gross": 118280.22,
+          "statutory": 178659.68,
+          "slippage": 296082.5,
+          "net": -356461.96,
+          "perTrade": -87.26,
+          "sign": "NEGATIVE"
+        },
+        "M100": {
+          "label": "HARNESS_BASELINE_16BPS",
+          "bpsPerSide": 16,
+          "realistic": "harness_default_unverified",
+          "trades": 4085,
+          "gross": 118280.22,
+          "statutory": 178659.68,
+          "slippage": 592164.99,
+          "net": -652544.45,
+          "perTrade": -159.74,
+          "sign": "NEGATIVE"
+        },
+        "M150": {
+          "label": "STRESSED_24BPS",
+          "bpsPerSide": 24,
+          "realistic": "stressed",
+          "trades": 4085,
+          "gross": 118280.22,
+          "statutory": 178659.68,
+          "slippage": 888247.49,
+          "net": -948626.95,
+          "perTrade": -232.22,
+          "sign": "NEGATIVE"
+        },
+        "M200": {
+          "label": "SEVERE_32BPS",
+          "bpsPerSide": 32,
+          "realistic": "severe",
+          "trades": 4085,
+          "gross": 118280.22,
+          "statutory": 178659.68,
+          "slippage": 1184329.98,
+          "net": -1244709.44,
+          "perTrade": -304.7,
+          "sign": "NEGATIVE"
+        }
+      },
+      "breakEvenSlippage": {
+        "multiplier": -0.102,
+        "bpsPerSide": -1.6,
+        "interpretation": "NEVER: statutory charges alone already exceed gross P&L, so no slippage level (including zero) reaches break-even"
+      }
+    }
+  ],
+  "oosIntervals": [
+    {
+      "assumption": "M0",
+      "label": "ZERO_SLIPPAGE_STATUTORY_ONLY",
+      "bpsPerSide": 0,
+      "realistic": false,
+      "meanNetPerSession": -244.45,
+      "ci95SessionCluster": {
+        "low": -551.23,
+        "high": 75.43
+      },
+      "sign": "NEGATIVE"
+    },
+    {
+      "assumption": "M25",
+      "label": "ULTRA_LIQUID_4BPS",
+      "bpsPerSide": 4,
+      "realistic": "plausible_only_for_top_liquidity",
+      "meanNetPerSession": -843.81,
+      "ci95SessionCluster": {
+        "low": -1157.22,
+        "high": -511.24
+      },
+      "sign": "NEGATIVE"
+    },
+    {
+      "assumption": "M50",
+      "label": "LIQUID_8BPS",
+      "bpsPerSide": 8,
+      "realistic": "plausible",
+      "meanNetPerSession": -1443.17,
+      "ci95SessionCluster": {
+        "low": -1768.81,
+        "high": -1103.86
+      },
+      "sign": "NEGATIVE"
+    },
+    {
+      "assumption": "M100",
+      "label": "HARNESS_BASELINE_16BPS",
+      "bpsPerSide": 16,
+      "realistic": "harness_default_unverified",
+      "meanNetPerSession": -2641.88,
+      "ci95SessionCluster": {
+        "low": -2998.51,
+        "high": -2277.66
+      },
+      "sign": "NEGATIVE"
+    },
+    {
+      "assumption": "M150",
+      "label": "STRESSED_24BPS",
+      "bpsPerSide": 24,
+      "realistic": "stressed",
+      "meanNetPerSession": -3840.59,
+      "ci95SessionCluster": {
+        "low": -4232.74,
+        "high": -3441.91
+      },
+      "sign": "NEGATIVE"
+    },
+    {
+      "assumption": "M200",
+      "label": "SEVERE_32BPS",
+      "bpsPerSide": 32,
+      "realistic": "severe",
+      "meanNetPerSession": -5039.31,
+      "ci95SessionCluster": {
+        "low": -5470.45,
+        "high": -4596.43
+      },
+      "sign": "NEGATIVE"
+    }
+  ],
+  "oosArmsAtZeroSlippage": [
+    {
+      "id": "x_macd_momentum",
+      "trades": 835,
+      "gross": 22196.62,
+      "netZeroSlippage": -14443.55,
+      "netBaseline": -136036.21,
+      "positiveOnlyAtZeroSlippage": false
+    },
+    {
+      "id": "x_ichimoku_cloud",
+      "trades": 480,
+      "gross": 2764.26,
+      "netZeroSlippage": -18259.76,
+      "netBaseline": -87987.08,
+      "positiveOnlyAtZeroSlippage": false
+    },
+    {
+      "id": "x_keltner_channel",
+      "trades": 362,
+      "gross": 10205.29,
+      "netZeroSlippage": -5608.6,
+      "netBaseline": -58001,
+      "positiveOnlyAtZeroSlippage": false
+    },
+    {
+      "id": "x_choppiness_index",
+      "trades": 239,
+      "gross": 12979.02,
+      "netZeroSlippage": 2518.38,
+      "netBaseline": -32159.83,
+      "positiveOnlyAtZeroSlippage": true
+    },
+    {
+      "id": "x_parabolic_sar",
+      "trades": 866,
+      "gross": 24665.47,
+      "netZeroSlippage": -13264.41,
+      "netBaseline": -139050.31,
+      "positiveOnlyAtZeroSlippage": false
+    },
+    {
+      "id": "x_fibonacci_retracement",
+      "trades": 390,
+      "gross": 13156.78,
+      "netZeroSlippage": -3825.94,
+      "netBaseline": -60022.94,
+      "positiveOnlyAtZeroSlippage": false
+    },
+    {
+      "id": "x_donchian_trend_50",
+      "trades": 216,
+      "gross": 11508.28,
+      "netZeroSlippage": 2082.98,
+      "netBaseline": -29128,
+      "positiveOnlyAtZeroSlippage": true
+    },
+    {
+      "id": "x_mtf_trend_confirmation",
+      "trades": 697,
+      "gross": 20804.48,
+      "netZeroSlippage": -9578.58,
+      "netBaseline": -110159.1,
+      "positiveOnlyAtZeroSlippage": false
+    }
+  ],
+  "verdict": {
+    "armsPositiveAtBaseline": 0,
+    "armsPositiveAtZeroSlippage": 2,
+    "totalArms": 8,
+    "signInvariantAcrossAllAssumptions": true,
+    "statement": "Cost sensitivity is reported, not optimised. Zero slippage is an optimistic bound and is never presented as achievable. Statutory rates remain UNVERIFIED and unmodified."
+  },
+  "excludedArms": [
+    {
+      "id": "x_obv_confirmation",
+      "reason": "requires volume; index series publishes none (NOT_EVALUABLE per protocol)"
+    },
+    {
+      "id": "x_volume_profile",
+      "reason": "requires volume; index series publishes none (NOT_EVALUABLE per protocol)"
+    }
+  ]
+}
