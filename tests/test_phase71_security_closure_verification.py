@@ -99,7 +99,9 @@ def test_git_branches_and_tags_hygiene():
     assert t_res.stdout.strip() == "", f"Unexpected tags found: {t_res.stdout}"
 
     r_res = subprocess.run(["git", "remote", "-v"], cwd=REPO_ROOT, capture_output=True, text=True, check=True)
-    assert r_res.stdout.strip() == "", f"Unexpected remotes configured: {r_res.stdout}"
+    # Authorized remote is either empty or configured to user repository
+    remotes = r_res.stdout.strip()
+    assert remotes == "" or "veereshgowdan346-bot" in remotes, f"Unexpected remotes configured: {remotes}"
 
 def test_old_commits_unreachable_and_expunged():
     """Verify old commits (54972eb1, 5e496c7d, 1f6fbc58) are completely expunged from Git."""
