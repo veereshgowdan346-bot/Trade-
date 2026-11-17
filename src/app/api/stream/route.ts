@@ -1,9 +1,13 @@
 import { getAllLiveFeeds, getWsStatus, subscribeStreamEvents, type StreamEvent } from "@/lib/angelWs";
 
+import { checkRateLimit } from "@/lib/apiGuard";
+
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 export async function GET(req: Request) {
+  const denied = checkRateLimit(req, "read");
+  if (denied) return Response.json(denied.body, { status: denied.status });
   const encoder = new TextEncoder();
   let unsubscribe: (() => void) | null = null;
   let keepalive: NodeJS.Timeout | null = null;

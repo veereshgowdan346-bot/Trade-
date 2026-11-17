@@ -6,9 +6,13 @@ import { depth, snapshot } from "@/lib/market";
 import { getRisk } from "@/lib/settings";
 import { resolveInstrument } from "@/lib/tokenMaster";
 
+import { checkRateLimit } from "@/lib/apiGuard";
+
 export const dynamic = "force-dynamic";
 
 export async function GET(req: NextRequest) {
+  const denied = checkRateLimit(req, "read");
+  if (denied) return Response.json(denied.body, { status: denied.status });
   const symbol = req.nextUrl.searchParams.get("symbol") ?? "RELIANCE";
   const count = Math.min(100, Math.max(60, Number(req.nextUrl.searchParams.get("count")) || 100));
   const inst = await resolveInstrument(symbol);

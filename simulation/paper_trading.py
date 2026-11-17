@@ -93,7 +93,8 @@ class Position:
 
     @property
     def charges(self) -> float:
-        return sum(getattr(o, 'fee', 20.0) for o in self.orders) if self.orders else 40.0
+        # Phase 2: sum actual recorded fees; never fabricate defaults (TAX-002 policy).
+        return sum(float(getattr(o, 'fee', 0.0) or 0.0) for o in self.orders)
 
 
 @dataclass
@@ -102,8 +103,9 @@ class PaperTradingConfig:
     default_slippage_pct: float = 0.05  # 0.05% default slippage
     min_slippage: float = 0.0   # No negative slippage
     max_slippage: float = 0.3  # 0.3% max slippage
-    commission_per_order: float = 40.0  # ₹40 per order
+    commission_per_order: float = 40.0  # Legacy display field (no longer used for fee math)
     commission_multiplier: float = 1.0  # For scaling
+    broker_id: str = "shoonya"  # Broker whose authoritative rate spec rows apply (Phase 2 TAX-006)
     fill_probability: float = 0.98  # 98% fill rate for limit orders
     market_impact_pct: float = 0.01  # 0.01% market impact for large orders
     order_book_depth: int = 10  # Number of levels to consider
@@ -220,7 +222,7 @@ class PaperTrading:
                     fill_price=fill_p,
                     avg_fill_price=fill_p,
                     status=OrderStatus.FILLED if ord_obj.remaining_qty == 0 else OrderStatus.PARTIALLY_FILLED,
-                    fee=self._calculate_fees(ord_obj.quantity, fill_p, fill_q),
+                    fee=self._calculate_fees(ord_obj.quantity, fill_p, fill_q, ord_obj.transaction_type),
                     timestamp=datetime.now()
                 )
                 self._execute_fill(filled)
@@ -357,7 +359,7 @@ class PaperTrading:
             fill_price=fill_price,
             avg_fill_price=fill_price,
             status=OrderStatus.FILLED,
-            fee=self._calculate_fees(order.quantity, fill_price, fill_qty),
+            fee=self._calculate_fees(order.quantity, fill_price, fill_qty, order.transaction_type),
             timestamp=datetime.now()
         )
 
@@ -441,12 +443,33 @@ class PaperTrading:
             return order.quantity * ltp * (1 + self.config.commission_multiplier)
         return 0.0
 
-    def _calculate_fees(self, quantity: int, price: float, filled_qty: int) -> float:
-        """Calculate transaction fees."""
-        # Flat brokerage + percentage
-        brokerage = self.config.commission_per_order
-        sebi = quantity * 0.01 * 2  # Buy + sell
-        return brokerage + sebi
+    def _calculate_fees(self, quantity: int, price: float, filled_qty: int, side: str = "BUY") -> float:
+        """
+        Per-leg trading fees via the AUTHORITATIVE statutory engine (Phase 2 TAX-006).
+
+        Replaces the legacy `commission_per_order + ₹0.01/share` formula, which shared
+        no basis with the statutory model (wrong SEBI basis, no STT/exchange/stamp/GST).
+        Fees now come from risk/statutory_cost.leg_charges — the exact Python twin of
+        src/lib/tax.ts over config/statutory_rates.json. Slippage is excluded here
+        because paper fills already embed slippage in the fill price (no double count).
+
+        Args:
+            quantity: Order quantity
+            price: Execution price
+            filled_qty: Filled quantity
+            side: Order side ("BUY"/"SELL") — stamp duty on buy legs, STT/CTT on sell legs
+
+        Returns:
+            Total fees for this executed leg (raises on unsupported segments: fail closed)
+        """
+        from risk.statutory_cost import leg_charges
+
+        leg = leg_charges(
+            "NSE", "EQ", self.config.broker_id,
+            float(filled_qty), float(price), side,
+            product_type="INTRADAY", slippage_bps=0.0, order_qty=float(quantity),
+        )
+        return leg.total
 
     def _execute_fill(self, filled: FilledOrder) -> None:
         """Execute a filled order with accurate long/short position accounting."""

@@ -7,7 +7,7 @@ import { routeOrder } from "./gateway";
 import { buildBrokerPayload, growwSegment, sessionOf, type BrokerKey, type Exchange, type Instrument } from "./instruments";
 import { analysisCandles, isLiveTickReady, ltpOf, marketFeedMode, marketStatusText, snapshot } from "./market";
 import { sendAlert } from "./notifier";
-import { breachesCircuit, confidenceMultiplier, sizePosition, type RiskConfig } from "./risk";
+import { breachesCircuit, confidenceMultiplier, hurdleFloorFor, sizePosition, type RiskConfig } from "./risk";
 import { audit, getRisk, getSetting, istDayStartDate, istParts, recentAudit, setSetting } from "./settings";
 import { getAutoTraderStatus } from "./scheduler";
 import { discoverPlugins, evaluateConsensus, type Consensus } from "./strategies";
@@ -1042,11 +1042,13 @@ export async function preFlightCheck(args: {
     side,
   });
 
-  const minBrokerFloor = broker === "shoonya" ? 25 : 55;
+  const minBrokerFloor = hurdleFloorFor(broker);
   const configuredHurdle = Number(cfg.hurdle) || minBrokerFloor;
   const hurdleTarget = Math.max(minBrokerFloor, configuredHurdle);
   const isMicroCapital = cfg.capital <= 2000;
-  const effectiveHurdle = isMicroCapital ? -50 : hurdleTarget;
+  // Phase 2 (MICRO-001): micro-capital trades must clear the break-even barrier —
+  // never accept a trade with expected NET LOSS (the legacy -50 carve-out is removed).
+  const effectiveHurdle = isMicroCapital ? 0 : hurdleTarget;
 
   if (source !== "FLASH_TEST" && (netCalc.netPnL <= 0 || netCalc.netPnL < effectiveHurdle)) {
     return {
@@ -1276,9 +1278,12 @@ export async function placeOrder(req: OrderRequest): Promise<OrderOutcome> {
   const expectedNet = netCalc.netPnL;
 
   const isMicroCapital = cfg.capital <= 2000;
-  // Lowered statutory hurdle: ₹25 specifically for Shoonya routed orders (₹10 brokerage + STT + Exch fees); ₹70 for Angel One
-  const brokerHurdle = executionBroker === "shoonya" ? 25 : (cfg.hurdle && cfg.hurdle !== 25 ? cfg.hurdle : 70);
-  const effectiveHurdle = isMicroCapital ? -50 : brokerHurdle;
+  // Phase 2 (TAX-005): consolidated hurdle floor from the authoritative spec (shoonya 25,
+  // angel/groww 70 — the STRICTEST previously-implemented values). Phase 2 (MICRO-001):
+  // micro-capital hurdle is 0 (break-even), never a negative expected-loss allowance.
+  const minBrokerFloor = hurdleFloorFor(executionBroker);
+  const brokerHurdle = Math.max(minBrokerFloor, Number(cfg.hurdle) || 0);
+  const effectiveHurdle = isMicroCapital ? 0 : brokerHurdle;
   if (!isFlash && (expectedNet <= 0 || expectedNet < effectiveHurdle)) {
     await sendAlert(
       `HURDLE_${inst.symbol}`,

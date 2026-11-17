@@ -1,0 +1,144 @@
+{
+  "generatedAt": "2026-11-17T14:32:59.758Z",
+  "policy": "SIMULATED balances only. No live data/orders. No profitability claims. MICRO-001 fix blocks expected-loss trades for capital <= 2000.",
+  "matrix": [
+    {
+      "capital": 1000,
+      "qty": 0,
+      "limitedBy": "CAPITAL",
+      "slDistance": 10.95,
+      "targetPrice": 926.5,
+      "expectedNet": -25,
+      "charges": 25,
+      "hurdle": 0,
+      "microPolicy": "MICRO_001: hurdle=0 (expected-loss trades blocked)",
+      "orderAdmissible": false
+    },
+    {
+      "capital": 2500,
+      "qty": 0,
+      "limitedBy": "CAPITAL",
+      "slDistance": 10.95,
+      "targetPrice": 926.5,
+      "expectedNet": -25,
+      "charges": 25,
+      "hurdle": 25,
+      "microPolicy": "standard",
+      "orderAdmissible": false
+    },
+    {
+      "capital": 5000,
+      "qty": 0,
+      "limitedBy": "CAPITAL",
+      "slDistance": 10.95,
+      "targetPrice": 926.5,
+      "expectedNet": -25,
+      "charges": 25,
+      "hurdle": 25,
+      "microPolicy": "standard",
+      "orderAdmissible": false
+    },
+    {
+      "capital": 10000,
+      "qty": 1,
+      "limitedBy": "CAPITAL",
+      "slDistance": 10.95,
+      "targetPrice": 926.5,
+      "expectedNet": 7.85,
+      "charges": 25,
+      "hurdle": 25,
+      "microPolicy": "standard",
+      "orderAdmissible": false
+    },
+    {
+      "capital": 25000,
+      "qty": 4,
+      "limitedBy": "CAPITAL",
+      "slDistance": 10.95,
+      "targetPrice": 926.5,
+      "expectedNet": 106.4,
+      "charges": 25,
+      "hurdle": 25,
+      "microPolicy": "standard",
+      "orderAdmissible": true
+    },
+    {
+      "capital": 50000,
+      "qty": 8,
+      "limitedBy": "CAPITAL",
+      "slDistance": 10.95,
+      "targetPrice": 926.5,
+      "expectedNet": 236.76,
+      "charges": 26.04,
+      "hurdle": 25,
+      "microPolicy": "standard",
+      "orderAdmissible": true
+    },
+    {
+      "capital": 100000,
+      "qty": 17,
+      "limitedBy": "CAPITAL",
+      "slDistance": 10.95,
+      "targetPrice": 926.5,
+      "expectedNet": 516.38,
+      "charges": 42.07,
+      "hurdle": 25,
+      "microPolicy": "standard",
+      "orderAdmissible": true
+    },
+    {
+      "capital": 250000,
+      "qty": 44,
+      "limitedBy": "CAPITAL",
+      "slDistance": 10.95,
+      "targetPrice": 926.5,
+      "expectedNet": 1355.26,
+      "charges": 90.14,
+      "hurdle": 25,
+      "microPolicy": "standard",
+      "orderAdmissible": true
+    },
+    {
+      "capital": 1000000,
+      "qty": 179,
+      "limitedBy": "CAPITAL",
+      "slDistance": 10.95,
+      "targetPrice": 926.5,
+      "expectedNet": 5549.64,
+      "charges": 330.51,
+      "hurdle": 25,
+      "microPolicy": "standard",
+      "orderAdmissible": true
+    }
+  ],
+  "backtestMultiday": {
+    "fixture": "data/fixtures/multiday_overnight_1m.csv",
+    "controlsOn": {
+      "trades": 3,
+      "netPnl": -602.96,
+      "charges": 474.59,
+      "exitReasons": {
+        "STOP_LOSS": 3
+      }
+    },
+    "zeroFriction": {
+      "trades": 3,
+      "netPnl": -128.37
+    },
+    "highAngel": {
+      "trades": 3,
+      "netPnl": -709.16,
+      "charges": 580.79
+    },
+    "researchMode": {
+      "trades": 3,
+      "netPnl": -602.96,
+      "note": "eodSquareOff=false (research only)"
+    }
+  },
+  "failClosed": {
+    "DELIVERY": "BLOCKED: UnsupportedSegmentError",
+    "CNC": "BLOCKED: UnsupportedSegmentError",
+    "UNKNOWN_PAIR": "BLOCKED: UnsupportedSegmentError"
+  }
+}

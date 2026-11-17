@@ -1,5 +1,12 @@
 # OMNITRADEPRO BROKERAGE & TAX AUDIT (CONSOLIDATED)
 
+> **PHASE 2 (2026-11-17):** the single authoritative cost specification is now
+> `config/statutory_rates.json`, implemented twice (src/lib/tax.ts + risk/statutory_cost.py) and proven
+> equal by `tests/test_cost_parity.py`. Unsupported segments fail closed (TAX-001); estimate components
+> are no longer fabricated (TAX-002); hurdle constants consolidated (TAX-005); the flat-₹40 Python model
+> is retired (TAX-006/ARCH-001). ALL rate values remain **UNVERIFIED** — no dated official documents exist
+> locally; changing any value without attaching evidence violates policy. See `OMNITRADEPRO_PHASE2_REMEDIATION_REPORT.md`.
+
 Detailed registers: `OMNITRADEPRO_07_BROKERAGE_TAX_AUDIT.md`.
 
 ## Verdict: PARTIALLY PASSED — evidence BLOCKED on official sources (Gate 7)

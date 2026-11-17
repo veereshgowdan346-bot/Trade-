@@ -4,6 +4,13 @@
 **Date:** 2026-11-17 (UTC)  
 **Purpose:** persistent progress record per Execution Protocol §20. Resume from the last verified step if interrupted.
 
+> **PHASE 2 STATE (2026-11-17):** remediation COMPLETE and verified. Baseline `da4d4c8` → Phase-2 changes on top.
+> Final regression after last change: npm test 169/169 + math 40/40 · pytest 376/376 · tsc PASS · next build PASS.
+> Deliverable: `OMNITRADEPRO_PHASE2_REMEDIATION_REPORT.md` (per-issue: original / correction / files / evidence / risks / status).
+> Per-issue: TAX-001 ✓ TAX-002 ✓ TAX-005 ✓ TAX-006/ARCH-001 ✓ (13/13 TS↔Python parity) MICRO-001 ✓ SEC-001 ✓ BT-003 ✓ STR-001 ✓ TEST-001/PY-001 ✓.
+> BLOCKED-EXTERNAL: TAX-003/TAX-004 (need dated official rate documents; all rates UNVERIFIED). BLOCKED (Category C): WAVE-001/RT-001/QUORUM-002.
+> 9-tier matrix re-run: only ₹1,000 tier changed (MICRO-001 blocks expected-loss trades). No push (authorization required).
+
 ## Progress Ledger
 
 | Step | Phase | Status | Evidence |

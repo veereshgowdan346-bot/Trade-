@@ -4,9 +4,13 @@ import { marketFeedMode, marketStatusText, snapshot } from "@/lib/market";
 import { getRisk } from "@/lib/settings";
 import { resolveAll } from "@/lib/tokenMaster";
 
+import { checkRateLimit } from "@/lib/apiGuard";
+
 export const dynamic = "force-dynamic";
 
-export async function GET() {
+export async function GET(req: Request) {
+  const denied = checkRateLimit(req, "read");
+  if (denied) return Response.json(denied.body, { status: denied.status });
   const cfg = await getRisk();
   const now = Date.now();
   const rows = [];

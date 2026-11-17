@@ -80,6 +80,24 @@ ZERO FABRICATION — every count, test result, and metric in this report was exe
 **Measured results:** backtest net −₹602.96 (3 trades, synthetic fixture); ingestion 375/750/89 rows post-fix.  
 **Assumptions:** fixture price/ATR values for the capital matrix; 8bps default slippage; desktop single-user deployment.  
 **Unverified claims (explicitly NOT endorsed):** all legacy MD performance figures; every statutory rate (TAX-003); "Shoonya 2026 pricing" comment; minimum-deduction floors.  
+## 4a. Phase 2 Remediation Change Log (2026-11-17)
+
+Full detail: `OMNITRADEPRO_PHASE2_REMEDIATION_REPORT.md`. All corrections verified by test evidence (suite 169/169 + math 40/40 + pytest 376/376 + tsc + build).
+
+| ID | Correction | Key artifacts |
+|----|-----------|---------------|
+| TAX-001 | Delivery/CNC/CDS/unknown segments fail closed (`UnsupportedSegmentError`) instead of silent intraday rates | `config/statutory_rates.json`, `src/lib/tax.ts`, `risk/statutory_cost.py` |
+| TAX-002 | Estimate path returns `basis: MINIMUM_FLOOR_ESTIMATE` with zeroed heads (no fabricated breakdown) | `src/lib/tax.ts`, `risk/statutory_cost.py` |
+| TAX-005 | Hurdle constants consolidated at strictest values via `hurdleFloorFor` (shoonya 25 / angel 70 / groww 70) | `src/lib/risk.ts`, `src/lib/engine.ts` |
+| TAX-006 / ARCH-001 | Single authoritative spec `config/statutory_rates.json` + TS/Python twin engines + 13 parity tests (partial fills, multi-leg, floors, rounding, GST, STT, net P&L); paper trading + cost_guardrail now delegate; legacy flat-₹40 model retired | `src/lib/rateSpec.ts`, `risk/rate_spec.py`, `risk/statutory_cost.py`, `tests/test_cost_parity.py` |
+| MICRO-001 | Micro-capital hurdle −50 → 0: expected-loss trades blocked at all balances (tightening only) | `src/lib/engine.ts` |
+| SEC-001 | `apiGuard` auth (timing-safe bearer `OMNI_API_TOKEN`), authorization on all mutations + vault reads, per-IP rate limits (429), webhook constant-time secret + loopback gating; local dev/preview preserved | `src/lib/apiGuard.ts`, all `src/app/api/**/route.ts`, `src/components/ui.tsx` |
+| BT-003 | Session/holiday enforcement + EOD square-off (default ON), gap-aware day boundaries, look-ahead mutation test, `runWalkForward` chronological disjoint OOS folds, seed-pinned reproducible synthetic fixture (SHA `5a9f4aaf…`) | `src/lib/backtest_engine.ts`, `scripts/generate_synthetic_fixtures.js`, `data/fixtures/walkforward_seed42_1m.csv` |
+| STR-001 | Declarative RSI plugin shipped (`rsi_reversion_14`, 14/30/70) + discovery/vote tests | `strategies/rsi_reversion.json` |
+| TEST-001/PY-001 | Git-hygiene test investigated (env mismatch) → scoped allowlist `master`+`arena/*`; remote checks STRENGTHENED (exact remote, exact remote refs) | `tests/test_phase71_security_closure_verification.py` |
+
+9-tier matrix re-run: only the ₹1,000 tier changed (MICRO-001 now blocks its expected-loss trade); all other tiers identical to Phase 1. No rate values changed; all rates remain UNVERIFIED.
+
 **Recommendations:** see RECOMMENDED_UPGRADES.
 
 ## 5. Deliverable Index

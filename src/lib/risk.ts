@@ -1,4 +1,5 @@
 import type { Instrument } from "./instruments";
+import { loadRateSpec } from "./rateSpec";
 import { roundTripCharges } from "./tax";
 
 export type BrokerId = "angel" | "shoonya" | "groww";
@@ -7,6 +8,18 @@ export type TradingMode = "PAPER" | "LIVE";
 
 export const STATUTORY_HURDLE_SHOONYA = 25; // 2026 update: ₹10 round-trip brokerage + STT + Exch fees
 export const STATUTORY_HURDLE_ANGEL = 70; // ₹40 round-trip brokerage + STT + Exch fees
+
+/**
+ * Phase 2 (TAX-005): consolidated policy-hurdle floor per broker, sourced from the
+ * authoritative spec (config/statutory_rates.json `hurdles`). Values are the STRICTEST
+ * previously-implemented constants (shoonya 25; angel/groww 70), so unification can
+ * only tighten order admission, never weaken it. These are policy gates, not charges.
+ */
+export function hurdleFloorFor(broker: "shoonya" | "angel" | "groww" | string): number {
+  const h = loadRateSpec().hurdles as unknown as Record<string, unknown>;
+  const v = Number(h[String(broker).toLowerCase()] ?? h.shoonya);
+  return Number.isFinite(v) && v > 0 ? v : STATUTORY_HURDLE_SHOONYA;
+}
 
 export type RiskConfig = {
   tradingMode: TradingMode; // PAPER (local simulation) vs LIVE (real broker execution)

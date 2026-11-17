@@ -1,5 +1,12 @@
 # OMNITRADEPRO COMPLETE TEST REPORT (CONSOLIDATED)
 
+> **PHASE 2 ADDENDUM (2026-11-17, after all Phase-2 code changes):** TypeScript suite **169/169**
+> (Sections 19 API-guard ×8, 20 backtest/walk-forward ×8, 21 plugin ×2 added), independent math harness
+> **40/40**, Python **376/376** (13 new cost-parity tests; PY-001/TEST-001 resolved), cross-language cost
+> parity **13/13**, `tsc --noEmit` PASS, `next build` PASS. Re-verified: 9-tier matrix
+> (`scripts/phase2_recheck_matrix_output.json`), fail-closed segments, live-execution boundaries
+> (permanently blocked). See `OMNITRADEPRO_PHASE2_REMEDIATION_REPORT.md` for per-issue evidence mapping.
+
 Full evidence ledger: `OMNITRADEPRO_15_COMPLETE_TEST_EVIDENCE.md`.
 
 ## Totals (all executed 2026-11-17)

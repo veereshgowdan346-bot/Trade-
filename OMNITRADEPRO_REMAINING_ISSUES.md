@@ -1,5 +1,12 @@
 # OMNITRADEPRO REMAINING ISSUES
 
+> **PHASE 2 UPDATE (2026-11-17):** all CRITICAL/HIGH items below have been REMEDIATED and verified —
+> see `OMNITRADEPRO_PHASE2_REMEDIATION_REPORT.md` for per-issue corrections and test evidence.
+> TAX-001/002/005/006, ARCH-001, MICRO-001, SEC-001, BT-003, STR-001, TEST-001: **CORRECTED & VERIFIED**.
+> TAX-003/TAX-004 remain **BLOCKED-EXTERNAL** (need dated official tariff/statutory documents — all rates stay UNVERIFIED).
+> WAVE-001/RT-001/QUORUM-002 remain **BLOCKED** (Category C, require explicit authorization).
+> The register below is preserved as the Phase-1 snapshot; the current status is the Phase-2 report's §11.
+
 Open items after this audit. Fixed items are listed in `OMNITRADEPRO_MASTER_AUDIT_REPORT.md` §Change Log (13 Category-A fixes). Severity = impact if left unresolved.
 
 ## OPEN — Critical / High

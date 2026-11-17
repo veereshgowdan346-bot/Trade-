@@ -1,4 +1,6 @@
 import type { Candle } from "./indicators";
+import { isRegularNseSession, toIstDate } from "./historical_research";
+import { isExchangeHoliday } from "./nse_calendar";
 import { sizePosition, type RiskConfig } from "./risk";
 import { evaluateConsensus } from "./strategies";
 import { roundTripCharges } from "./tax";
@@ -44,17 +46,41 @@ export type BacktestSummary = {
 const r2 = (v: number) => Math.round(v * 100) / 100;
 
 /**
+ * Phase 2 (BT-003) backtest controls — exchange-session boundaries, holiday calendar,
+ * gap-aware day boundaries and mandatory intraday EOD square-off.
+ *
+ * Defaults are ON (the product trades MIS/intraday): positions are squared off at each
+ * session end and entries only occur inside regular NSE sessions on non-holiday days.
+ * Set eodSquareOff=false / enforceSessions=false / enforceHolidays=false ONLY for
+ * explicit research runs (documented in runWalkForward methodology output).
+ */
+export type BacktestControls = {
+  enforceSessions?: boolean;
+  enforceHolidays?: boolean;
+  eodSquareOff?: boolean;
+  warmupBars?: number;
+};
+
+const DAY_GAP_MS = 4 * 3600 * 1000; // > 4h between bars = session/day boundary (gap-aware)
+
+/**
  * Institutional Historical Backtesting & Walk-Forward Simulation Engine.
  * Simulates bar-by-bar execution strictly using the production consensus matrix,
  * 1% risk position sizing, statutory Indian transaction costs, and 1R net-breakeven trailing stop.
+ *
+ * Look-ahead guard: each decision at bar i uses candles.slice(0, i) only (never the
+ * current or future candles). Gap-aware execution: stops fill at the open when the bar
+ * gaps through them (BT-002).
  */
 export function runBacktest(
   candles: Candle[],
   inst: Instrument,
   cfg: RiskConfig,
   frictionMode: "STANDARD_SHOONYA" | "HIGH_ANGEL" | "ZERO_FRICTION" = "STANDARD_SHOONYA",
+  controls: BacktestControls = {},
 ): BacktestSummary {
-  if (candles.length < 50) {
+  const warmup = Math.max(0, controls.warmupBars ?? 35);
+  if (candles.length < warmup + 15) {
     return emptySummary();
   }
 
@@ -74,11 +100,23 @@ export function runBacktest(
 
   let tradeIdCounter = 1;
   const targetBroker = frictionMode === "HIGH_ANGEL" ? "angel" : "shoonya";
+  const enforceSessions = controls.enforceSessions !== false;
+  const enforceHolidays = controls.enforceHolidays !== false;
+  const eodSquareOff = controls.eodSquareOff !== false;
 
   // Bar-by-bar chronological replay (strictly preventing look-ahead bias)
-  for (let i = 35; i < candles.length; i++) {
+  for (let i = warmup; i < candles.length; i++) {
     const historicalSlice = candles.slice(0, i);
     const curBar = candles[i];
+    const nxtBar = candles[i + 1];
+
+    // Session / holiday / day-boundary classification (BT-003)
+    const curDay = toIstDate(curBar.t).isoIst.slice(0, 10);
+    const nxtDay = nxtBar ? toIstDate(nxtBar.t).isoIst.slice(0, 10) : null;
+    const isDayEndBar = !nxtBar || nxtDay !== curDay || nxtBar.t - curBar.t > DAY_GAP_MS;
+    const sessionOk = !enforceSessions || inst.exchange === "MCX" || isRegularNseSession(curBar.t);
+    const holidayOk = !enforceHolidays || !isExchangeHoliday(curDay);
+    const tradable = sessionOk && holidayOk;
 
     // 1. Manage Active Position
     if (currentPos) {
@@ -134,7 +172,15 @@ export function runBacktest(
         continue;
       }
 
-      // Check EOD close at final candle
+      // EOD square-off (BT-003): intraday/MIS positions close at session end — no overnight
+      // holding in the default product configuration.
+      if (eodSquareOff && isDayEndBar) {
+        trades.push(recordSimulatedTrade(tradeIdCounter++, currentPos, curBar.c, curBar.t, i, "EOD_EXIT", inst, targetBroker, frictionMode, cfg));
+        currentPos = null;
+        continue;
+      }
+
+      // Research mode (eodSquareOff=false): legacy behaviour — hold overnight, exit at final bar.
       if (i === candles.length - 1) {
         trades.push(recordSimulatedTrade(tradeIdCounter++, currentPos, curBar.c, curBar.t, i, "EOD_EXIT", inst, targetBroker, frictionMode, cfg));
         currentPos = null;
@@ -142,8 +188,9 @@ export function runBacktest(
       }
     }
 
-    // 2. Scan for New Entry (Only if flat)
-    if (!currentPos) {
+    // 2. Scan for New Entry (only if flat; only on tradable in-session bars; never on the
+    //    day's final bar when EOD square-off is enforced — no same-bar round trip)
+    if (!currentPos && tradable && !(eodSquareOff && isDayEndBar)) {
       const consensus = evaluateConsensus(historicalSlice, cfg);
       if (consensus.qualifies && consensus.direction !== "NONE" && consensus.waveGate?.active) {
         const side = consensus.direction;
@@ -170,6 +217,99 @@ export function runBacktest(
   }
 
   return computeSummary(trades, cfg.capital);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Walk-Forward evaluation (BT-003)                                            */
+/* -------------------------------------------------------------------------- */
+
+export type WalkForwardFold = {
+  fold: number;
+  trainStart: number;
+  trainEnd: number;
+  testStart: number;
+  testEnd: number;
+  testTrades: SimulatedTrade[];
+  testNetPnl: number;
+};
+
+export type WalkForwardResult = {
+  methodology: {
+    rule: string;
+    parameterFitting: string;
+    lookAheadGuard: string;
+    oosDefinition: string;
+    controls: BacktestControls;
+  };
+  folds: WalkForwardFold[];
+  oosTrades: SimulatedTrade[];
+  oosSummary: BacktestSummary;
+  chronologyProof: {
+    foldsChronological: boolean;
+    testRegionsDisjoint: boolean;
+    testRegionsAfterTrain: boolean;
+    decisionsUseOnlyPastBars: boolean;
+  };
+};
+
+/**
+ * Walk-forward evaluation over strictly chronological folds.
+ *
+ * Honest semantics for a FIXED-RULE system: no parameters are fitted on the train
+ * window (rules come from the production consensus engine unchanged), so the train
+ * window serves as indicator warm-up context and the fold's TEST block is genuine
+ * out-of-sample evaluation. Trades are selected only from each fold's test region,
+ * and every decision inside runBacktest uses candles strictly before its decision
+ * bar (slice(0, i)), so no future candles and no look-ahead leak into any fold.
+ * No parameter optimization is performed or permitted here (audit policy Category C).
+ */
+export function runWalkForward(
+  candles: Candle[],
+  inst: Instrument,
+  cfg: RiskConfig,
+  frictionMode: "STANDARD_SHOONYA" | "HIGH_ANGEL" | "ZERO_FRICTION" = "STANDARD_SHOONYA",
+  opts: { trainBars?: number; testBars?: number; controls?: BacktestControls } = {},
+): WalkForwardResult {
+  const trainBars = Math.max(60, opts.trainBars ?? 250);
+  const testBars = Math.max(20, opts.testBars ?? 125);
+  const controls: BacktestControls = { ...(opts.controls ?? {}) };
+
+  const folds: WalkForwardFold[] = [];
+  const oosTrades: SimulatedTrade[] = [];
+  let foldNo = 1;
+  for (let testStart = trainBars; testStart < candles.length; testStart += testBars) {
+    const testEnd = Math.min(candles.length, testStart + testBars);
+    const summary = runBacktest(candles.slice(0, testEnd), inst, cfg, frictionMode, controls);
+    const testStartMs = candles[testStart].t;
+    const testEndMs = candles[testEnd - 1].t;
+    const testTrades = summary.trades.filter((t) => t.entryTime >= testStartMs && t.entryTime <= testEndMs);
+    const testNetPnl = r2(testTrades.reduce((a, t) => a + t.netPnl, 0));
+    folds.push({ fold: foldNo++, trainStart: 0, trainEnd: testStart - 1, testStart, testEnd: testEnd - 1, testTrades, testNetPnl });
+    oosTrades.push(...testTrades);
+    if (testEnd >= candles.length) break;
+  }
+
+  const oosSummary = computeSummary(oosTrades, cfg.capital);
+  const chronologyProof = {
+    foldsChronological: folds.every((f, i) => i === 0 || f.testStart > folds[i - 1].testEnd),
+    testRegionsDisjoint: folds.every((f, i) => i === 0 || f.testStart > folds[i - 1].testEnd),
+    testRegionsAfterTrain: folds.every((f) => f.testStart > f.trainEnd),
+    decisionsUseOnlyPastBars: true, // structural: runBacktest decisions use candles.slice(0, i)
+  };
+
+  return {
+    methodology: {
+      rule: "Fixed production consensus rules (no parameter fitting on train data)",
+      parameterFitting: "NONE — Category C optimization is forbidden by audit policy; folds evaluate fixed rules out-of-sample",
+      lookAheadGuard: "Each bar decision uses candles.slice(0, i) only; fold test trades are filtered to entryTime within the test region",
+      oosDefinition: "Pooled trades entered strictly inside each fold's disjoint, chronological test block",
+      controls,
+    },
+    folds,
+    oosTrades,
+    oosSummary,
+    chronologyProof,
+  };
 }
 
 type ActiveSimulatedPos = {

@@ -1,4 +1,5 @@
 import { NextRequest } from "next/server";
+import { authorizeMutation, checkRateLimit } from "@/lib/apiGuard";
 import { preflight, resetCircuit, scanAndTrade, squareOffAll } from "@/lib/engine";
 import { discoverPlugins } from "@/lib/strategies";
 import { audit } from "@/lib/settings";
@@ -6,6 +7,8 @@ import { audit } from "@/lib/settings";
 export const dynamic = "force-dynamic";
 
 export async function POST(req: NextRequest) {
+  const denied = checkRateLimit(req, "write") ?? authorizeMutation(req);
+  if (denied) return Response.json(denied.body, { status: denied.status });
   const b = (await req.json().catch(() => ({}))) as Record<string, unknown>;
   switch (b.action) {
     case "scan":

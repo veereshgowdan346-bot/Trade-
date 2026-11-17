@@ -19,9 +19,18 @@ export const istTime = (iso: string | number | null) => {
 };
 
 export async function api<T = unknown>(path: string, body?: unknown, method?: string): Promise<T> {
+  // SEC-001 (Phase 2): attach the API bearer token when the user configured one
+  // (localStorage "omni_api_token"). Local development without a token still works
+  // from loopback / same-origin.
+  const headers: Record<string, string> = {};
+  if (body !== undefined) headers["Content-Type"] = "application/json";
+  if (typeof window !== "undefined") {
+    const tok = window.localStorage.getItem("omni_api_token");
+    if (tok) headers["Authorization"] = `Bearer ${tok}`;
+  }
   const res = await fetch(path, {
     method: method ?? (body === undefined ? "GET" : "POST"),
-    headers: body === undefined ? undefined : { "Content-Type": "application/json" },
+    headers,
     body: body === undefined ? undefined : JSON.stringify(body),
     cache: "no-store",
   });

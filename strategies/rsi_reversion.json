@@ -1,0 +1,6 @@
+{
+  "id": "rsi_reversion_14",
+  "name": "Declarative RSI Mean-Reversion (14/30/70)",
+  "type": "rsi_reversion",
+  "params": { "period": 14, "low": 30, "high": 70 }
+}
