@@ -1,6 +1,6 @@
 # Recovery Procedure
 
-OmniTradePro Apex V2.0 · generated 2026-11-18T04:43:52.976Z.
+OmniTradePro Apex V2.0 · generated 2026-11-18T04:53:03.851Z.
 
 Written so a fresh environment can rebuild and verify this project **without any chat history**. Follow it in
 order; each step states what success looks like.
@@ -58,7 +58,7 @@ Then run `node scripts/import_external_data.js` (exit 0).
 `node scripts/adversarial_api_probe.js` → `48 passed, 0 failed`
 `node scripts/env_config_probe.js` → `43 passed, 0 failed`
 `node scripts/mutation_check.js` → `5/5 mutants detected`
-`node scripts/test_bundle_audit.js` → `27 passed, 0 failed` (the inventory tooling fails when it should)
+`node scripts/test_bundle_audit.js` → `42 passed, 0 failed` (the inventory tooling fails when it should)
 `node scripts/audit_safety.js` → `PAPER_ONLY_SAFETY_PASS`
 
 These figures were last reproduced in the workspace at the commit recorded above. They were previously reproduced

@@ -331,7 +331,12 @@ for (const [label, needle] of hardeningClaims) {
       for (const [name, file] of [["manifest", "RECOVERY_MANIFEST.md"], ["procedure", "RECOVERY_PROCEDURE.md"],
         ["handover", "FINAL_HANDOVER.md"]]) {
         const f = path.join(ROOT, file);
-        linkedFrom[name] = fs.existsSync(f) ? fs.readFileSync(f, "utf8") : "";
+        if (!fs.existsSync(f)) {
+          failures.push({ label: `handoff:link-doc-missing`, needle: file, reason: `required linking document ${file} is missing` });
+          linkedFrom[name] = "";
+        } else {
+          linkedFrom[name] = fs.readFileSync(f, "utf8");
+        }
       }
       const verdict = checkHandoff({ handoffText, linkedFrom });
       for (const e of verdict.errors) {
