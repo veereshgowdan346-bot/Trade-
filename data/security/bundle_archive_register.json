@@ -1,0 +1,80 @@
+{
+  "note": "Bundles that were audited and recorded, then destroyed by the seventh workspace reset. They exist only as records now: the files are gone and were never pushed, so no copy is recoverable from any remote.",
+  "recordedInCommit": "4f0420b74230e3220e00e957d355828c93bea49f",
+  "recordedAuditPath": "data/security/bundle_audit.json",
+  "destroyedBy": "seventh workspace reset (2026-11-18): the snapshot drops git-ignored paths, and backups/ is ignored",
+  "bundles": [
+    {
+      "file": "repo_all_refs_20261118T023531.bundle",
+      "size": 1724900,
+      "sha256": "b955f8cd2c88f8c1c5c2d3054a7c87dc09d861baf676a37f35b70d89df6c266c",
+      "containsHead": "413c0b38ab01f92247596fd8bc877314b4a72523",
+      "containsTree": "84697155414026d5822eb087c5d64ac4e4795198",
+      "commits": 9,
+      "trackedFiles": 485,
+      "pytest": "388 passed, 1 failed",
+      "test003": "11 passed, 1 failed",
+      "consistency": "REPORT_ARTIFACT_MISMATCH"
+    },
+    {
+      "file": "repo_all_refs_20261118T024147.bundle",
+      "size": 1740159,
+      "sha256": "38a57b0a3fb7f36382ec238ad49e39cf18957123d123580694704a37705f9c89",
+      "containsHead": "cddfe3d3dc54bfacddc01d465bff5662a9f82c6d",
+      "containsTree": "3797dc613616479edd5da416d9e226cbe5e8834f",
+      "commits": 10,
+      "trackedFiles": 489,
+      "pytest": "388 passed, 1 failed",
+      "test003": "11 passed, 1 failed",
+      "consistency": "REPORT_MATCHES_ARTIFACTS"
+    },
+    {
+      "file": "repo_all_refs_20261118T025017.bundle",
+      "size": 1744760,
+      "sha256": "75e724b6e27787b8f398c37f187966b67c2f419db86218d0ac9c7c1924af10d5",
+      "containsHead": "8271770c36b4a6cf37758dfa0f4d29b4c6ac519f",
+      "containsTree": "e6ef65eb44d9304bd3556fcbe0211fcfd74e2e57",
+      "commits": 12,
+      "trackedFiles": 489,
+      "pytest": "388 passed, 1 failed",
+      "test003": "11 passed, 1 failed",
+      "consistency": "REPORT_MATCHES_ARTIFACTS"
+    },
+    {
+      "file": "repo_all_refs_20261118T025639.bundle",
+      "size": 1751413,
+      "sha256": "6fbd7a24fc7274c5543f2809f8f57e7a93c6fcc8f834987c1c65d49e44342594",
+      "containsHead": "a56f58d6d1f8e44691b8125494301b267d903413",
+      "containsTree": "9538e18eb629e0756c1fdb227b4ae970b20180ff",
+      "commits": 13,
+      "trackedFiles": 489,
+      "pytest": "390 passed",
+      "test003": "13 passed",
+      "consistency": "REPORT_MATCHES_ARTIFACTS"
+    },
+    {
+      "file": "repo_all_refs_20261118T030624.bundle",
+      "size": 1756778,
+      "sha256": "4dacd6077ca260ac640c7a7dafd0e0e22e941a66e206487e07cce02b41ab4b08",
+      "containsHead": "962900cc6a9079fd94b35e54bb0d818e4e343c20",
+      "containsTree": "fc6f025397165c9de5be71489c93acfebc65c8ee",
+      "commits": 15,
+      "trackedFiles": 489,
+      "pytest": "390 passed",
+      "test003": "13 passed",
+      "consistency": "REPORT_MATCHES_ARTIFACTS"
+    },
+    {
+      "file": "repo_all_refs_20261118T032321.bundle",
+      "size": 1768652,
+      "sha256": "4b5563d0cfd720815925305448b8b1f9f667a6da695b541b0f865a0cb42f6bc1",
+      "containsHead": "16b028cc30c5f7ba849bf88f901ec203911978b2",
+      "containsTree": "5e287e88108bab3eaa487adfa7b88e2873adf4b2",
+      "commits": 17,
+      "trackedFiles": 491,
+      "pytest": "390 passed",
+      "test003": "13 passed",
+      "consistency": "REPORT_ARTIFACT_MISMATCH"
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-17T17:36:38.428Z",
+  "generatedAt": "2026-11-18T02:22:57.053Z",
   "command": "node scripts/instrument_compatibility.js",
   "issue": "INSTR-001",
   "intendedInstrument": {

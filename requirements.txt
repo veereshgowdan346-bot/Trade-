@@ -1,0 +1,36 @@
+# Python dependencies — OmniTradePro Apex V2.0 (RESEARCH / PAPER ONLY)
+#
+# Install:
+#   pip install --break-system-packages -r requirements.txt
+#
+# A fresh environment needs these before the Python suite and the calendar cross-check can run. Without them
+# pytest fails at *collection* (exit 2). That is an ENVIRONMENT failure and must never be reported as a code
+# regression — see RECOVERY_PROCEDURE.md step 3.
+#
+# Scope of this file (checked against actual imports over all 81 .py files):
+#   - pandas          : used directly by config/ and via pandas_market_calendars (which requires pandas>=2.3)
+#   - pandas_market_calendars : THIRD-PARTY NSE calendar, used only as a cross-check — never described as official
+#   - cryptography    : config/credential_manager.py (Fernet vault, Python side)
+#   - requests        : config/ HTTP surfaces and the Shoonya auth tests
+#   - websockets      : feed-connection tests (connection logic only; no broker is contacted)
+#   - PySide6         : desktop UI tests, headless via QT_QPA_PLATFORM=offscreen
+#   - pyotp           : TOTP flow tests, with synthetic seeds generated at runtime
+#   - pytest          : test runner
+#
+# Deliberately NOT pinned, and the reasons, so nobody "helpfully" adds them:
+#   - smartapi-python (Angel One SDK): core/broker_adapter.py imports it inside a try/except and falls back to a
+#     mock (SMARTAPI_AVAILABLE = False). It is NOT required, and installing it would enable real broker
+#     connection code paths that this project forbids. Leave it out.
+#   - numpy / scipy / matplotlib: no direct imports anywhere in the repository. They are not required; pandas
+#     pulls in numpy transitively. Do not add packages the code does not use.
+#
+# No broker credential, API key, TOTP seed or vault key belongs in this file, and none is present.
+
+pandas==3.1.1
+pandas_market_calendars==5.6.1
+cryptography==50.0.2
+requests==2.34.2
+websockets==17.4
+PySide6==6.12.0
+pyotp==2.12.0
+pytest==9.0.2

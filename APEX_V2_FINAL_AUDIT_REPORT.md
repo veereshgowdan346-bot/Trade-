@@ -1,7 +1,7 @@
 # APEX V2.0 — Ultimate One-Pass Audit, Remediation, Validation & Certification
 
-**Generated:** 2026-11-17T17:35:18.602Z from machine-readable artifacts by `scripts/generate_final_report.js`
-**Branch:** `arena/b6463544-trade` · **Baseline commit:** `1ccee80a2263c33d34845da2b54bd307f7cba195` · **Tracked files:** 463
+**Generated:** 2026-11-18T03:59:41.993Z from machine-readable artifacts by `scripts/generate_final_report.js`
+**Branch:** `arena/f721e253-trade` · **Baseline commit:** `922474187ada1ca8fb57dc815e82c105a47183ff` · **Tracked files:** 495
 **Mode:** research, historical backtesting and PAPER simulation only. Nothing pushed, merged, deployed or traded.
 
 ---
@@ -50,14 +50,15 @@ corrected intraday rule.
 
 | Item | Value |
 |---|---|
-| Baseline expected | `1ccee80` |
-| Baseline present | yes (`1ccee80a2263c33d34845da2b54bd307f7cba195`) |
-| Parent of baseline | `d095fc0754edd40ca369a127ce140a7d22e0e680` |
-| Branch | `arena/b6463544-trade` |
-| Tracked files at audit start | 463 |
+| Baseline (HEAD at audit start) | `9224741` |
+| Parent | `97d3930` |
+| Baseline present | yes — verified with `git cat-file -e 9224741` |
+| Baseline exists in this clone | yes (`git cat-file -e`) |
+| Branch | `arena/f721e253-trade` |
+| Tracked files at audit start | 495 |
 | Working tree at audit start | clean (0 entries) |
 | Environment | same workspace; `node_modules`, `dist_test_cjs` and Python deps present |
-| Prior work lost | none in this pass — the earlier lost commits `2af7e41`/`adba1be` remain absent and their content is preserved in `d095fc0` |
+| Earlier session hashes | `2af7e41`, `adba1be`, `d095fc0`, `1ccee80` are **not present** in this repository (verified with `git cat-file`); no claim is made that they are retrievable |
 
 No re-clone occurred this pass, so no snapshot/recovery was needed. Every previous report and result set
 was preserved: the pre-correction protocol artifact is byte-identical and lives alongside the new one.
@@ -364,14 +365,18 @@ Behaviour-tested (`scripts/audit_safety.js`), not inferred from comments:
 | SAFE-06 | unsupported segment throws instead of inventing a rate | **PASS** | CURRENCY segment rejected |
 | SAFE-07 | unknown broker fails closed | **PASS** | unknown broker rejected |
 | SAFE-08 | mutating request from outside is rejected when no token is configured | **PASS** | status 401 |
-| SAFE-09 | mutating request is allowed from loopback | **PASS** | loopback allowed |
+| SAFE-09 | mutating request is allowed from a direct connection only when local trust is asserted | **PASS** | fail-closed without assertion; allowed with OMNI_LOCAL_TRUST=true |
+| SAFE-17 | an empty forwarding header cannot pass as a direct local connection | **PASS** | empty/whitespace forwarding headers are denied; direct connections still allowed |
+| SAFE-16 | remote mutations fail closed without a token (same-origin is not authentication) | **PASS** | remote mutations require a token; same-origin alone is rejected |
+| SAFE-15 | client-supplied X-Forwarded-For is not treated as proof of locality | **PASS** | spoofed header rejected; nearest-hop-only under OMNI_TRUST_PROXY |
 | SAFE-10 | configured token is required and compared exactly | **PASS** | missing/wrong rejected, correct accepted (runtime-generated token) |
 | SAFE-11 | rate limiter returns 429 once the budget is exhausted | **PASS** | 429 after 30 writes (limit 30/min) |
-| SAFE-12 | no known leaked identifier remains in the tracked tree | **PASS** | 463 files, 3 digests, 0 matches |
+| SAFE-12 | no known leaked identifier remains in the tracked tree | **PASS** | 495 files, 3 digests, 0 matches |
 | SAFE-13 | vault uses a per-install random key, not a published constant | **PASS** | 64-hex per-install key, 0600, stable, no constant fallback |
+| SAFE-18 | no user-facing text claims a credential fallback key exists | **PASS** | no stale fallback-key claims |
 | SAFE-14 | credential vault fails closed without VAULT_KEY (no published fallback) | **PASS** | throws without key, rejects short keys, derives 32 bytes with a key |
 
-Verdict: **PAPER_ONLY_SAFETY_PASS** (14 pass / 0 fail).
+Verdict: **PAPER_ONLY_SAFETY_PASS** (18 pass / 0 fail).
 
 **Open security item:** the leaked broker identifiers and the vault passphrase were committed to git
 history. Removing them from the working tree does not un-leak them. **The owner must rotate the broker API
@@ -386,7 +391,7 @@ key and TOTP seed** and treat them as compromised. History rewriting was not att
 | `npx tsc --noEmit` | 0 | no type errors |
 | `npx eslint . --max-warnings=0` | 0 | no lint findings |
 | `npm run build` | 0 | production build completed |
-| `python3 -m pytest -q` | 0 | 389 passed in 1.47s |
+| `python3 -m pytest -q` | 0 | 390 passed in 1.40s |
 | `npm run test:all` | 0 | EXACT_EQUIVALENCE_VERIFIED, ANCHORS_REPRODUCED_EXACTLY |
 | `npm run test:external` | 0 | dataset audit 7/7 |
 | `npm run test:calendar` | 0 | 1 unresolved weekday discrepancy recorded |
@@ -395,7 +400,7 @@ key and TOTP seed** and treat them as compromised. History rewriting was not att
 | `npm run test:methodology` | 0 | 12 pass / 0 fail |
 | `npm run test:stats` | 0 | NEGATIVE_RESULT_ROBUST_TO_CLUSTERING |
 | `npm run test:cost` | 0 | sign invariant, break-even unreachable |
-| `npm run test:safety` | 0 | 14 pass / 0 fail |
+| `npm run test:safety` | 0 | 18 pass / 0 fail |
 | `npm run test:instrument` | 0 | INSTRUMENT_INCOMPATIBLE_FOR_EQUITY_VALIDATION |
 | `npm run test:secrets` | 0 | 0 blocking findings |
 | `node scripts/final_readiness_probes.js` | 0 | 12/12 probes pass |
@@ -440,7 +445,7 @@ concealed.
 |---|---|
 | Repository integrity | **PASS** |
 | TypeScript / lint / build | **PASS** |
-| Python + JS test suites | **PASS** (389 passed Python; full JS suite) |
+| Python + JS test suites | **PASS** (390 passed Python; full JS suite) |
 | Methodology (strict intraday, no look-ahead, no tuning) | **PASS** |
 | Security / paper-only | **PASS in tree; SEC-001 rotation OPEN** |
 | Data provenance | **PARTIAL** (pinned, unauthenticated) |
@@ -461,8 +466,8 @@ permanently disabled in code and is out of scope.
 
 ## 21. Final commit
 
-This report is part of the single local commit created at the end of this pass, on branch `arena/b6463544-trade`,
-directly on top of baseline `1ccee80a2263c33d34845da2b54bd307f7cba195`. Its hash is the commit that contains this file:
+This report is part of the single local commit created at the end of this pass, on branch `arena/f721e253-trade`,
+directly on top of baseline `922474187ada1ca8fb57dc815e82c105a47183ff`. Its hash is the commit that contains this file:
 
 ```
 git log -1 --format=%H -- APEX_V2_FINAL_AUDIT_REPORT.md

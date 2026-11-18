@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-17T17:36:43.310270+00:00",
+  "generatedAt": "2026-11-18T02:23:02.137692+00:00",
   "command": "python3 scripts/calendar_crosscheck.py",
   "calendarSource": {
     "library": "pandas_market_calendars",

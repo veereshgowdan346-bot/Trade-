@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-17T17:36:29.373Z",
+  "generatedAt": "2026-11-18T04:04:49.892Z",
   "command": "node scripts/anchor_reproduction.js",
   "config": {
     "capital": 500000,

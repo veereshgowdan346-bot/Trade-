@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-17T17:36:28.607Z",
+  "generatedAt": "2026-11-18T04:04:49.110Z",
   "scope": "RESEARCH ONLY — experimental strategies are disabled and not connected to the production quorum",
   "harnessRules": {
     "signalPrefix": "candles.slice(0,i) (excludes current bar)",

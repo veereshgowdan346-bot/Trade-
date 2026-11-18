@@ -37,6 +37,41 @@ reading. (2) Intervals now reported trade-level, session-cluster and moving-bloc
 (3) Cost sensitivity now separates statutory from slippage across six labelled assumptions with an
 explicit break-even analysis.
 
+## Master audit pass (2026-11-18, full history)
+
+Baseline `df52c08`. Report: `FINAL_SECURITY_RESEARCH_AUDIT.md`. Plan: `GIT_HISTORY_REMEDIATION_PLAN.md`.
+
+### SECURITY-001 — CORRECTED UPWARD: 36 findings across 6 public commits — **BLOCKED**
+
+Earlier passes scanned a **depth-1 clone** and reported 6 findings in 1 commit. The clone was deepened
+(read-only `git fetch --unshallow`) to the complete 8-commit history; the same digest scan now finds
+**36 findings across 6 commits, every one reachable from `origin/master`**:
+
+`c9b80bd2` (initial import), `da4d4c82`, `b9fff0e3`, `1741aeb3`, `6aba03f8`, `60d7c41`.
+
+Only `0f1d47d` (remediation) and `df52c08` (PR #2 merge) are clean. Files implicated:
+`SECURITY_AUDIT.md`, `scripts/scan_repo_secrets.py`, `scripts/scan_source_files.py`. Kinds:
+`api_secret`, `client_or_user_id`, `totp_seed_prefix` (12 each). Values displayed: 0.
+
+The exposure has therefore been public since the repository's **first commit**, not since a recent push.
+The previous "6 findings / 1 commit" figure was not wrong in method — it was limited by truncated
+history. Working tree remains clean (0 blocking findings, 463 files). **Certification stays BLOCKED.**
+
+### SECURITY-006 — rotation unconfirmed — **NOT_CONFIRMED**
+
+No credential was read, tested, transmitted or reused. Rotation must be confirmed by the owner from the
+broker's official console; it cannot be self-certified from inside the repository.
+
+### SEC-004 — scanners historically contained the literals they police — **FIXED (current), PRESENT (history)**
+
+Current `scan_repo_secrets.py` and `scan_source_files.py` carry 0 literal hits when checked by digest.
+Their historical revisions are part of the public exposure above and cannot be fixed by editing today's
+files.
+
+### SEC-005 — fixtures embed synthetic dummies instead of generating them — **ACCEPTED (LOW)**
+
+Allowlisted by the scanner; obviously fake (`fakeReq`, dummy tokens). No real material involved.
+
 ## Security remediation & certification pass (2026-11-18)
 
 Baseline `60d7c41` (the branch base; the working copy was re-cloned mid-pass — see the recovery note in §12). Report: `SECURITY_AND_RESEARCH_CERTIFICATION.md` (generated from artifacts).

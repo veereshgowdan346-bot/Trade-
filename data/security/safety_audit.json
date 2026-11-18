@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-17T17:36:37.716Z",
+  "generatedAt": "2026-11-18T04:04:30.283Z",
   "command": "node scripts/audit_safety.js",
   "checks": [
     {
@@ -52,9 +52,27 @@
     },
     {
       "id": "SAFE-09",
-      "name": "mutating request is allowed from loopback",
+      "name": "mutating request is allowed from a direct connection only when local trust is asserted",
       "status": "PASS",
-      "detail": "loopback allowed"
+      "detail": "fail-closed without assertion; allowed with OMNI_LOCAL_TRUST=true"
+    },
+    {
+      "id": "SAFE-17",
+      "name": "an empty forwarding header cannot pass as a direct local connection",
+      "status": "PASS",
+      "detail": "empty/whitespace forwarding headers are denied; direct connections still allowed"
+    },
+    {
+      "id": "SAFE-16",
+      "name": "remote mutations fail closed without a token (same-origin is not authentication)",
+      "status": "PASS",
+      "detail": "remote mutations require a token; same-origin alone is rejected"
+    },
+    {
+      "id": "SAFE-15",
+      "name": "client-supplied X-Forwarded-For is not treated as proof of locality",
+      "status": "PASS",
+      "detail": "spoofed header rejected; nearest-hop-only under OMNI_TRUST_PROXY"
     },
     {
       "id": "SAFE-10",
@@ -72,7 +90,7 @@
       "id": "SAFE-12",
       "name": "no known leaked identifier remains in the tracked tree",
       "status": "PASS",
-      "detail": "463 files, 3 digests, 0 matches"
+      "detail": "495 files, 3 digests, 0 matches"
     },
     {
       "id": "SAFE-13",
@@ -81,13 +99,19 @@
       "detail": "64-hex per-install key, 0600, stable, no constant fallback"
     },
     {
+      "id": "SAFE-18",
+      "name": "no user-facing text claims a credential fallback key exists",
+      "status": "PASS",
+      "detail": "no stale fallback-key claims"
+    },
+    {
       "id": "SAFE-14",
       "name": "credential vault fails closed without VAULT_KEY (no published fallback)",
       "status": "PASS",
       "detail": "throws without key, rejects short keys, derives 32 bytes with a key"
     }
   ],
-  "passed": 14,
+  "passed": 18,
   "failed": 0,
   "limitations": [
     "The engine's order path itself requires a database and live feed; its LIVE rejection is covered by the existing comprehensive suite and by the interlock constant checked here, not re-exercised end-to-end in this script.",

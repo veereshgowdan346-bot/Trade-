@@ -1,18 +1,16 @@
 {
-  "generatedAt": "2026-11-17T17:39:15.553345+00:00",
+  "generatedAt": "2026-11-18T03:56:49.743149+00:00",
   "command": "python3 scripts/scan_git_history_secrets.py",
   "scanner": "digest-based; no matched value is ever printed or stored",
   "coverage": {
-    "commitsScanned": 1,
-    "blobsScanned": 386,
+    "commitsScanned": 19,
+    "blobsScanned": 677,
     "refs": [
       "--all"
     ],
-    "shallowClone": true,
-    "shallowBoundary": [
-      "60d7c418f89beb392661642a95bfaadd2f99068c"
-    ],
-    "limitation": "Shallow clone: commits before the shallow boundary are absent locally and were NOT scanned. They remain in any remote or other clone that contains them."
+    "shallowClone": false,
+    "shallowBoundary": [],
+    "limitation": "Full history present locally."
   },
   "findings": [
     {
@@ -56,16 +54,231 @@
       "blob": "3651e9a5f02c94cd79f09b7ba0489a35f51393b6",
       "kind": "totp_seed_prefix",
       "reachableFromOriginMaster": true
+    },
+    {
+      "commit": "6aba03f8af2d45a31be4c84ab4b3e197b3434131",
+      "path": "SECURITY_AUDIT.md",
+      "blob": "bf98a068e8811443afc6617ce877f74970a66d4f",
+      "kind": "client_or_user_id",
+      "reachableFromOriginMaster": true
+    },
+    {
+      "commit": "6aba03f8af2d45a31be4c84ab4b3e197b3434131",
+      "path": "scripts/scan_repo_secrets.py",
+      "blob": "ce9242aa459f502c19d03717a7d8acd325c53bff",
+      "kind": "api_secret",
+      "reachableFromOriginMaster": true
+    },
+    {
+      "commit": "6aba03f8af2d45a31be4c84ab4b3e197b3434131",
+      "path": "scripts/scan_repo_secrets.py",
+      "blob": "ce9242aa459f502c19d03717a7d8acd325c53bff",
+      "kind": "totp_seed_prefix",
+      "reachableFromOriginMaster": true
+    },
+    {
+      "commit": "6aba03f8af2d45a31be4c84ab4b3e197b3434131",
+      "path": "scripts/scan_source_files.py",
+      "blob": "3651e9a5f02c94cd79f09b7ba0489a35f51393b6",
+      "kind": "client_or_user_id",
+      "reachableFromOriginMaster": true
+    },
+    {
+      "commit": "6aba03f8af2d45a31be4c84ab4b3e197b3434131",
+      "path": "scripts/scan_source_files.py",
+      "blob": "3651e9a5f02c94cd79f09b7ba0489a35f51393b6",
+      "kind": "api_secret",
+      "reachableFromOriginMaster": true
+    },
+    {
+      "commit": "6aba03f8af2d45a31be4c84ab4b3e197b3434131",
+      "path": "scripts/scan_source_files.py",
+      "blob": "3651e9a5f02c94cd79f09b7ba0489a35f51393b6",
+      "kind": "totp_seed_prefix",
+      "reachableFromOriginMaster": true
+    },
+    {
+      "commit": "b9fff0e3bdde44972fc80aa4e5880b8703e24b65",
+      "path": "SECURITY_AUDIT.md",
+      "blob": "bf98a068e8811443afc6617ce877f74970a66d4f",
+      "kind": "client_or_user_id",
+      "reachableFromOriginMaster": true
+    },
+    {
+      "commit": "b9fff0e3bdde44972fc80aa4e5880b8703e24b65",
+      "path": "scripts/scan_repo_secrets.py",
+      "blob": "ce9242aa459f502c19d03717a7d8acd325c53bff",
+      "kind": "api_secret",
+      "reachableFromOriginMaster": true
+    },
+    {
+      "commit": "b9fff0e3bdde44972fc80aa4e5880b8703e24b65",
+      "path": "scripts/scan_repo_secrets.py",
+      "blob": "ce9242aa459f502c19d03717a7d8acd325c53bff",
+      "kind": "totp_seed_prefix",
+      "reachableFromOriginMaster": true
+    },
+    {
+      "commit": "b9fff0e3bdde44972fc80aa4e5880b8703e24b65",
+      "path": "scripts/scan_source_files.py",
+      "blob": "3651e9a5f02c94cd79f09b7ba0489a35f51393b6",
+      "kind": "client_or_user_id",
+      "reachableFromOriginMaster": true
+    },
+    {
+      "commit": "b9fff0e3bdde44972fc80aa4e5880b8703e24b65",
+      "path": "scripts/scan_source_files.py",
+      "blob": "3651e9a5f02c94cd79f09b7ba0489a35f51393b6",
+      "kind": "api_secret",
+      "reachableFromOriginMaster": true
+    },
+    {
+      "commit": "b9fff0e3bdde44972fc80aa4e5880b8703e24b65",
+      "path": "scripts/scan_source_files.py",
+      "blob": "3651e9a5f02c94cd79f09b7ba0489a35f51393b6",
+      "kind": "totp_seed_prefix",
+      "reachableFromOriginMaster": true
+    },
+    {
+      "commit": "da4d4c829eb5418c77eadcda7ea254ce2ed8a328",
+      "path": "SECURITY_AUDIT.md",
+      "blob": "bf98a068e8811443afc6617ce877f74970a66d4f",
+      "kind": "client_or_user_id",
+      "reachableFromOriginMaster": true
+    },
+    {
+      "commit": "da4d4c829eb5418c77eadcda7ea254ce2ed8a328",
+      "path": "scripts/scan_repo_secrets.py",
+      "blob": "ce9242aa459f502c19d03717a7d8acd325c53bff",
+      "kind": "api_secret",
+      "reachableFromOriginMaster": true
+    },
+    {
+      "commit": "da4d4c829eb5418c77eadcda7ea254ce2ed8a328",
+      "path": "scripts/scan_repo_secrets.py",
+      "blob": "ce9242aa459f502c19d03717a7d8acd325c53bff",
+      "kind": "totp_seed_prefix",
+      "reachableFromOriginMaster": true
+    },
+    {
+      "commit": "da4d4c829eb5418c77eadcda7ea254ce2ed8a328",
+      "path": "scripts/scan_source_files.py",
+      "blob": "3651e9a5f02c94cd79f09b7ba0489a35f51393b6",
+      "kind": "client_or_user_id",
+      "reachableFromOriginMaster": true
+    },
+    {
+      "commit": "da4d4c829eb5418c77eadcda7ea254ce2ed8a328",
+      "path": "scripts/scan_source_files.py",
+      "blob": "3651e9a5f02c94cd79f09b7ba0489a35f51393b6",
+      "kind": "api_secret",
+      "reachableFromOriginMaster": true
+    },
+    {
+      "commit": "da4d4c829eb5418c77eadcda7ea254ce2ed8a328",
+      "path": "scripts/scan_source_files.py",
+      "blob": "3651e9a5f02c94cd79f09b7ba0489a35f51393b6",
+      "kind": "totp_seed_prefix",
+      "reachableFromOriginMaster": true
+    },
+    {
+      "commit": "1741aeb3b4077c76fbeb72e1727d378c4a9843d7",
+      "path": "SECURITY_AUDIT.md",
+      "blob": "bf98a068e8811443afc6617ce877f74970a66d4f",
+      "kind": "client_or_user_id",
+      "reachableFromOriginMaster": true
+    },
+    {
+      "commit": "1741aeb3b4077c76fbeb72e1727d378c4a9843d7",
+      "path": "scripts/scan_repo_secrets.py",
+      "blob": "ce9242aa459f502c19d03717a7d8acd325c53bff",
+      "kind": "api_secret",
+      "reachableFromOriginMaster": true
+    },
+    {
+      "commit": "1741aeb3b4077c76fbeb72e1727d378c4a9843d7",
+      "path": "scripts/scan_repo_secrets.py",
+      "blob": "ce9242aa459f502c19d03717a7d8acd325c53bff",
+      "kind": "totp_seed_prefix",
+      "reachableFromOriginMaster": true
+    },
+    {
+      "commit": "1741aeb3b4077c76fbeb72e1727d378c4a9843d7",
+      "path": "scripts/scan_source_files.py",
+      "blob": "3651e9a5f02c94cd79f09b7ba0489a35f51393b6",
+      "kind": "client_or_user_id",
+      "reachableFromOriginMaster": true
+    },
+    {
+      "commit": "1741aeb3b4077c76fbeb72e1727d378c4a9843d7",
+      "path": "scripts/scan_source_files.py",
+      "blob": "3651e9a5f02c94cd79f09b7ba0489a35f51393b6",
+      "kind": "api_secret",
+      "reachableFromOriginMaster": true
+    },
+    {
+      "commit": "1741aeb3b4077c76fbeb72e1727d378c4a9843d7",
+      "path": "scripts/scan_source_files.py",
+      "blob": "3651e9a5f02c94cd79f09b7ba0489a35f51393b6",
+      "kind": "totp_seed_prefix",
+      "reachableFromOriginMaster": true
+    },
+    {
+      "commit": "c9b80bd264c2eb4b14bdc8f1fe7ef12e292ee1ab",
+      "path": "SECURITY_AUDIT.md",
+      "blob": "bf98a068e8811443afc6617ce877f74970a66d4f",
+      "kind": "client_or_user_id",
+      "reachableFromOriginMaster": true
+    },
+    {
+      "commit": "c9b80bd264c2eb4b14bdc8f1fe7ef12e292ee1ab",
+      "path": "scripts/scan_repo_secrets.py",
+      "blob": "ce9242aa459f502c19d03717a7d8acd325c53bff",
+      "kind": "api_secret",
+      "reachableFromOriginMaster": true
+    },
+    {
+      "commit": "c9b80bd264c2eb4b14bdc8f1fe7ef12e292ee1ab",
+      "path": "scripts/scan_repo_secrets.py",
+      "blob": "ce9242aa459f502c19d03717a7d8acd325c53bff",
+      "kind": "totp_seed_prefix",
+      "reachableFromOriginMaster": true
+    },
+    {
+      "commit": "c9b80bd264c2eb4b14bdc8f1fe7ef12e292ee1ab",
+      "path": "scripts/scan_source_files.py",
+      "blob": "3651e9a5f02c94cd79f09b7ba0489a35f51393b6",
+      "kind": "client_or_user_id",
+      "reachableFromOriginMaster": true
+    },
+    {
+      "commit": "c9b80bd264c2eb4b14bdc8f1fe7ef12e292ee1ab",
+      "path": "scripts/scan_source_files.py",
+      "blob": "3651e9a5f02c94cd79f09b7ba0489a35f51393b6",
+      "kind": "api_secret",
+      "reachableFromOriginMaster": true
+    },
+    {
+      "commit": "c9b80bd264c2eb4b14bdc8f1fe7ef12e292ee1ab",
+      "path": "scripts/scan_source_files.py",
+      "blob": "3651e9a5f02c94cd79f09b7ba0489a35f51393b6",
+      "kind": "totp_seed_prefix",
+      "reachableFromOriginMaster": true
     }
   ],
   "summary": {
-    "findingCount": 6,
-    "distinctCommitsAffected": 1,
+    "findingCount": 36,
+    "distinctCommitsAffected": 6,
     "commitList": [
-      "60d7c418f89beb392661642a95bfaadd2f99068c"
+      "1741aeb3b4077c76fbeb72e1727d378c4a9843d7",
+      "60d7c418f89beb392661642a95bfaadd2f99068c",
+      "6aba03f8af2d45a31be4c84ab4b3e197b3434131",
+      "b9fff0e3bdde44972fc80aa4e5880b8703e24b65",
+      "c9b80bd264c2eb4b14bdc8f1fe7ef12e292ee1ab",
+      "da4d4c829eb5418c77eadcda7ea254ce2ed8a328"
     ],
     "affectsHeadWorkingTree": false,
-    "reachableFromOriginMaster": 6,
+    "reachableFromOriginMaster": 36,
     "publicExposure": true,
     "kinds": [
       "api_secret",

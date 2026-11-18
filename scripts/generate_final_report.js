@@ -35,7 +35,13 @@ const equivalence = read("scripts/perf_equivalence_output.json");
 const anchors = read("scripts/anchor_reproduction_output.json");
 
 const git = (cmd) => execSync(cmd, { cwd: ROOT, encoding: "utf8" }).trim();
-const baseline = "1ccee80a2263c33d34845da2b54bd307f7cba195";
+// The commit this report describes, taken from git rather than hardcoded: a stale hash was previously
+// written here and the report claimed it was "present" without checking (DOC-001).
+const baseline = git("git rev-parse HEAD");
+const baselineParent = git("git rev-parse HEAD^");
+const baselinePresent = (() => {
+  try { git(`git cat-file -e ${baseline}^{commit}`); return true; } catch { return false; }
+})();
 const branch = git("git rev-parse --abbrev-ref HEAD");
 const tracked = Number(git("git ls-files | wc -l"));
 
@@ -134,14 +140,15 @@ corrected intraday rule.
 
 | Item | Value |
 |---|---|
-| Baseline expected | \`1ccee80\` |
-| Baseline present | yes (\`${baseline}\`) |
-| Parent of baseline | \`d095fc0754edd40ca369a127ce140a7d22e0e680\` |
+| Baseline (HEAD at audit start) | \`${baseline.slice(0, 7)}\` |
+| Parent | \`${baselineParent.slice(0, 7)}\` |
+| Baseline present | ${baselinePresent ? "yes" : "NO"} — verified with \`git cat-file -e ${baseline.slice(0, 7)}\` |
+| Baseline exists in this clone | ${baselinePresent ? "yes" : "no"} (\`git cat-file -e\`) |
 | Branch | \`${branch}\` |
 | Tracked files at audit start | ${tracked} |
 | Working tree at audit start | clean (0 entries) |
 | Environment | same workspace; \`node_modules\`, \`dist_test_cjs\` and Python deps present |
-| Prior work lost | none in this pass — the earlier lost commits \`2af7e41\`/\`adba1be\` remain absent and their content is preserved in \`d095fc0\` |
+| Earlier session hashes | \`2af7e41\`, \`adba1be\`, \`d095fc0\`, \`1ccee80\` are **not present** in this repository (verified with \`git cat-file\`); no claim is made that they are retrievable |
 
 No re-clone occurred this pass, so no snapshot/recovery was needed. Every previous report and result set
 was preserved: the pre-correction protocol artifact is byte-identical and lives alongside the new one.

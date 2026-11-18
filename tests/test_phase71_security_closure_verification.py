@@ -89,6 +89,46 @@ def test_environment_variables_cannot_override_live_kill_switch(monkeypatch, env
     assert result is None, f"Environment variable {env_var}={env_val} must not enable live execution"
     assert order.status == "REJECTED"
 
+AUTHORISED_OWNER_REPO = "veereshgowdan346-bot/Trade-"
+AUTHORISED_HOSTS = {"github.com", "www.github.com"}
+
+
+def _remote_url_authorised(url: str) -> bool:
+    """True when a remote URL is either the authorised GitHub repository or a local bundle file.
+
+    Restoring this project from a verified bundle (`git clone <file>.bundle`) configures exactly one
+    remote whose URL is a path to that bundle. That is not a publication channel, so it is allowed;
+    every other destination is not.
+
+    The match is exact on host and owner/repository. A substring test is not sufficient: it would
+    accept `veereshgowdan346-bot/Trade--fork` and any host serving a path with the same owner, which
+    is precisely the mistake this predicate is meant to prevent.
+    """
+    stripped = (url or "").strip()
+    if not stripped:
+        return False
+    # A local bundle path (what a verified restore produces).
+    if "://" not in stripped and not stripped.startswith("git@"):
+        return stripped.endswith(".bundle")
+    if "://" in stripped:
+        from urllib.parse import urlparse
+
+        parsed = urlparse(stripped)
+        # No special case for `file://`: git refuses to clone a bundle through that scheme ("too large to be a
+        # .git file"), so no such remote can exist. A verified restore uses a plain path, handled above.
+        if (parsed.hostname or "").lower() not in AUTHORISED_HOSTS:
+            return False
+        path = parsed.path.lstrip("/")
+    else:  # scp-style: git@github.com:owner/repo.git
+        host, _, path = stripped.partition(":")
+        if host.split("@")[-1].lower() not in AUTHORISED_HOSTS:
+            return False
+    path = path.rstrip("/")
+    if path.endswith(".git"):
+        path = path[:-4]
+    return path == AUTHORISED_OWNER_REPO
+
+
 def test_git_branches_and_tags_hygiene():
     """
     Verify git branch/tag/remote hygiene (security incident closure, 2026-02-14).
@@ -109,6 +149,15 @@ def test_git_branches_and_tags_hygiene():
         to the authorized one — now fixed).
       * Remote refs must be limited to `origin/master` and `origin/HEAD` (new check —
         the original test conflated local and remote branches in `git branch -a`).
+
+    TEST-003 (2026-11-18): the assertion `"master" in local_branches` encoded another snapshot
+    artefact. A repository restored from a bundle, or any single-branch clone, legitimately has no
+    local `master` — only the checked-out branch — so the test failed in a verified restore while
+    passing in the author's workspace. The security property is about refs that must NOT exist
+    (unauthorised branches, tags, rogue remotes), never about a convenience branch being present.
+    It now requires `master` to exist as a ref (local OR remote-tracking) and keeps every other
+    assertion strict. A remote pointing at a local `.bundle` file is accepted because that is what
+    restoring from a verified bundle produces; it is not a publication channel.
     """
     b_res = subprocess.run(["git", "branch"], cwd=REPO_ROOT, capture_output=True, text=True, check=True)
     local_branches = sorted(b.strip().replace("* ", "") for b in b_res.stdout.splitlines() if b.strip())
@@ -116,7 +165,14 @@ def test_git_branches_and_tags_hygiene():
     assert local_branches == sorted(allowed), (
         f"Unauthorized local branches present (only 'master' and 'arena/*' are permitted): {local_branches}"
     )
-    assert "master" in local_branches, "master must remain a local branch"
+    # `master` must exist as a ref, but not necessarily as a local branch: a bundle restore or a
+    # single-branch clone has only the checked-out branch locally while `origin/master` still exists.
+    r_master = subprocess.run(
+        ["git", "rev-parse", "--verify", "--quiet", "refs/remotes/origin/master"],
+        cwd=REPO_ROOT, capture_output=True, text=True,
+    )
+    has_master_ref = "master" in local_branches or r_master.returncode == 0
+    assert has_master_ref, "the master line must exist locally or as origin/master"
 
     t_res = subprocess.run(["git", "tag"], cwd=REPO_ROOT, capture_output=True, text=True, check=True)
     assert t_res.stdout.strip() == "", f"Unexpected tags found: {t_res.stdout}"
@@ -124,7 +180,9 @@ def test_git_branches_and_tags_hygiene():
     r_res = subprocess.run(["git", "remote", "-v"], cwd=REPO_ROOT, capture_output=True, text=True, check=True)
     remote_lines = [l.strip() for l in r_res.stdout.splitlines() if l.strip()]
     for line in remote_lines:
-        assert "veereshgowdan346-bot/Trade-" in line, f"Unauthorized remote configured: {line}"
+        parts = line.split()
+        url = parts[1] if len(parts) >= 2 else ""
+        assert _remote_url_authorised(url), f"Unauthorized remote configured: {line}"
     remote_names = sorted({l.split()[0] for l in remote_lines})
     assert set(remote_names) <= {"origin"}, f"Extra remotes configured (only 'origin' permitted): {remote_names}"
 
@@ -173,3 +231,26 @@ def test_application_vault_never_loads_plaintext_credential_files():
         c_content = f.read()
     assert "data/credentials.json" not in c_content
     assert "credentials.json" not in c_content
+
+
+def test_remote_url_predicate_rejects_unauthorised_destinations():
+    """TEST-003 regression: the remote check must not accept a rogue destination.
+
+    This is the negative half of the hygiene test. If someone widens `_remote_url_authorised` to
+    accept arbitrary URLs (for example to make a fork CI pass), this fails immediately.
+    """
+    assert _remote_url_authorised("https://github.com/veereshgowdan346-bot/Trade-.git") is True
+    assert _remote_url_authorised("git@github.com:veereshgowdan346-bot/Trade-.git") is True
+    assert _remote_url_authorised("/home/user/Trade-/backups/repo_all_refs_test.bundle") is True
+    assert _remote_url_authorised("backups/repo.bundle") is True
+
+    for bad in (
+        "https://github.com/someone-else/Trade-.git",
+        "https://gitlab.com/veereshgowdan346-bot/Trade-.git",
+        "https://github.com/veereshgowdan346-bot/Trade--fork.git",
+        "https://example.com/x.bundle",
+        "file:///tmp/evil.bundle",
+        "",
+        "origin",
+    ):
+        assert _remote_url_authorised(bad) is False, f"unauthorised remote accepted: {bad!r}"

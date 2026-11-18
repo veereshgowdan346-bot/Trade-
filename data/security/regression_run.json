@@ -1,0 +1,241 @@
+{
+  "generatedAt": "2026-11-18T03:59:37.223Z",
+  "command": "node scripts/run_regression_record.js",
+  "environment": {
+    "node": "v22.22.3",
+    "python": "Python 3.11.2",
+    "platform": "linux",
+    "qtOffscreen": true
+  },
+  "gates": [
+    {
+      "name": "TypeScript typecheck",
+      "command": "npx tsc --noEmit",
+      "group": "static",
+      "exitCode": 0,
+      "expectedExit": 0,
+      "asExpected": true,
+      "durationMs": 2157,
+      "summary": ""
+    },
+    {
+      "name": "Lint (eslint, zero warnings)",
+      "command": "npx eslint . --max-warnings=0",
+      "group": "static",
+      "exitCode": 0,
+      "expectedExit": 0,
+      "asExpected": true,
+      "durationMs": 8999,
+      "summary": ""
+    },
+    {
+      "name": "Production build",
+      "command": "npm run build",
+      "group": "static",
+      "exitCode": 0,
+      "expectedExit": 0,
+      "asExpected": true,
+      "durationMs": 13468,
+      "summary": "ƒ  (Dynamic)  server-rendered on demand"
+    },
+    {
+      "name": "Python test suite",
+      "command": "python3 -m pytest -q",
+      "group": "tests",
+      "exitCode": 0,
+      "expectedExit": 0,
+      "asExpected": true,
+      "durationMs": 1615,
+      "summary": "390 passed in 1.37s"
+    },
+    {
+      "name": "JavaScript suite (test:all)",
+      "command": "npm run test:all",
+      "group": "tests",
+      "exitCode": 0,
+      "expectedExit": 0,
+      "asExpected": true,
+      "durationMs": 19430,
+      "summary": "26 PASS / 0 FAIL | 15 PASS / 0 FAIL | \"verdict\": \"ANCHORS_REPRODUCED_EXACTLY\""
+    },
+    {
+      "name": "Security probes (test:safety)",
+      "command": "npm run test:safety",
+      "group": "security",
+      "exitCode": 0,
+      "expectedExit": 0,
+      "asExpected": true,
+      "durationMs": 482,
+      "summary": "safety audit: 18 PASS / 0 FAIL | PASS SAFE-16 remote mutations fail closed without a token (same-origin is not authentication) — remote mutations require a token; same-origin alone is rejected | verdict: PAPER_ONLY_SAFETY_PASS"
+    },
+    {
+      "name": "Secret scanner (test:secrets)",
+      "command": "npm run test:secrets",
+      "group": "security",
+      "exitCode": 0,
+      "expectedExit": 0,
+      "asExpected": true,
+      "durationMs": 680,
+      "summary": "blocking findings: 0"
+    },
+    {
+      "name": "History scanner (test:history)",
+      "command": "npm run test:history",
+      "group": "security",
+      "exitCode": 1,
+      "expectedExit": 1,
+      "asExpected": true,
+      "durationMs": 1613,
+      "summary": "findings:        36 across 6 commit(s) | verdict: HISTORY_EXPOSURE_FOUND",
+      "note": "exits 1 BY DESIGN while known exposure exists in public history"
+    },
+    {
+      "name": "Instrument compatibility",
+      "command": "npm run test:instrument",
+      "group": "data",
+      "exitCode": 0,
+      "expectedExit": 0,
+      "asExpected": true,
+      "durationMs": 112,
+      "summary": "strategies: 10 (equity validation BLOCKED for all 10)"
+    },
+    {
+      "name": "External dataset audit",
+      "command": "npm run test:external",
+      "group": "data",
+      "exitCode": 0,
+      "expectedExit": 0,
+      "asExpected": true,
+      "durationMs": 4581,
+      "summary": "external audit: 7 PASS / 0 FAIL"
+    },
+    {
+      "name": "Calendar cross-check",
+      "command": "npm run test:calendar",
+      "group": "data",
+      "exitCode": 0,
+      "expectedExit": 0,
+      "asExpected": true,
+      "durationMs": 1072,
+      "summary": "unresolved weekday discrepancies: 1"
+    },
+    {
+      "name": "Official rate registry audit",
+      "command": "npm run test:rate",
+      "group": "data",
+      "exitCode": 0,
+      "expectedExit": 0,
+      "asExpected": true,
+      "durationMs": 286,
+      "summary": "15 PASS / 0 FAIL"
+    },
+    {
+      "name": "Methodology audit",
+      "command": "npm run test:methodology",
+      "group": "research",
+      "exitCode": 0,
+      "expectedExit": 0,
+      "asExpected": true,
+      "durationMs": 8254,
+      "summary": "methodology audit: 12 PASS / 0 FAIL | PASS M4 signal depends only on the prefix passed in — signal=-1, confidence=65"
+    },
+    {
+      "name": "Research protocol (legacy carry)",
+      "command": "npm run test:protocol",
+      "group": "research",
+      "exitCode": 0,
+      "expectedExit": 0,
+      "asExpected": true,
+      "durationMs": 18849,
+      "summary": "}"
+    },
+    {
+      "name": "Research protocol (strict intraday)",
+      "command": "npm run test:protocol:strict",
+      "group": "research",
+      "exitCode": 0,
+      "expectedExit": 0,
+      "asExpected": true,
+      "durationMs": 41645,
+      "summary": "}"
+    },
+    {
+      "name": "Statistical robustness",
+      "command": "npm run test:stats",
+      "group": "research",
+      "exitCode": 0,
+      "expectedExit": 0,
+      "asExpected": true,
+      "durationMs": 47512,
+      "summary": "verdict: NEGATIVE_RESULT_ROBUST_TO_CLUSTERING"
+    },
+    {
+      "name": "Cost sensitivity",
+      "command": "npm run test:cost",
+      "group": "research",
+      "exitCode": 0,
+      "expectedExit": 0,
+      "asExpected": true,
+      "durationMs": 43292,
+      "summary": "verdict: {"
+    },
+    {
+      "name": "Bundle-audit negative tests",
+      "command": "node scripts/test_bundle_audit.js",
+      "group": "security",
+      "exitCode": 0,
+      "expectedExit": 0,
+      "asExpected": true,
+      "durationMs": 468,
+      "summary": "PASS  parse \"10 passed, 2 xfailed\" — 10 passed, 2 xfailed | PASS  the old regex bug cannot recur: 1 failed before 388 passed is not green — 388 passed, 1 failed | bundle-audit tests: 22 passed, 0 failed"
+    },
+    {
+      "name": "Environment configuration probe",
+      "command": "node scripts/env_config_probe.js",
+      "group": "security",
+      "exitCode": 0,
+      "expectedExit": 0,
+      "asExpected": true,
+      "durationMs": 115,
+      "summary": "env-config probe: 43 passed, 0 failed"
+    },
+    {
+      "name": "Adversarial API probe",
+      "command": "node scripts/adversarial_api_probe.js",
+      "group": "security",
+      "exitCode": 0,
+      "expectedExit": 0,
+      "asExpected": true,
+      "durationMs": 29,
+      "summary": "dist_test_cjs/apiGuard.js: 48 passed, 0 failed"
+    },
+    {
+      "name": "Mutation detection (security suite can fail)",
+      "command": "node scripts/mutation_check.js",
+      "group": "security",
+      "exitCode": 0,
+      "expectedExit": 0,
+      "asExpected": true,
+      "durationMs": 831,
+      "summary": "production build: 91 passed, 0 failed",
+      "note": "each reintroduced vulnerability must be detected by the adversarial probe"
+    },
+    {
+      "name": "Readiness probes",
+      "command": "node scripts/final_readiness_probes.js",
+      "group": "security",
+      "exitCode": 0,
+      "expectedExit": 0,
+      "asExpected": true,
+      "durationMs": 418,
+      "summary": "\"passed\": 12, | \"verdict\": \"linear-ish\""
+    }
+  ],
+  "counts": {
+    "total": 22,
+    "asExpected": 22,
+    "unexpected": 0
+  },
+  "unexpectedGates": [],
+  "verdict": "ALL_GATES_AS_EXPECTED"
+}

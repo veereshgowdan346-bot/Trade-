@@ -1,0 +1,482 @@
+{
+  "generatedAt": "2026-11-18T04:04:21.257Z",
+  "command": "node scripts/audit_bundles.js --full --python=/usr/bin/python3",
+  "full": true,
+  "python": "/usr/bin/python3",
+  "note": "Every bundle in backups/ is enumerated. Older bundles are historical snapshots and are not patched. IMPORTANT: `git bundle verify` does not read the pack and reports 'is okay' for truncated bundles; the integrity claim in this artefact comes from the clone (packIntegrity), never from that command.",
+  "count": 8,
+  "bundles": [
+    {
+      "file": "repo_all_refs_20261118T032901.bundle",
+      "size": 1747015,
+      "sha256": "2afe8bc12b1b5c22ba7b4933b22aa9d0598e159703131312ca1c5c73dd756072",
+      "verify": "prerequisites ok (pack NOT checked by this command)",
+      "containsHead": "4f0420b74230e3220e00e957d355828c93bea49f",
+      "containsTree": "545e5c46b1d137d2244c9d7e9a749af2cf850212",
+      "commits": 9,
+      "trackedFiles": 491,
+      "restore": "HEAD matches (4f0420b) · tree matches (545e5c4) · 9 commits · 491 files · tree clean",
+      "packIntegrity": "pack readable (clone succeeded, fsck clean)",
+      "fsck": "clean",
+      "checks": {
+        "npmCi": 0,
+        "testPrep": 0,
+        "adversarial": {
+          "exit": 0,
+          "result": "48 passed, 0 failed"
+        },
+        "environment": {
+          "exit": 0,
+          "result": "43 passed, 0 failed"
+        },
+        "mutation": {
+          "exit": 0,
+          "result": "5/5 mutants detected"
+        },
+        "safety": {
+          "exit": 0,
+          "result": "PAPER_ONLY_SAFETY_PASS"
+        },
+        "secrets": {
+          "exit": 0,
+          "result": "0 blocking"
+        },
+        "consistency": {
+          "exit": 1,
+          "result": "REPORT_ARTIFACT_MISMATCH"
+        },
+        "pytest": {
+          "exit": 0,
+          "result": "390 passed"
+        },
+        "test003": {
+          "exit": 0,
+          "result": "13 passed"
+        }
+      }
+    },
+    {
+      "file": "repo_all_refs_20261118T033418.bundle",
+      "size": 1763771,
+      "sha256": "967819c663249ae9c0f70c561abbedace9dfacb0f42a875fba370bf06eb9af25",
+      "verify": "prerequisites ok (pack NOT checked by this command)",
+      "containsHead": "244fa89c6a9c3ac2585ab293ae954066a2772d12",
+      "containsTree": "168797b450d28283aa4dd9b401b888aa4a201be6",
+      "commits": 10,
+      "trackedFiles": 494,
+      "restore": "HEAD matches (244fa89) · tree matches (168797b) · 10 commits · 494 files · tree clean",
+      "packIntegrity": "pack readable (clone succeeded, fsck clean)",
+      "fsck": "clean",
+      "checks": {
+        "npmCi": 0,
+        "testPrep": 0,
+        "adversarial": {
+          "exit": 0,
+          "result": "48 passed, 0 failed"
+        },
+        "environment": {
+          "exit": 0,
+          "result": "43 passed, 0 failed"
+        },
+        "mutation": {
+          "exit": 0,
+          "result": "5/5 mutants detected"
+        },
+        "safety": {
+          "exit": 0,
+          "result": "PAPER_ONLY_SAFETY_PASS"
+        },
+        "secrets": {
+          "exit": 0,
+          "result": "0 blocking"
+        },
+        "consistency": {
+          "exit": 1,
+          "result": "REPORT_ARTIFACT_MISMATCH"
+        },
+        "pytest": {
+          "exit": 0,
+          "result": "390 passed"
+        },
+        "test003": {
+          "exit": 0,
+          "result": "13 passed"
+        }
+      }
+    },
+    {
+      "file": "repo_all_refs_20261118T033529.bundle",
+      "size": 1766400,
+      "sha256": "3c805f8af67c3d16785c95f5f0d4a35696afceee19cd41b4498f65190fd9c0d7",
+      "verify": "prerequisites ok (pack NOT checked by this command)",
+      "containsHead": "69ebd0464fdc1453c701392a3c260fe29ea63b0b",
+      "containsTree": "3c63b6e10dc5e65ffd4e55dc5d0571627450ff12",
+      "commits": 11,
+      "trackedFiles": 494,
+      "restore": "HEAD matches (69ebd04) · tree matches (3c63b6e) · 11 commits · 494 files · tree clean",
+      "packIntegrity": "pack readable (clone succeeded, fsck clean)",
+      "fsck": "clean",
+      "checks": {
+        "npmCi": 0,
+        "testPrep": 0,
+        "adversarial": {
+          "exit": 0,
+          "result": "48 passed, 0 failed"
+        },
+        "environment": {
+          "exit": 0,
+          "result": "43 passed, 0 failed"
+        },
+        "mutation": {
+          "exit": 0,
+          "result": "5/5 mutants detected"
+        },
+        "safety": {
+          "exit": 0,
+          "result": "PAPER_ONLY_SAFETY_PASS"
+        },
+        "secrets": {
+          "exit": 0,
+          "result": "0 blocking"
+        },
+        "consistency": {
+          "exit": 0,
+          "result": "REPORT_MATCHES_ARTIFACTS"
+        },
+        "pytest": {
+          "exit": 0,
+          "result": "390 passed"
+        },
+        "test003": {
+          "exit": 0,
+          "result": "13 passed"
+        }
+      }
+    },
+    {
+      "file": "repo_all_refs_20261118T034025.bundle",
+      "size": 1768211,
+      "sha256": "c2a5dd4355d2889b77b3f4c4ac6bd1e1547509184efa78a523f4779801bbb461",
+      "verify": "prerequisites ok (pack NOT checked by this command)",
+      "containsHead": "7ec6ac57ecb885b2550cabc5ca28f169ee5af2ab",
+      "containsTree": "a7e758472095fa266f42d8618092538a622b5aeb",
+      "commits": 12,
+      "trackedFiles": 494,
+      "restore": "HEAD matches (7ec6ac5) · tree matches (a7e7584) · 12 commits · 494 files · tree clean",
+      "packIntegrity": "pack readable (clone succeeded, fsck clean)",
+      "fsck": "clean",
+      "checks": {
+        "npmCi": 0,
+        "testPrep": 0,
+        "adversarial": {
+          "exit": 0,
+          "result": "48 passed, 0 failed"
+        },
+        "environment": {
+          "exit": 0,
+          "result": "43 passed, 0 failed"
+        },
+        "mutation": {
+          "exit": 0,
+          "result": "5/5 mutants detected"
+        },
+        "safety": {
+          "exit": 0,
+          "result": "PAPER_ONLY_SAFETY_PASS"
+        },
+        "secrets": {
+          "exit": 0,
+          "result": "0 blocking"
+        },
+        "consistency": {
+          "exit": 0,
+          "result": "REPORT_MATCHES_ARTIFACTS"
+        },
+        "pytest": {
+          "exit": 0,
+          "result": "390 passed"
+        },
+        "test003": {
+          "exit": 0,
+          "result": "13 passed"
+        }
+      }
+    },
+    {
+      "file": "repo_all_refs_20261118T034655.bundle",
+      "size": 1777482,
+      "sha256": "32ff9f78fff352f4125de0a9a7eb61fce396b45dc46de020c8ea7d0f0eb871f1",
+      "verify": "prerequisites ok (pack NOT checked by this command)",
+      "containsHead": "179f54ec1ce665ea8208dc204541065a3e9985bb",
+      "containsTree": "05439b6c72321aa46ddefc912573b41ac789bde0",
+      "commits": 14,
+      "trackedFiles": 495,
+      "restore": "HEAD matches (179f54e) · tree matches (05439b6) · 14 commits · 495 files · tree clean",
+      "packIntegrity": "pack readable (clone succeeded, fsck clean)",
+      "fsck": "clean",
+      "checks": {
+        "npmCi": 0,
+        "testPrep": 0,
+        "adversarial": {
+          "exit": 0,
+          "result": "48 passed, 0 failed"
+        },
+        "environment": {
+          "exit": 0,
+          "result": "43 passed, 0 failed"
+        },
+        "mutation": {
+          "exit": 0,
+          "result": "5/5 mutants detected"
+        },
+        "safety": {
+          "exit": 0,
+          "result": "PAPER_ONLY_SAFETY_PASS"
+        },
+        "secrets": {
+          "exit": 0,
+          "result": "0 blocking"
+        },
+        "consistency": {
+          "exit": 0,
+          "result": "REPORT_MATCHES_ARTIFACTS"
+        },
+        "pytest": {
+          "exit": 0,
+          "result": "390 passed"
+        },
+        "test003": {
+          "exit": 0,
+          "result": "13 passed"
+        }
+      }
+    },
+    {
+      "file": "repo_all_refs_20261118T035249.bundle",
+      "size": 1784340,
+      "sha256": "305bf432e083501de23c96c9fa665477f816fce79779a60d24b5511249322160",
+      "verify": "prerequisites ok (pack NOT checked by this command)",
+      "containsHead": "35259645ea5eb135ab63d0bab7b263e4e73569c1",
+      "containsTree": "e0777bbafb2341bf4e257503b0205bd6cf976019",
+      "commits": 16,
+      "trackedFiles": 495,
+      "restore": "HEAD matches (3525964) · tree matches (e0777bb) · 16 commits · 495 files · tree clean",
+      "packIntegrity": "pack readable (clone succeeded, fsck clean)",
+      "fsck": "clean",
+      "checks": {
+        "npmCi": 0,
+        "testPrep": 0,
+        "adversarial": {
+          "exit": 0,
+          "result": "48 passed, 0 failed"
+        },
+        "environment": {
+          "exit": 0,
+          "result": "43 passed, 0 failed"
+        },
+        "mutation": {
+          "exit": 0,
+          "result": "5/5 mutants detected"
+        },
+        "safety": {
+          "exit": 0,
+          "result": "PAPER_ONLY_SAFETY_PASS"
+        },
+        "secrets": {
+          "exit": 0,
+          "result": "0 blocking"
+        },
+        "consistency": {
+          "exit": 0,
+          "result": "REPORT_MATCHES_ARTIFACTS"
+        },
+        "pytest": {
+          "exit": 0,
+          "result": "390 passed"
+        },
+        "test003": {
+          "exit": 0,
+          "result": "13 passed"
+        }
+      }
+    },
+    {
+      "file": "repo_all_refs_20261118T035947.bundle",
+      "size": 1791350,
+      "sha256": "ecb93d44932aad83c85677dc8c2d487b37d4f31141b2a465cb54d7bd11ba11c6",
+      "verify": "prerequisites ok (pack NOT checked by this command)",
+      "containsHead": "f228a8d856182793d70a1b5973298414b7a29c67",
+      "containsTree": "cad5e3c7ea9fadac8742c5ab0d11251eebd4c3c4",
+      "commits": 20,
+      "trackedFiles": 495,
+      "restore": "HEAD matches (f228a8d) · tree matches (cad5e3c) · 20 commits · 495 files · tree clean",
+      "packIntegrity": "pack readable (clone succeeded, fsck clean)",
+      "fsck": "clean",
+      "checks": {
+        "npmCi": 0,
+        "testPrep": 0,
+        "adversarial": {
+          "exit": 0,
+          "result": "48 passed, 0 failed"
+        },
+        "environment": {
+          "exit": 0,
+          "result": "43 passed, 0 failed"
+        },
+        "mutation": {
+          "exit": 0,
+          "result": "5/5 mutants detected"
+        },
+        "safety": {
+          "exit": 0,
+          "result": "PAPER_ONLY_SAFETY_PASS"
+        },
+        "secrets": {
+          "exit": 0,
+          "result": "0 blocking"
+        },
+        "consistency": {
+          "exit": 0,
+          "result": "REPORT_MATCHES_ARTIFACTS"
+        },
+        "pytest": {
+          "exit": 0,
+          "result": "390 passed"
+        },
+        "test003": {
+          "exit": 0,
+          "result": "13 passed"
+        }
+      }
+    },
+    {
+      "file": "repo_all_refs_20261118T040208.bundle",
+      "size": 1793535,
+      "sha256": "972bab789e11f49fc434301ab62b9f79201db129bfdd146ca382338f797413e4",
+      "verify": "prerequisites ok (pack NOT checked by this command)",
+      "containsHead": "80c9660f9e046ce4e0619e8787f2d24ccd79e547",
+      "containsTree": "7cd3b3367572c9e606c0c5a41cbbc2b09a3db114",
+      "commits": 22,
+      "trackedFiles": 495,
+      "restore": "HEAD matches (80c9660) · tree matches (7cd3b33) · 22 commits · 495 files · tree clean",
+      "packIntegrity": "pack readable (clone succeeded, fsck clean)",
+      "fsck": "clean",
+      "checks": {
+        "npmCi": 0,
+        "testPrep": 0,
+        "adversarial": {
+          "exit": 0,
+          "result": "48 passed, 0 failed"
+        },
+        "environment": {
+          "exit": 0,
+          "result": "43 passed, 0 failed"
+        },
+        "mutation": {
+          "exit": 0,
+          "result": "5/5 mutants detected"
+        },
+        "safety": {
+          "exit": 0,
+          "result": "PAPER_ONLY_SAFETY_PASS"
+        },
+        "secrets": {
+          "exit": 0,
+          "result": "0 blocking"
+        },
+        "consistency": {
+          "exit": 0,
+          "result": "REPORT_MATCHES_ARTIFACTS"
+        },
+        "pytest": {
+          "exit": 0,
+          "result": "390 passed"
+        },
+        "test003": {
+          "exit": 0,
+          "result": "13 passed"
+        }
+      }
+    }
+  ],
+  "historicallyRecorded": {
+    "note": "Recorded in an earlier audit, then destroyed. The files are gone; nothing here is restorable. Older bundles carrying the pre-TEST-003 defect are listed with their real failing result, not as green.",
+    "source": "4f0420b74230e3220e00e957d355828c93bea49f",
+    "destroyedBy": "seventh workspace reset (2026-11-18): the snapshot drops git-ignored paths, and backups/ is ignored",
+    "count": 6,
+    "bundles": [
+      {
+        "file": "repo_all_refs_20261118T023531.bundle",
+        "size": 1724900,
+        "sha256": "b955f8cd2c88f8c1c5c2d3054a7c87dc09d861baf676a37f35b70d89df6c266c",
+        "containsHead": "413c0b38ab01f92247596fd8bc877314b4a72523",
+        "containsTree": "84697155414026d5822eb087c5d64ac4e4795198",
+        "commits": 9,
+        "trackedFiles": 485,
+        "pytest": "388 passed, 1 failed",
+        "test003": "11 passed, 1 failed",
+        "consistency": "REPORT_ARTIFACT_MISMATCH"
+      },
+      {
+        "file": "repo_all_refs_20261118T024147.bundle",
+        "size": 1740159,
+        "sha256": "38a57b0a3fb7f36382ec238ad49e39cf18957123d123580694704a37705f9c89",
+        "containsHead": "cddfe3d3dc54bfacddc01d465bff5662a9f82c6d",
+        "containsTree": "3797dc613616479edd5da416d9e226cbe5e8834f",
+        "commits": 10,
+        "trackedFiles": 489,
+        "pytest": "388 passed, 1 failed",
+        "test003": "11 passed, 1 failed",
+        "consistency": "REPORT_MATCHES_ARTIFACTS"
+      },
+      {
+        "file": "repo_all_refs_20261118T025017.bundle",
+        "size": 1744760,
+        "sha256": "75e724b6e27787b8f398c37f187966b67c2f419db86218d0ac9c7c1924af10d5",
+        "containsHead": "8271770c36b4a6cf37758dfa0f4d29b4c6ac519f",
+        "containsTree": "e6ef65eb44d9304bd3556fcbe0211fcfd74e2e57",
+        "commits": 12,
+        "trackedFiles": 489,
+        "pytest": "388 passed, 1 failed",
+        "test003": "11 passed, 1 failed",
+        "consistency": "REPORT_MATCHES_ARTIFACTS"
+      },
+      {
+        "file": "repo_all_refs_20261118T025639.bundle",
+        "size": 1751413,
+        "sha256": "6fbd7a24fc7274c5543f2809f8f57e7a93c6fcc8f834987c1c65d49e44342594",
+        "containsHead": "a56f58d6d1f8e44691b8125494301b267d903413",
+        "containsTree": "9538e18eb629e0756c1fdb227b4ae970b20180ff",
+        "commits": 13,
+        "trackedFiles": 489,
+        "pytest": "390 passed",
+        "test003": "13 passed",
+        "consistency": "REPORT_MATCHES_ARTIFACTS"
+      },
+      {
+        "file": "repo_all_refs_20261118T030624.bundle",
+        "size": 1756778,
+        "sha256": "4dacd6077ca260ac640c7a7dafd0e0e22e941a66e206487e07cce02b41ab4b08",
+        "containsHead": "962900cc6a9079fd94b35e54bb0d818e4e343c20",
+        "containsTree": "fc6f025397165c9de5be71489c93acfebc65c8ee",
+        "commits": 15,
+        "trackedFiles": 489,
+        "pytest": "390 passed",
+        "test003": "13 passed",
+        "consistency": "REPORT_MATCHES_ARTIFACTS"
+      },
+      {
+        "file": "repo_all_refs_20261118T032321.bundle",
+        "size": 1768652,
+        "sha256": "4b5563d0cfd720815925305448b8b1f9f667a6da695b541b0f865a0cb42f6bc1",
+        "containsHead": "16b028cc30c5f7ba849bf88f901ec203911978b2",
+        "containsTree": "5e287e88108bab3eaa487adfa7b88e2873adf4b2",
+        "commits": 17,
+        "trackedFiles": 491,
+        "pytest": "390 passed",
+        "test003": "13 passed",
+        "consistency": "REPORT_ARTIFACT_MISMATCH"
+      }
+    ]
+  }
+}

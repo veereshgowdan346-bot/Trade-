@@ -40,3 +40,7 @@ tsconfig.tsbuildinfo
 .DS_Store
 Thumbs.db
 data/external/
+
+# Local recovery bundles (see RECOVERY_PROCEDURE.md). Ignored by git, but kept inside the
+# workspace so the persisted working tree survives an environment reset.
+backups/
