@@ -1,0 +1,16 @@
+// Small deterministic parser unit fixtures; no strategy replay.
+'use strict';
+const assert=require('assert');
+const {parseRealCsv,sha256}=require('./ingest_real_csv');
+const lines=['timestamp,open,high,low,close,volume'];
+for(let d=0;d<30;d++) for(let i=0;i<375;i++) lines.push(`${Math.floor((Date.parse('2024-01-01T09:15:00+05:30')+d*86400000+i*60000)/1000)},100,101,99,100,12`);
+const data=Buffer.from(lines.join('\n')+'\n');
+const m={market:'NSE',dataKind:'REAL_HISTORICAL_1MIN',instrument:'TEST',provider:'UNIT FIXTURE',sourceReference:'TEST',attestedReal:true,csvSha256:sha256(data)};
+assert.equal(parseRealCsv(data,m).sessions.length,30);
+assert.throws(()=>parseRealCsv(data,{...m,csvSha256:'0'.repeat(64)}));
+assert.throws(()=>parseRealCsv(data,{...m,attestedReal:false}));
+const missing=Buffer.from(lines.slice(0,-1).join('\n'));
+assert.throws(()=>parseRealCsv(missing,{...m,csvSha256:sha256(missing)}),/Incomplete/);
+const duplicate=Buffer.from([...lines.slice(0,10),lines[9],...lines.slice(10)].join('\n'));
+assert.throws(()=>parseRealCsv(duplicate,{...m,csvSha256:sha256(duplicate)}),/unordered/);
+console.log('CSV ingestion unit fixtures passed; no replay executed.');

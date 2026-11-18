@@ -19,3 +19,9 @@ The new entry point requires an in-process object created by `ingestHistoricalBa
 `scripts/test_delivery_replay.js` uses tiny hand-crafted fixtures solely for unit tests, including leg-cost arithmetic, hash and provenance rejection, prefix lengths, gap-stop and in-loop breaker behavior, and same-day exit rejection. These are not strategy tests and have no evidentiary P&L. Compile the module into `dist_test_cjs` before running this test. Full project type checking is also required.
 
 **Readiness: NOT READY for true live-market mechanics or validated real-market expectancy.** Required work includes evidenced dated tariff and DP schedules, precise tax/rounding and contract-note reconciliation, delivery eligibility/settlement and same-day classification, robust data authentication and corrections, realistic fill/slippage/liquidity modeling, sandboxed causal strategies, and end-to-end independent review. Live trading remains disabled.
+
+## Subsequent user-authorized scenario and CSV pipeline
+
+A separate fixed cost scenario now accepts the user-supplied 0.1% STT per side, ₹15.34 DP plus GST, exchange 0.00322%, SEBI 0.0001%, buy stamp 0.015%, GST 18% and zero brokerage. These rates are **user-provided, not independently verified**; no dated official evidence was added, and the existing authoritative delivery rejection is unchanged. The calculator does not implement contract-note rounding; ₹15.34 × 1.18 = ₹18.1012 before rounding.
+
+`data/historical_real/README.md` describes the local CSV/manifest interface. The new fixed long-only MACD runner is an exploratory paper replay, not a chronological train/validation/OOS evaluation, and it can fail on same-day exits. No market data or backtest was run to validate it. These changes do not close the readiness limitations listed above.

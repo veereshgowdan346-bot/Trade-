@@ -8,6 +8,12 @@ export type DeliveryRates = {
   /** Dated tariff identifier supplied by researcher; not independently verified. */
   evidence: string;
 };
+// USER-SUPPLIED SCENARIO, not independently verified against dated official evidence.
+export const USER_AUTHORIZED_DELIVERY_SCENARIO: Readonly<DeliveryRates> = Object.freeze({
+  sttBuy: 0.001, sttSell: 0.001, exchange: 0.0000322, sebi: 0.000001,
+  stampBuy: 0.00015, gst: 0.18, dpPerScripSellDay: 15.34, brokeragePerOrder: 0,
+  evidence: "User-provided scenario; official tariff evidence NOT VERIFIED",
+});
 export type Charges = { stt: number; exchange: number; sebi: number; stamp: number; dp: number; brokerage: number; gst: number; total: number };
 function nonnegative(n: number): boolean { return Number.isFinite(n) && n >= 0; }
 export function validateDeliveryRates(r: DeliveryRates): void {
@@ -54,8 +60,8 @@ export function ingestHistoricalBars(bytes: Buffer, manifest: DataManifest): Rea
 }
 
 type Signal = { action: "BUY"; qty: number; stop: number; target: number } | { action: "SELL" } | { action: "HOLD" };
-type Position = { qty: number; entry: number; entryTime: number; entryFees: number; stop: number; target: number };
-type Trade = { entry: number; exit: number; qty: number; net: number; exitTime: number; reason: string };
+type Position = { qty: number; entry: number; entryTime: number; entryFees: number; entryCharges: Charges; stop: number; target: number };
+type Trade = { entry: number; entryTime: number; exit: number; qty: number; gross: number; net: number; entryCharges: Charges; exitCharges: Charges; exitTime: number; reason: string };
 const day = (t: number) => new Date(t + 19800000).toISOString().slice(0,10);
 /**
  * Caller must supply only ingestHistoricalBars output and an isolated causal strategy.
@@ -70,18 +76,20 @@ export function replayDelivery(bars: ReadonlyArray<Readonly<Bar>>, rates: Delive
   if (!Number.isFinite(capital) || capital <= 0 || !Number.isFinite(dailyLossLimit) || dailyLossLimit <= 0 || typeof strategy !== "function" || !bars.length) throw new Error("Invalid replay configuration");
   let cash = capital, pos: Position | null = null, pending: Signal | null = null;
   const history: Readonly<Bar>[] = [], trades: Trade[] = [], realized: Record<string, number> = {}, dpDays = new Set<string>();
-  let rejectedOrders = 0;
+  let rejectedOrders = 0, peakEquity = capital, maxMarkedDrawdown = 0;
+  const dailyEquity: Record<string, number> = {};
   for (const b of bars) {
     const d = day(b.t);
     const close = (price: number, reason: string) => {
       if (!pos) return;
       const p = pos;
       if (day(p.entryTime) === d) throw new Error("Same-day exit cannot be costed as delivery; replay aborted");
-      const fee = deliveryLegCharges("SELL", p.qty, price, rates, !dpDays.has(d)).total;
+      const exitCharges = deliveryLegCharges("SELL", p.qty, price, rates, !dpDays.has(d));
+      const fee = exitCharges.total;
       dpDays.add(d); cash += p.qty * price - fee;
-      const net = p.qty * (price - p.entry) - p.entryFees - fee;
+      const gross = p.qty * (price - p.entry), net = gross - p.entryFees - fee;
       realized[d] = (realized[d] || 0) + net;
-      trades.push({ entry:p.entry, exit:price, qty:p.qty, net, exitTime:b.t, reason });
+      trades.push({ entry:p.entry, entryTime:p.entryTime, exit:price, qty:p.qty, gross, net, entryCharges:p.entryCharges, exitCharges, exitTime:b.t, reason });
       pos = null;
     };
     // Existing protection has priority at the open, including gaps.
@@ -92,15 +100,21 @@ export function replayDelivery(bars: ReadonlyArray<Readonly<Bar>>, rates: Delive
       const s = pending;
       if (!Number.isInteger(s.qty) || s.qty <= 0 || !Number.isFinite(s.stop) || !Number.isFinite(s.target) || s.stop <= 0 || s.stop >= b.o || s.target <= b.o) rejectedOrders++;
       else {
-        const fee = deliveryLegCharges("BUY", s.qty, b.o, rates, false).total;
+        const entryCharges = deliveryLegCharges("BUY", s.qty, b.o, rates, false);
+        const fee = entryCharges.total;
         if (s.qty * b.o + fee > cash) rejectedOrders++;
-        else { cash -= s.qty * b.o + fee; pos = { qty:s.qty, entry:b.o, entryTime:b.t, entryFees:fee, stop:s.stop, target:s.target }; }
+        else { cash -= s.qty * b.o + fee; pos = { qty:s.qty, entry:b.o, entryTime:b.t, entryFees:fee, entryCharges, stop:s.stop, target:s.target }; }
       }
     }
     pending = null;
     // Bar ambiguity is resolved against the position, never using future ticks.
     if (pos && b.l <= pos.stop) close(pos.stop, "STOP");
     else if (pos && b.h >= pos.target) close(pos.target, "TARGET");
+    const positionForMark = pos as Position | null;
+    const equity = cash + (positionForMark ? positionForMark.qty * b.c : 0);
+    dailyEquity[d] = equity;
+    peakEquity = Math.max(peakEquity, equity);
+    maxMarkedDrawdown = Math.max(maxMarkedDrawdown, peakEquity - equity);
     history.push(b);
     const signal = strategy(Object.freeze(history.slice()));
     if (!signal || !["BUY","SELL","HOLD"].includes(signal.action)) throw new Error("Invalid strategy signal");
@@ -108,5 +122,5 @@ export function replayDelivery(bars: ReadonlyArray<Readonly<Bar>>, rates: Delive
   }
   const openPosition = pos as Position | null;
   const mark = bars[bars.length - 1].c;
-  return { trades, cash, openPosition, markedEquity: cash + (openPosition ? openPosition.qty * mark : 0), realizedByExitDay: realized, rejectedOrders, pendingAtEnd: pending, limitations: "Paper only; marked equity excludes hypothetical exit fees; no settlement, corporate actions, tick ordering, partial fills or independent provenance verification." };
+  return { trades, cash, openPosition, markedEquity: cash + (openPosition ? openPosition.qty * mark : 0), maxMarkedDrawdown, dailyEquity, realizedByExitDay: realized, rejectedOrders, pendingAtEnd: pending, limitations: "Paper only; marked equity excludes hypothetical exit fees; no settlement, corporate actions, tick ordering, partial fills or independent provenance verification." };
 }

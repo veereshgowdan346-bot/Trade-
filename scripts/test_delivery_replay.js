@@ -2,7 +2,12 @@
 'use strict';
 const assert = require('assert');
 const crypto = require('crypto');
-const { ingestHistoricalBars, deliveryLegCharges, replayDelivery } = require('../dist_test_cjs/delivery_replay.js');
+const { ingestHistoricalBars, deliveryLegCharges, replayDelivery, USER_AUTHORIZED_DELIVERY_SCENARIO } = require('../dist_test_cjs/delivery_replay.js');
+const scenarioSell = deliveryLegCharges('SELL', 1, 100, USER_AUTHORIZED_DELIVERY_SCENARIO, true);
+assert.equal(scenarioSell.dp,15.34);
+assert(Math.abs(scenarioSell.dp * USER_AUTHORIZED_DELIVERY_SCENARIO.gst - 2.7612) < 1e-9);
+assert.equal(USER_AUTHORIZED_DELIVERY_SCENARIO.sttBuy, .001);
+assert.equal(USER_AUTHORIZED_DELIVERY_SCENARIO.sttSell, .001);
 const rates = { sttBuy:.001, sttSell:.001, exchange:.00003, sebi:.000001, stampBuy:.00015, gst:.18, dpPerScripSellDay:15, brokeragePerOrder:0, evidence:'TEST FIXTURE ONLY' };
 const a = deliveryLegCharges('BUY',10,100,rates,false);
 const b = deliveryLegCharges('SELL',10,110,rates,true);
