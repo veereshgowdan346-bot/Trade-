@@ -25,6 +25,11 @@ const manifest={market:'NSE', instrument:'FIXTURE',dataKind:'REAL_HISTORICAL_1MI
 assert.throws(()=>ingestHistoricalBars(bytes,{...manifest,dataKind:'SYNTHETIC'}));
 assert.throws(()=>ingestHistoricalBars(bytes,{...manifest,sha256:'0'.repeat(64)}));
 const bars=ingestHistoricalBars(bytes,manifest);
+const fiveRows=rows.map((r,i)=>({...r,t:Date.parse('2024-01-01T09:15:00+05:30')+i*300000}));
+const fiveBytes=Buffer.from(JSON.stringify(fiveRows));
+const fiveManifest={...manifest,dataKind:'REAL_HISTORICAL_INTRADAY',intervalMinutes:5,sha256:crypto.createHash('sha256').update(fiveBytes).digest('hex')};
+assert.equal(ingestHistoricalBars(fiveBytes,fiveManifest).length,4);
+assert.throws(()=>ingestHistoricalBars(fiveBytes,{...fiveManifest,intervalMinutes:15}));
 assert.throws(()=>replayDelivery(rows,rates,3000,75,()=>({action:'HOLD'})));
 const seen=[];
 const result=replayDelivery(bars,rates,3000,75,h=>{ seen.push(h.length); return h.length===1 || h.length===3 ? {action:'BUY',qty:10,stop:95,target:120} : {action:'HOLD'}; });

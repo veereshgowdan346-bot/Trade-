@@ -32,7 +32,9 @@ function parseTime(s) {
   return n;
 }
 function parseRealCsv(bytes, manifest) {
-  if (!manifest || manifest.market!=='NSE' || manifest.dataKind!=='REAL_HISTORICAL_1MIN' || manifest.attestedReal!==true || typeof manifest.instrument!=='string' || !manifest.instrument.trim() || typeof manifest.provider!=='string' || !manifest.provider.trim() || typeof manifest.sourceReference!=='string' || !manifest.sourceReference.trim() || typeof manifest.csvSha256!=='string' || !/^[a-f0-9]{64}$/.test(manifest.csvSha256) || sha256(bytes)!==manifest.csvSha256) throw Error('Manifest attestation, source or CSV SHA-256 invalid');
+  if (!manifest || manifest.market!=='NSE' || !['REAL_HISTORICAL_1MIN','REAL_HISTORICAL_INTRADAY'].includes(manifest.dataKind) || manifest.attestedReal!==true || typeof manifest.instrument!=='string' || !manifest.instrument.trim() || typeof manifest.provider!=='string' || !manifest.provider.trim() || typeof manifest.sourceReference!=='string' || !manifest.sourceReference.trim() || typeof manifest.csvSha256!=='string' || !/^[a-f0-9]{64}$/.test(manifest.csvSha256) || sha256(bytes)!==manifest.csvSha256) throw Error('Manifest source or CSV SHA-256 invalid');
+  const interval=manifest.intervalMinutes ?? (manifest.dataKind==='REAL_HISTORICAL_1MIN'?1:undefined);
+  if (![1,5,15].includes(interval) || (manifest.dataKind==='REAL_HISTORICAL_1MIN' && interval!==1)) throw Error('Invalid declared intraday interval');
   const rows=csvRows(bytes.toString('utf8'));
   if (!rows.length || rows[0].join(',')!=='timestamp,open,high,low,close,volume') throw Error('Expected exact header timestamp,open,high,low,close,volume');
   let last=-Infinity; const sessions=new Map(), bars=[];
@@ -44,12 +46,18 @@ function parseRealCsv(bytes, manifest) {
     if(t<=last || !nums.every(Number.isFinite) || o<=0 || h<=0 || l<=0 || c<=0 || v<0 || h<Math.max(o,l,c) || l>Math.min(o,h,c)) throw Error(`Invalid, unordered, duplicate or inconsistent bar at row ${i+1}`);
     last=t;
     const ist=new Date(t+19800000), d=ist.toISOString().slice(0,10), minute=ist.getUTCHours()*60+ist.getUTCMinutes();
-    if(minute<555 || minute>929) throw Error(`Outside 09:15–15:29 IST at row ${i+1}`);
+    if(minute<555 || minute>930-interval || (minute-555)%interval!==0) throw Error(`Outside or misaligned regular session at row ${i+1}`);
     const list=sessions.get(d)||[]; list.push(minute); sessions.set(d,list);
     bars.push({t,o,h,l,c,v});
   }
-  if(sessions.size<30) throw Error('At least 30 complete sessions required');
-  for(const [d,minutes] of sessions) if(minutes.length!==375 || minutes.some((m,i)=>m!==555+i)) throw Error(`Incomplete regular session ${d}; special sessions require separate review`);
-  return {bars,sessions:[...sessions.keys()],csvSha256:sha256(bytes)};
+  const minimumSessions=interval===1?5:30;
+  if(sessions.size<minimumSessions) throw Error(`At least ${minimumSessions} sessions required for ${interval}-minute bars`);
+  const missing=[];
+  for(const [d,minutes] of sessions) {
+    const seen=new Set(minutes), missingMinutes=[];
+    for(let m=555;m<930;m+=interval) if(!seen.has(m)) missingMinutes.push(m);
+    if(missingMinutes.length) missing.push({date:d,missingBars:missingMinutes.length});
+  }
+  return {bars,sessions:[...sessions.keys()],intervalMinutes:interval,missingSessions:missing,csvSha256:sha256(bytes)};
 }
 module.exports={parseRealCsv,sha256};

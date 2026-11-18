@@ -40,18 +40,20 @@ export function deliveryLegCharges(side: "BUY" | "SELL", qty: number, price: num
   return { stt, exchange, sebi, stamp, dp, brokerage, gst, total };
 }
 
-export type DataManifest = { market: "NSE"; instrument: string; dataKind: "REAL_HISTORICAL_1MIN"; sha256: string; provider: string; sourceReference: string; attestedReal: true };
+export type DataManifest = { market: "NSE"; instrument: string; dataKind: "REAL_HISTORICAL_1MIN" | "REAL_HISTORICAL_INTRADAY"; intervalMinutes?: 1 | 5 | 15; sha256: string; provider: string; sourceReference: string; attestedReal: true };
 const ingested = new WeakSet<object>();
 /** Strict provenance gate. An attestation/hash is auditable, not proof data is genuine. No network. */
 export function ingestHistoricalBars(bytes: Buffer, manifest: DataManifest): ReadonlyArray<Readonly<Bar>> {
-  if (!manifest || manifest.market !== "NSE" || manifest.dataKind !== "REAL_HISTORICAL_1MIN" || manifest.attestedReal !== true || !manifest.instrument?.trim() || !manifest.provider?.trim() || !manifest.sourceReference?.trim() || !/^[a-f0-9]{64}$/.test(manifest.sha256 || "")) throw new Error("Real NSE historical data provenance required");
+  if (!manifest || manifest.market !== "NSE" || !["REAL_HISTORICAL_1MIN", "REAL_HISTORICAL_INTRADAY"].includes(manifest.dataKind) || manifest.attestedReal !== true || !manifest.instrument?.trim() || !manifest.provider?.trim() || !manifest.sourceReference?.trim() || !/^[a-f0-9]{64}$/.test(manifest.sha256 || "")) throw new Error("Real NSE historical data provenance required");
+  const interval = manifest.dataKind === "REAL_HISTORICAL_1MIN" ? (manifest.intervalMinutes ?? 1) : manifest.intervalMinutes;
+  if (![1, 5, 15].includes(interval as number) || (manifest.dataKind === "REAL_HISTORICAL_1MIN" && interval !== 1)) throw new Error("Invalid declared interval");
   if (createHash("sha256").update(bytes).digest("hex") !== manifest.sha256) throw new Error("Data hash mismatch");
   const rows: unknown = JSON.parse(bytes.toString("utf8"));
   if (!Array.isArray(rows) || !rows.length) throw new Error("Expected nonempty 1-minute bar array");
   let prev = -Infinity;
   const result = Object.freeze(rows.map((raw: unknown) => {
     const b = raw as Bar;
-    if (!b || !Number.isSafeInteger(b.t) || b.t <= prev || b.t % 60000 !== 0 || ![b.o,b.h,b.l,b.c].every(x => Number.isFinite(x) && x > 0) || !nonnegative(b.v) || b.h < Math.max(b.o,b.c,b.l) || b.l > Math.min(b.o,b.c,b.h)) throw new Error("Invalid, duplicate, or unordered 1-minute OHLCV bar");
+    if (!b || !Number.isSafeInteger(b.t) || b.t <= prev || (b.t + 19800000 - 555 * 60000) % ((interval as number) * 60000) !== 0 || ![b.o,b.h,b.l,b.c].every(x => Number.isFinite(x) && x > 0) || !nonnegative(b.v) || b.h < Math.max(b.o,b.c,b.l) || b.l > Math.min(b.o,b.c,b.h)) throw new Error("Invalid, duplicate, or unordered 1-minute OHLCV bar");
     prev = b.t;
     return Object.freeze({t:b.t,o:b.o,h:b.h,l:b.l,c:b.c,v:b.v});
   }));
