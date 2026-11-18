@@ -1,6 +1,6 @@
 # Recovery Procedure
 
-OmniTradePro Apex V2.0 · generated 2026-11-18T04:25:49.094Z.
+OmniTradePro Apex V2.0 · generated 2026-11-18T04:39:59.232Z.
 
 Written so a fresh environment can rebuild and verify this project **without any chat history**. Follow it in
 order; each step states what success looks like.
@@ -82,6 +82,9 @@ Expected non-zero: `test:history` exits 1 **by design** while the 36 historical 
 reachable from origin/master. Reporting it as passing would be false.
 
 ## Step 8 — Rebuild the recovery bundle
+
+Durability is out of scope for a local bundle and is covered by `OFF_MACHINE_BACKUP_HANDOFF.md`: only a copy
+restored from a different machine upgrades `DURABLE_BACKUP_NOT_ESTABLISHED`.
 
 No bundle exists at the time of writing (see the destroyed-bundle table). Rebuilding one does not make the
 inventory complete — it only re-establishes this machine's ability to produce one. Until a copy is restored from

@@ -400,6 +400,9 @@ reachable from origin/master. Reporting it as passing would be false.
 
 ## Step 8 — Rebuild the recovery bundle
 
+Durability is out of scope for a local bundle and is covered by ${code("OFF_MACHINE_BACKUP_HANDOFF.md")}: only a copy
+restored from a different machine upgrades ${code("DURABLE_BACKUP_NOT_ESTABLISHED")}.
+
 No bundle exists at the time of writing (see the destroyed-bundle table). Rebuilding one does not make the
 inventory complete — it only re-establishes this machine's ability to produce one. Until a copy is restored from
 somewhere else, ${code("DURABLE_BACKUP_NOT_ESTABLISHED")} stays.

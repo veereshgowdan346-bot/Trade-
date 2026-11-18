@@ -1,6 +1,6 @@
 # OmniTradePro Apex V2.0 — Final Certification Report
 
-Generated: 2026-11-18T04:36:10.260Z  
+Generated: 2026-11-18T04:39:54.902Z  
 Generator: `node scripts/generate_apex_certification.js`  
 Scope: one end-to-end pass — audit, safe fixes, full regression, certification and roadmap.  
 Every figure is read from an artifact produced by an executed command. No credential value appears here.
@@ -33,10 +33,10 @@ Three things did **not** change, and none of them can be fixed from inside this 
 | Item | Value |
 |---|---|
 | Branch | `arena/f721e253-trade` |
-| HEAD | `0046eeb473ef5241202dcba66dbf183e0b07b2e1` |
-| Parent | `c773d60a12bafc22eaebd413cea86a1d8e5c2ff9` |
-| Working tree at generation | 34 modified path(s) |
-| Commits reachable | 11 |
+| HEAD | `93c4dd8c52e4e53f6af1a812493b827077793640` |
+| Parent | `77b965dc4d4c644724d4f6892b1a0fb8f98f755f` |
+| Working tree at generation | 7 modified path(s) |
+| Commits reachable | 13 |
 | Shallow boundary | **none — full history** |
 | Runtime | Node v22.22.3, Python 3.11.2 |
 | Modules | 33 in `src/lib`, 19 API routes, 53 scripts |
@@ -501,7 +501,7 @@ Unresolved weekday discrepancies: **1** — 2022-10-24, where the dataset and th
 
 ## 17. Full regression results
 
-Recorded by `node scripts/run_regression_record.js` at 0046eeb473ef5241202dcba66dbf183e0b07b2e1.
+Recorded by `node scripts/run_regression_record.js` at 93c4dd8c52e4e53f6af1a812493b827077793640.
 
 | Gate | Command | Exit | Expected | Detail |
 |---|---|---|---|---|

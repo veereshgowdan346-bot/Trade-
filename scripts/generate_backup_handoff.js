@@ -130,11 +130,16 @@ owner's account. Requirements:
 
 ## 4. Produce and upload (run by the owner, after authorising this workspace)
 
+First establish which commit you are actually backing up. Do not copy a hash out of section 1 of this file: if
+${code("git rev-parse HEAD")} is not ${code(head)}, regenerate this document before proceeding, because the expected
+values in section 5 describe ${code(head.slice(0, 7))} and nothing else.
+
+${code("SRC=$(git rev-parse HEAD) && echo \"bundling $SRC\"")}
 ${code("git fetch --unshallow")} — only if ${code("git rev-parse --is-shallow-repository")} prints ${code("true")}.
-${code("git bundle create /tmp/apex_" + head.slice(0, 7) + ".bundle --all")}
-${code("sha256sum /tmp/apex_" + head.slice(0, 7) + ".bundle > /tmp/apex.sha256")}
-${code("git bundle verify /tmp/apex_" + head.slice(0, 7) + ".bundle")} — header check only; not evidence of integrity.
-${code("git clone /tmp/apex_" + head.slice(0, 7) + ".bundle /tmp/restore_check && cd /tmp/restore_check && git fsck --full")}
+${code("git bundle create /tmp/apex_$SRC.bundle --all")}
+${code("sha256sum /tmp/apex_$SRC.bundle | tee /tmp/apex.sha256")}
+${code("git bundle verify /tmp/apex_$SRC.bundle")} — header check only; not evidence of integrity.
+${code("git clone /tmp/apex_$SRC.bundle /tmp/restore_check && cd /tmp/restore_check && git fsck --full")}
 
 Upload the ${code(".bundle")} and its ${code(".sha256")} to the chosen destination, then record in the register
 which destination holds it, the date, and the SHA-256.
@@ -143,12 +148,17 @@ which destination holds it, the date, and the SHA-256.
 
 Perform these steps from a **different machine** against the **downloaded** copy, not the original:
 
-| Step | Command | Expected |
+Every expected value below describes the commit ${code(head)} recorded in section 1. If the bundle you produced
+contains a different HEAD, the correct result is "this document is stale", not "the restore failed" — regenerate
+first, then re-run.
+
+| Step | Command | Expected for ${code(head.slice(0, 7))} |
 |---|---|---|
-| 1 | ${code("sha256sum apex_" + head.slice(0, 7) + ".bundle")} | matches the recorded value |
-| 2 | ${code("git clone apex_" + head.slice(0, 7) + ".bundle restored")} | exit 0 |
-| 3 | ${code("cd restored && git rev-parse HEAD")} | ${code(head)} |
-| 4 | ${code("git rev-list --count HEAD && git ls-files | wc -l")} | ${commits} and ${files} |
+| 0 | ${code("sha256sum apex_$SRC.bundle")} | matches ${code("cat /tmp/apex.sha256")} from section 4 |
+| 1 | ${code("git clone apex_$SRC.bundle restored")} | exit 0 |
+| 2 | ${code("cd restored && git rev-parse HEAD")} | ${code(head)} |
+| 3 | ${code("git rev-list --count HEAD")} | ${commits} |
+| 4 | ${code("git ls-files | wc -l")} | ${files} |
 | 5 | ${code("git fsck --full")} | exit 0 |
 | 6 | ${code("npm ci && npm run test:prep")} | exit 0 (Node ${nodeVersion} used here; pin your own) |
 | 7 | ${code("python3 -m pip install -r requirements.txt")} | exit 0 (Python ${pythonVersion} used here) |

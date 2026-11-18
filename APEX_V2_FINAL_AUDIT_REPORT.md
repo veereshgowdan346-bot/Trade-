@@ -1,7 +1,7 @@
 # APEX V2.0 — Ultimate One-Pass Audit, Remediation, Validation & Certification
 
-**Generated:** 2026-11-18T04:36:10.324Z from machine-readable artifacts by `scripts/generate_final_report.js`
-**Branch:** `arena/f721e253-trade` · **Baseline commit:** `0046eeb473ef5241202dcba66dbf183e0b07b2e1` · **Tracked files:** 496
+**Generated:** 2026-11-18T04:39:54.989Z from machine-readable artifacts by `scripts/generate_final_report.js`
+**Branch:** `arena/f721e253-trade` · **Baseline commit:** `93c4dd8c52e4e53f6af1a812493b827077793640` · **Tracked files:** 498
 **Mode:** research, historical backtesting and PAPER simulation only. Nothing pushed, merged, deployed or traded.
 
 ---
@@ -50,12 +50,12 @@ corrected intraday rule.
 
 | Item | Value |
 |---|---|
-| Baseline (HEAD at audit start) | `0046eeb` |
-| Parent | `c773d60` |
-| Baseline present | yes — verified with `git cat-file -e 0046eeb` |
+| Baseline (HEAD at audit start) | `93c4dd8` |
+| Parent | `77b965d` |
+| Baseline present | yes — verified with `git cat-file -e 93c4dd8` |
 | Baseline exists in this clone | yes (`git cat-file -e`) |
 | Branch | `arena/f721e253-trade` |
-| Tracked files at audit start | 496 |
+| Tracked files at audit start | 498 |
 | Working tree at audit start | clean (0 entries) |
 | Environment | same workspace; `node_modules`, `dist_test_cjs` and Python deps present |
 | Earlier session hashes | `2af7e41`, `adba1be`, `d095fc0`, `1ccee80` are **not present** in this repository (verified with `git cat-file`); no claim is made that they are retrievable |
@@ -391,7 +391,7 @@ key and TOTP seed** and treat them as compromised. History rewriting was not att
 | `npx tsc --noEmit` | 0 | no type errors |
 | `npx eslint . --max-warnings=0` | 0 | no lint findings |
 | `npm run build` | 0 | production build completed |
-| `python3 -m pytest -q` | 0 | 390 passed in 1.37s |
+| `python3 -m pytest -q` | 0 | 390 passed in 1.49s |
 | `npm run test:all` | 0 | EXACT_EQUIVALENCE_VERIFIED, ANCHORS_REPRODUCED_EXACTLY |
 | `npm run test:external` | 0 | dataset audit 7/7 |
 | `npm run test:calendar` | 0 | 1 unresolved weekday discrepancy recorded |
@@ -467,7 +467,7 @@ permanently disabled in code and is out of scope.
 ## 21. Final commit
 
 This report is part of the single local commit created at the end of this pass, on branch `arena/f721e253-trade`,
-directly on top of baseline `0046eeb473ef5241202dcba66dbf183e0b07b2e1`. Its hash is the commit that contains this file:
+directly on top of baseline `93c4dd8c52e4e53f6af1a812493b827077793640`. Its hash is the commit that contains this file:
 
 ```
 git log -1 --format=%H -- APEX_V2_FINAL_AUDIT_REPORT.md

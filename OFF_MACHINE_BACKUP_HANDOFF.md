@@ -1,6 +1,6 @@
 # Off-Machine Backup Handoff
 
-OmniTradePro Apex V2.0 · generated 2026-11-18T04:36:10.107Z by `scripts/generate_backup_handoff.js`.
+OmniTradePro Apex V2.0 · generated 2026-11-18T04:39:54.736Z by `scripts/generate_backup_handoff.js`.
 Regenerate with `node scripts/generate_backup_handoff.js`; the facts below are read from the repository.
 
 **Status: `DURABLE_BACKUP_NOT_ESTABLISHED`.** No off-machine copy exists. This document is a request, not
@@ -13,19 +13,14 @@ evidence of a backup, and nothing in the repository may be described as durable 
 | Item | Value |
 |---|---|
 | Branch | `arena/f721e253-trade` |
-| HEAD | `0046eeb473ef5241202dcba66dbf183e0b07b2e1` |
-| Parent | `c773d60a12bafc22eaebd413cea86a1d8e5c2ff9` |
-| Tree | `38a1b9f037dc4fc7ba97fed0f787fb9a66e52932` |
-| Commits in history | 11 (complete) |
-| Tracked files | 496 |
+| HEAD | `93c4dd8c52e4e53f6af1a812493b827077793640` |
+| Parent | `77b965dc4d4c644724d4f6892b1a0fb8f98f755f` |
+| Tree | `f1ed5bf36ce57e7b00f17b85c329ac8f686b919d` |
+| Commits in history | 13 (complete) |
+| Tracked files | 498 |
 | Repository status | full history, git fsck --full clean |
 
-A restore test was run this pass from a bundle with sha256 `510c9d1505debd6092a6e5b66b4d6870…`
-(17,87,771 bytes): clone exit 0, git fsck --full exit 0, 11 commits,
-496 files, pytest 390 passed, adversarial 48 passed, 0 failed, environment 43 passed, 0 failed, mutation 5/5 mutants detected.
-That bundle was deleted
-afterwards — it was in the temporary directory, which is no more durable than `backups/`. The test proves
-the source is restorable; it does not prove a copy exists.
+No restore test artefact is present in this session.
 
 ## 2. Why you are being asked, and not the agent
 
@@ -56,11 +51,16 @@ owner's account. Requirements:
 
 ## 4. Produce and upload (run by the owner, after authorising this workspace)
 
+First establish which commit you are actually backing up. Do not copy a hash out of section 1 of this file: if
+`git rev-parse HEAD` is not `93c4dd8c52e4e53f6af1a812493b827077793640`, regenerate this document before proceeding, because the expected
+values in section 5 describe `93c4dd8` and nothing else.
+
+`SRC=$(git rev-parse HEAD) && echo "bundling $SRC"`
 `git fetch --unshallow` — only if `git rev-parse --is-shallow-repository` prints `true`.
-`git bundle create /tmp/apex_0046eeb.bundle --all`
-`sha256sum /tmp/apex_0046eeb.bundle > /tmp/apex.sha256`
-`git bundle verify /tmp/apex_0046eeb.bundle` — header check only; not evidence of integrity.
-`git clone /tmp/apex_0046eeb.bundle /tmp/restore_check && cd /tmp/restore_check && git fsck --full`
+`git bundle create /tmp/apex_$SRC.bundle --all`
+`sha256sum /tmp/apex_$SRC.bundle | tee /tmp/apex.sha256`
+`git bundle verify /tmp/apex_$SRC.bundle` — header check only; not evidence of integrity.
+`git clone /tmp/apex_$SRC.bundle /tmp/restore_check && cd /tmp/restore_check && git fsck --full`
 
 Upload the `.bundle` and its `.sha256` to the chosen destination, then record in the register
 which destination holds it, the date, and the SHA-256.
@@ -69,12 +69,17 @@ which destination holds it, the date, and the SHA-256.
 
 Perform these steps from a **different machine** against the **downloaded** copy, not the original:
 
-| Step | Command | Expected |
+Every expected value below describes the commit `93c4dd8c52e4e53f6af1a812493b827077793640` recorded in section 1. If the bundle you produced
+contains a different HEAD, the correct result is "this document is stale", not "the restore failed" — regenerate
+first, then re-run.
+
+| Step | Command | Expected for `93c4dd8` |
 |---|---|---|
-| 1 | `sha256sum apex_0046eeb.bundle` | matches the recorded value |
-| 2 | `git clone apex_0046eeb.bundle restored` | exit 0 |
-| 3 | `cd restored && git rev-parse HEAD` | `0046eeb473ef5241202dcba66dbf183e0b07b2e1` |
-| 4 | `git rev-list --count HEAD && git ls-files | wc -l` | 11 and 496 |
+| 0 | `sha256sum apex_$SRC.bundle` | matches `cat /tmp/apex.sha256` from section 4 |
+| 1 | `git clone apex_$SRC.bundle restored` | exit 0 |
+| 2 | `cd restored && git rev-parse HEAD` | `93c4dd8c52e4e53f6af1a812493b827077793640` |
+| 3 | `git rev-list --count HEAD` | 13 |
+| 4 | `git ls-files | wc -l` | 498 |
 | 5 | `git fsck --full` | exit 0 |
 | 6 | `npm ci && npm run test:prep` | exit 0 (Node 22.22.3 used here; pin your own) |
 | 7 | `python3 -m pip install -r requirements.txt` | exit 0 (Python 3.11.2 used here) |

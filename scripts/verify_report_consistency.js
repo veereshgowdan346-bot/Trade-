@@ -333,6 +333,26 @@ for (const [label, needle] of hardeningClaims) {
         ["sha256sum", "handoff:hash", "the handoff does not require a hash comparison"],
         ["npm ci", "handoff:deps", "the handoff does not require a dependency rebuild"],
       ]) if (!body.includes(needle)) failures.push({ label, needle, reason });
+      /* The handoff names a specific commit. That commit must be real and must be an ancestor of HEAD, and the
+         document must tell a reader what to do when it is stale — otherwise the owner runs a verification whose
+         expected values describe a different commit and reports a false failure. */
+      const quoted = (body.match(/^\| HEAD \| `([0-9a-f]{40})` \|$/m) || [])[1];
+      if (!quoted) {
+        failures.push({ label: "handoff:head", needle: "missing", reason: "the handoff does not state which commit it describes" });
+      } else {
+        let ancestor = false;
+        try {
+          require("node:child_process").execFileSync("git", ["merge-base", "--is-ancestor", quoted, "HEAD"], { cwd: ROOT, stdio: "pipe" });
+          ancestor = true;
+        } catch { ancestor = false; }
+        if (!ancestor) {
+          failures.push({ label: "handoff:head", needle: quoted, reason: "the handoff names a commit that is not in this history" });
+        }
+        if (!/regenerate this document before proceeding/.test(body)) {
+          failures.push({ label: "handoff:staleness-guidance", needle: "missing", reason: "no instruction for what to do when the quoted commit is not the current one" });
+        }
+      }
+
       /* A handoff must be allowed to name the status it is working towards, and forbidden to assert it. So the
          check is per line: every mention of the established state must be in a sentence about replacing or
          upgrading the status. */
