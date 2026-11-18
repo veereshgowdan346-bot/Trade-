@@ -25,7 +25,7 @@
  */
 
 import type { Candle } from "./indicators";
-import { atr } from "./indicators";
+import { adx, atr } from "./indicators";
 import { roundTripCharges } from "./tax";
 import { runExperimental } from "./experimental_strategies";
 
@@ -92,6 +92,12 @@ export function researchBacktest(
      * are zero; statutory taxes + slippage are kept. Default false = legacy behaviour.
      */
     zeroBrokerage?: boolean;
+    /**
+     * Overarching ADX regime filter (paper-only, opt-in). When set (e.g. 25), ALL entries are
+     * blocked unless ADX(14) at bar i is finite and >= threshold (trending regime). Choppy /
+     * sideways (ADX < threshold, or NaN during warmup) => no entries. Undefined = no filter.
+     */
+    regimeFilterAdxMin?: number;
     /** Session-boundary policy. Defaults to STRICT_INTRADAY (METHOD-001). */
     sessionMode?: SessionMode;
     /**
@@ -123,7 +129,15 @@ export function researchBacktest(
       ? costMultipleRaw
       : null;
   const zeroBrokerage = opts.zeroBrokerage === true;
+  const regimeAdxRaw = opts.regimeFilterAdxMin;
+  const regimeAdxMin =
+    regimeAdxRaw !== undefined && regimeAdxRaw !== null && Number.isFinite(regimeAdxRaw) && regimeAdxRaw > 0
+      ? regimeAdxRaw
+      : null;
   const atrArr = atr(candles, 14);
+  /* ADX is causal (Wilder RMA over past bars only), so adxArr[i] uses candles[0..i] only —
+   * same convention as atrArr. Computed once; indexed per-bar. */
+  const adxArr = regimeAdxMin !== null ? adx(candles, 14).adx : null;
   const trades: HarnessTrade[] = [];
   const exposureDays: Record<string, boolean> = {};
   const dailyPnl: Record<string, number> = {};
@@ -200,7 +214,10 @@ export function researchBacktest(
     // Strict mode forbids opening on the session's last bar: there would be no bar left to exit on,
     // which is exactly how the legacy path ended up carrying positions overnight.
     const mayEnter = strict ? !isLastBarOfSession(i) : true;
-    if (!pos && !newDay && mayEnter && sig !== 0 && conf >= minConf && Number.isFinite(a) && a > 0) {
+    /* Overarching ADX regime filter (opt-in): block ALL entries unless ADX >= threshold.
+     * Fail closed on NaN (warmup) or below-threshold (choppy/sideways). */
+    const regimeOk = regimeAdxMin === null || (adxArr !== null && Number.isFinite(adxArr[i]) && adxArr[i] >= regimeAdxMin);
+    if (!pos && !newDay && mayEnter && regimeOk && sig !== 0 && conf >= minConf && Number.isFinite(a) && a > 0) {
       const side: "BUY" | "SELL" = sig === 1 ? "BUY" : "SELL";
       const entry = c.c;
       /* PAPER-ONLY fix (sizing): never force qty=1 when the sleeve cannot afford one unit.
