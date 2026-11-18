@@ -87,6 +87,11 @@ export function researchBacktest(
      * Undefined = no filter (legacy behaviour, historical results unchanged).
      */
     costAwareMinMarginMultiple?: number;
+    /**
+     * Zero-brokerage simulation (paper-only, opt-in). When true, brokerage and broker minimum
+     * are zero; statutory taxes + slippage are kept. Default false = legacy behaviour.
+     */
+    zeroBrokerage?: boolean;
     /** Session-boundary policy. Defaults to STRICT_INTRADAY (METHOD-001). */
     sessionMode?: SessionMode;
     /**
@@ -117,6 +122,7 @@ export function researchBacktest(
     costMultipleRaw !== undefined && costMultipleRaw !== null && Number.isFinite(costMultipleRaw) && costMultipleRaw > 0
       ? costMultipleRaw
       : null;
+  const zeroBrokerage = opts.zeroBrokerage === true;
   const atrArr = atr(candles, 14);
   const trades: HarnessTrade[] = [];
   const exposureDays: Record<string, boolean> = {};
@@ -166,6 +172,7 @@ export function researchBacktest(
           exit: exitPx,
           side: pos.side,
           productType: "INTRADAY",
+          zeroBrokerage,
         });
         const net = gross - ch.total;
         trades.push({
@@ -219,6 +226,7 @@ export function researchBacktest(
             exit: projTarget,
             side,
             productType: "INTRADAY",
+            zeroBrokerage,
           }).total;
         } catch {
           continue; // fail closed: cannot price the trade => no trade

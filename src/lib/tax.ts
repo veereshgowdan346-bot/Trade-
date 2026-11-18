@@ -143,6 +143,12 @@ export function roundTripCharges(args: {
   productType?: "INTRADAY" | "DELIVERY" | "MIS" | "CNC";
   entrySlippageBps?: number;
   exitSlippageBps?: number;
+  /**
+   * Paper-only zero-brokerage simulation (opt-in). When true, brokerage and the broker
+   * minimum-deduction floor are zero; all statutory heads (STT, exchange, SEBI, stamp,
+   * GST on exchange+SEBI) and slippage are kept. Default false = legacy behaviour.
+   */
+  zeroBrokerage?: boolean;
 }): Charges {
   const {
     exchange,
@@ -155,6 +161,7 @@ export function roundTripCharges(args: {
     productType = "INTRADAY",
     entrySlippageBps,
     exitSlippageBps,
+    zeroBrokerage = false,
   } = args;
   /* PAPER-ONLY hardening: fail closed on invalid trade parameters. Negative/NaN/Infinity
    * qty or prices previously produced negative or NaN charges. Consistent with the
@@ -178,8 +185,10 @@ export function roundTripCharges(args: {
   const sellVal = side === "BUY" ? exitVal : entryVal;
   const turnover = buyVal + sellVal;
 
-  let brokerage = brokerageFor(broker, entryVal, productType) + brokerageFor(broker, exitVal, productType);
-  brokerage = Math.max(b.roundTripBrokerageFloor, brokerage);
+  let brokerage = zeroBrokerage
+    ? 0
+    : brokerageFor(broker, entryVal, productType) + brokerageFor(broker, exitVal, productType);
+  if (!zeroBrokerage) brokerage = Math.max(b.roundTripBrokerageFloor, brokerage);
 
   const stt = (rates.sttSide === "both" ? turnover : sellVal) * rates.stt;
   const exchangeFees = turnover * rates.exch;
@@ -200,7 +209,8 @@ export function roundTripCharges(args: {
   let total = brokerage + stt + exchangeFees + sebi + stamp + gst + totalSlippage;
 
   // Modeled minimum-round-trip-deduction floors (spec, status UNVERIFIED — unchanged from Phase 1).
-  total = Math.max(b.minimumRoundTripDeduction, total);
+  // Zero-brokerage mode removes the broker minimum (it is not a statutory head).
+  if (!zeroBrokerage) total = Math.max(b.minimumRoundTripDeduction, total);
 
   return {
     brokerage: r2(brokerage),
