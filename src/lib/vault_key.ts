@@ -17,7 +17,12 @@ export class VaultKeyMissingError extends Error {
 const MIN_KEY_LENGTH = 8;
 const SALT = "omnitrade-vault-salt-v1";
 
-/** True when no usable VAULT_KEY is configured (the vault cannot be used). */
+/**
+ * True when no usable VAULT_KEY is configured (the vault cannot be used).
+ *
+ * The name is retained for compatibility with the `fallbackKey` payload field, but there is NO fallback
+ * key: this now means "unconfigured, therefore disabled". Callers must not describe it as a fallback.
+ */
 export function vaultUsingFallbackKey(): boolean {
   const pass = process.env.VAULT_KEY;
   return !pass || pass.length < MIN_KEY_LENGTH;

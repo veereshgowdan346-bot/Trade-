@@ -1,11 +1,18 @@
 {
-  "generatedAt": "2026-11-17T17:35:36.594Z",
+  "generatedAt": "2026-11-18T04:36:23.329Z",
   "command": "node scripts/verify_report_consistency.js",
   "reportFiles": [
     "APEX_V2_FINAL_AUDIT_REPORT.md",
-    "SECURITY_AND_RESEARCH_CERTIFICATION.md"
+    "SECURITY_AND_RESEARCH_CERTIFICATION.md",
+    "FINAL_SECURITY_RESEARCH_AUDIT.md",
+    "APEX_V2_FINAL_CERTIFICATION.md",
+    "RELEASE_READINESS.md",
+    "RELEASE_REGISTER.md"
   ],
-  "claimsChecked": 54,
+  "notes": [
+    "bundle inventory: zero bundles, stated explicitly (NO_BUNDLE_EXISTS) — nothing is restorable, durability stays unestablished"
+  ],
+  "claimsChecked": 82,
   "failures": [],
   "verdict": "REPORT_MATCHES_ARTIFACTS"
 }

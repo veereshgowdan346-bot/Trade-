@@ -1,0 +1,303 @@
+{
+  "generatedAt": "2026-11-18T05:10:00.000Z",
+  "command": "manually curated from this pass's code audit; verified by tests",
+  "note": "Only defects actually reproduced and fixed (or explicitly accepted) are listed. Severity uses CRITICAL/HIGH/MEDIUM/LOW. No credential values appear here.",
+  "defects": [
+    {
+      "id": "SEC-007",
+      "title": "Client-supplied X-Forwarded-For was accepted as proof of loopback locality, bypassing mutation authorization",
+      "severity": "HIGH",
+      "file": "src/lib/apiGuard.ts",
+      "introducedIn": "pre-existing (present at df52c08 and all earlier commits)",
+      "reachableFromRemote": true,
+      "inWorkingTree": true,
+      "status": "FIXED",
+      "reproduction": "With OMNI_API_TOKEN unset, authorizeMutation() on a request carrying only 'X-Forwarded-For: 127.0.0.1' returned null (allowed) because clientIp() read the client-controlled first hop and isLoopbackOrPrivate() trusted it.",
+      "impact": "Any network client able to reach the API could assert locality and mutate engine, order, config and vault state without a token, whenever OMNI_API_TOKEN was not configured.",
+      "fix": "Forwarded headers no longer establish locality. isTrustedLocalClient() trusts a request only when it carries no forwarding headers (a direct connection) or when OMNI_TRUST_PROXY is enabled and the NEAREST hop (the last entry, appended by the proxy) is private. clientIp() reads the last hop only when the proxy is trusted.",
+      "regressionTests": [
+        "scripts/run_comprehensive_tests.js \u2014 'API Guard: a direct connection is treated as local, a forwarded one is not'",
+        "scripts/run_comprehensive_tests.js \u2014 'API Guard: forwarded headers are honoured only when OMNI_TRUST_PROXY is set'",
+        "scripts/run_comprehensive_tests.js \u2014 webhook test corrected to reject spoofed XFF",
+        "scripts/audit_safety.js \u2014 SAFE-15",
+        "scripts/audit_safety.js \u2014 SAFE-09 corrected to assert a direct local connection"
+      ],
+      "verification": "PASS \u2014 spoofed header rejected, direct connection allowed, client-prepended loopback rejected, trusted-proxy nearest hop allowed."
+    },
+    {
+      "id": "SEC-008",
+      "title": "Same-origin check was accepted as authentication for remote mutations",
+      "severity": "MEDIUM",
+      "file": "src/lib/apiGuard.ts",
+      "introducedIn": "pre-existing",
+      "reachableFromRemote": true,
+      "inWorkingTree": true,
+      "status": "FIXED",
+      "reproduction": "With OMNI_API_TOKEN unset, a non-browser client sending Host, Origin and X-Forwarded-For consistently passed originMatchesHost() and was allowed to mutate state. A test asserted this so the limitation could not be forgotten.",
+      "impact": "Any remote client that could set two request headers could mutate engine, order, config and vault state without a token.",
+      "fix": "originMatchesHost() no longer authorises a mutation. authorizeMutation() now permits a token-less mutation only from a genuinely local client; anything arriving through a proxy is rejected 401 AUTH_REQUIRED_FOR_REMOTE. Remote deployments must configure OMNI_API_TOKEN.",
+      "regressionTests": [
+        "scripts/run_comprehensive_tests.js \u2014 'API Guard: SEC-008 closed - a forgeable same-origin header does not authorise a remote mutation'",
+        "scripts/run_comprehensive_tests.js \u2014 'API Guard: adversarial X-Forwarded-For handling (multi-hop, malformed, trusted proxy)'",
+        "scripts/run_comprehensive_tests.js \u2014 'API Guard: every mutating API route is guarded'",
+        "scripts/audit_safety.js \u2014 SAFE-16"
+      ],
+      "verification": "PASS \u2014 remote same-origin mutation rejected 401; same request with a bearer token allowed; local direct connection still allowed."
+    },
+    {
+      "id": "SEC-010",
+      "title": "Empty or whitespace-only X-Forwarded-For was read as a direct local connection",
+      "severity": "HIGH",
+      "file": "src/lib/apiGuard.ts",
+      "introducedIn": "pre-existing within this pass's SEC-007 fix (present in commit 90fde36, not in earlier commits)",
+      "reachableFromRemote": true,
+      "inWorkingTree": true,
+      "status": "FIXED",
+      "reproduction": "With OMNI_API_TOKEN unset, authorizeMutation() on a request carrying 'X-Forwarded-For:' with an empty or whitespace-only value was ALLOWED. The header parsed to an empty chain, which was indistinguishable from 'no forwarding header present', so a remote client could send the header empty and be classified as local. Found by an independent adversarial probe written outside the repository's own test suite; the repository test had asserted only that malformed values 'must not crash', not that they must be denied.",
+      "impact": "A remote, unauthenticated attacker could bypass mutation authorization whenever OMNI_API_TOKEN was not configured, simply by sending an empty X-Forwarded-For header.",
+      "fix": "isTrustedLocalClient() now keys on the PRESENCE of a forwarding header rather than its parsed content. Any request carrying x-forwarded-for or x-real-ip is treated as proxied; with OMNI_TRUST_PROXY unset it is remote, and with the proxy trusted an unparseable nearest hop fails closed.",
+      "regressionTests": [
+        "scripts/run_comprehensive_tests.js \u2014 adversarial suite tightened so every malformed/empty value must be DENIED (previously allowed-as-pass)",
+        "scripts/audit_safety.js \u2014 SAFE-17"
+      ],
+      "verification": "PASS \u2014 27-case independent probe (forged Origin/Referer, spoofed loopback, multi-hop, empty/whitespace/malformed headers, x-real-ip, trusted proxy, token paths, webhook paths): 27/27 as expected."
+    },
+    {
+      "id": "SEC-011",
+      "title": "Locality was inferred from the absence of a forwarding header, which the guard cannot actually verify",
+      "severity": "HIGH",
+      "file": "src/lib/apiGuard.ts",
+      "introducedIn": "design limitation present throughout the project (the guard only ever saw headers)",
+      "reachableFromRemote": true,
+      "inWorkingTree": true,
+      "status": "FIXED",
+      "reproduction": "With OMNI_API_TOKEN unset, a request carrying NO forwarding header at all was treated as a direct local connection and allowed to mutate state. A remote client that connects directly (no proxy) sends exactly that, so it was indistinguishable from a desktop operator. Discovered by the new adversarial probe, which flagged 'no forwarding header at all' as allowed while the task required it to fail closed.",
+      "impact": "Any network client able to reach the port without going through a header-setting proxy could bypass mutation authorization whenever no token was configured.",
+      "fix": "Local trust must now be ASSERTED by the operator (OMNI_LOCAL_TRUST=true) or a token must be configured. Without either, every mutation and unauthenticated webhook call is denied 401 AUTH_NOT_CONFIGURED. The guard no longer pretends to detect locality it cannot observe.",
+      "regressionTests": [
+        "scripts/adversarial_api_probe.js \u2014 'header-less request denied when local trust is NOT asserted' and the full 48-case matrix",
+        "scripts/run_comprehensive_tests.js \u2014 'API Guard: SEC-011 - with no token and no asserted local trust, mutations fail closed'",
+        "scripts/audit_safety.js \u2014 SAFE-09 (fail-closed without assertion; allowed with it)"
+      ],
+      "verification": "PASS \u2014 production build 48/48; the deleted assertion also removes the misleading claim that header absence meant local."
+    },
+    {
+      "id": "REC-001",
+      "title": "`git bundle verify` was treated as an integrity check, but it does not read the pack",
+      "severity": "HIGH",
+      "file": "scripts/audit_bundles.js, RECOVERY_MANIFEST.md, RECOVERY_PROCEDURE.md",
+      "introducedIn": "every recovery pass that reported bundles as verified",
+      "reachableFromRemote": false,
+      "inWorkingTree": true,
+      "status": "FIXED",
+      "reproduction": "Truncated a valid bundle to 150 bytes. `git bundle verify` printed '<file> is okay', listed the ref and exited 0. `git clone` of the same file failed with 'fatal: early EOF / error: index-pack died'. The same held for a bundle with 400 bytes of junk written into its pack. Every prior report described bundles as 'verified' on the strength of that command.",
+      "impact": "A corrupted or truncated backup would have been declared sound, which is the worst possible failure mode for a recovery artefact \u2014 the team believes a backup exists and is restorable when it is neither.",
+      "fix": "audit_bundles.js now records two separate facts: `verify` = prerequisite check only (labelled 'pack NOT checked by this command') and `packIntegrity` = established solely by a successful clone plus fsck. The audit exits non-zero when a clone fails. The manifest and procedure state the limitation explicitly and give the four-part test for treating a bundle as sound. scripts/test_bundle_audit.js asserts that a truncated bundle still passes verify while failing restore, so the distinction cannot quietly disappear.",
+      "regressionTests": [
+        "scripts/test_bundle_audit.js \u2014 'a corrupted bundle fails the audit' (asserts verify says okay AND packIntegrity says unreadable)",
+        "scripts/audit_bundles.js \u2014 exit 1 when any restore fails"
+      ],
+      "verification": "PASS \u2014 21/21 negative tests; truncated bundle recorded as 'prerequisites ok' with 'pack NOT readable (clone failed)' and audit exit 1.",
+      "remainingDependency": "None."
+    },
+    {
+      "id": "REC-002",
+      "title": "Manifest claimed the in-repository bundle directory survived environment resets; the seventh reset destroyed it",
+      "severity": "MEDIUM",
+      "file": "RECOVERY_MANIFEST.md (generated), scripts/generate_recovery_docs.js",
+      "introducedIn": "previous recovery pass, from a single observation that was generalised incorrectly",
+      "reachableFromRemote": false,
+      "inWorkingTree": true,
+      "status": "FIXED",
+      "reproduction": "After the reset, `backups/` was absent (zero bundles) while untracked, not-ignored files such as CONFIGURATION.md, RECOVERY_MANIFEST.md, requirements.txt and scripts/audit_bundles.js were all present. Six bundles were destroyed.",
+      "impact": "The manifest told a future reader that the bundles were protected by their location. That was false, and it is exactly the assurance that must never be overstated: the difference between 'we have backups' and 'we have files that might be there'.",
+      "fix": "The generator now states the measured rule (the snapshot keeps files git does not ignore and drops ignored paths and anything outside the root), describes bundles as session-local, and gives the three commands to regenerate and re-audit them after a reset. DURABLE_BACKUP_NOT_ESTABLISHED is reaffirmed with no qualification.",
+      "regressionTests": [
+        "RECOVERY_MANIFEST.md text is generated, so the claim cannot drift from the generator",
+        "scripts/verify_report_consistency.js requires the manifest's bundle rows to match backups/ on disk"
+      ],
+      "verification": "PASS \u2014 manifest text now matches observed behaviour; consistency guard green with 1 bundle on disk.",
+      "remainingDependency": "Only an independently restored off-machine copy can change the durability status."
+    },
+    {
+      "id": "TEST-003",
+      "title": "Git-hygiene security test encoded a workspace snapshot and failed in every legitimate restore; its remote check also accepted look-alike repositories",
+      "severity": "MEDIUM",
+      "file": "tests/test_phase71_security_closure_verification.py",
+      "introducedIn": "earlier passes (the same class of mistake as TEST-001: asserting the author's environment, not the security property)",
+      "reachableFromRemote": false,
+      "inWorkingTree": true,
+      "status": "FIXED",
+      "reproduction": "Cloned the verified recovery bundle into a temporary directory, installed the pinned dependencies and ran pytest: 388 passed, 1 failed \u2014 'master must remain a local branch'. A bundle restore, a single-branch clone or a CI checkout legitimately has only the checked-out branch locally, so the assertion failed for every consumer of the project while passing in the author's workspace. Writing the regression test for the fix then exposed a second bug: the remote check was a substring test, so 'https://github.com/veereshgowdan346-bot/Trade--fork.git' and a GitLab URL carrying the same owner path were both accepted.",
+      "impact": "The only failing check in a restored clone was a false positive, which trains people to ignore restore failures. Separately, the hygiene check that exists to catch a rogue remote would have waved through a look-alike fork.",
+      "fix": "master must now exist as a ref (local or origin/master) rather than as a convenience branch. Remote URLs are matched exactly on host and owner/repository, accepting only github.com paths equal to veereshgowdan346-bot/Trade- (plus the local .bundle path a verified restore creates). Added test_remote_url_predicate_rejects_unauthorised_destinations, which fails if the predicate is widened to accept a fork, a foreign host, file:// URLs or an empty value.",
+      "regressionTests": [
+        "tests/test_phase71_security_closure_verification.py::test_git_branches_and_tags_hygiene",
+        "tests/test_phase71_security_closure_verification.py::test_remote_url_predicate_rejects_unauthorised_destinations"
+      ],
+      "verification": "PASS \u2014 390 passed in the workspace and 390 passed inside a clone of the verified bundle (previously 388/1 fail). The predicate test rejects all 7 unauthorised forms.",
+      "remainingDependency": "None."
+    },
+    {
+      "id": "SEC-012",
+      "title": "A too-short OMNI_API_TOKEN was silently ignored, removing authentication entirely",
+      "severity": "HIGH",
+      "file": "src/lib/apiGuard.ts",
+      "introducedIn": "original guard design (token usability check `token.length >= 8` fell through)",
+      "reachableFromRemote": true,
+      "inWorkingTree": true,
+      "status": "FIXED",
+      "reproduction": "With OMNI_LOCAL_TRUST=true and OMNI_API_TOKEN='abc123', a header-less request with no credentials was ALLOWED. The operator had configured a token and believed the API was authenticated; the guard treated the short value as absent and fell through to the token-less local path. Webhooks behaved the same way for a short configured secret.",
+      "impact": "A typo or a truncated .env value silently downgrades an authenticated deployment to unauthenticated. No warning is emitted, so the operator has no way to notice.",
+      "fix": "tokenState() distinguishes absent / usable / unusable. Present-but-unusable (blank or < 8 chars) now returns 401 AUTH_MISCONFIGURED on mutations and webhooks, and a configured-but-short webhook secret returns WEBHOOK_MISCONFIGURED. Empty is still treated as absent so a fresh .env works. Token precedence over OMNI_LOCAL_TRUST is explicit.",
+      "regressionTests": [
+        "scripts/env_config_probe.js \u2014 token section (3 short values, precedence, empty=absent)",
+        "scripts/run_comprehensive_tests.js \u2014 'API Guard: SEC-012 - a present but unusable token fails closed instead of being ignored'",
+        "scripts/mutation_check.js \u2014 SEC-012 mutant (MIN_TOKEN_LENGTH 8 -> 1) detected, 4 failing cases"
+      ],
+      "verification": "PASS \u2014 production 43/43 env checks; mutant reproduced the old behaviour and is now detected.",
+      "remainingDependency": "None."
+    },
+    {
+      "id": "SEC-013",
+      "title": "Vault status banner claimed credentials were 'encrypted with a development fallback key' after the fallback was removed",
+      "severity": "MEDIUM",
+      "file": "src/components/pages/PagesC.tsx",
+      "introducedIn": "SEC-003 removal left the UI copy behind",
+      "reachableFromRemote": false,
+      "inWorkingTree": true,
+      "status": "FIXED",
+      "reproduction": "With VAULT_KEY unset, the UI displayed 'credentials are encrypted with a development fallback key'. In fact the vault fails closed and stores nothing; vaultUsingFallbackKey() now means 'unconfigured'.",
+      "impact": "False assurance: the operator is told encryption is happening (with a weak key) when the vault is actually disabled. Misleading security messaging is a defect in its own right.",
+      "fix": "Banner now states the vault is disabled and refuses to encrypt rather than using a fallback key. vault_key.ts documents that the legacy name means 'unconfigured'. SAFE-18 fails if the misleading text returns anywhere in src/.",
+      "regressionTests": [
+        "scripts/audit_safety.js \u2014 SAFE-18 scans all src/**/*.ts(x) for the stale claim"
+      ],
+      "verification": "PASS \u2014 SAFE-18 green; tsc and lint clean.",
+      "remainingDependency": "The API field name `fallbackKey` is retained for compatibility and documented as legacy."
+    },
+    {
+      "id": "TEST-001",
+      "title": "Adversarial suite did not exercise the SEC-008 path, so a reintroduced SEC-008 passed 44/44",
+      "severity": "HIGH",
+      "file": "scripts/adversarial_api_probe.js",
+      "introducedIn": "this pass (coverage gap in the new probe, found by mutation testing)",
+      "reachableFromRemote": false,
+      "inWorkingTree": true,
+      "status": "FIXED",
+      "reproduction": "Mutation testing rebuilt apiGuard with 'originMatchesHost(req)' restored as an alternative to locality (mutant C). The probe reported 44 passed / 0 failed, because with OMNI_LOCAL_TRUST unset the function returns AUTH_NOT_CONFIGURED before ever reaching the origin check \u2014 the mutated line was unreachable in every case the probe covered.",
+      "impact": "A future regression of SEC-008 would have shipped green. The exact failure mode the SEC-010 incident demonstrated, repeated in a new test.",
+      "fix": "Added four cases that run with OMNI_LOCAL_TRUST asserted (the desktop deployment shape) and a remote client forging Origin / Referer / X-Forwarded-Host / loopback Host. Mutant C now fails 4 cases.",
+      "regressionTests": [
+        "scripts/adversarial_api_probe.js \u2014 'forged Origin+Host under asserted local trust' and three sibling cases"
+      ],
+      "verification": "PASS \u2014 mutant C (SEC-008 reintroduced) detected: 44 passed / 4 failed; production 48/48."
+    },
+    {
+      "id": "SEC-009",
+      "title": "Rate limiter is per-process and keyed by a claimed IP",
+      "severity": "LOW",
+      "file": "src/lib/apiGuard.ts",
+      "introducedIn": "pre-existing",
+      "reachableFromRemote": true,
+      "inWorkingTree": true,
+      "status": "ACCEPTED + DOCUMENTED (deployment constraint)",
+      "reproduction": "checkRateLimit() buckets on clientIp(); a caller rotating the claimed IP obtains fresh buckets.",
+      "impact": "Rate limiting is abuse control, not a security boundary; a determined caller can evade per-client limits.",
+      "fix": "Kept as-is. The server is a single-process Next.js desktop backend with no shared store, so a distributed limiter would add a dependency without a supported topology. Documented as best-effort abuse control; multi-instance or horizontally scaled deployment remains BLOCKED until a shared limiter exists.",
+      "regressionTests": [
+        "scripts/run_comprehensive_tests.js \u2014 'API Guard: rate limiter admits within limit and returns 429 beyond'"
+      ],
+      "verification": "DOCUMENTED \u2014 limitation stated in the module docstring and in the release-readiness report."
+    },
+    {
+      "id": "SEC-003",
+      "title": "TypeScript vault fell back to a published constant passphrase",
+      "severity": "CRITICAL",
+      "file": "src/lib/vault.ts, src/lib/vault_key.ts",
+      "introducedIn": "pre-existing",
+      "reachableFromRemote": true,
+      "inWorkingTree": false,
+      "status": "FIXED (earlier pass, re-verified)",
+      "reproduction": "Previously masterKey() returned scrypt(constant) when VAULT_KEY was unset, so any vault created without a key was decryptable by anyone reading the repository.",
+      "impact": "Credential disclosure from any installation that had never set VAULT_KEY.",
+      "fix": "Derivation isolated in vault_key.ts; throws VaultKeyMissingError on missing/short keys; the route returns 503; no constant remains in the tree.",
+      "regressionTests": [
+        "scripts/audit_safety.js \u2014 SAFE-14"
+      ],
+      "verification": "PASS \u2014 re-probed this pass: missing key throws, short key rejected, valid key derives 32 bytes."
+    },
+    {
+      "id": "SEC-002",
+      "title": "Python credential manager fell back to a published constant password",
+      "severity": "CRITICAL",
+      "file": "config/credential_manager.py",
+      "introducedIn": "pre-existing",
+      "reachableFromRemote": true,
+      "inWorkingTree": false,
+      "status": "FIXED (earlier pass, re-verified)",
+      "reproduction": "The manager defaulted to a hardcoded master password when none was supplied.",
+      "impact": "Any vault written by the Python side was decryptable with a published constant.",
+      "fix": "Per-installation random master key written with os.open(..., 0o600); missing master password raises instead of falling back.",
+      "regressionTests": [
+        "scripts/audit_safety.js \u2014 SAFE-13"
+      ],
+      "verification": "PASS \u2014 re-probed this pass: 64-hex per-install key, mode 0600, no constant in source."
+    },
+    {
+      "id": "DOC-001",
+      "title": "Generated reports cited commit hashes that do not exist and asserted they were present",
+      "severity": "MEDIUM",
+      "file": "scripts/generate_final_report.js, scripts/generate_certification_report.js",
+      "introducedIn": "generator templates carried hashes from earlier sandbox sessions",
+      "reachableFromRemote": false,
+      "inWorkingTree": true,
+      "status": "FIXED",
+      "reproduction": "APEX_V2_FINAL_AUDIT_REPORT.md stated 'Baseline commit: 1ccee80...' and 'Baseline present | yes (1ccee80...)', but `git cat-file -t 1ccee80` reports the object does not exist locally or on origin. A 'Parent of baseline' row cited d095fc0..., also absent, and the certification report listed d095fc0/1ccee80 as places the historical material is 'retrievable from'. Verified with git cat-file -t for 60d7c41 (present), d095fc0, 1ccee80, 2af7e41, adba1be (all MISSING).",
+      "impact": "Reports asserted the existence of commits that are not in the repository, which is exactly the class of unverifiable evidence the project forbids. It also made a self-check ('baseline present: yes') that was never actually performed.",
+      "fix": "Baseline and parent are now read from git at generation time and existence is tested with `git cat-file -e`. The false 'retrievable from d095fc0/1ccee80' sentence was replaced with the one commit verified to exist (60d7c41). Absent earlier-session hashes are now explicitly labelled as not present. verify_report_consistency.js additionally requires the cited baseline to exist and to be an ancestor of HEAD.",
+      "regressionTests": [
+        "scripts/verify_report_consistency.js \u2014 audit:baseline row, existence via git cat-file, ancestry via git merge-base"
+      ],
+      "verification": "PASS \u2014 82 claims, 0 failures; baseline now f61024e (verified present and reachable).",
+      "remainingDependency": "The 36 historical findings remain reachable from origin/master independent of this fix."
+    },
+    {
+      "id": "REC-003",
+      "title": "Restored clones failed report consistency because the manifest describes a bundle inventory the clone does not contain",
+      "severity": "LOW",
+      "file": "scripts/verify_report_consistency.js",
+      "introducedIn": "the inventory guard added during this audit",
+      "reachableFromRemote": false,
+      "inWorkingTree": true,
+      "status": "FIXED",
+      "reproduction": "Cloned any bundle and ran `node scripts/verify_report_consistency.js` inside it: it exited 1 with 'no bundles on disk \u2014 an empty inventory cannot be reported as a pass'. The clone was correct; it simply has no backups/ directory, because bundles are not committed.",
+      "impact": "Every restored snapshot would have shown a consistency failure, which is the check a future reader uses to decide whether the reports can be trusted. A check that always fails in the restore path trains people to ignore it, and could mask a real mismatch.",
+      "fix": "An absent backups/ directory is now reported as a note ('not applicable \u2014 this looks like a restored clone') and is not counted as a pass. Where the directory exists, every rule still applies. The audit tool keeps its own hard rule that an empty inventory is an error.",
+      "regressionTests": [
+        "scripts/test_bundle_audit.js \u2014 'archived names sit outside the live inventory, while a real gap still fails'",
+        "bundles 034025 and 034655 restore and verify clean inside their clones; 032901 and 033418 predate this fix and still show the old mismatch, which is why this record exists"
+      ],
+      "verification": "PASS on bundles created after commit 69ebd04 (consistency REPORT_MATCHES_ARTIFACTS inside the clone, with the note). Earlier bundles keep their measured failure and are not relabelled.",
+      "remainingDependency": "None."
+    },
+    {
+      "id": "REC-004",
+      "title": "A bundle created from a shallow clone is unclonable, so a shallow workspace cannot produce a recovery artefact",
+      "severity": "HIGH",
+      "file": "scripts/audit_bundles.js, RECOVERY_PROCEDURE.md, scripts/generate_recovery_docs.js",
+      "introducedIn": "recovery after the eighth reset \u2014 the repository came back as a 1-commit shallow clone",
+      "reachableFromRemote": false,
+      "inWorkingTree": true,
+      "status": "FIXED",
+      "reproduction": "After the eighth reset the workspace was shallow (`git rev-parse --is-shallow-repository` = true). A bundle created with `git bundle create --all` from it produced `error: Could not read <sha>`, `fatal: Failed to traverse parents of commit df52c083`, `fatal: remote did not send all necessary objects`. `git bundle verify` on the same file still exited 0. After `git fetch --unshallow`, the identical command produced a bundle that clones cleanly (9 commits, fsck exit 0).",
+      "impact": "Every recovery artefact produced from a shallow workspace would have looked valid to `git bundle verify` and been unusable in a real restore \u2014 the same class of false assurance as REC-001, reached by a different route.",
+      "fix": "audit_bundles.js records `workspaceShallow` in every artefact and prints an explicit warning naming `git fetch --unshallow` when the source is shallow. The clone check already fails such a bundle, and scripts/test_bundle_audit.js now builds a bundle from a depth-1 clone and asserts the audit rejects it (exit 1, packIntegrity not readable). The recovered workspace was unshallowed before any further claim was made.",
+      "regressionTests": [
+        "scripts/test_bundle_audit.js \u2014 'a bundle whose source was shallow fails the clone check even though verify succeeds'"
+      ],
+      "verification": "PASS \u2014 26/26 negative tests; the shallow-source bundle is rejected by the audit although verify exits 0.",
+      "remainingDependency": "None."
+    }
+  ]
+}

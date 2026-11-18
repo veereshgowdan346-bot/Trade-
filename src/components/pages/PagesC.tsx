@@ -609,7 +609,7 @@ export function SettingsPage({ ctx }: { ctx: Ctx }) {
     <div className="space-y-3">
       {ctx.state!.vault.fallbackKey && (
         <div className="glass px-3 py-2 text-[12px]" style={{ borderColor: "rgba(245,158,11,.5)" }}>
-          ⚠ <b>VAULT_KEY</b> is not set — credentials are encrypted with a development fallback key. Set <span className="mono">VAULT_KEY</span> in the server environment before storing real broker secrets.
+          ⚠ <b>VAULT_KEY</b> is not set — the credential vault is <b>disabled</b> and refuses to encrypt rather than use a fallback key. Set <span className="mono">VAULT_KEY</span> (at least 8 characters) in the server environment before storing broker secrets.
         </div>
       )}
       <Panel title="3-Broker Failover Router · priority">

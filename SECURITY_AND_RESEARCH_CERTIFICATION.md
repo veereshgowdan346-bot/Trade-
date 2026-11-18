@@ -1,3 +1,13 @@
+> **SUPERSEDED — see `FINAL_SECURITY_RESEARCH_AUDIT.md` (2026-11-18).**
+>
+> This report was generated when the working copy was a **depth-limited clone**, so the history scan
+> could see only the shallow boundary commit. Figures in §3 (6 findings / 1 commit) reflect that
+> limitation. A later pass deepened the clone to the complete 8-commit history and found **36 findings
+> across 6 commits, all public**. The body of this report is preserved unedited as the record of what was
+> known at the time; the accuracy was limited by missing history, not by a wrong method.
+>
+> Everything not derived from history coverage (vault fixes, methodology, statistics, costs) still holds.
+
 # OmniTradePro — Final Security Remediation & Research Certification
 
 **Generated:** 2026-11-17T17:35:36.546Z by `scripts/generate_certification_report.js`

@@ -1,0 +1,1188 @@
+{
+  "generatedAt": "2026-11-18T07:07:48.737Z",
+  "mode": "PAPER_ONLY_OFFLINE_SIMULATION",
+  "disclaimer": "SIMULATED results only on SYNTHETIC data (no real ₹50–₹150 equity OHLCV exists in this repo; no external fetch permitted). Not live trading, not a forecast, not a profit promise. Statutory rates UNVERIFIED (0/26). Synthetic GBM cannot prove real-market expectancy.",
+  "config": {
+    "capital": 1000,
+    "sleeve": 1000,
+    "sessionMode": "STRICT_INTRADAY",
+    "broker": "shoonya",
+    "drawdownFloor": 25,
+    "base": {
+      "minConfidence": 55,
+      "costFilter": "none"
+    },
+    "cost3": {
+      "minConfidence": 70,
+      "costAwareMinMarginMultiple": 3
+    },
+    "costs": "statutory round-trip (Shoonya NSE EQ intraday) + 8bps slippage per leg"
+  },
+  "results": [
+    {
+      "stock": "SYNTH_A_TREND_75",
+      "params": {
+        "name": "SYNTH_A_TREND_75",
+        "startPx": 75,
+        "drift": 0.00005,
+        "vol": 0.001,
+        "seed": 42
+      },
+      "range": {
+        "low": 74.9,
+        "high": 84.28
+      },
+      "base": {
+        "arm": "SYNTH_A_TREND_75-BASE",
+        "opts": {
+          "minConfidence": 55
+        },
+        "bars": 125,
+        "strategies": [
+          {
+            "id": "x_macd_momentum",
+            "name": "MACD Momentum (12,26,9)",
+            "rawTrades": 11,
+            "blockedByCircuit": 6,
+            "haltedDays": [
+              "2024-01-04",
+              "2024-01-05",
+              "2024-01-08"
+            ],
+            "crossSessionTrades": 0,
+            "trades": 5,
+            "gross": 12.41,
+            "charges": 125,
+            "net": -112.59,
+            "winRatePct": 0,
+            "maxDrawdownRs": 112.59,
+            "harnessMaxDrawdown": 112.59,
+            "finalEquity": 887.41,
+            "sessions": 3,
+            "dailyPnl": {
+              "2024-01-04": -30.05044411452718,
+              "2024-01-05": -34.716798432693224,
+              "2024-01-08": -47.822759500168274
+            }
+          },
+          {
+            "id": "x_ichimoku_cloud",
+            "name": "Ichimoku Cloud (9,26,52)",
+            "rawTrades": 8,
+            "blockedByCircuit": 3,
+            "haltedDays": [
+              "2024-01-05",
+              "2024-01-08"
+            ],
+            "crossSessionTrades": 0,
+            "trades": 5,
+            "gross": 38.92,
+            "charges": 125,
+            "net": -86.08,
+            "winRatePct": 0,
+            "maxDrawdownRs": 86.08,
+            "harnessMaxDrawdown": 86.08,
+            "finalEquity": 913.92,
+            "sessions": 3,
+            "dailyPnl": {
+              "2024-01-04": -17.424333828209058,
+              "2024-01-05": -34.716798432693224,
+              "2024-01-08": -33.94030712912911
+            }
+          },
+          {
+            "id": "x_keltner_channel",
+            "name": "Keltner Channel (20, 1.5 ATR)",
+            "rawTrades": 8,
+            "blockedByCircuit": 3,
+            "haltedDays": [
+              "2024-01-05",
+              "2024-01-08"
+            ],
+            "crossSessionTrades": 0,
+            "trades": 5,
+            "gross": 38.92,
+            "charges": 125,
+            "net": -86.08,
+            "winRatePct": 0,
+            "maxDrawdownRs": 86.08,
+            "harnessMaxDrawdown": 86.08,
+            "finalEquity": 913.92,
+            "sessions": 3,
+            "dailyPnl": {
+              "2024-01-04": -17.424333828209058,
+              "2024-01-05": -34.716798432693224,
+              "2024-01-08": -33.94030712912911
+            }
+          },
+          {
+            "id": "x_choppiness_index",
+            "name": "Choppiness Index Filter",
+            "rawTrades": 8,
+            "blockedByCircuit": 3,
+            "haltedDays": [
+              "2024-01-05",
+              "2024-01-08"
+            ],
+            "crossSessionTrades": 0,
+            "trades": 5,
+            "gross": 38.92,
+            "charges": 125,
+            "net": -86.08,
+            "winRatePct": 0,
+            "maxDrawdownRs": 86.08,
+            "harnessMaxDrawdown": 86.08,
+            "finalEquity": 913.92,
+            "sessions": 3,
+            "dailyPnl": {
+              "2024-01-04": -17.424333828209058,
+              "2024-01-05": -34.716798432693224,
+              "2024-01-08": -33.94030712912911
+            }
+          },
+          {
+            "id": "x_parabolic_sar",
+            "name": "Parabolic SAR",
+            "rawTrades": 11,
+            "blockedByCircuit": 6,
+            "haltedDays": [
+              "2024-01-04",
+              "2024-01-05",
+              "2024-01-08"
+            ],
+            "crossSessionTrades": 0,
+            "trades": 5,
+            "gross": 30.62,
+            "charges": 125,
+            "net": -94.38,
+            "winRatePct": 0,
+            "maxDrawdownRs": 94.38,
+            "harnessMaxDrawdown": 94.38,
+            "finalEquity": 905.62,
+            "sessions": 3,
+            "dailyPnl": {
+              "2024-01-04": -25.720000000000027,
+              "2024-01-05": -34.716798432693224,
+              "2024-01-08": -33.94030712912911
+            }
+          },
+          {
+            "id": "x_fibonacci_retracement",
+            "name": "Fibonacci Retracement Pullback",
+            "rawTrades": 0,
+            "blockedByCircuit": 0,
+            "haltedDays": [],
+            "crossSessionTrades": 0,
+            "trades": 0,
+            "gross": 0,
+            "charges": 0,
+            "net": 0,
+            "winRatePct": 0,
+            "maxDrawdownRs": 0,
+            "harnessMaxDrawdown": 0,
+            "finalEquity": 1000,
+            "sessions": 0,
+            "dailyPnl": {}
+          },
+          {
+            "id": "x_donchian_trend_50",
+            "name": "Donchian Trend (50)",
+            "rawTrades": 7,
+            "blockedByCircuit": 2,
+            "haltedDays": [
+              "2024-01-05",
+              "2024-01-08"
+            ],
+            "crossSessionTrades": 0,
+            "trades": 5,
+            "gross": 34.05,
+            "charges": 125,
+            "net": -90.95,
+            "winRatePct": 0,
+            "maxDrawdownRs": 90.95,
+            "harnessMaxDrawdown": 90.95,
+            "finalEquity": 909.05,
+            "sessions": 3,
+            "dailyPnl": {
+              "2024-01-04": -22.84000000000009,
+              "2024-01-05": -34.126394601564755,
+              "2024-01-08": -33.982673507972436
+            }
+          },
+          {
+            "id": "x_mtf_trend_confirmation",
+            "name": "Multi-Timeframe Trend Confirmation",
+            "rawTrades": 3,
+            "blockedByCircuit": 1,
+            "haltedDays": [
+              "2024-01-08"
+            ],
+            "crossSessionTrades": 0,
+            "trades": 2,
+            "gross": 16.06,
+            "charges": 50,
+            "net": -33.94,
+            "winRatePct": 0,
+            "maxDrawdownRs": 33.94,
+            "harnessMaxDrawdown": 33.94,
+            "finalEquity": 966.06,
+            "sessions": 1,
+            "dailyPnl": {
+              "2024-01-08": -33.94030712912911
+            }
+          }
+        ],
+        "portfolio": {
+          "strategies": 8,
+          "totalNet": -590.1,
+          "finalEquity": 7409.9,
+          "maxDrawdownRs": 590.1,
+          "harnessMaxDrawdown": 590.1,
+          "sessions": 3,
+          "totalTrades": 32,
+          "totalRawTrades": 56
+        }
+      },
+      "cost3": {
+        "arm": "SYNTH_A_TREND_75-COST3",
+        "opts": {
+          "minConfidence": 70,
+          "costAwareMinMarginMultiple": 3
+        },
+        "bars": 125,
+        "strategies": [
+          {
+            "id": "x_macd_momentum",
+            "name": "MACD Momentum (12,26,9)",
+            "rawTrades": 0,
+            "blockedByCircuit": 0,
+            "haltedDays": [],
+            "crossSessionTrades": 0,
+            "trades": 0,
+            "gross": 0,
+            "charges": 0,
+            "net": 0,
+            "winRatePct": 0,
+            "maxDrawdownRs": 0,
+            "harnessMaxDrawdown": 0,
+            "finalEquity": 1000,
+            "sessions": 0,
+            "dailyPnl": {}
+          },
+          {
+            "id": "x_ichimoku_cloud",
+            "name": "Ichimoku Cloud (9,26,52)",
+            "rawTrades": 0,
+            "blockedByCircuit": 0,
+            "haltedDays": [],
+            "crossSessionTrades": 0,
+            "trades": 0,
+            "gross": 0,
+            "charges": 0,
+            "net": 0,
+            "winRatePct": 0,
+            "maxDrawdownRs": 0,
+            "harnessMaxDrawdown": 0,
+            "finalEquity": 1000,
+            "sessions": 0,
+            "dailyPnl": {}
+          },
+          {
+            "id": "x_keltner_channel",
+            "name": "Keltner Channel (20, 1.5 ATR)",
+            "rawTrades": 0,
+            "blockedByCircuit": 0,
+            "haltedDays": [],
+            "crossSessionTrades": 0,
+            "trades": 0,
+            "gross": 0,
+            "charges": 0,
+            "net": 0,
+            "winRatePct": 0,
+            "maxDrawdownRs": 0,
+            "harnessMaxDrawdown": 0,
+            "finalEquity": 1000,
+            "sessions": 0,
+            "dailyPnl": {}
+          },
+          {
+            "id": "x_choppiness_index",
+            "name": "Choppiness Index Filter",
+            "rawTrades": 0,
+            "blockedByCircuit": 0,
+            "haltedDays": [],
+            "crossSessionTrades": 0,
+            "trades": 0,
+            "gross": 0,
+            "charges": 0,
+            "net": 0,
+            "winRatePct": 0,
+            "maxDrawdownRs": 0,
+            "harnessMaxDrawdown": 0,
+            "finalEquity": 1000,
+            "sessions": 0,
+            "dailyPnl": {}
+          },
+          {
+            "id": "x_parabolic_sar",
+            "name": "Parabolic SAR",
+            "rawTrades": 0,
+            "blockedByCircuit": 0,
+            "haltedDays": [],
+            "crossSessionTrades": 0,
+            "trades": 0,
+            "gross": 0,
+            "charges": 0,
+            "net": 0,
+            "winRatePct": 0,
+            "maxDrawdownRs": 0,
+            "harnessMaxDrawdown": 0,
+            "finalEquity": 1000,
+            "sessions": 0,
+            "dailyPnl": {}
+          },
+          {
+            "id": "x_fibonacci_retracement",
+            "name": "Fibonacci Retracement Pullback",
+            "rawTrades": 0,
+            "blockedByCircuit": 0,
+            "haltedDays": [],
+            "crossSessionTrades": 0,
+            "trades": 0,
+            "gross": 0,
+            "charges": 0,
+            "net": 0,
+            "winRatePct": 0,
+            "maxDrawdownRs": 0,
+            "harnessMaxDrawdown": 0,
+            "finalEquity": 1000,
+            "sessions": 0,
+            "dailyPnl": {}
+          },
+          {
+            "id": "x_donchian_trend_50",
+            "name": "Donchian Trend (50)",
+            "rawTrades": 0,
+            "blockedByCircuit": 0,
+            "haltedDays": [],
+            "crossSessionTrades": 0,
+            "trades": 0,
+            "gross": 0,
+            "charges": 0,
+            "net": 0,
+            "winRatePct": 0,
+            "maxDrawdownRs": 0,
+            "harnessMaxDrawdown": 0,
+            "finalEquity": 1000,
+            "sessions": 0,
+            "dailyPnl": {}
+          },
+          {
+            "id": "x_mtf_trend_confirmation",
+            "name": "Multi-Timeframe Trend Confirmation",
+            "rawTrades": 0,
+            "blockedByCircuit": 0,
+            "haltedDays": [],
+            "crossSessionTrades": 0,
+            "trades": 0,
+            "gross": 0,
+            "charges": 0,
+            "net": 0,
+            "winRatePct": 0,
+            "maxDrawdownRs": 0,
+            "harnessMaxDrawdown": 0,
+            "finalEquity": 1000,
+            "sessions": 0,
+            "dailyPnl": {}
+          }
+        ],
+        "portfolio": {
+          "strategies": 8,
+          "totalNet": 0,
+          "finalEquity": 8000,
+          "maxDrawdownRs": 0,
+          "harnessMaxDrawdown": 0,
+          "sessions": 0,
+          "totalTrades": 0,
+          "totalRawTrades": 0
+        }
+      }
+    },
+    {
+      "stock": "SYNTH_B_CHOPPY_100",
+      "params": {
+        "name": "SYNTH_B_CHOPPY_100",
+        "startPx": 100,
+        "drift": 0,
+        "vol": 0.0015,
+        "seed": 123
+      },
+      "range": {
+        "low": 99.78,
+        "high": 103.17
+      },
+      "base": {
+        "arm": "SYNTH_B_CHOPPY_100-BASE",
+        "opts": {
+          "minConfidence": 55
+        },
+        "bars": 125,
+        "strategies": [
+          {
+            "id": "x_macd_momentum",
+            "name": "MACD Momentum (12,26,9)",
+            "rawTrades": 7,
+            "blockedByCircuit": 2,
+            "haltedDays": [
+              "2024-01-04",
+              "2024-01-05",
+              "2024-01-08"
+            ],
+            "crossSessionTrades": 0,
+            "trades": 5,
+            "gross": 16.63,
+            "charges": 125,
+            "net": -108.37,
+            "winRatePct": 0,
+            "maxDrawdownRs": 108.37,
+            "harnessMaxDrawdown": 108.37,
+            "finalEquity": 891.63,
+            "sessions": 3,
+            "dailyPnl": {
+              "2024-01-04": -25.360000000000056,
+              "2024-01-05": -36.68569204892407,
+              "2024-01-08": -46.31957662206358
+            }
+          },
+          {
+            "id": "x_ichimoku_cloud",
+            "name": "Ichimoku Cloud (9,26,52)",
+            "rawTrades": 6,
+            "blockedByCircuit": 2,
+            "haltedDays": [
+              "2024-01-04",
+              "2024-01-05",
+              "2024-01-08"
+            ],
+            "crossSessionTrades": 0,
+            "trades": 4,
+            "gross": 3.01,
+            "charges": 100,
+            "net": -96.99,
+            "winRatePct": 0,
+            "maxDrawdownRs": 96.99,
+            "harnessMaxDrawdown": 96.99,
+            "finalEquity": 903.01,
+            "sessions": 3,
+            "dailyPnl": {
+              "2024-01-04": -26.62000000000006,
+              "2024-01-05": -38.66006393275741,
+              "2024-01-08": -31.713676323751912
+            }
+          },
+          {
+            "id": "x_keltner_channel",
+            "name": "Keltner Channel (20, 1.5 ATR)",
+            "rawTrades": 2,
+            "blockedByCircuit": 0,
+            "haltedDays": [
+              "2024-01-08"
+            ],
+            "crossSessionTrades": 0,
+            "trades": 2,
+            "gross": -1.26,
+            "charges": 50,
+            "net": -51.26,
+            "winRatePct": 0,
+            "maxDrawdownRs": 51.26,
+            "harnessMaxDrawdown": 51.26,
+            "finalEquity": 948.74,
+            "sessions": 2,
+            "dailyPnl": {
+              "2024-01-05": -20.950000000000102,
+              "2024-01-08": -30.31000000000003
+            }
+          },
+          {
+            "id": "x_choppiness_index",
+            "name": "Choppiness Index Filter",
+            "rawTrades": 2,
+            "blockedByCircuit": 0,
+            "haltedDays": [
+              "2024-01-04",
+              "2024-01-05"
+            ],
+            "crossSessionTrades": 0,
+            "trades": 2,
+            "gross": -4.95,
+            "charges": 50,
+            "net": -54.95,
+            "winRatePct": 0,
+            "maxDrawdownRs": 54.95,
+            "harnessMaxDrawdown": 54.95,
+            "finalEquity": 945.05,
+            "sessions": 2,
+            "dailyPnl": {
+              "2024-01-04": -26.43999999999997,
+              "2024-01-05": -28.510000000000005
+            }
+          },
+          {
+            "id": "x_parabolic_sar",
+            "name": "Parabolic SAR",
+            "rawTrades": 10,
+            "blockedByCircuit": 6,
+            "haltedDays": [
+              "2024-01-05",
+              "2024-01-08"
+            ],
+            "crossSessionTrades": 0,
+            "trades": 4,
+            "gross": 7.95,
+            "charges": 100,
+            "net": -92.05,
+            "winRatePct": 0,
+            "maxDrawdownRs": 92.05,
+            "harnessMaxDrawdown": 92.05,
+            "finalEquity": 907.95,
+            "sessions": 3,
+            "dailyPnl": {
+              "2024-01-04": -23.56000000000003,
+              "2024-01-05": -29.5,
+              "2024-01-08": -38.99023654905993
+            }
+          },
+          {
+            "id": "x_fibonacci_retracement",
+            "name": "Fibonacci Retracement Pullback",
+            "rawTrades": 6,
+            "blockedByCircuit": 1,
+            "haltedDays": [
+              "2024-01-04",
+              "2024-01-08"
+            ],
+            "crossSessionTrades": 0,
+            "trades": 5,
+            "gross": 26.27,
+            "charges": 125,
+            "net": -98.73,
+            "winRatePct": 0,
+            "maxDrawdownRs": 98.73,
+            "harnessMaxDrawdown": 98.73,
+            "finalEquity": 901.27,
+            "sessions": 3,
+            "dailyPnl": {
+              "2024-01-04": -45.139999999999816,
+              "2024-01-05": -15.735692048923966,
+              "2024-01-08": -37.85000000000005
+            }
+          },
+          {
+            "id": "x_donchian_trend_50",
+            "name": "Donchian Trend (50)",
+            "rawTrades": 1,
+            "blockedByCircuit": 0,
+            "haltedDays": [
+              "2024-01-05"
+            ],
+            "crossSessionTrades": 0,
+            "trades": 1,
+            "gross": -1.35,
+            "charges": 25,
+            "net": -26.35,
+            "winRatePct": 0,
+            "maxDrawdownRs": 26.35,
+            "harnessMaxDrawdown": 26.35,
+            "finalEquity": 973.65,
+            "sessions": 1,
+            "dailyPnl": {
+              "2024-01-05": -26.35000000000005
+            }
+          },
+          {
+            "id": "x_mtf_trend_confirmation",
+            "name": "Multi-Timeframe Trend Confirmation",
+            "rawTrades": 6,
+            "blockedByCircuit": 5,
+            "haltedDays": [
+              "2024-01-08"
+            ],
+            "crossSessionTrades": 0,
+            "trades": 1,
+            "gross": -2.61,
+            "charges": 25,
+            "net": -27.61,
+            "winRatePct": 0,
+            "maxDrawdownRs": 27.61,
+            "harnessMaxDrawdown": 27.61,
+            "finalEquity": 972.39,
+            "sessions": 1,
+            "dailyPnl": {
+              "2024-01-08": -27.610000000000056
+            }
+          }
+        ],
+        "portfolio": {
+          "strategies": 8,
+          "totalNet": -556.3,
+          "finalEquity": 7443.7,
+          "maxDrawdownRs": 556.3,
+          "harnessMaxDrawdown": 556.3,
+          "sessions": 3,
+          "totalTrades": 24,
+          "totalRawTrades": 40
+        }
+      },
+      "cost3": {
+        "arm": "SYNTH_B_CHOPPY_100-COST3",
+        "opts": {
+          "minConfidence": 70,
+          "costAwareMinMarginMultiple": 3
+        },
+        "bars": 125,
+        "strategies": [
+          {
+            "id": "x_macd_momentum",
+            "name": "MACD Momentum (12,26,9)",
+            "rawTrades": 0,
+            "blockedByCircuit": 0,
+            "haltedDays": [],
+            "crossSessionTrades": 0,
+            "trades": 0,
+            "gross": 0,
+            "charges": 0,
+            "net": 0,
+            "winRatePct": 0,
+            "maxDrawdownRs": 0,
+            "harnessMaxDrawdown": 0,
+            "finalEquity": 1000,
+            "sessions": 0,
+            "dailyPnl": {}
+          },
+          {
+            "id": "x_ichimoku_cloud",
+            "name": "Ichimoku Cloud (9,26,52)",
+            "rawTrades": 0,
+            "blockedByCircuit": 0,
+            "haltedDays": [],
+            "crossSessionTrades": 0,
+            "trades": 0,
+            "gross": 0,
+            "charges": 0,
+            "net": 0,
+            "winRatePct": 0,
+            "maxDrawdownRs": 0,
+            "harnessMaxDrawdown": 0,
+            "finalEquity": 1000,
+            "sessions": 0,
+            "dailyPnl": {}
+          },
+          {
+            "id": "x_keltner_channel",
+            "name": "Keltner Channel (20, 1.5 ATR)",
+            "rawTrades": 0,
+            "blockedByCircuit": 0,
+            "haltedDays": [],
+            "crossSessionTrades": 0,
+            "trades": 0,
+            "gross": 0,
+            "charges": 0,
+            "net": 0,
+            "winRatePct": 0,
+            "maxDrawdownRs": 0,
+            "harnessMaxDrawdown": 0,
+            "finalEquity": 1000,
+            "sessions": 0,
+            "dailyPnl": {}
+          },
+          {
+            "id": "x_choppiness_index",
+            "name": "Choppiness Index Filter",
+            "rawTrades": 0,
+            "blockedByCircuit": 0,
+            "haltedDays": [],
+            "crossSessionTrades": 0,
+            "trades": 0,
+            "gross": 0,
+            "charges": 0,
+            "net": 0,
+            "winRatePct": 0,
+            "maxDrawdownRs": 0,
+            "harnessMaxDrawdown": 0,
+            "finalEquity": 1000,
+            "sessions": 0,
+            "dailyPnl": {}
+          },
+          {
+            "id": "x_parabolic_sar",
+            "name": "Parabolic SAR",
+            "rawTrades": 0,
+            "blockedByCircuit": 0,
+            "haltedDays": [],
+            "crossSessionTrades": 0,
+            "trades": 0,
+            "gross": 0,
+            "charges": 0,
+            "net": 0,
+            "winRatePct": 0,
+            "maxDrawdownRs": 0,
+            "harnessMaxDrawdown": 0,
+            "finalEquity": 1000,
+            "sessions": 0,
+            "dailyPnl": {}
+          },
+          {
+            "id": "x_fibonacci_retracement",
+            "name": "Fibonacci Retracement Pullback",
+            "rawTrades": 0,
+            "blockedByCircuit": 0,
+            "haltedDays": [],
+            "crossSessionTrades": 0,
+            "trades": 0,
+            "gross": 0,
+            "charges": 0,
+            "net": 0,
+            "winRatePct": 0,
+            "maxDrawdownRs": 0,
+            "harnessMaxDrawdown": 0,
+            "finalEquity": 1000,
+            "sessions": 0,
+            "dailyPnl": {}
+          },
+          {
+            "id": "x_donchian_trend_50",
+            "name": "Donchian Trend (50)",
+            "rawTrades": 0,
+            "blockedByCircuit": 0,
+            "haltedDays": [],
+            "crossSessionTrades": 0,
+            "trades": 0,
+            "gross": 0,
+            "charges": 0,
+            "net": 0,
+            "winRatePct": 0,
+            "maxDrawdownRs": 0,
+            "harnessMaxDrawdown": 0,
+            "finalEquity": 1000,
+            "sessions": 0,
+            "dailyPnl": {}
+          },
+          {
+            "id": "x_mtf_trend_confirmation",
+            "name": "Multi-Timeframe Trend Confirmation",
+            "rawTrades": 0,
+            "blockedByCircuit": 0,
+            "haltedDays": [],
+            "crossSessionTrades": 0,
+            "trades": 0,
+            "gross": 0,
+            "charges": 0,
+            "net": 0,
+            "winRatePct": 0,
+            "maxDrawdownRs": 0,
+            "harnessMaxDrawdown": 0,
+            "finalEquity": 1000,
+            "sessions": 0,
+            "dailyPnl": {}
+          }
+        ],
+        "portfolio": {
+          "strategies": 8,
+          "totalNet": 0,
+          "finalEquity": 8000,
+          "maxDrawdownRs": 0,
+          "harnessMaxDrawdown": 0,
+          "sessions": 0,
+          "totalTrades": 0,
+          "totalRawTrades": 0
+        }
+      }
+    },
+    {
+      "stock": "SYNTH_C_VOLATILE_125",
+      "params": {
+        "name": "SYNTH_C_VOLATILE_125",
+        "startPx": 125,
+        "drift": 0,
+        "vol": 0.0025,
+        "seed": 777
+      },
+      "range": {
+        "low": 124.24,
+        "high": 131.52
+      },
+      "base": {
+        "arm": "SYNTH_C_VOLATILE_125-BASE",
+        "opts": {
+          "minConfidence": 55
+        },
+        "bars": 125,
+        "strategies": [
+          {
+            "id": "x_macd_momentum",
+            "name": "MACD Momentum (12,26,9)",
+            "rawTrades": 9,
+            "blockedByCircuit": 5,
+            "haltedDays": [
+              "2024-01-04",
+              "2024-01-05",
+              "2024-01-08"
+            ],
+            "crossSessionTrades": 0,
+            "trades": 4,
+            "gross": -7.21,
+            "charges": 100,
+            "net": -107.21,
+            "winRatePct": 0,
+            "maxDrawdownRs": 107.21,
+            "harnessMaxDrawdown": 107.21,
+            "finalEquity": 892.79,
+            "sessions": 3,
+            "dailyPnl": {
+              "2024-01-04": -53.35999999999993,
+              "2024-01-05": -27.729999999999905,
+              "2024-01-08": -26.119999999999976
+            }
+          },
+          {
+            "id": "x_ichimoku_cloud",
+            "name": "Ichimoku Cloud (9,26,52)",
+            "rawTrades": 4,
+            "blockedByCircuit": 1,
+            "haltedDays": [
+              "2024-01-05"
+            ],
+            "crossSessionTrades": 0,
+            "trades": 3,
+            "gross": 4.12,
+            "charges": 75,
+            "net": -70.88,
+            "winRatePct": 0,
+            "maxDrawdownRs": 70.88,
+            "harnessMaxDrawdown": 70.88,
+            "finalEquity": 929.12,
+            "sessions": 3,
+            "dailyPnl": {
+              "2024-01-04": -16.039999999999992,
+              "2024-01-05": -33.968312082227044,
+              "2024-01-08": -20.869999999999976
+            }
+          },
+          {
+            "id": "x_keltner_channel",
+            "name": "Keltner Channel (20, 1.5 ATR)",
+            "rawTrades": 3,
+            "blockedByCircuit": 0,
+            "haltedDays": [
+              "2024-01-05"
+            ],
+            "crossSessionTrades": 0,
+            "trades": 3,
+            "gross": 4.61,
+            "charges": 75,
+            "net": -70.39,
+            "winRatePct": 0,
+            "maxDrawdownRs": 70.39,
+            "harnessMaxDrawdown": 70.39,
+            "finalEquity": 929.61,
+            "sessions": 3,
+            "dailyPnl": {
+              "2024-01-04": -16.039999999999992,
+              "2024-01-05": -33.968312082227044,
+              "2024-01-08": -20.380000000000024
+            }
+          },
+          {
+            "id": "x_choppiness_index",
+            "name": "Choppiness Index Filter",
+            "rawTrades": 0,
+            "blockedByCircuit": 0,
+            "haltedDays": [],
+            "crossSessionTrades": 0,
+            "trades": 0,
+            "gross": 0,
+            "charges": 0,
+            "net": 0,
+            "winRatePct": 0,
+            "maxDrawdownRs": 0,
+            "harnessMaxDrawdown": 0,
+            "finalEquity": 1000,
+            "sessions": 0,
+            "dailyPnl": {}
+          },
+          {
+            "id": "x_parabolic_sar",
+            "name": "Parabolic SAR",
+            "rawTrades": 12,
+            "blockedByCircuit": 8,
+            "haltedDays": [
+              "2024-01-04",
+              "2024-01-05",
+              "2024-01-08"
+            ],
+            "crossSessionTrades": 0,
+            "trades": 4,
+            "gross": -1.89,
+            "charges": 100,
+            "net": -101.89,
+            "winRatePct": 0,
+            "maxDrawdownRs": 101.89,
+            "harnessMaxDrawdown": 101.89,
+            "finalEquity": 898.11,
+            "sessions": 3,
+            "dailyPnl": {
+              "2024-01-04": -25.279999999999944,
+              "2024-01-05": -30.179999999999865,
+              "2024-01-08": -46.430000000000064
+            }
+          },
+          {
+            "id": "x_fibonacci_retracement",
+            "name": "Fibonacci Retracement Pullback",
+            "rawTrades": 1,
+            "blockedByCircuit": 0,
+            "haltedDays": [
+              "2024-01-08"
+            ],
+            "crossSessionTrades": 0,
+            "trades": 1,
+            "gross": -9.36,
+            "charges": 25,
+            "net": -34.36,
+            "winRatePct": 0,
+            "maxDrawdownRs": 34.36,
+            "harnessMaxDrawdown": 34.36,
+            "finalEquity": 965.64,
+            "sessions": 1,
+            "dailyPnl": {
+              "2024-01-08": -34.358298139991206
+            }
+          },
+          {
+            "id": "x_donchian_trend_50",
+            "name": "Donchian Trend (50)",
+            "rawTrades": 3,
+            "blockedByCircuit": 0,
+            "haltedDays": [
+              "2024-01-05"
+            ],
+            "crossSessionTrades": 0,
+            "trades": 3,
+            "gross": 3.42,
+            "charges": 75,
+            "net": -71.58,
+            "winRatePct": 0,
+            "maxDrawdownRs": 71.58,
+            "harnessMaxDrawdown": 71.58,
+            "finalEquity": 928.42,
+            "sessions": 3,
+            "dailyPnl": {
+              "2024-01-04": -16.039999999999992,
+              "2024-01-05": -33.968312082227044,
+              "2024-01-08": -21.569999999999936
+            }
+          },
+          {
+            "id": "x_mtf_trend_confirmation",
+            "name": "Multi-Timeframe Trend Confirmation",
+            "rawTrades": 1,
+            "blockedByCircuit": 0,
+            "haltedDays": [],
+            "crossSessionTrades": 0,
+            "trades": 1,
+            "gross": 4.13,
+            "charges": 25,
+            "net": -20.87,
+            "winRatePct": 0,
+            "maxDrawdownRs": 20.87,
+            "harnessMaxDrawdown": 20.87,
+            "finalEquity": 979.13,
+            "sessions": 1,
+            "dailyPnl": {
+              "2024-01-08": -20.869999999999976
+            }
+          }
+        ],
+        "portfolio": {
+          "strategies": 8,
+          "totalNet": -477.17,
+          "finalEquity": 7522.83,
+          "maxDrawdownRs": 477.17,
+          "harnessMaxDrawdown": 477.17,
+          "sessions": 3,
+          "totalTrades": 19,
+          "totalRawTrades": 33
+        }
+      },
+      "cost3": {
+        "arm": "SYNTH_C_VOLATILE_125-COST3",
+        "opts": {
+          "minConfidence": 70,
+          "costAwareMinMarginMultiple": 3
+        },
+        "bars": 125,
+        "strategies": [
+          {
+            "id": "x_macd_momentum",
+            "name": "MACD Momentum (12,26,9)",
+            "rawTrades": 0,
+            "blockedByCircuit": 0,
+            "haltedDays": [],
+            "crossSessionTrades": 0,
+            "trades": 0,
+            "gross": 0,
+            "charges": 0,
+            "net": 0,
+            "winRatePct": 0,
+            "maxDrawdownRs": 0,
+            "harnessMaxDrawdown": 0,
+            "finalEquity": 1000,
+            "sessions": 0,
+            "dailyPnl": {}
+          },
+          {
+            "id": "x_ichimoku_cloud",
+            "name": "Ichimoku Cloud (9,26,52)",
+            "rawTrades": 0,
+            "blockedByCircuit": 0,
+            "haltedDays": [],
+            "crossSessionTrades": 0,
+            "trades": 0,
+            "gross": 0,
+            "charges": 0,
+            "net": 0,
+            "winRatePct": 0,
+            "maxDrawdownRs": 0,
+            "harnessMaxDrawdown": 0,
+            "finalEquity": 1000,
+            "sessions": 0,
+            "dailyPnl": {}
+          },
+          {
+            "id": "x_keltner_channel",
+            "name": "Keltner Channel (20, 1.5 ATR)",
+            "rawTrades": 0,
+            "blockedByCircuit": 0,
+            "haltedDays": [],
+            "crossSessionTrades": 0,
+            "trades": 0,
+            "gross": 0,
+            "charges": 0,
+            "net": 0,
+            "winRatePct": 0,
+            "maxDrawdownRs": 0,
+            "harnessMaxDrawdown": 0,
+            "finalEquity": 1000,
+            "sessions": 0,
+            "dailyPnl": {}
+          },
+          {
+            "id": "x_choppiness_index",
+            "name": "Choppiness Index Filter",
+            "rawTrades": 0,
+            "blockedByCircuit": 0,
+            "haltedDays": [],
+            "crossSessionTrades": 0,
+            "trades": 0,
+            "gross": 0,
+            "charges": 0,
+            "net": 0,
+            "winRatePct": 0,
+            "maxDrawdownRs": 0,
+            "harnessMaxDrawdown": 0,
+            "finalEquity": 1000,
+            "sessions": 0,
+            "dailyPnl": {}
+          },
+          {
+            "id": "x_parabolic_sar",
+            "name": "Parabolic SAR",
+            "rawTrades": 0,
+            "blockedByCircuit": 0,
+            "haltedDays": [],
+            "crossSessionTrades": 0,
+            "trades": 0,
+            "gross": 0,
+            "charges": 0,
+            "net": 0,
+            "winRatePct": 0,
+            "maxDrawdownRs": 0,
+            "harnessMaxDrawdown": 0,
+            "finalEquity": 1000,
+            "sessions": 0,
+            "dailyPnl": {}
+          },
+          {
+            "id": "x_fibonacci_retracement",
+            "name": "Fibonacci Retracement Pullback",
+            "rawTrades": 0,
+            "blockedByCircuit": 0,
+            "haltedDays": [],
+            "crossSessionTrades": 0,
+            "trades": 0,
+            "gross": 0,
+            "charges": 0,
+            "net": 0,
+            "winRatePct": 0,
+            "maxDrawdownRs": 0,
+            "harnessMaxDrawdown": 0,
+            "finalEquity": 1000,
+            "sessions": 0,
+            "dailyPnl": {}
+          },
+          {
+            "id": "x_donchian_trend_50",
+            "name": "Donchian Trend (50)",
+            "rawTrades": 0,
+            "blockedByCircuit": 0,
+            "haltedDays": [],
+            "crossSessionTrades": 0,
+            "trades": 0,
+            "gross": 0,
+            "charges": 0,
+            "net": 0,
+            "winRatePct": 0,
+            "maxDrawdownRs": 0,
+            "harnessMaxDrawdown": 0,
+            "finalEquity": 1000,
+            "sessions": 0,
+            "dailyPnl": {}
+          },
+          {
+            "id": "x_mtf_trend_confirmation",
+            "name": "Multi-Timeframe Trend Confirmation",
+            "rawTrades": 0,
+            "blockedByCircuit": 0,
+            "haltedDays": [],
+            "crossSessionTrades": 0,
+            "trades": 0,
+            "gross": 0,
+            "charges": 0,
+            "net": 0,
+            "winRatePct": 0,
+            "maxDrawdownRs": 0,
+            "harnessMaxDrawdown": 0,
+            "finalEquity": 1000,
+            "sessions": 0,
+            "dailyPnl": {}
+          }
+        ],
+        "portfolio": {
+          "strategies": 8,
+          "totalNet": 0,
+          "finalEquity": 8000,
+          "maxDrawdownRs": 0,
+          "harnessMaxDrawdown": 0,
+          "sessions": 0,
+          "totalTrades": 0,
+          "totalRawTrades": 0
+        }
+      }
+    }
+  ],
+  "keyFindings": {
+    "expectancyFlipped": "NO — cost-aware arm takes 0 trades on all 3 synthetic stocks (projected 3xATR gross never reaches 3x round-trip charges at ₹1,000 sleeve), so P&L is ₹0.00 (capital preserved) rather than positive profit. The filter successfully avoids brokerage drag by not trading, but cannot create edge where none exists.",
+    "note": "BASE arm (no filter) loses ₹477–₹590 per 8-sleeve portfolio on synthetic data. COST3 arm preserves capital by taking no trades. Synthetic results do not generalise to real equities. No real ₹50–₹150 equity data exists in this repo; no external fetch was performed.",
+    "costMath": "At ₹100 sleeve qty≈10, 15-min ATR≈₹0.4–₹1.0 => projected gross≈₹12–₹24 vs 3x charges≈₹42 => filter blocks all entries. This is the correct fail-closed behaviour for the 3x rule."
+  }
+}

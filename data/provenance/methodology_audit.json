@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-17T17:36:37.305Z",
+  "generatedAt": "2026-11-18T04:22:24.330Z",
   "command": "node scripts/audit_methodology.js",
   "dataset": "NIFTY50_1min_2024 (REAL_REDISTRIBUTION, authenticity UNVERIFIED)",
   "bucketMinutes": 15,

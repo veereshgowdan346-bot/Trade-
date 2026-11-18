@@ -352,7 +352,6 @@ export default function Cockpit() {
   const feedSource = market?.feed ?? state?.feed ?? "DISCONNECTED";
   const isLiveFeed = feedSource === "ANGEL_WS_V2" || wsConnState === "LIVE STREAMING";
   const isHistFeed = feedSource === "ANGEL_HIST";
-  const wsConnected = wsObj?.connected ?? false;
   const feedStatusText = wsConnState === "LIVE STREAMING" ? "LIVE STREAMING" : wsConnState === "CONNECTING" ? "CONNECTING" : wsConnState === "RECONNECTING" ? "RECONNECTING" : (market?.feedStatus ?? state?.feedStatus ?? "MARKET CLOSED / WS DISCONNECTED");
 
   return (

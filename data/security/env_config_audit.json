@@ -1,0 +1,16 @@
+{
+  "generatedAt": "2026-11-18T04:24:58.852Z",
+  "command": "node scripts/env_config_probe.js",
+  "note": "Missing, malformed, contradictory and unsafe values for the six environment variables the app reads.",
+  "passed": 43,
+  "failed": 0,
+  "variables": [
+    "OMNI_API_TOKEN",
+    "OMNI_LOCAL_TRUST",
+    "OMNI_TRUST_PROXY",
+    "VAULT_KEY",
+    "TRADING_MODE",
+    "DATABASE_URL"
+  ],
+  "failures": []
+}

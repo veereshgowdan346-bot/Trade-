@@ -25,7 +25,7 @@
  */
 
 import type { Candle } from "./indicators";
-import { atr } from "./indicators";
+import { adx, atr } from "./indicators";
 import { roundTripCharges } from "./tax";
 import { runExperimental } from "./experimental_strategies";
 
@@ -79,6 +79,25 @@ export function researchBacktest(
   opts: {
     warmup?: number;
     sleeve?: number;
+    /** Minimum signal confidence to enter (default MIN_CONFIDENCE=55). Raise for high-conviction only. */
+    minConfidence?: number;
+    /**
+     * Cost-aware entry filter (paper-only, opt-in). When set (e.g. 3), a trade is only opened if
+     * projected gross at the 3×ATR target is >= multiple × projected round-trip statutory charges.
+     * Undefined = no filter (legacy behaviour, historical results unchanged).
+     */
+    costAwareMinMarginMultiple?: number;
+    /**
+     * Zero-brokerage simulation (paper-only, opt-in). When true, brokerage and broker minimum
+     * are zero; statutory taxes + slippage are kept. Default false = legacy behaviour.
+     */
+    zeroBrokerage?: boolean;
+    /**
+     * Overarching ADX regime filter (paper-only, opt-in). When set (e.g. 25), ALL entries are
+     * blocked unless ADX(14) at bar i is finite and >= threshold (trending regime). Choppy /
+     * sideways (ADX < threshold, or NaN during warmup) => no entries. Undefined = no filter.
+     */
+    regimeFilterAdxMin?: number;
     /** Session-boundary policy. Defaults to STRICT_INTRADAY (METHOD-001). */
     sessionMode?: SessionMode;
     /**
@@ -94,15 +113,38 @@ export function researchBacktest(
   const strict = sessionMode === "STRICT_INTRADAY";
   const isLastBarOfSession = (i: number) =>
     i + 1 >= candles.length || istDay(candles[i + 1].t) !== istDay(candles[i].t);
-  const sleeve = opts.sleeve ?? SLEEVE;
+  /* PAPER-ONLY hardening: fail closed on invalid inputs instead of producing NaN/Infinity
+   * quantities or silently forcing leverage. Default sleeve (100k) behaviour is unchanged. */
+  if (!Array.isArray(candles) || candles.length === 0) {
+    return { trades: [], exposureDays: {}, dailyPnl: {}, sessionMode, crossSessionTrades: 0 };
+  }
+  const sleeveRaw = opts.sleeve ?? SLEEVE;
+  const sleeve = Number.isFinite(sleeveRaw) && sleeveRaw > 0 ? sleeveRaw : SLEEVE;
+  const safeWarmup = Number.isFinite(warmup) && warmup >= 0 ? Math.floor(warmup) : 60;
+  const minConfRaw = opts.minConfidence ?? MIN_CONFIDENCE;
+  const minConf = Number.isFinite(minConfRaw) ? Math.min(100, Math.max(0, minConfRaw)) : MIN_CONFIDENCE;
+  const costMultipleRaw = opts.costAwareMinMarginMultiple;
+  const costMultiple =
+    costMultipleRaw !== undefined && costMultipleRaw !== null && Number.isFinite(costMultipleRaw) && costMultipleRaw > 0
+      ? costMultipleRaw
+      : null;
+  const zeroBrokerage = opts.zeroBrokerage === true;
+  const regimeAdxRaw = opts.regimeFilterAdxMin;
+  const regimeAdxMin =
+    regimeAdxRaw !== undefined && regimeAdxRaw !== null && Number.isFinite(regimeAdxRaw) && regimeAdxRaw > 0
+      ? regimeAdxRaw
+      : null;
   const atrArr = atr(candles, 14);
+  /* ADX is causal (Wilder RMA over past bars only), so adxArr[i] uses candles[0..i] only —
+   * same convention as atrArr. Computed once; indexed per-bar. */
+  const adxArr = regimeAdxMin !== null ? adx(candles, 14).adx : null;
   const trades: HarnessTrade[] = [];
   const exposureDays: Record<string, boolean> = {};
   const dailyPnl: Record<string, number> = {};
   let pos: { side: "BUY" | "SELL"; qty: number; entry: number; entryTime: number; stop: number; target: number } | null = null;
   let lastDay = istDay(candles[0].t);
 
-  for (let i = warmup; i < candles.length; i++) {
+  for (let i = safeWarmup; i < candles.length; i++) {
     const c = candles[i];
     const day = istDay(c.t);
     const newDay = day !== lastDay;
@@ -144,6 +186,7 @@ export function researchBacktest(
           exit: exitPx,
           side: pos.side,
           productType: "INTRADAY",
+          zeroBrokerage,
         });
         const net = gross - ch.total;
         trades.push({
@@ -171,10 +214,42 @@ export function researchBacktest(
     // Strict mode forbids opening on the session's last bar: there would be no bar left to exit on,
     // which is exactly how the legacy path ended up carrying positions overnight.
     const mayEnter = strict ? !isLastBarOfSession(i) : true;
-    if (!pos && !newDay && mayEnter && sig !== 0 && conf >= MIN_CONFIDENCE && Number.isFinite(a) && a > 0) {
+    /* Overarching ADX regime filter (opt-in): block ALL entries unless ADX >= threshold.
+     * Fail closed on NaN (warmup) or below-threshold (choppy/sideways). */
+    const regimeOk = regimeAdxMin === null || (adxArr !== null && Number.isFinite(adxArr[i]) && adxArr[i] >= regimeAdxMin);
+    if (!pos && !newDay && mayEnter && regimeOk && sig !== 0 && conf >= minConf && Number.isFinite(a) && a > 0) {
       const side: "BUY" | "SELL" = sig === 1 ? "BUY" : "SELL";
       const entry = c.c;
-      const qty = Math.max(1, Math.floor(sleeve / entry));
+      /* PAPER-ONLY fix (sizing): never force qty=1 when the sleeve cannot afford one unit.
+       * Previously Math.max(1, floor(sleeve/entry)) silently created ~22x leverage on a
+       * ₹1,000 sleeve vs a ~₹22,000 NIFTY proxy. Now: unaffordable => no trade (qty 0).
+       * Default ₹1,00,000 sleeve is unaffected (floor >= 4 on NIFTY). */
+      if (!Number.isFinite(entry) || entry <= 0) continue;
+      const qty = Math.floor(sleeve / entry);
+      if (!Number.isFinite(qty) || qty <= 0) continue;
+      /* Cost-aware filter (opt-in): projected gross at the 3×ATR target must clear
+       * multiple × projected round-trip charges, else skip (avoids brokerage drag). */
+      if (costMultiple !== null) {
+        const projTarget = side === "BUY" ? entry + 3 * a : entry - 3 * a;
+        const projGross = qty * 3 * a;
+        let projCharges: number;
+        try {
+          projCharges = roundTripCharges({
+            exchange: "NSE",
+            kind: "EQ",
+            broker: BROKER,
+            qty,
+            entry,
+            exit: projTarget,
+            side,
+            productType: "INTRADAY",
+            zeroBrokerage,
+          }).total;
+        } catch {
+          continue; // fail closed: cannot price the trade => no trade
+        }
+        if (!Number.isFinite(projCharges) || projGross < costMultiple * projCharges) continue;
+      }
       pos = {
         side,
         qty,

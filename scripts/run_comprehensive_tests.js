@@ -3484,6 +3484,16 @@ test("Phase 7.4.7: Task 6 - Regulatory Evidence Integrity & Offline Research Saf
 /* 19. API GUARD — AUTH, AUTHORIZATION & RATE LIMITING (PHASE 2 SEC-001)     */
 /* -------------------------------------------------------------------------- */
 console.log("\n--> 19. API GUARD TESTS (PHASE 2 SEC-001)");
+
+/* SEC-011: without a token and without an asserted local deployment, the guard must deny by default.
+   The remaining tests in this section assert the behaviour of a deployment that HAS asserted local trust
+   (the desktop case), so the flag is set here and cleared afterwards. */
+const __prevLocalTrust = process.env.OMNI_LOCAL_TRUST;
+const __prevToken = process.env.OMNI_API_TOKEN;
+process.env.OMNI_LOCAL_TRUST = "true";
+
+
+
 const apiGuard = require("../dist_test_cjs/apiGuard.js");
 
 function fakeReq(headers = {}) {
@@ -3496,6 +3506,52 @@ test("API Guard: timing-safe compare accepts equal, rejects unequal and length m
   assert.strictEqual(apiGuard.timingSafeEqualStr("secret-abc", "secret-abd"), false);
   assert.strictEqual(apiGuard.timingSafeEqualStr("secret-abc", "secret-abcdef"), false);
   assert.strictEqual(apiGuard.timingSafeEqualStr("", ""), true);
+});
+
+test("API Guard: SEC-011 - with no token and no asserted local trust, mutations fail closed", () => {
+  const savedLocal = process.env.OMNI_LOCAL_TRUST;
+  const savedToken = process.env.OMNI_API_TOKEN;
+  try {
+    delete process.env.OMNI_LOCAL_TRUST;
+    delete process.env.OMNI_API_TOKEN;
+    // Even a header-less request is denied: the guard cannot see the peer socket, so a missing
+    // forwarding header is not evidence of locality.
+    for (const headers of [{}, { host: "localhost:3000" }, { "x-forwarded-for": "127.0.0.1" }]) {
+      const res = apiGuard.authorizeMutation(fakeReq(headers));
+      assert.ok(res && res.status === 401, "mutation must fail closed when nothing is configured");
+      assert.strictEqual(res.body.code, "AUTH_NOT_CONFIGURED", "unexpected code: " + res.body.code);
+    }
+    // And the webhook boundary behaves the same way.
+    const wh = apiGuard.authorizeWebhook(fakeReq({}), undefined, undefined);
+    assert.ok(wh && wh.body.code === "WEBHOOK_NOT_CONFIGURED", "webhook must fail closed when unconfigured");
+    // Asserting a local deployment restores the desktop behaviour.
+    process.env.OMNI_LOCAL_TRUST = "true";
+    assert.strictEqual(apiGuard.authorizeMutation(fakeReq({})), null);
+  } finally {
+    if (savedLocal === undefined) delete process.env.OMNI_LOCAL_TRUST; else process.env.OMNI_LOCAL_TRUST = savedLocal;
+    if (savedToken === undefined) delete process.env.OMNI_API_TOKEN; else process.env.OMNI_API_TOKEN = savedToken;
+  }
+});
+test("API Guard: SEC-012 - a present but unusable token fails closed instead of being ignored", () => {
+  const savedToken = process.env.OMNI_API_TOKEN;
+  const savedLocal = process.env.OMNI_LOCAL_TRUST;
+  try {
+    process.env.OMNI_LOCAL_TRUST = "true";
+    for (const bad of ["abc123", "1234567"]) {
+      process.env.OMNI_API_TOKEN = bad;
+      const res = apiGuard.authorizeMutation(fakeReq({ host: "localhost:3000" }));
+      assert.ok(res && res.status === 401, "unusable token must deny");
+      assert.strictEqual(res.body.code, "AUTH_MISCONFIGURED", "unusable token was silently ignored: " + res.body.code);
+      const wh = apiGuard.authorizeWebhook(fakeReq({}), undefined, undefined);
+      assert.strictEqual(wh.body.code, "AUTH_MISCONFIGURED", "webhook ignored the unusable token");
+    }
+    // Empty means "not configured" so a fresh .env still works.
+    process.env.OMNI_API_TOKEN = "";
+    assert.strictEqual(apiGuard.tokenState(), "absent");
+  } finally {
+    if (savedToken === undefined) delete process.env.OMNI_API_TOKEN; else process.env.OMNI_API_TOKEN = savedToken;
+    if (savedLocal === undefined) delete process.env.OMNI_LOCAL_TRUST; else process.env.OMNI_LOCAL_TRUST = savedLocal;
+  }
 });
 
 test("API Guard: loopback and private clients are recognised", () => {
@@ -3511,21 +3567,124 @@ test("API Guard: external unauthenticated mutation is rejected when no token is 
   delete process.env.OMNI_API_TOKEN;
   const res = apiGuard.authorizeMutation(fakeReq({ "x-forwarded-for": "203.0.113.9" }));
   assert.ok(res && res.status === 401, "external mutation must be rejected");
-  assert.strictEqual(res.body.code, "EXTERNAL_UNAUTHENTICATED");
+  assert.strictEqual(res.body.code, "AUTH_REQUIRED_FOR_REMOTE");
 });
 
-test("API Guard: loopback mutation allowed without token (local dev preserved)", () => {
+test("API Guard: a direct connection is treated as local, a forwarded one is not", () => {
   delete process.env.OMNI_API_TOKEN;
-  assert.strictEqual(apiGuard.authorizeMutation(fakeReq({ "x-forwarded-for": "127.0.0.1" })), null);
   assert.strictEqual(apiGuard.authorizeMutation(fakeReq({})), null); // no forwarding headers -> local
+  // Regression (SEC-007): a client-supplied X-Forwarded-For of 127.0.0.1 used to be accepted as
+  // loopback, which let any caller bypass the mutation check. It no longer is.
+  const spoofed = apiGuard.authorizeMutation(fakeReq({ "x-forwarded-for": "127.0.0.1" }));
+  assert.ok(spoofed && spoofed.status === 401, "spoofed X-Forwarded-For must not grant local trust");
 });
 
-test("API Guard: same-origin browser request allowed without token (preview preserved)", () => {
+test("API Guard: forwarded headers are honoured only when OMNI_TRUST_PROXY is set", () => {
   delete process.env.OMNI_API_TOKEN;
-  const req = fakeReq({ "x-forwarded-for": "203.0.113.9", host: "app.example.com", origin: "https://app.example.com" });
-  assert.strictEqual(apiGuard.authorizeMutation(req), null);
+  try {
+    // Nearest hop (appended by a real proxy) is private -> trusted.
+    process.env.OMNI_TRUST_PROXY = "true";
+    assert.strictEqual(
+      apiGuard.authorizeMutation(fakeReq({ "x-forwarded-for": "203.0.113.9, 127.0.0.1" })),
+      null,
+      "trusted proxy with a private nearest hop must be allowed",
+    );
+    // Client-prepended private entry must NOT be trusted: the nearest hop is public.
+    const prepended = apiGuard.authorizeMutation(fakeReq({ "x-forwarded-for": "127.0.0.1, 203.0.113.9" }));
+    assert.ok(prepended && prepended.status === 401, "a client-prepended loopback entry must be rejected");
+    delete process.env.OMNI_TRUST_PROXY;
+    const untrusted = apiGuard.authorizeMutation(fakeReq({ "x-forwarded-for": "203.0.113.9, 127.0.0.1" }));
+    assert.ok(untrusted && untrusted.status === 401, "without OMNI_TRUST_PROXY, forwarded private hops are not trusted");
+  } finally {
+    delete process.env.OMNI_TRUST_PROXY;
+    delete process.env.OMNI_API_TOKEN;
+  }
+});
+
+test("API Guard: SEC-008 closed - a forgeable same-origin header does not authorise a remote mutation", () => {
+  delete process.env.OMNI_API_TOKEN;
+  delete process.env.OMNI_TRUST_PROXY;
+  // Same-origin is a CSRF control, not authentication: a non-browser caller can forge both headers.
+  const sameOrigin = fakeReq({ "x-forwarded-for": "203.0.113.9", host: "app.example.com", origin: "https://app.example.com" });
+  const res = apiGuard.authorizeMutation(sameOrigin);
+  assert.ok(res && res.status === 401, "remote mutation must fail closed without a token");
+  assert.strictEqual(res.body.code, "AUTH_REQUIRED_FOR_REMOTE");
   const crossOrigin = fakeReq({ "x-forwarded-for": "203.0.113.9", host: "app.example.com", origin: "https://evil.example.net" });
-  assert.ok(crossOrigin && apiGuard.authorizeMutation(crossOrigin), "cross-origin mutation must be rejected");
+  assert.ok(apiGuard.authorizeMutation(crossOrigin), "cross-origin mutation must be rejected");
+  // Configuring a token restores remote use: the same request then succeeds with the bearer token.
+  const remoteToken = require("node:crypto").randomBytes(16).toString("hex");
+  process.env.OMNI_API_TOKEN = remoteToken;
+  try {
+    const withToken = fakeReq({
+      "x-forwarded-for": "203.0.113.9", host: "app.example.com", origin: "https://app.example.com",
+      authorization: `Bearer ${remoteToken}`,
+    });
+    assert.strictEqual(apiGuard.authorizeMutation(withToken), null, "remote mutation with a token must be allowed");
+    const withoutToken = fakeReq({ "x-forwarded-for": "203.0.113.9", host: "app.example.com" });
+    assert.strictEqual(apiGuard.authorizeMutation(withoutToken).body.code, "TOKEN_REQUIRED");
+  } finally {
+    delete process.env.OMNI_API_TOKEN;
+  }
+});
+
+test("API Guard: adversarial X-Forwarded-For handling (multi-hop, malformed, trusted proxy)", () => {
+  delete process.env.OMNI_API_TOKEN;
+  const prevTrust = process.env.OMNI_TRUST_PROXY;
+  try {
+    delete process.env.OMNI_TRUST_PROXY;
+    // Multi-hop chains: only a direct (header-free) connection is local when no proxy is trusted.
+    for (const chain of [
+      "127.0.0.1, 127.0.0.1, 127.0.0.1",
+      "10.0.0.1, 192.168.1.5",
+      "::1",
+      " localhost ",
+      "127.0.0.1",
+    ]) {
+      const res = apiGuard.authorizeMutation(fakeReq({ "x-forwarded-for": chain }));
+      assert.ok(res && res.status === 401, `forwarded chain must not be local: ${chain}`);
+    }
+    // Malformed / hostile values must not crash and must not grant access.
+    for (const bad of ["", " ", ",,,", "not-an-ip", "999.999.999.999", "127.0.0.1 evil", "\u0000", "<<>>"]) {
+      const res = apiGuard.authorizeMutation(fakeReq({ "x-forwarded-for": bad }));
+      assert.ok(res && res.status === 401,
+        `malformed/empty forwarding header granted access (SEC-010): ${JSON.stringify(bad)}`);
+    }
+    // x-real-ip alone is equally untrusted.
+    assert.ok(apiGuard.authorizeMutation(fakeReq({ "x-real-ip": "127.0.0.1" })), "x-real-ip must not imply locality");
+
+    // Trusted proxy: the NEAREST (last) hop decides; a prepended loopback claim is worthless.
+    process.env.OMNI_TRUST_PROXY = "true";
+    assert.strictEqual(apiGuard.authorizeMutation(fakeReq({ "x-forwarded-for": "203.0.113.9, 127.0.0.1" })), null);
+    for (const chain of ["127.0.0.1, 203.0.113.9", "127.0.0.1, 127.0.0.1, 198.51.100.4", "127.0.0.1, 8.8.8.8"]) {
+      const res = apiGuard.authorizeMutation(fakeReq({ "x-forwarded-for": chain }));
+      assert.ok(res && res.status === 401, `prepended loopback must be rejected: ${chain}`);
+    }
+  } finally {
+    if (prevTrust === undefined) delete process.env.OMNI_TRUST_PROXY; else process.env.OMNI_TRUST_PROXY = prevTrust;
+    delete process.env.OMNI_API_TOKEN;
+  }
+});
+
+test("API Guard: every mutating API route is guarded", () => {
+  const fs = require("node:fs");
+  const path = require("node:path");
+  const root = path.join(__dirname, "..", "src", "app");
+  const files = [];
+  (function walk(dir) {
+    for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+      const full = path.join(dir, e.name);
+      if (e.isDirectory()) walk(full);
+      else if (e.name === "route.ts") files.push(full);
+    }
+  })(root);
+  const mutating = files.filter((f) => /export async function (POST|PUT|PATCH|DELETE)/.test(fs.readFileSync(f, "utf8")));
+  assert.ok(mutating.length >= 9, `expected mutating routes, found ${mutating.length}`);
+  const unguarded = [];
+  for (const f of mutating) {
+    const body = fs.readFileSync(f, "utf8");
+    if (!/(authorizeMutation|authorizeWebhook|guard\()/.test(body)) unguarded.push(path.relative(root, f));
+  }
+  assert.deepStrictEqual(unguarded, [], `unguarded mutating routes: ${unguarded.join(", ")}`);
 });
 
 test("API Guard: OMNI_API_TOKEN enforces bearer auth (timing-safe) for everyone", () => {
@@ -3563,11 +3722,17 @@ test("API Guard: webhook requires constant-time secret match; unauthed external 
   assert.ok(badSecret && badSecret.body.code === "WEBHOOK_SECRET_INVALID");
   const missing = apiGuard.authorizeWebhook(fakeReq({ "x-forwarded-for": "203.0.113.9" }), undefined, "webhook-secret-1");
   assert.ok(missing && missing.body.code === "WEBHOOK_SECRET_REQUIRED");
-  // No configured secret: loopback OK (local dev), external rejected
-  assert.strictEqual(apiGuard.authorizeWebhook(fakeReq({ "x-forwarded-for": "127.0.0.1" }), undefined, undefined), null);
+  // No configured secret: a DIRECT local connection is OK (local dev), a spoofed forwarding header is not.
+  assert.strictEqual(apiGuard.authorizeWebhook(fakeReq({}), undefined, undefined), null);
+  const spoofed = apiGuard.authorizeWebhook(fakeReq({ "x-forwarded-for": "127.0.0.1" }), undefined, undefined);
+  assert.ok(spoofed && spoofed.body.code === "WEBHOOK_UNAUTHENTICATED", "spoofed XFF must not authenticate the webhook");
   const ext = apiGuard.authorizeWebhook(fakeReq({ "x-forwarded-for": "203.0.113.9" }), undefined, undefined);
   assert.ok(ext && ext.body.code === "WEBHOOK_UNAUTHENTICATED", "external unauthed webhook must be rejected");
 });
+
+/* restore the environment the rest of the suite expects */
+if (__prevLocalTrust === undefined) delete process.env.OMNI_LOCAL_TRUST; else process.env.OMNI_LOCAL_TRUST = __prevLocalTrust;
+if (__prevToken === undefined) delete process.env.OMNI_API_TOKEN; else process.env.OMNI_API_TOKEN = __prevToken;
 
 /* -------------------------------------------------------------------------- */
 /* 20. BACKTEST CONTROLS, WALK-FORWARD & SYNTHETIC FIXTURES (PHASE 2 BT-003)  */

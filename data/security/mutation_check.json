@@ -1,0 +1,43 @@
+{
+  "generatedAt": "2026-11-18T04:24:58.857Z",
+  "command": "node scripts/mutation_check.js",
+  "note": "Each mutant reintroduces one known vulnerability; the adversarial probe must detect it.",
+  "mutants": [
+    {
+      "id": "SEC-010",
+      "description": "empty X-Forwarded-For treated as an absent header",
+      "detected": true,
+      "failedCases": 1
+    },
+    {
+      "id": "SEC-007",
+      "description": "first (client-supplied) proxy hop trusted as locality",
+      "detected": true,
+      "failedCases": 7
+    },
+    {
+      "id": "SEC-008",
+      "description": "forged same-origin header accepted as authorisation",
+      "detected": true,
+      "failedCases": 4
+    },
+    {
+      "id": "SEC-011",
+      "description": "local trust inferred without the operator assertion",
+      "detected": true,
+      "failedCases": 12
+    },
+    {
+      "id": "SEC-012",
+      "description": "short token silently ignored instead of failing closed",
+      "detected": true,
+      "failedCases": 4
+    }
+  ],
+  "production": {
+    "exitCode": 0,
+    "passed": 91,
+    "failed": 0
+  },
+  "verdict": "ALL_MUTANTS_DETECTED"
+}

@@ -170,6 +170,41 @@ export function sizePosition(args: {
 }): Sizing {
   const { inst, side, entry, atr, conf, cfg, freeCapital } = args;
 
+  /* PAPER-ONLY hardening: fail closed to qty=0 on any non-finite / non-positive input.
+   * Previously NaN atr/entry/tick propagated to qty=NaN (NaN<=0 is false, so the
+   * zero-qty guard was bypassed). Callers treat qty<=0 as "no trade". */
+  const tick = Number(inst?.tick);
+  const lot = Number(inst?.lotSize);
+  const cap = Number(cfg?.capital);
+  if (
+    !inst ||
+    !Number.isFinite(entry) || entry <= 0 ||
+    !Number.isFinite(atr) || atr <= 0 ||
+    !Number.isFinite(tick) || tick <= 0 ||
+    !Number.isFinite(lot) || lot <= 0 ||
+    !Number.isFinite(cap) || cap <= 0
+  ) {
+    const maxRiskAmount = Number.isFinite(cap) && cap > 0 ? Math.max(1, round(cap * 0.01, 2)) : 1;
+    const maxExposureCap = Number.isFinite(cap) && cap > 0 ? round(cap * 0.2, 2) : 0;
+    return {
+      qty: 0,
+      capitalCap: 0,
+      riskCap: 0,
+      limitedBy: "CAPITAL",
+      slDistance: 0,
+      slPrice: 0,
+      targetPrice: 0,
+      targetDistance: 0,
+      rewardRiskRatio: 0,
+      riskAtStop: 0,
+      maxRiskAmount,
+      maxExposureCap,
+      expectedGross: 0,
+      expectedCharges: 0,
+      expectedNetYield: 0,
+    };
+  }
+
   // 1% Risk Rule: Max Risk Amount = Allocated Capital * 0.01 (or user-defined riskPct)
   const riskPercent = cfg.riskPct && cfg.riskPct > 0 ? cfg.riskPct : 1;
   const maxRiskAmount = Math.max(1, round(cfg.capital * (riskPercent / 100), 2));

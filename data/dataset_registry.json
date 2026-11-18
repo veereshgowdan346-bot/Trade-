@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-11-17T17:36:28.777Z",
+  "generatedAt": "2026-11-18T04:22:06.123Z",
   "policy": {
     "realDataAvailable": false,
     "note": "No REAL market data is available in this environment. Every dataset below is SYNTHETIC, INCOMPLETE or UNVERIFIED. Synthetic data must never be presented as real market data and cannot support profitability claims.",

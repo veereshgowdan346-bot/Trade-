@@ -97,10 +97,89 @@ check("SAFE-08", "mutating request from outside is rejected when no token is con
   return `status ${denial.status}`;
 });
 
-check("SAFE-09", "mutating request is allowed from loopback", () => {
-  const denial = authorizeMutation(req({ "x-forwarded-for": "127.0.0.1", host: "localhost:3000" }));
-  assert(denial === null, `loopback was rejected: ${JSON.stringify(denial)}`);
-  return "loopback allowed";
+check("SAFE-09", "mutating request is allowed from a direct connection only when local trust is asserted", () => {
+  const prevLocal = process.env.OMNI_LOCAL_TRUST;
+  try {
+    delete process.env.OMNI_API_TOKEN;
+    // SEC-011: the guard cannot see the peer socket, so absence of a forwarding header is not evidence
+    // of locality. Without an explicit assertion the request must fail closed.
+    delete process.env.OMNI_LOCAL_TRUST;
+    const unasserted = authorizeMutation(req({ host: "localhost:3000" }));
+    assert(unasserted && unasserted.body.code === "AUTH_NOT_CONFIGURED", "unasserted local trust was accepted");
+    process.env.OMNI_LOCAL_TRUST = "true";
+    const denial = authorizeMutation(req({ host: "localhost:3000" }));
+    assert(denial === null, `asserted local connection was rejected: ${JSON.stringify(denial)}`);
+  } finally {
+    if (prevLocal === undefined) delete process.env.OMNI_LOCAL_TRUST; else process.env.OMNI_LOCAL_TRUST = prevLocal;
+    delete process.env.OMNI_API_TOKEN;
+  }
+  return "fail-closed without assertion; allowed with OMNI_LOCAL_TRUST=true";
+});
+
+check("SAFE-17", "an empty forwarding header cannot pass as a direct local connection", () => {
+  const prevToken = process.env.OMNI_API_TOKEN;
+  const prevTrust = process.env.OMNI_TRUST_PROXY;
+  try {
+    delete process.env.OMNI_API_TOKEN;
+    delete process.env.OMNI_TRUST_PROXY;
+    process.env.OMNI_LOCAL_TRUST = "true";
+    for (const v of ["", " ", ",,,"]) {
+      const res = authorizeMutation(req({ "x-forwarded-for": v }));
+      assert(res && res.status === 401, `empty forwarding header treated as local: ${JSON.stringify(v)}`);
+    }
+    const direct = authorizeMutation(req({}));
+    assert(direct === null, "a genuinely direct connection must still be allowed once local trust is asserted");
+  } finally {
+    if (prevToken === undefined) delete process.env.OMNI_API_TOKEN; else process.env.OMNI_API_TOKEN = prevToken;
+    if (prevTrust === undefined) delete process.env.OMNI_TRUST_PROXY; else process.env.OMNI_TRUST_PROXY = prevTrust;
+  }
+  return "empty/whitespace forwarding headers are denied; direct connections still allowed";
+});
+
+check("SAFE-16", "remote mutations fail closed without a token (same-origin is not authentication)", () => {
+  const prevToken = process.env.OMNI_API_TOKEN;
+  const prevTrust = process.env.OMNI_TRUST_PROXY;
+  try {
+    delete process.env.OMNI_API_TOKEN;
+    delete process.env.OMNI_TRUST_PROXY;
+    const remote = req({ "x-forwarded-for": "203.0.113.9", host: "app.example.com", origin: "https://app.example.com" });
+    const res = authorizeMutation(remote);
+    assert(res && res.status === 401, "a forgeable same-origin header authorised a remote mutation");
+    assert(res.body.code === "AUTH_REQUIRED_FOR_REMOTE", `unexpected code: ${res.body.code}`);
+    // Generated at run time: a literal token here would be the exact defect class this audit polices.
+    const probeToken = require("node:crypto").randomBytes(16).toString("hex");
+    process.env.OMNI_API_TOKEN = probeToken;
+    const withToken = req({
+      "x-forwarded-for": "203.0.113.9", host: "app.example.com", origin: "https://app.example.com",
+      authorization: `Bearer ${probeToken}`,
+    });
+    assert(authorizeMutation(withToken) === null, "a valid token must still admit a remote mutation");
+  } finally {
+    if (prevToken === undefined) delete process.env.OMNI_API_TOKEN; else process.env.OMNI_API_TOKEN = prevToken;
+    if (prevTrust === undefined) delete process.env.OMNI_TRUST_PROXY; else process.env.OMNI_TRUST_PROXY = prevTrust;
+  }
+  return "remote mutations require a token; same-origin alone is rejected";
+});
+
+check("SAFE-15", "client-supplied X-Forwarded-For is not treated as proof of locality", () => {
+  const prev = process.env.OMNI_TRUST_PROXY;
+  delete process.env.OMNI_API_TOKEN;
+  try {
+    delete process.env.OMNI_TRUST_PROXY;
+    const spoof = authorizeMutation(req({ "x-forwarded-for": "127.0.0.1" }));
+    assert(spoof && spoof.status === 401, "spoofed X-Forwarded-For granted local trust");
+
+    process.env.OMNI_TRUST_PROXY = "true";
+    process.env.OMNI_LOCAL_TRUST = "true";
+    const prepended = authorizeMutation(req({ "x-forwarded-for": "127.0.0.1, 203.0.113.9" }));
+    assert(prepended && prepended.status === 401, "client-prepended loopback entry was trusted behind a proxy");
+    const nearest = authorizeMutation(req({ "x-forwarded-for": "203.0.113.9, 127.0.0.1" }));
+    assert(nearest === null, "trusted proxy with a private nearest hop was rejected");
+  } finally {
+    if (prev === undefined) delete process.env.OMNI_TRUST_PROXY; else process.env.OMNI_TRUST_PROXY = prev;
+    delete process.env.OMNI_API_TOKEN;
+  }
+  return "spoofed header rejected; nearest-hop-only under OMNI_TRUST_PROXY";
 });
 
 check("SAFE-10", "configured token is required and compared exactly", () => {
@@ -187,6 +266,28 @@ check("SAFE-13", "vault uses a per-install random key, not a published constant"
   assert(!/VAULT_KEY"\s*\)\s*or\s+["']/.test(src), "constant fallback after VAULT_KEY lookup still present");
   assert(/token_hex|urandom/.test(src), "no random key generation found");
   return "64-hex per-install key, 0600, stable, no constant fallback";
+});
+
+check("SAFE-18", "no user-facing text claims a credential fallback key exists", () => {
+  // SEC-013: the vault banner used to say credentials were "encrypted with a development fallback key".
+  // Since SEC-003 there is no fallback key and the vault refuses to encrypt, so that text was false and
+  // understated the risk (it implied encryption was happening when the vault was disabled).
+  const fs = require("node:fs");
+  const path = require("node:path");
+  const root = path.join(__dirname, "..", "src");
+  const offenders = [];
+  const walk = (dir) => {
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      const full = path.join(dir, entry.name);
+      if (entry.isDirectory()) { walk(full); continue; }
+      if (!/\.(ts|tsx)$/.test(entry.name)) continue;
+      const text = fs.readFileSync(full, "utf8");
+      if (/encrypted with a development fallback key/i.test(text)) offenders.push(path.relative(root, full));
+    }
+  };
+  walk(root);
+  assert(offenders.length === 0, `misleading fallback-key text remains in: ${offenders.join(", ")}`);
+  return "no stale fallback-key claims";
 });
 
 check("SAFE-14", "credential vault fails closed without VAULT_KEY (no published fallback)", () => {
