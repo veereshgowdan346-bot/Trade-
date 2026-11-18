@@ -1,5 +1,8 @@
 /**
- * PAPER-ONLY Honest Chronological Walk-Forward — ₹3,000, Locked Parameters
+ * ARCHIVED / INVALIDATED: NOT an honest OOS evaluation. Post-hoc circuit breaker,
+ * intraday charges on overnight positions and separate sleeves invalidate the P&L.
+ * Historical script retained for record-keeping; do not use for research conclusions.
+ * PAPER-ONLY Chronological Walk-Forward — ₹3,000, Locked Parameters
  *
  * RESEARCH / PAPER SIMULATION ONLY. No broker access, no live orders, no network.
  * Synthetic low-priced equities (₹50–₹150), 60 sessions per stock, split chronologically:
@@ -18,6 +21,8 @@
  * Usage: node scripts/paper_walkforward_3000.js
  */
 "use strict";
+
+throw new Error("Archived invalid experiment: execution disabled; do not use its P&L as evidence.");
 
 const fs = require("fs");
 const path = require("path");

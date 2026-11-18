@@ -1,4 +1,5 @@
 {
+  "ARCHIVAL_WARNING": "INVALIDATED: synthetic data; independent capital sleeves; post-hoc circuit breaker; delivery positions costed as intraday; not valid OOS evidence or a real-market P&L.",
   "generatedAt": "2026-11-18T07:35:27.690Z",
   "mode": "PAPER_ONLY_OFFLINE_SIMULATION",
   "disclaimer": "SIMULATED results only on SYNTHETIC data (no real equity OHLCV in repo; no external fetch). Locked parameters, no OOS tuning. Not live trading, not a forecast, not a profit promise. Statutory rates UNVERIFIED.",
@@ -23,7 +24,7 @@
       "params": {
         "name": "SYNTH_A_TREND_75",
         "startPx": 75,
-        "drift": 0.00005,
+        "drift": 5e-05,
         "vol": 0.001,
         "seed": 42
       },
@@ -2201,7 +2202,7 @@
         ]
       }
     ],
-    "profitabilityClaim": "NONE — this study does not establish profitability",
+    "profitabilityClaim": "NONE \u2014 this study does not establish profitability",
     "productionChanged": false
   }
 }
