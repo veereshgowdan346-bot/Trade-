@@ -1,0 +1,2207 @@
+{
+  "generatedAt": "2026-11-18T07:35:27.690Z",
+  "mode": "PAPER_ONLY_OFFLINE_SIMULATION",
+  "disclaimer": "SIMULATED results only on SYNTHETIC data (no real equity OHLCV in repo; no external fetch). Locked parameters, no OOS tuning. Not live trading, not a forecast, not a profit promise. Statutory rates UNVERIFIED.",
+  "protocol": {
+    "version": "1.0.0",
+    "predefined": true,
+    "lockedParams": {
+      "sleeve": 3000,
+      "sessionMode": "CARRY_OVERNIGHT",
+      "zeroBrokerage": true,
+      "minConfidence": 70,
+      "costAwareMinMarginMultiple": 3,
+      "regimeFilterAdxMin": 25
+    },
+    "splits": "chronological 20/20/20 sessions; no overlap, no shuffling, no OOS-informed selection",
+    "decisionRule": "OOS_SUPPORTED requires net>0 in validation AND OOS, >=100 trades in each, and bootstrap 95% CI lower bound >0",
+    "promotionPolicy": "no outcome promotes a strategy; production execution stays disabled"
+  },
+  "results": [
+    {
+      "stock": "SYNTH_A_TREND_75",
+      "params": {
+        "name": "SYNTH_A_TREND_75",
+        "startPx": 75,
+        "drift": 0.00005,
+        "vol": 0.001,
+        "seed": 42
+      },
+      "bars": {
+        "total": 1500,
+        "train": 500,
+        "val": 500,
+        "oos": 500
+      },
+      "strategies": [
+        {
+          "id": "x_macd_momentum",
+          "name": "MACD Momentum (12,26,9)",
+          "periods": {
+            "TRAIN": {
+              "label": "x_macd_momentum/TRAIN",
+              "trades": 34,
+              "sessions": 16,
+              "gross": -45,
+              "charges": 196.74,
+              "net": -241.74,
+              "winRatePct": 20.59,
+              "profitFactor": 0.34,
+              "expectancy": -7.11,
+              "avgNet": -7.11,
+              "maxDrawdown": 241.74,
+              "ci95": {
+                "low": -11.6735,
+                "high": -2.1179,
+                "iters": 10000,
+                "resamples": 34
+              },
+              "tStat": -2.83,
+              "rawTrades": 34,
+              "blockedByCircuit": 0
+            },
+            "VALIDATION": {
+              "label": "x_macd_momentum/VALIDATION",
+              "trades": 19,
+              "sessions": 11,
+              "gross": 60.35,
+              "charges": 109.42,
+              "net": -49.07,
+              "winRatePct": 42.11,
+              "profitFactor": 0.677,
+              "expectancy": -2.58,
+              "avgNet": -2.58,
+              "maxDrawdown": 49.07,
+              "ci95": {
+                "low": -8.9575,
+                "high": 4.1136,
+                "iters": 10000,
+                "resamples": 19
+              },
+              "tStat": -0.75,
+              "rawTrades": 19,
+              "blockedByCircuit": 0
+            },
+            "OOS": {
+              "label": "x_macd_momentum/OOS",
+              "trades": 17,
+              "sessions": 7,
+              "gross": -34.4,
+              "charges": 99.43,
+              "net": -133.83,
+              "winRatePct": 0,
+              "profitFactor": 0,
+              "expectancy": -7.87,
+              "avgNet": -7.87,
+              "maxDrawdown": 133.83,
+              "ci95": {
+                "low": -9.5188,
+                "high": -6.1441,
+                "iters": 10000,
+                "resamples": 17
+              },
+              "tStat": -8.68,
+              "rawTrades": 17,
+              "blockedByCircuit": 0
+            }
+          },
+          "decision": {
+            "positiveInValidation": false,
+            "positiveInOos": false,
+            "minTradesMet": false,
+            "ciExcludesZero": true,
+            "ciLowerBoundPositive": false
+          },
+          "verdict": "NOT_SUPPORTED"
+        },
+        {
+          "id": "x_ichimoku_cloud",
+          "name": "Ichimoku Cloud (9,26,52)",
+          "periods": {
+            "TRAIN": {
+              "label": "x_ichimoku_cloud/TRAIN",
+              "trades": 50,
+              "sessions": 18,
+              "gross": 855.61,
+              "charges": 289.4,
+              "net": 566.21,
+              "winRatePct": 84,
+              "profitFactor": 13.497,
+              "expectancy": 11.32,
+              "avgNet": 11.32,
+              "maxDrawdown": 1.04,
+              "ci95": {
+                "low": 8.5975,
+                "high": 13.8461,
+                "iters": 10000,
+                "resamples": 50
+              },
+              "tStat": 8.44,
+              "rawTrades": 50,
+              "blockedByCircuit": 0
+            },
+            "VALIDATION": {
+              "label": "x_ichimoku_cloud/VALIDATION",
+              "trades": 35,
+              "sessions": 15,
+              "gross": 590.73,
+              "charges": 201.6,
+              "net": 389.13,
+              "winRatePct": 77.14,
+              "profitFactor": 15.585,
+              "expectancy": 11.12,
+              "avgNet": 11.12,
+              "maxDrawdown": 7.95,
+              "ci95": {
+                "low": 8.0951,
+                "high": 13.9239,
+                "iters": 10000,
+                "resamples": 35
+              },
+              "tStat": 7.3,
+              "rawTrades": 35,
+              "blockedByCircuit": 0
+            },
+            "OOS": {
+              "label": "x_ichimoku_cloud/OOS",
+              "trades": 8,
+              "sessions": 7,
+              "gross": -28.01,
+              "charges": 46.76,
+              "net": -74.77,
+              "winRatePct": 0,
+              "profitFactor": 0,
+              "expectancy": -9.35,
+              "avgNet": -9.35,
+              "maxDrawdown": 74.77,
+              "ci95": {
+                "low": null,
+                "high": null,
+                "note": "fewer than 10 observations"
+              },
+              "tStat": -4.63,
+              "rawTrades": 8,
+              "blockedByCircuit": 0
+            }
+          },
+          "decision": {
+            "positiveInValidation": true,
+            "positiveInOos": false,
+            "minTradesMet": false,
+            "ciExcludesZero": false,
+            "ciLowerBoundPositive": false
+          },
+          "verdict": "NOT_SUPPORTED"
+        },
+        {
+          "id": "x_keltner_channel",
+          "name": "Keltner Channel (20, 1.5 ATR)",
+          "periods": {
+            "TRAIN": {
+              "label": "x_keltner_channel/TRAIN",
+              "trades": 50,
+              "sessions": 18,
+              "gross": 850.49,
+              "charges": 289.31,
+              "net": 561.18,
+              "winRatePct": 82,
+              "profitFactor": 12.913,
+              "expectancy": 11.22,
+              "avgNet": 11.22,
+              "maxDrawdown": 1.04,
+              "ci95": {
+                "low": 8.4941,
+                "high": 13.7917,
+                "iters": 10000,
+                "resamples": 50
+              },
+              "tStat": 8.28,
+              "rawTrades": 50,
+              "blockedByCircuit": 0
+            },
+            "VALIDATION": {
+              "label": "x_keltner_channel/VALIDATION",
+              "trades": 35,
+              "sessions": 15,
+              "gross": 582.73,
+              "charges": 201.59,
+              "net": 381.14,
+              "winRatePct": 77.14,
+              "profitFactor": 11.993,
+              "expectancy": 10.89,
+              "avgNet": 10.89,
+              "maxDrawdown": 15.94,
+              "ci95": {
+                "low": 7.6834,
+                "high": 13.8418,
+                "iters": 10000,
+                "resamples": 35
+              },
+              "tStat": 6.78,
+              "rawTrades": 35,
+              "blockedByCircuit": 0
+            },
+            "OOS": {
+              "label": "x_keltner_channel/OOS",
+              "trades": 2,
+              "sessions": 2,
+              "gross": -1.2,
+              "charges": 11.7,
+              "net": -12.9,
+              "winRatePct": 0,
+              "profitFactor": 0,
+              "expectancy": -6.45,
+              "avgNet": -6.45,
+              "maxDrawdown": 12.9,
+              "ci95": {
+                "low": null,
+                "high": null,
+                "note": "fewer than 10 observations"
+              },
+              "tStat": -10.93,
+              "rawTrades": 2,
+              "blockedByCircuit": 0
+            }
+          },
+          "decision": {
+            "positiveInValidation": true,
+            "positiveInOos": false,
+            "minTradesMet": false,
+            "ciExcludesZero": false,
+            "ciLowerBoundPositive": false
+          },
+          "verdict": "NOT_SUPPORTED"
+        },
+        {
+          "id": "x_choppiness_index",
+          "name": "Choppiness Index Filter",
+          "periods": {
+            "TRAIN": {
+              "label": "x_choppiness_index/TRAIN",
+              "trades": 33,
+              "sessions": 17,
+              "gross": 543,
+              "charges": 191.03,
+              "net": 351.97,
+              "winRatePct": 84.85,
+              "profitFactor": 8.573,
+              "expectancy": 10.67,
+              "avgNet": 10.67,
+              "maxDrawdown": 3.91,
+              "ci95": {
+                "low": 6.9437,
+                "high": 14.0314,
+                "iters": 10000,
+                "resamples": 33
+              },
+              "tStat": 5.8,
+              "rawTrades": 33,
+              "blockedByCircuit": 0
+            },
+            "VALIDATION": {
+              "label": "x_choppiness_index/VALIDATION",
+              "trades": 30,
+              "sessions": 13,
+              "gross": 507.52,
+              "charges": 172.77,
+              "net": 334.75,
+              "winRatePct": 80,
+              "profitFactor": 15.13,
+              "expectancy": 11.16,
+              "avgNet": 11.16,
+              "maxDrawdown": 1.04,
+              "ci95": {
+                "low": 7.784,
+                "high": 14.3279,
+                "iters": 10000,
+                "resamples": 30
+              },
+              "tStat": 6.63,
+              "rawTrades": 30,
+              "blockedByCircuit": 0
+            },
+            "OOS": {
+              "label": "x_choppiness_index/OOS",
+              "trades": 0,
+              "sessions": 0,
+              "gross": 0,
+              "charges": 0,
+              "net": 0,
+              "winRatePct": 0,
+              "profitFactor": null,
+              "expectancy": null,
+              "maxDrawdown": 0,
+              "avgNet": null,
+              "ci95": null,
+              "tStat": null,
+              "note": "no trades",
+              "rawTrades": 0,
+              "blockedByCircuit": 0
+            }
+          },
+          "decision": {
+            "positiveInValidation": true,
+            "positiveInOos": false,
+            "minTradesMet": false,
+            "ciExcludesZero": null,
+            "ciLowerBoundPositive": false
+          },
+          "verdict": "NOT_SUPPORTED"
+        },
+        {
+          "id": "x_parabolic_sar",
+          "name": "Parabolic SAR",
+          "periods": {
+            "TRAIN": {
+              "label": "x_parabolic_sar/TRAIN",
+              "trades": 73,
+              "sessions": 18,
+              "gross": 628.37,
+              "charges": 422.29,
+              "net": 206.08,
+              "winRatePct": 52.05,
+              "profitFactor": 1.638,
+              "expectancy": 2.82,
+              "avgNet": 2.82,
+              "maxDrawdown": 40.76,
+              "ci95": {
+                "low": -0.1259,
+                "high": 5.8685,
+                "iters": 10000,
+                "resamples": 73
+              },
+              "tStat": 1.85,
+              "rawTrades": 73,
+              "blockedByCircuit": 0
+            },
+            "VALIDATION": {
+              "label": "x_parabolic_sar/VALIDATION",
+              "trades": 56,
+              "sessions": 16,
+              "gross": 497.92,
+              "charges": 322.55,
+              "net": 175.37,
+              "winRatePct": 55.36,
+              "profitFactor": 1.858,
+              "expectancy": 3.13,
+              "avgNet": 3.13,
+              "maxDrawdown": 90.56,
+              "ci95": {
+                "low": -0.0013,
+                "high": 6.2078,
+                "iters": 10000,
+                "resamples": 56
+              },
+              "tStat": 1.98,
+              "rawTrades": 56,
+              "blockedByCircuit": 0
+            },
+            "OOS": {
+              "label": "x_parabolic_sar/OOS",
+              "trades": 25,
+              "sessions": 14,
+              "gross": -35.76,
+              "charges": 146.18,
+              "net": -181.94,
+              "winRatePct": 4,
+              "profitFactor": 0.018,
+              "expectancy": -7.28,
+              "avgNet": -7.28,
+              "maxDrawdown": 181.94,
+              "ci95": {
+                "low": -9.3323,
+                "high": -5.3768,
+                "iters": 10000,
+                "resamples": 25
+              },
+              "tStat": -6.99,
+              "rawTrades": 25,
+              "blockedByCircuit": 0
+            }
+          },
+          "decision": {
+            "positiveInValidation": true,
+            "positiveInOos": false,
+            "minTradesMet": false,
+            "ciExcludesZero": true,
+            "ciLowerBoundPositive": false
+          },
+          "verdict": "NOT_SUPPORTED"
+        },
+        {
+          "id": "x_fibonacci_retracement",
+          "name": "Fibonacci Retracement Pullback",
+          "periods": {
+            "TRAIN": {
+              "label": "x_fibonacci_retracement/TRAIN",
+              "trades": 0,
+              "sessions": 0,
+              "gross": 0,
+              "charges": 0,
+              "net": 0,
+              "winRatePct": 0,
+              "profitFactor": null,
+              "expectancy": null,
+              "maxDrawdown": 0,
+              "avgNet": null,
+              "ci95": null,
+              "tStat": null,
+              "note": "no trades",
+              "rawTrades": 0,
+              "blockedByCircuit": 0
+            },
+            "VALIDATION": {
+              "label": "x_fibonacci_retracement/VALIDATION",
+              "trades": 5,
+              "sessions": 2,
+              "gross": -18.86,
+              "charges": 29.24,
+              "net": -48.1,
+              "winRatePct": 0,
+              "profitFactor": 0,
+              "expectancy": -9.62,
+              "avgNet": -9.62,
+              "maxDrawdown": 48.1,
+              "ci95": {
+                "low": null,
+                "high": null,
+                "note": "fewer than 10 observations"
+              },
+              "tStat": -3.32,
+              "rawTrades": 5,
+              "blockedByCircuit": 0
+            },
+            "OOS": {
+              "label": "x_fibonacci_retracement/OOS",
+              "trades": 27,
+              "sessions": 13,
+              "gross": -10.7,
+              "charges": 157.81,
+              "net": -168.51,
+              "winRatePct": 14.81,
+              "profitFactor": 0.038,
+              "expectancy": -6.24,
+              "avgNet": -6.24,
+              "maxDrawdown": 168.51,
+              "ci95": {
+                "low": -8.3188,
+                "high": -4.2759,
+                "iters": 10000,
+                "resamples": 27
+              },
+              "tStat": -5.89,
+              "rawTrades": 27,
+              "blockedByCircuit": 0
+            }
+          },
+          "decision": {
+            "positiveInValidation": false,
+            "positiveInOos": false,
+            "minTradesMet": false,
+            "ciExcludesZero": true,
+            "ciLowerBoundPositive": false
+          },
+          "verdict": "NOT_SUPPORTED"
+        },
+        {
+          "id": "x_donchian_trend_50",
+          "name": "Donchian Trend (50)",
+          "periods": {
+            "TRAIN": {
+              "label": "x_donchian_trend_50/TRAIN",
+              "trades": 42,
+              "sessions": 17,
+              "gross": 657.23,
+              "charges": 242.6,
+              "net": 414.63,
+              "winRatePct": 78.57,
+              "profitFactor": 7.605,
+              "expectancy": 9.87,
+              "avgNet": 9.87,
+              "maxDrawdown": 5.58,
+              "ci95": {
+                "low": 6.5933,
+                "high": 12.8898,
+                "iters": 10000,
+                "resamples": 42
+              },
+              "tStat": 6.06,
+              "rawTrades": 42,
+              "blockedByCircuit": 0
+            },
+            "VALIDATION": {
+              "label": "x_donchian_trend_50/VALIDATION",
+              "trades": 31,
+              "sessions": 14,
+              "gross": 564.65,
+              "charges": 178.37,
+              "net": 386.28,
+              "winRatePct": 90.32,
+              "profitFactor": 28.415,
+              "expectancy": 12.46,
+              "avgNet": 12.46,
+              "maxDrawdown": 13.49,
+              "ci95": {
+                "low": 9.5546,
+                "high": 15.0657,
+                "iters": 10000,
+                "resamples": 31
+              },
+              "tStat": 8.65,
+              "rawTrades": 31,
+              "blockedByCircuit": 0
+            },
+            "OOS": {
+              "label": "x_donchian_trend_50/OOS",
+              "trades": 0,
+              "sessions": 0,
+              "gross": 0,
+              "charges": 0,
+              "net": 0,
+              "winRatePct": 0,
+              "profitFactor": null,
+              "expectancy": null,
+              "maxDrawdown": 0,
+              "avgNet": null,
+              "ci95": null,
+              "tStat": null,
+              "note": "no trades",
+              "rawTrades": 0,
+              "blockedByCircuit": 0
+            }
+          },
+          "decision": {
+            "positiveInValidation": true,
+            "positiveInOos": false,
+            "minTradesMet": false,
+            "ciExcludesZero": null,
+            "ciLowerBoundPositive": false
+          },
+          "verdict": "NOT_SUPPORTED"
+        },
+        {
+          "id": "x_mtf_trend_confirmation",
+          "name": "Multi-Timeframe Trend Confirmation",
+          "periods": {
+            "TRAIN": {
+              "label": "x_mtf_trend_confirmation/TRAIN",
+              "trades": 44,
+              "sessions": 16,
+              "gross": 756.56,
+              "charges": 254.62,
+              "net": 501.94,
+              "winRatePct": 86.36,
+              "profitFactor": 13.944,
+              "expectancy": 11.41,
+              "avgNet": 11.41,
+              "maxDrawdown": 1.04,
+              "ci95": {
+                "low": 8.5145,
+                "high": 14.046,
+                "iters": 10000,
+                "resamples": 44
+              },
+              "tStat": 8.04,
+              "rawTrades": 44,
+              "blockedByCircuit": 0
+            },
+            "VALIDATION": {
+              "label": "x_mtf_trend_confirmation/VALIDATION",
+              "trades": 32,
+              "sessions": 13,
+              "gross": 550.75,
+              "charges": 184.31,
+              "net": 366.44,
+              "winRatePct": 81.25,
+              "profitFactor": 17.949,
+              "expectancy": 11.45,
+              "avgNet": 11.45,
+              "maxDrawdown": 3.49,
+              "ci95": {
+                "low": 8.3392,
+                "high": 14.3063,
+                "iters": 10000,
+                "resamples": 32
+              },
+              "tStat": 7.3,
+              "rawTrades": 32,
+              "blockedByCircuit": 0
+            },
+            "OOS": {
+              "label": "x_mtf_trend_confirmation/OOS",
+              "trades": 34,
+              "sessions": 11,
+              "gross": -51.78,
+              "charges": 198.86,
+              "net": -250.64,
+              "winRatePct": 5.88,
+              "profitFactor": 0.01,
+              "expectancy": -7.37,
+              "avgNet": -7.37,
+              "maxDrawdown": 250.64,
+              "ci95": {
+                "low": -8.816,
+                "high": -5.9531,
+                "iters": 10000,
+                "resamples": 34
+              },
+              "tStat": -9.74,
+              "rawTrades": 34,
+              "blockedByCircuit": 0
+            }
+          },
+          "decision": {
+            "positiveInValidation": true,
+            "positiveInOos": false,
+            "minTradesMet": false,
+            "ciExcludesZero": true,
+            "ciLowerBoundPositive": false
+          },
+          "verdict": "NOT_SUPPORTED"
+        }
+      ],
+      "portfolio": {
+        "TRAIN": {
+          "strategies": 8,
+          "totalNet": 2360.27,
+          "meanStrategyNet": 295.03,
+          "positiveStrategies": 6,
+          "negativeStrategies": 1,
+          "gross": 4246.26,
+          "charges": 1885.99,
+          "trades": 326
+        },
+        "VALIDATION": {
+          "strategies": 8,
+          "totalNet": 1935.94,
+          "meanStrategyNet": 241.99,
+          "positiveStrategies": 6,
+          "negativeStrategies": 2,
+          "gross": 3335.79,
+          "charges": 1399.85,
+          "trades": 243
+        },
+        "OOS": {
+          "strategies": 8,
+          "totalNet": -822.59,
+          "meanStrategyNet": -102.82,
+          "positiveStrategies": 0,
+          "negativeStrategies": 6,
+          "gross": -161.85,
+          "charges": 660.74,
+          "trades": 113
+        }
+      }
+    },
+    {
+      "stock": "SYNTH_B_CHOPPY_100",
+      "params": {
+        "name": "SYNTH_B_CHOPPY_100",
+        "startPx": 100,
+        "drift": 0,
+        "vol": 0.0015,
+        "seed": 123
+      },
+      "bars": {
+        "total": 1500,
+        "train": 500,
+        "val": 500,
+        "oos": 500
+      },
+      "strategies": [
+        {
+          "id": "x_macd_momentum",
+          "name": "MACD Momentum (12,26,9)",
+          "periods": {
+            "TRAIN": {
+              "label": "x_macd_momentum/TRAIN",
+              "trades": 13,
+              "sessions": 9,
+              "gross": -21.97,
+              "charges": 74.74,
+              "net": -96.71,
+              "winRatePct": 23.08,
+              "profitFactor": 0.236,
+              "expectancy": -7.44,
+              "avgNet": -7.44,
+              "maxDrawdown": 103.03,
+              "ci95": {
+                "low": -14.5923,
+                "high": 0.0428,
+                "iters": 10000,
+                "resamples": 13
+              },
+              "tStat": -1.94,
+              "rawTrades": 13,
+              "blockedByCircuit": 0
+            },
+            "VALIDATION": {
+              "label": "x_macd_momentum/VALIDATION",
+              "trades": 13,
+              "sessions": 8,
+              "gross": 66.16,
+              "charges": 74.88,
+              "net": -8.72,
+              "winRatePct": 38.46,
+              "profitFactor": 0.851,
+              "expectancy": -0.67,
+              "avgNet": -0.67,
+              "maxDrawdown": 51.43,
+              "ci95": {
+                "low": -5.8654,
+                "high": 5.6189,
+                "iters": 10000,
+                "resamples": 13
+              },
+              "tStat": -0.22,
+              "rawTrades": 13,
+              "blockedByCircuit": 0
+            },
+            "OOS": {
+              "label": "x_macd_momentum/OOS",
+              "trades": 17,
+              "sessions": 11,
+              "gross": -32.56,
+              "charges": 98.15,
+              "net": -130.71,
+              "winRatePct": 29.41,
+              "profitFactor": 0.309,
+              "expectancy": -7.69,
+              "avgNet": -7.69,
+              "maxDrawdown": 154.8,
+              "ci95": {
+                "low": -14.708,
+                "high": -0.2182,
+                "iters": 10000,
+                "resamples": 17
+              },
+              "tStat": -2.02,
+              "rawTrades": 17,
+              "blockedByCircuit": 0
+            }
+          },
+          "decision": {
+            "positiveInValidation": false,
+            "positiveInOos": false,
+            "minTradesMet": false,
+            "ciExcludesZero": true,
+            "ciLowerBoundPositive": false
+          },
+          "verdict": "NOT_SUPPORTED"
+        },
+        {
+          "id": "x_ichimoku_cloud",
+          "name": "Ichimoku Cloud (9,26,52)",
+          "periods": {
+            "TRAIN": {
+              "label": "x_ichimoku_cloud/TRAIN",
+              "trades": 25,
+              "sessions": 15,
+              "gross": -44.6,
+              "charges": 144.36,
+              "net": -188.96,
+              "winRatePct": 28,
+              "profitFactor": 0.42,
+              "expectancy": -7.56,
+              "avgNet": -7.56,
+              "maxDrawdown": 188.96,
+              "ci95": {
+                "low": -14.8278,
+                "high": 0.0371,
+                "iters": 10000,
+                "resamples": 25
+              },
+              "tStat": -1.96,
+              "rawTrades": 25,
+              "blockedByCircuit": 0
+            },
+            "VALIDATION": {
+              "label": "x_ichimoku_cloud/VALIDATION",
+              "trades": 16,
+              "sessions": 8,
+              "gross": -49.74,
+              "charges": 92.3,
+              "net": -142.04,
+              "winRatePct": 31.25,
+              "profitFactor": 0.259,
+              "expectancy": -8.88,
+              "avgNet": -8.88,
+              "maxDrawdown": 142.04,
+              "ci95": {
+                "low": -16.5297,
+                "high": -0.6915,
+                "iters": 10000,
+                "resamples": 16
+              },
+              "tStat": -2.15,
+              "rawTrades": 16,
+              "blockedByCircuit": 0
+            },
+            "OOS": {
+              "label": "x_ichimoku_cloud/OOS",
+              "trades": 21,
+              "sessions": 13,
+              "gross": 82.81,
+              "charges": 121.35,
+              "net": -38.54,
+              "winRatePct": 42.86,
+              "profitFactor": 0.802,
+              "expectancy": -1.84,
+              "avgNet": -1.84,
+              "maxDrawdown": 66.39,
+              "ci95": {
+                "low": -9.7965,
+                "high": 6.4035,
+                "iters": 10000,
+                "resamples": 21
+              },
+              "tStat": -0.44,
+              "rawTrades": 21,
+              "blockedByCircuit": 0
+            }
+          },
+          "decision": {
+            "positiveInValidation": false,
+            "positiveInOos": false,
+            "minTradesMet": false,
+            "ciExcludesZero": false,
+            "ciLowerBoundPositive": false
+          },
+          "verdict": "NOT_SUPPORTED"
+        },
+        {
+          "id": "x_keltner_channel",
+          "name": "Keltner Channel (20, 1.5 ATR)",
+          "periods": {
+            "TRAIN": {
+              "label": "x_keltner_channel/TRAIN",
+              "trades": 16,
+              "sessions": 11,
+              "gross": 46.2,
+              "charges": 92.36,
+              "net": -46.16,
+              "winRatePct": 50,
+              "profitFactor": 0.727,
+              "expectancy": -2.89,
+              "avgNet": -2.89,
+              "maxDrawdown": 56.47,
+              "ci95": {
+                "low": -12.6139,
+                "high": 7.1725,
+                "iters": 10000,
+                "resamples": 16
+              },
+              "tStat": -0.56,
+              "rawTrades": 16,
+              "blockedByCircuit": 0
+            },
+            "VALIDATION": {
+              "label": "x_keltner_channel/VALIDATION",
+              "trades": 10,
+              "sessions": 7,
+              "gross": 9.7,
+              "charges": 57.69,
+              "net": -47.99,
+              "winRatePct": 40,
+              "profitFactor": 0.493,
+              "expectancy": -4.8,
+              "avgNet": -4.8,
+              "maxDrawdown": 63.24,
+              "ci95": {
+                "low": -15.2079,
+                "high": 5.8463,
+                "iters": 10000,
+                "resamples": 10
+              },
+              "tStat": -0.85,
+              "rawTrades": 10,
+              "blockedByCircuit": 0
+            },
+            "OOS": {
+              "label": "x_keltner_channel/OOS",
+              "trades": 17,
+              "sessions": 11,
+              "gross": 16.67,
+              "charges": 98.16,
+              "net": -81.49,
+              "winRatePct": 41.18,
+              "profitFactor": 0.523,
+              "expectancy": -4.79,
+              "avgNet": -4.79,
+              "maxDrawdown": 98.14,
+              "ci95": {
+                "low": -12.8859,
+                "high": 3.2247,
+                "iters": 10000,
+                "resamples": 17
+              },
+              "tStat": -1.12,
+              "rawTrades": 17,
+              "blockedByCircuit": 0
+            }
+          },
+          "decision": {
+            "positiveInValidation": false,
+            "positiveInOos": false,
+            "minTradesMet": false,
+            "ciExcludesZero": false,
+            "ciLowerBoundPositive": false
+          },
+          "verdict": "NOT_SUPPORTED"
+        },
+        {
+          "id": "x_choppiness_index",
+          "name": "Choppiness Index Filter",
+          "periods": {
+            "TRAIN": {
+              "label": "x_choppiness_index/TRAIN",
+              "trades": 10,
+              "sessions": 9,
+              "gross": 42.85,
+              "charges": 57.64,
+              "net": -14.79,
+              "winRatePct": 40,
+              "profitFactor": 0.841,
+              "expectancy": -1.48,
+              "avgNet": -1.48,
+              "maxDrawdown": 72.05,
+              "ci95": {
+                "low": -12.8055,
+                "high": 10.6765,
+                "iters": 10000,
+                "resamples": 10
+              },
+              "tStat": -0.23,
+              "rawTrades": 10,
+              "blockedByCircuit": 0
+            },
+            "VALIDATION": {
+              "label": "x_choppiness_index/VALIDATION",
+              "trades": 6,
+              "sessions": 3,
+              "gross": -80.35,
+              "charges": 34.68,
+              "net": -115.03,
+              "winRatePct": 0,
+              "profitFactor": 0,
+              "expectancy": -19.17,
+              "avgNet": -19.17,
+              "maxDrawdown": 115.03,
+              "ci95": {
+                "low": null,
+                "high": null,
+                "note": "fewer than 10 observations"
+              },
+              "tStat": -4.17,
+              "rawTrades": 6,
+              "blockedByCircuit": 0
+            },
+            "OOS": {
+              "label": "x_choppiness_index/OOS",
+              "trades": 7,
+              "sessions": 7,
+              "gross": -23.43,
+              "charges": 40.49,
+              "net": -63.92,
+              "winRatePct": 14.29,
+              "profitFactor": 0.064,
+              "expectancy": -9.13,
+              "avgNet": -9.13,
+              "maxDrawdown": 63.92,
+              "ci95": {
+                "low": null,
+                "high": null,
+                "note": "fewer than 10 observations"
+              },
+              "tStat": -1.95,
+              "rawTrades": 7,
+              "blockedByCircuit": 0
+            }
+          },
+          "decision": {
+            "positiveInValidation": false,
+            "positiveInOos": false,
+            "minTradesMet": false,
+            "ciExcludesZero": false,
+            "ciLowerBoundPositive": false
+          },
+          "verdict": "NOT_SUPPORTED"
+        },
+        {
+          "id": "x_parabolic_sar",
+          "name": "Parabolic SAR",
+          "periods": {
+            "TRAIN": {
+              "label": "x_parabolic_sar/TRAIN",
+              "trades": 43,
+              "sessions": 15,
+              "gross": 72.34,
+              "charges": 247.52,
+              "net": -175.18,
+              "winRatePct": 27.91,
+              "profitFactor": 0.497,
+              "expectancy": -4.07,
+              "avgNet": -4.07,
+              "maxDrawdown": 194.64,
+              "ci95": {
+                "low": -8.3622,
+                "high": 0.3278,
+                "iters": 10000,
+                "resamples": 43
+              },
+              "tStat": -1.81,
+              "rawTrades": 43,
+              "blockedByCircuit": 0
+            },
+            "VALIDATION": {
+              "label": "x_parabolic_sar/VALIDATION",
+              "trades": 29,
+              "sessions": 10,
+              "gross": 107.1,
+              "charges": 167.16,
+              "net": -60.06,
+              "winRatePct": 37.93,
+              "profitFactor": 0.697,
+              "expectancy": -2.07,
+              "avgNet": -2.07,
+              "maxDrawdown": 94.41,
+              "ci95": {
+                "low": -7.2731,
+                "high": 3.2538,
+                "iters": 10000,
+                "resamples": 29
+              },
+              "tStat": -0.75,
+              "rawTrades": 29,
+              "blockedByCircuit": 0
+            },
+            "OOS": {
+              "label": "x_parabolic_sar/OOS",
+              "trades": 43,
+              "sessions": 12,
+              "gross": -73.42,
+              "charges": 248.68,
+              "net": -322.1,
+              "winRatePct": 25.58,
+              "profitFactor": 0.27,
+              "expectancy": -7.49,
+              "avgNet": -7.49,
+              "maxDrawdown": 322.1,
+              "ci95": {
+                "low": -11.4558,
+                "high": -3.3849,
+                "iters": 10000,
+                "resamples": 43
+              },
+              "tStat": -3.57,
+              "rawTrades": 43,
+              "blockedByCircuit": 0
+            }
+          },
+          "decision": {
+            "positiveInValidation": false,
+            "positiveInOos": false,
+            "minTradesMet": false,
+            "ciExcludesZero": true,
+            "ciLowerBoundPositive": false
+          },
+          "verdict": "NOT_SUPPORTED"
+        },
+        {
+          "id": "x_fibonacci_retracement",
+          "name": "Fibonacci Retracement Pullback",
+          "periods": {
+            "TRAIN": {
+              "label": "x_fibonacci_retracement/TRAIN",
+              "trades": 9,
+              "sessions": 5,
+              "gross": 88.42,
+              "charges": 51.79,
+              "net": 36.63,
+              "winRatePct": 55.56,
+              "profitFactor": 4.182,
+              "expectancy": 4.07,
+              "avgNet": 4.07,
+              "maxDrawdown": 5.23,
+              "ci95": {
+                "low": null,
+                "high": null,
+                "note": "fewer than 10 observations"
+              },
+              "tStat": 1.38,
+              "rawTrades": 9,
+              "blockedByCircuit": 0
+            },
+            "VALIDATION": {
+              "label": "x_fibonacci_retracement/VALIDATION",
+              "trades": 6,
+              "sessions": 3,
+              "gross": 18.4,
+              "charges": 34.77,
+              "net": -16.37,
+              "winRatePct": 50,
+              "profitFactor": 0.556,
+              "expectancy": -2.73,
+              "avgNet": -2.73,
+              "maxDrawdown": 27.04,
+              "ci95": {
+                "low": null,
+                "high": null,
+                "note": "fewer than 10 observations"
+              },
+              "tStat": -0.48,
+              "rawTrades": 6,
+              "blockedByCircuit": 0
+            },
+            "OOS": {
+              "label": "x_fibonacci_retracement/OOS",
+              "trades": 5,
+              "sessions": 4,
+              "gross": 5.97,
+              "charges": 28.53,
+              "net": -22.56,
+              "winRatePct": 40,
+              "profitFactor": 0.408,
+              "expectancy": -4.51,
+              "avgNet": -4.51,
+              "maxDrawdown": 25.86,
+              "ci95": {
+                "low": null,
+                "high": null,
+                "note": "fewer than 10 observations"
+              },
+              "tStat": -0.67,
+              "rawTrades": 5,
+              "blockedByCircuit": 0
+            }
+          },
+          "decision": {
+            "positiveInValidation": false,
+            "positiveInOos": false,
+            "minTradesMet": false,
+            "ciExcludesZero": false,
+            "ciLowerBoundPositive": false
+          },
+          "verdict": "NOT_SUPPORTED"
+        },
+        {
+          "id": "x_donchian_trend_50",
+          "name": "Donchian Trend (50)",
+          "periods": {
+            "TRAIN": {
+              "label": "x_donchian_trend_50/TRAIN",
+              "trades": 12,
+              "sessions": 10,
+              "gross": 53.59,
+              "charges": 69.35,
+              "net": -15.76,
+              "winRatePct": 58.33,
+              "profitFactor": 0.859,
+              "expectancy": -1.31,
+              "avgNet": -1.31,
+              "maxDrawdown": 54.03,
+              "ci95": {
+                "low": -12.5878,
+                "high": 10.1799,
+                "iters": 10000,
+                "resamples": 12
+              },
+              "tStat": -0.22,
+              "rawTrades": 12,
+              "blockedByCircuit": 0
+            },
+            "VALIDATION": {
+              "label": "x_donchian_trend_50/VALIDATION",
+              "trades": 6,
+              "sessions": 6,
+              "gross": -11.05,
+              "charges": 34.69,
+              "net": -45.74,
+              "winRatePct": 33.33,
+              "profitFactor": 0.274,
+              "expectancy": -7.62,
+              "avgNet": -7.62,
+              "maxDrawdown": 58.02,
+              "ci95": {
+                "low": null,
+                "high": null,
+                "note": "fewer than 10 observations"
+              },
+              "tStat": -1.19,
+              "rawTrades": 6,
+              "blockedByCircuit": 0
+            },
+            "OOS": {
+              "label": "x_donchian_trend_50/OOS",
+              "trades": 10,
+              "sessions": 9,
+              "gross": 27.79,
+              "charges": 57.74,
+              "net": -29.95,
+              "winRatePct": 40,
+              "profitFactor": 0.671,
+              "expectancy": -3,
+              "avgNet": -3,
+              "maxDrawdown": 50.46,
+              "ci95": {
+                "low": -13.6819,
+                "high": 8.1457,
+                "iters": 10000,
+                "resamples": 10
+              },
+              "tStat": -0.51,
+              "rawTrades": 10,
+              "blockedByCircuit": 0
+            }
+          },
+          "decision": {
+            "positiveInValidation": false,
+            "positiveInOos": false,
+            "minTradesMet": false,
+            "ciExcludesZero": false,
+            "ciLowerBoundPositive": false
+          },
+          "verdict": "NOT_SUPPORTED"
+        },
+        {
+          "id": "x_mtf_trend_confirmation",
+          "name": "Multi-Timeframe Trend Confirmation",
+          "periods": {
+            "TRAIN": {
+              "label": "x_mtf_trend_confirmation/TRAIN",
+              "trades": 30,
+              "sessions": 14,
+              "gross": -40.91,
+              "charges": 172.79,
+              "net": -213.7,
+              "winRatePct": 33.33,
+              "profitFactor": 0.392,
+              "expectancy": -7.12,
+              "avgNet": -7.12,
+              "maxDrawdown": 213.7,
+              "ci95": {
+                "low": -12.888,
+                "high": -0.9898,
+                "iters": 10000,
+                "resamples": 30
+              },
+              "tStat": -2.27,
+              "rawTrades": 30,
+              "blockedByCircuit": 0
+            },
+            "VALIDATION": {
+              "label": "x_mtf_trend_confirmation/VALIDATION",
+              "trades": 18,
+              "sessions": 8,
+              "gross": -15.2,
+              "charges": 103.94,
+              "net": -119.14,
+              "winRatePct": 33.33,
+              "profitFactor": 0.383,
+              "expectancy": -6.62,
+              "avgNet": -6.62,
+              "maxDrawdown": 119.14,
+              "ci95": {
+                "low": -14.1174,
+                "high": 1.0571,
+                "iters": 10000,
+                "resamples": 18
+              },
+              "tStat": -1.66,
+              "rawTrades": 18,
+              "blockedByCircuit": 0
+            },
+            "OOS": {
+              "label": "x_mtf_trend_confirmation/OOS",
+              "trades": 28,
+              "sessions": 13,
+              "gross": 95.02,
+              "charges": 162.11,
+              "net": -67.09,
+              "winRatePct": 35.71,
+              "profitFactor": 0.704,
+              "expectancy": -2.4,
+              "avgNet": -2.4,
+              "maxDrawdown": 118.12,
+              "ci95": {
+                "low": -8.1166,
+                "high": 3.6088,
+                "iters": 10000,
+                "resamples": 28
+              },
+              "tStat": -0.78,
+              "rawTrades": 28,
+              "blockedByCircuit": 0
+            }
+          },
+          "decision": {
+            "positiveInValidation": false,
+            "positiveInOos": false,
+            "minTradesMet": false,
+            "ciExcludesZero": false,
+            "ciLowerBoundPositive": false
+          },
+          "verdict": "NOT_SUPPORTED"
+        }
+      ],
+      "portfolio": {
+        "TRAIN": {
+          "strategies": 8,
+          "totalNet": -714.63,
+          "meanStrategyNet": -89.33,
+          "positiveStrategies": 1,
+          "negativeStrategies": 7,
+          "gross": 195.92,
+          "charges": 910.55,
+          "trades": 158
+        },
+        "VALIDATION": {
+          "strategies": 8,
+          "totalNet": -555.09,
+          "meanStrategyNet": -69.39,
+          "positiveStrategies": 0,
+          "negativeStrategies": 8,
+          "gross": 45.02,
+          "charges": 600.11,
+          "trades": 104
+        },
+        "OOS": {
+          "strategies": 8,
+          "totalNet": -756.36,
+          "meanStrategyNet": -94.55,
+          "positiveStrategies": 0,
+          "negativeStrategies": 8,
+          "gross": 98.85,
+          "charges": 855.21,
+          "trades": 148
+        }
+      }
+    },
+    {
+      "stock": "SYNTH_C_VOLATILE_125",
+      "params": {
+        "name": "SYNTH_C_VOLATILE_125",
+        "startPx": 125,
+        "drift": 0,
+        "vol": 0.0025,
+        "seed": 777
+      },
+      "bars": {
+        "total": 1500,
+        "train": 500,
+        "val": 500,
+        "oos": 500
+      },
+      "strategies": [
+        {
+          "id": "x_macd_momentum",
+          "name": "MACD Momentum (12,26,9)",
+          "periods": {
+            "TRAIN": {
+              "label": "x_macd_momentum/TRAIN",
+              "trades": 8,
+              "sessions": 7,
+              "gross": -54.73,
+              "charges": 46.29,
+              "net": -101.02,
+              "winRatePct": 12.5,
+              "profitFactor": 0.248,
+              "expectancy": -12.63,
+              "avgNet": -12.63,
+              "maxDrawdown": 101.02,
+              "ci95": {
+                "low": null,
+                "high": null,
+                "note": "fewer than 10 observations"
+              },
+              "tStat": -1.69,
+              "rawTrades": 8,
+              "blockedByCircuit": 0
+            },
+            "VALIDATION": {
+              "label": "x_macd_momentum/VALIDATION",
+              "trades": 14,
+              "sessions": 8,
+              "gross": -21.43,
+              "charges": 80.44,
+              "net": -101.87,
+              "winRatePct": 35.71,
+              "profitFactor": 0.324,
+              "expectancy": -7.28,
+              "avgNet": -7.28,
+              "maxDrawdown": 109.11,
+              "ci95": {
+                "low": -16.058,
+                "high": 1.3437,
+                "iters": 10000,
+                "resamples": 14
+              },
+              "tStat": -1.6,
+              "rawTrades": 14,
+              "blockedByCircuit": 0
+            },
+            "OOS": {
+              "label": "x_macd_momentum/OOS",
+              "trades": 16,
+              "sessions": 9,
+              "gross": -125.72,
+              "charges": 91.35,
+              "net": -217.07,
+              "winRatePct": 18.75,
+              "profitFactor": 0.167,
+              "expectancy": -13.57,
+              "avgNet": -13.57,
+              "maxDrawdown": 252.97,
+              "ci95": {
+                "low": -22.424,
+                "high": -3.7314,
+                "iters": 10000,
+                "resamples": 16
+              },
+              "tStat": -2.76,
+              "rawTrades": 16,
+              "blockedByCircuit": 0
+            }
+          },
+          "decision": {
+            "positiveInValidation": false,
+            "positiveInOos": false,
+            "minTradesMet": false,
+            "ciExcludesZero": true,
+            "ciLowerBoundPositive": false
+          },
+          "verdict": "NOT_SUPPORTED"
+        },
+        {
+          "id": "x_ichimoku_cloud",
+          "name": "Ichimoku Cloud (9,26,52)",
+          "periods": {
+            "TRAIN": {
+              "label": "x_ichimoku_cloud/TRAIN",
+              "trades": 14,
+              "sessions": 8,
+              "gross": -0.34,
+              "charges": 80.07,
+              "net": -80.41,
+              "winRatePct": 42.86,
+              "profitFactor": 0.639,
+              "expectancy": -5.74,
+              "avgNet": -5.74,
+              "maxDrawdown": 80.41,
+              "ci95": {
+                "low": -19.9526,
+                "high": 9.3366,
+                "iters": 10000,
+                "resamples": 14
+              },
+              "tStat": -0.74,
+              "rawTrades": 14,
+              "blockedByCircuit": 0
+            },
+            "VALIDATION": {
+              "label": "x_ichimoku_cloud/VALIDATION",
+              "trades": 16,
+              "sessions": 12,
+              "gross": 105.72,
+              "charges": 92.12,
+              "net": 13.6,
+              "winRatePct": 43.75,
+              "profitFactor": 1.09,
+              "expectancy": 0.85,
+              "avgNet": 0.85,
+              "maxDrawdown": 59.58,
+              "ci95": {
+                "low": -10.8323,
+                "high": 12.6088,
+                "iters": 10000,
+                "resamples": 16
+              },
+              "tStat": 0.14,
+              "rawTrades": 16,
+              "blockedByCircuit": 0
+            },
+            "OOS": {
+              "label": "x_ichimoku_cloud/OOS",
+              "trades": 15,
+              "sessions": 9,
+              "gross": -4.68,
+              "charges": 86.12,
+              "net": -90.8,
+              "winRatePct": 40,
+              "profitFactor": 0.553,
+              "expectancy": -6.05,
+              "avgNet": -6.05,
+              "maxDrawdown": 96.69,
+              "ci95": {
+                "low": -18.4209,
+                "high": 6.7507,
+                "iters": 10000,
+                "resamples": 15
+              },
+              "tStat": -0.91,
+              "rawTrades": 15,
+              "blockedByCircuit": 0
+            }
+          },
+          "decision": {
+            "positiveInValidation": true,
+            "positiveInOos": false,
+            "minTradesMet": false,
+            "ciExcludesZero": false,
+            "ciLowerBoundPositive": false
+          },
+          "verdict": "NOT_SUPPORTED"
+        },
+        {
+          "id": "x_keltner_channel",
+          "name": "Keltner Channel (20, 1.5 ATR)",
+          "periods": {
+            "TRAIN": {
+              "label": "x_keltner_channel/TRAIN",
+              "trades": 11,
+              "sessions": 7,
+              "gross": -22.38,
+              "charges": 63.16,
+              "net": -85.54,
+              "winRatePct": 45.45,
+              "profitFactor": 0.598,
+              "expectancy": -7.78,
+              "avgNet": -7.78,
+              "maxDrawdown": 85.54,
+              "ci95": {
+                "low": -25.8458,
+                "high": 11.4852,
+                "iters": 10000,
+                "resamples": 11
+              },
+              "tStat": -0.78,
+              "rawTrades": 11,
+              "blockedByCircuit": 0
+            },
+            "VALIDATION": {
+              "label": "x_keltner_channel/VALIDATION",
+              "trades": 13,
+              "sessions": 8,
+              "gross": 62.5,
+              "charges": 74.94,
+              "net": -12.44,
+              "winRatePct": 53.85,
+              "profitFactor": 0.925,
+              "expectancy": -0.96,
+              "avgNet": -0.96,
+              "maxDrawdown": 60.03,
+              "ci95": {
+                "low": -15.8281,
+                "high": 14.599,
+                "iters": 10000,
+                "resamples": 13
+              },
+              "tStat": -0.12,
+              "rawTrades": 13,
+              "blockedByCircuit": 0
+            },
+            "OOS": {
+              "label": "x_keltner_channel/OOS",
+              "trades": 11,
+              "sessions": 8,
+              "gross": -51.53,
+              "charges": 63.23,
+              "net": -114.76,
+              "winRatePct": 36.36,
+              "profitFactor": 0.337,
+              "expectancy": -10.43,
+              "avgNet": -10.43,
+              "maxDrawdown": 126.04,
+              "ci95": {
+                "low": -24.1786,
+                "high": 4.1506,
+                "iters": 10000,
+                "resamples": 11
+              },
+              "tStat": -1.36,
+              "rawTrades": 11,
+              "blockedByCircuit": 0
+            }
+          },
+          "decision": {
+            "positiveInValidation": false,
+            "positiveInOos": false,
+            "minTradesMet": false,
+            "ciExcludesZero": false,
+            "ciLowerBoundPositive": false
+          },
+          "verdict": "NOT_SUPPORTED"
+        },
+        {
+          "id": "x_choppiness_index",
+          "name": "Choppiness Index Filter",
+          "periods": {
+            "TRAIN": {
+              "label": "x_choppiness_index/TRAIN",
+              "trades": 4,
+              "sessions": 3,
+              "gross": 53.26,
+              "charges": 22.86,
+              "net": 30.4,
+              "winRatePct": 75,
+              "profitFactor": 1.799,
+              "expectancy": 7.6,
+              "avgNet": 7.6,
+              "maxDrawdown": 0,
+              "ci95": {
+                "low": null,
+                "high": null,
+                "note": "fewer than 10 observations"
+              },
+              "tStat": 0.44,
+              "rawTrades": 4,
+              "blockedByCircuit": 0
+            },
+            "VALIDATION": {
+              "label": "x_choppiness_index/VALIDATION",
+              "trades": 7,
+              "sessions": 6,
+              "gross": 49.8,
+              "charges": 40.46,
+              "net": 9.34,
+              "winRatePct": 57.14,
+              "profitFactor": 1.191,
+              "expectancy": 1.33,
+              "avgNet": 1.33,
+              "maxDrawdown": 23,
+              "ci95": {
+                "low": null,
+                "high": null,
+                "note": "fewer than 10 observations"
+              },
+              "tStat": 0.17,
+              "rawTrades": 7,
+              "blockedByCircuit": 0
+            },
+            "OOS": {
+              "label": "x_choppiness_index/OOS",
+              "trades": 2,
+              "sessions": 2,
+              "gross": 47.87,
+              "charges": 11.47,
+              "net": 36.4,
+              "winRatePct": 100,
+              "profitFactor": null,
+              "expectancy": 18.2,
+              "avgNet": 18.2,
+              "maxDrawdown": 0,
+              "ci95": {
+                "low": null,
+                "high": null,
+                "note": "fewer than 10 observations"
+              },
+              "tStat": 1.1,
+              "rawTrades": 2,
+              "blockedByCircuit": 0
+            }
+          },
+          "decision": {
+            "positiveInValidation": true,
+            "positiveInOos": true,
+            "minTradesMet": false,
+            "ciExcludesZero": false,
+            "ciLowerBoundPositive": false
+          },
+          "verdict": "NOT_SUPPORTED"
+        },
+        {
+          "id": "x_parabolic_sar",
+          "name": "Parabolic SAR",
+          "periods": {
+            "TRAIN": {
+              "label": "x_parabolic_sar/TRAIN",
+              "trades": 24,
+              "sessions": 9,
+              "gross": -202.49,
+              "charges": 137.5,
+              "net": -339.99,
+              "winRatePct": 12.5,
+              "profitFactor": 0.121,
+              "expectancy": -14.17,
+              "avgNet": -14.17,
+              "maxDrawdown": 339.99,
+              "ci95": {
+                "low": -20.401,
+                "high": -7.5225,
+                "iters": 10000,
+                "resamples": 24
+              },
+              "tStat": -4.18,
+              "rawTrades": 26,
+              "blockedByCircuit": 2
+            },
+            "VALIDATION": {
+              "label": "x_parabolic_sar/VALIDATION",
+              "trades": 39,
+              "sessions": 11,
+              "gross": -160.41,
+              "charges": 223.72,
+              "net": -384.13,
+              "winRatePct": 23.08,
+              "profitFactor": 0.317,
+              "expectancy": -9.85,
+              "avgNet": -9.85,
+              "maxDrawdown": 384.13,
+              "ci95": {
+                "low": -16.1313,
+                "high": -3.2556,
+                "iters": 10000,
+                "resamples": 39
+              },
+              "tStat": -2.95,
+              "rawTrades": 39,
+              "blockedByCircuit": 0
+            },
+            "OOS": {
+              "label": "x_parabolic_sar/OOS",
+              "trades": 36,
+              "sessions": 10,
+              "gross": -20.98,
+              "charges": 206.19,
+              "net": -227.17,
+              "winRatePct": 33.33,
+              "profitFactor": 0.373,
+              "expectancy": -6.31,
+              "avgNet": -6.31,
+              "maxDrawdown": 233.35,
+              "ci95": {
+                "low": -11.9178,
+                "high": -0.5824,
+                "iters": 10000,
+                "resamples": 36
+              },
+              "tStat": -2.12,
+              "rawTrades": 36,
+              "blockedByCircuit": 0
+            }
+          },
+          "decision": {
+            "positiveInValidation": false,
+            "positiveInOos": false,
+            "minTradesMet": false,
+            "ciExcludesZero": true,
+            "ciLowerBoundPositive": false
+          },
+          "verdict": "NOT_SUPPORTED"
+        },
+        {
+          "id": "x_fibonacci_retracement",
+          "name": "Fibonacci Retracement Pullback",
+          "periods": {
+            "TRAIN": {
+              "label": "x_fibonacci_retracement/TRAIN",
+              "trades": 1,
+              "sessions": 1,
+              "gross": -34.93,
+              "charges": 5.71,
+              "net": -40.64,
+              "winRatePct": 0,
+              "profitFactor": 0,
+              "expectancy": -40.64,
+              "avgNet": -40.64,
+              "maxDrawdown": 40.64,
+              "ci95": {
+                "low": null,
+                "high": null,
+                "note": "fewer than 10 observations"
+              },
+              "tStat": null,
+              "rawTrades": 1,
+              "blockedByCircuit": 0
+            },
+            "VALIDATION": {
+              "label": "x_fibonacci_retracement/VALIDATION",
+              "trades": 1,
+              "sessions": 1,
+              "gross": -30.7,
+              "charges": 5.84,
+              "net": -36.54,
+              "winRatePct": 0,
+              "profitFactor": 0,
+              "expectancy": -36.54,
+              "avgNet": -36.54,
+              "maxDrawdown": 36.54,
+              "ci95": {
+                "low": null,
+                "high": null,
+                "note": "fewer than 10 observations"
+              },
+              "tStat": null,
+              "rawTrades": 1,
+              "blockedByCircuit": 0
+            },
+            "OOS": {
+              "label": "x_fibonacci_retracement/OOS",
+              "trades": 9,
+              "sessions": 6,
+              "gross": -46.58,
+              "charges": 51.36,
+              "net": -97.94,
+              "winRatePct": 22.22,
+              "profitFactor": 0.18,
+              "expectancy": -10.88,
+              "avgNet": -10.88,
+              "maxDrawdown": 118.31,
+              "ci95": {
+                "low": null,
+                "high": null,
+                "note": "fewer than 10 observations"
+              },
+              "tStat": -1.95,
+              "rawTrades": 9,
+              "blockedByCircuit": 0
+            }
+          },
+          "decision": {
+            "positiveInValidation": false,
+            "positiveInOos": false,
+            "minTradesMet": false,
+            "ciExcludesZero": false,
+            "ciLowerBoundPositive": false
+          },
+          "verdict": "NOT_SUPPORTED"
+        },
+        {
+          "id": "x_donchian_trend_50",
+          "name": "Donchian Trend (50)",
+          "periods": {
+            "TRAIN": {
+              "label": "x_donchian_trend_50/TRAIN",
+              "trades": 7,
+              "sessions": 5,
+              "gross": 0.5,
+              "charges": 40.38,
+              "net": -39.88,
+              "winRatePct": 42.86,
+              "profitFactor": 0.633,
+              "expectancy": -5.7,
+              "avgNet": -5.7,
+              "maxDrawdown": 61.57,
+              "ci95": {
+                "low": null,
+                "high": null,
+                "note": "fewer than 10 observations"
+              },
+              "tStat": -0.51,
+              "rawTrades": 7,
+              "blockedByCircuit": 0
+            },
+            "VALIDATION": {
+              "label": "x_donchian_trend_50/VALIDATION",
+              "trades": 13,
+              "sessions": 8,
+              "gross": 42.57,
+              "charges": 74.45,
+              "net": -31.88,
+              "winRatePct": 46.15,
+              "profitFactor": 0.808,
+              "expectancy": -2.45,
+              "avgNet": -2.45,
+              "maxDrawdown": 55.38,
+              "ci95": {
+                "low": -16.5552,
+                "high": 12.5949,
+                "iters": 10000,
+                "resamples": 13
+              },
+              "tStat": -0.32,
+              "rawTrades": 13,
+              "blockedByCircuit": 0
+            },
+            "OOS": {
+              "label": "x_donchian_trend_50/OOS",
+              "trades": 10,
+              "sessions": 7,
+              "gross": -2.24,
+              "charges": 57.36,
+              "net": -59.6,
+              "winRatePct": 30,
+              "profitFactor": 0.56,
+              "expectancy": -5.96,
+              "avgNet": -5.96,
+              "maxDrawdown": 65.93,
+              "ci95": {
+                "low": -20.8321,
+                "high": 10.2005,
+                "iters": 10000,
+                "resamples": 10
+              },
+              "tStat": -0.7,
+              "rawTrades": 10,
+              "blockedByCircuit": 0
+            }
+          },
+          "decision": {
+            "positiveInValidation": false,
+            "positiveInOos": false,
+            "minTradesMet": false,
+            "ciExcludesZero": false,
+            "ciLowerBoundPositive": false
+          },
+          "verdict": "NOT_SUPPORTED"
+        },
+        {
+          "id": "x_mtf_trend_confirmation",
+          "name": "Multi-Timeframe Trend Confirmation",
+          "periods": {
+            "TRAIN": {
+              "label": "x_mtf_trend_confirmation/TRAIN",
+              "trades": 12,
+              "sessions": 7,
+              "gross": 50.97,
+              "charges": 68.49,
+              "net": -17.52,
+              "winRatePct": 50,
+              "profitFactor": 0.901,
+              "expectancy": -1.46,
+              "avgNet": -1.46,
+              "maxDrawdown": 63.86,
+              "ci95": {
+                "low": -18.1074,
+                "high": 15.5802,
+                "iters": 10000,
+                "resamples": 12
+              },
+              "tStat": -0.16,
+              "rawTrades": 12,
+              "blockedByCircuit": 0
+            },
+            "VALIDATION": {
+              "label": "x_mtf_trend_confirmation/VALIDATION",
+              "trades": 15,
+              "sessions": 9,
+              "gross": 123.95,
+              "charges": 86.51,
+              "net": 37.44,
+              "winRatePct": 60,
+              "profitFactor": 1.214,
+              "expectancy": 2.5,
+              "avgNet": 2.5,
+              "maxDrawdown": 81.44,
+              "ci95": {
+                "low": -12.427,
+                "high": 16.9389,
+                "iters": 10000,
+                "resamples": 15
+              },
+              "tStat": 0.32,
+              "rawTrades": 15,
+              "blockedByCircuit": 0
+            },
+            "OOS": {
+              "label": "x_mtf_trend_confirmation/OOS",
+              "trades": 17,
+              "sessions": 10,
+              "gross": -81.07,
+              "charges": 97.62,
+              "net": -178.69,
+              "winRatePct": 35.29,
+              "profitFactor": 0.344,
+              "expectancy": -10.51,
+              "avgNet": -10.51,
+              "maxDrawdown": 199.48,
+              "ci95": {
+                "low": -21.257,
+                "high": 0.9867,
+                "iters": 10000,
+                "resamples": 17
+              },
+              "tStat": -1.82,
+              "rawTrades": 17,
+              "blockedByCircuit": 0
+            }
+          },
+          "decision": {
+            "positiveInValidation": true,
+            "positiveInOos": false,
+            "minTradesMet": false,
+            "ciExcludesZero": false,
+            "ciLowerBoundPositive": false
+          },
+          "verdict": "NOT_SUPPORTED"
+        }
+      ],
+      "portfolio": {
+        "TRAIN": {
+          "strategies": 8,
+          "totalNet": -674.6,
+          "meanStrategyNet": -84.33,
+          "positiveStrategies": 1,
+          "negativeStrategies": 7,
+          "gross": -210.14,
+          "charges": 464.46,
+          "trades": 81
+        },
+        "VALIDATION": {
+          "strategies": 8,
+          "totalNet": -506.48,
+          "meanStrategyNet": -63.31,
+          "positiveStrategies": 3,
+          "negativeStrategies": 5,
+          "gross": 172,
+          "charges": 678.48,
+          "trades": 118
+        },
+        "OOS": {
+          "strategies": 8,
+          "totalNet": -949.63,
+          "meanStrategyNet": -118.7,
+          "positiveStrategies": 1,
+          "negativeStrategies": 7,
+          "gross": -284.93,
+          "charges": 664.7,
+          "trades": 116
+        }
+      }
+    }
+  ],
+  "summary": {
+    "perStock": [
+      {
+        "stock": "SYNTH_A_TREND_75",
+        "portfolio": {
+          "TRAIN": {
+            "strategies": 8,
+            "totalNet": 2360.27,
+            "meanStrategyNet": 295.03,
+            "positiveStrategies": 6,
+            "negativeStrategies": 1,
+            "gross": 4246.26,
+            "charges": 1885.99,
+            "trades": 326
+          },
+          "VALIDATION": {
+            "strategies": 8,
+            "totalNet": 1935.94,
+            "meanStrategyNet": 241.99,
+            "positiveStrategies": 6,
+            "negativeStrategies": 2,
+            "gross": 3335.79,
+            "charges": 1399.85,
+            "trades": 243
+          },
+          "OOS": {
+            "strategies": 8,
+            "totalNet": -822.59,
+            "meanStrategyNet": -102.82,
+            "positiveStrategies": 0,
+            "negativeStrategies": 6,
+            "gross": -161.85,
+            "charges": 660.74,
+            "trades": 113
+          }
+        },
+        "oosSupported": [],
+        "notSupported": [
+          "x_macd_momentum",
+          "x_ichimoku_cloud",
+          "x_keltner_channel",
+          "x_choppiness_index",
+          "x_parabolic_sar",
+          "x_fibonacci_retracement",
+          "x_donchian_trend_50",
+          "x_mtf_trend_confirmation"
+        ]
+      },
+      {
+        "stock": "SYNTH_B_CHOPPY_100",
+        "portfolio": {
+          "TRAIN": {
+            "strategies": 8,
+            "totalNet": -714.63,
+            "meanStrategyNet": -89.33,
+            "positiveStrategies": 1,
+            "negativeStrategies": 7,
+            "gross": 195.92,
+            "charges": 910.55,
+            "trades": 158
+          },
+          "VALIDATION": {
+            "strategies": 8,
+            "totalNet": -555.09,
+            "meanStrategyNet": -69.39,
+            "positiveStrategies": 0,
+            "negativeStrategies": 8,
+            "gross": 45.02,
+            "charges": 600.11,
+            "trades": 104
+          },
+          "OOS": {
+            "strategies": 8,
+            "totalNet": -756.36,
+            "meanStrategyNet": -94.55,
+            "positiveStrategies": 0,
+            "negativeStrategies": 8,
+            "gross": 98.85,
+            "charges": 855.21,
+            "trades": 148
+          }
+        },
+        "oosSupported": [],
+        "notSupported": [
+          "x_macd_momentum",
+          "x_ichimoku_cloud",
+          "x_keltner_channel",
+          "x_choppiness_index",
+          "x_parabolic_sar",
+          "x_fibonacci_retracement",
+          "x_donchian_trend_50",
+          "x_mtf_trend_confirmation"
+        ]
+      },
+      {
+        "stock": "SYNTH_C_VOLATILE_125",
+        "portfolio": {
+          "TRAIN": {
+            "strategies": 8,
+            "totalNet": -674.6,
+            "meanStrategyNet": -84.33,
+            "positiveStrategies": 1,
+            "negativeStrategies": 7,
+            "gross": -210.14,
+            "charges": 464.46,
+            "trades": 81
+          },
+          "VALIDATION": {
+            "strategies": 8,
+            "totalNet": -506.48,
+            "meanStrategyNet": -63.31,
+            "positiveStrategies": 3,
+            "negativeStrategies": 5,
+            "gross": 172,
+            "charges": 678.48,
+            "trades": 118
+          },
+          "OOS": {
+            "strategies": 8,
+            "totalNet": -949.63,
+            "meanStrategyNet": -118.7,
+            "positiveStrategies": 1,
+            "negativeStrategies": 7,
+            "gross": -284.93,
+            "charges": 664.7,
+            "trades": 116
+          }
+        },
+        "oosSupported": [],
+        "notSupported": [
+          "x_macd_momentum",
+          "x_ichimoku_cloud",
+          "x_keltner_channel",
+          "x_choppiness_index",
+          "x_parabolic_sar",
+          "x_fibonacci_retracement",
+          "x_donchian_trend_50",
+          "x_mtf_trend_confirmation"
+        ]
+      }
+    ],
+    "profitabilityClaim": "NONE — this study does not establish profitability",
+    "productionChanged": false
+  }
+}
