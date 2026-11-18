@@ -1,6 +1,6 @@
 # Off-Machine Backup Handoff
 
-OmniTradePro Apex V2.0 · generated 2026-11-18T04:52:59.180Z by `scripts/generate_backup_handoff.js`.
+OmniTradePro Apex V2.0 · generated 2026-11-18T05:05:40.172Z by `scripts/generate_backup_handoff.js`.
 Regenerate with `node scripts/generate_backup_handoff.js`; the facts below are read from the repository.
 
 **Status: `DURABLE_BACKUP_NOT_ESTABLISHED`.** No off-machine copy exists. This document is a request, not
@@ -13,10 +13,10 @@ evidence of a backup, and nothing in the repository may be described as durable 
 | Item | Value |
 |---|---|
 | Branch | `arena/f721e253-trade` |
-| HEAD | `9931e3bee2a82805b5a8e8d89d71bfcd8a7e8a7a` |
-| Parent | `cf51ff728046611079d1976108be75398cc45d12` |
-| Tree | `0babdab936c18c0fcaca8e873a8064f50072af97` |
-| Commits in history | 15 (complete) |
+| HEAD | `3592dc4b36abbc3751efb048b7940a3aabd2bab3` |
+| Parent | `9931e3bee2a82805b5a8e8d89d71bfcd8a7e8a7a` |
+| Tree | `8b691aa4ebf94e194b6d73a2870eeadbe7be8cbd` |
+| Commits in history | 16 (complete) |
 | Tracked files | 499 |
 | Repository status | full history, git fsck --full clean |
 
@@ -52,8 +52,8 @@ owner's account. Requirements:
 ## 4. Produce and upload (run by the owner, after authorising this workspace)
 
 First establish which commit you are actually backing up. Do not copy a hash out of section 1 of this file: if
-`git rev-parse HEAD` is not `9931e3bee2a82805b5a8e8d89d71bfcd8a7e8a7a`, regenerate this document before proceeding, because the expected
-values in section 5 describe `9931e3b` and nothing else.
+`git rev-parse HEAD` is not `3592dc4b36abbc3751efb048b7940a3aabd2bab3`, regenerate this document before proceeding, because the expected
+values in section 5 describe `3592dc4` and nothing else.
 
 `SRC=$(git rev-parse HEAD) && echo "bundling $SRC"`
 `git fetch --unshallow` — only if `git rev-parse --is-shallow-repository` prints `true`.
@@ -69,16 +69,16 @@ which destination holds it, the date, and the SHA-256.
 
 Perform these steps from a **different machine** against the **downloaded** copy, not the original:
 
-Every expected value below describes the commit `9931e3bee2a82805b5a8e8d89d71bfcd8a7e8a7a` recorded in section 1. If the bundle you produced
+Every expected value below describes the commit `3592dc4b36abbc3751efb048b7940a3aabd2bab3` recorded in section 1. If the bundle you produced
 contains a different HEAD, the correct result is "this document is stale", not "the restore failed" — regenerate
 first, then re-run.
 
-| Step | Command | Expected for `9931e3b` |
+| Step | Command | Expected for `3592dc4` |
 |---|---|---|
 | 0 | `sha256sum apex_$SRC.bundle` | matches `cat /tmp/apex.sha256` from section 4 |
 | 1 | `git clone apex_$SRC.bundle restored` | exit 0 |
-| 2 | `cd restored && git rev-parse HEAD` | `9931e3bee2a82805b5a8e8d89d71bfcd8a7e8a7a` |
-| 3 | `git rev-list --count HEAD` | 15 |
+| 2 | `cd restored && git rev-parse HEAD` | `3592dc4b36abbc3751efb048b7940a3aabd2bab3` |
+| 3 | `git rev-list --count HEAD` | 16 |
 | 4 | `git ls-files | wc -l` | 499 |
 | 5 | `git fsck --full` | exit 0 |
 | 6 | `npm ci && npm run test:prep` | exit 0 (Node 22.22.3 used here; pin your own) |
@@ -88,7 +88,7 @@ first, then re-run.
 | 10 | `node scripts/env_config_probe.js` | 43 passed, 0 failed |
 | 11 | `node scripts/mutation_check.js` | 5/5 mutants detected |
 | 12 | `node scripts/audit_safety.js` | PAPER_ONLY_SAFETY_PASS |
-| 13 | `node scripts/test_bundle_audit.js` | 42 passed, 0 failed |
+| 13 | `node scripts/test_bundle_audit.js` | 52 passed, 0 failed |
 | 14 | `OMNI_RESTORED_CLONE=1 node scripts/verify_report_consistency.js` | REPORT_MATCHES_ARTIFACTS |
 
 Only when steps 1–14 have been completed against the downloaded copy, and the date and operator recorded, may

@@ -1,7 +1,7 @@
 # OmniTradePro — Release Readiness & Security Closure
 
-Generated: 2026-11-18T04:52:59.295Z  
-Branch `arena/f721e253-trade` · HEAD `9931e3bee2a8` · parent `cf51ff728046` · 15 commits · shallow: no  
+Generated: 2026-11-18T05:05:40.261Z  
+Branch `arena/f721e253-trade` · HEAD `3592dc4b36ab` · parent `9931e3bee2a8` · 16 commits · shallow: no  
 Generator: `node scripts/generate_release_readiness.js`
 
 ## Release decision

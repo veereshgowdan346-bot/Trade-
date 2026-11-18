@@ -270,29 +270,32 @@ try {
     return "verify may pass, the clone does not — the audit fails it";
   });
 
-  console.log("\n--> 3e. Handoff guard: verified mutations against real repository documents and fixtures");
+  console.log("\n--> 3e. Handoff guard: verified mutations, adversarial bypass checks, and positive controls");
   let effectiveMutations = 0;
-  function runHandoffMutation({ name, dir, mutate, expectedCode }) {
+  function runHandoffMutation({ name, dir, mutate, expectedCode, expectedDetail }) {
     const files = ["OFF_MACHINE_BACKUP_HANDOFF.md", "RECOVERY_MANIFEST.md", "RECOVERY_PROCEDURE.md", "FINAL_HANDOVER.md"];
     const backups = {};
     for (const f of files) {
       backups[f] = fs.readFileSync(path.join(dir, f), "utf8");
     }
     try {
-      const readState = () => ({
+      const readState = (overrideLinks) => ({
         handoffText: fs.existsSync(path.join(dir, "OFF_MACHINE_BACKUP_HANDOFF.md"))
           ? fs.readFileSync(path.join(dir, "OFF_MACHINE_BACKUP_HANDOFF.md"), "utf8")
           : "",
-        linkedFrom: {
+        linkedFrom: overrideLinks || {
           manifest: fs.existsSync(path.join(dir, "RECOVERY_MANIFEST.md")) ? fs.readFileSync(path.join(dir, "RECOVERY_MANIFEST.md"), "utf8") : "",
           procedure: fs.existsSync(path.join(dir, "RECOVERY_PROCEDURE.md")) ? fs.readFileSync(path.join(dir, "RECOVERY_PROCEDURE.md"), "utf8") : "",
           handover: fs.existsSync(path.join(dir, "FINAL_HANDOVER.md")) ? fs.readFileSync(path.join(dir, "FINAL_HANDOVER.md"), "utf8") : "",
         },
       });
       const before = readState();
+      const preCheck = checkHandoff(before);
+      assert(preCheck.ok, `pre-mutation state in "${name}" already had errors: ${preCheck.errors.join("; ")}`);
+
       const beforeSerialised = JSON.stringify(before);
-      const { target, snippetBefore, snippetAfter } = mutate(dir);
-      const after = readState();
+      const { target, snippetBefore, snippetAfter, overrideLinks } = mutate(dir);
+      const after = readState(overrideLinks);
       const afterSerialised = JSON.stringify(after);
       assert(beforeSerialised !== afterSerialised, `NO-OP MUTATION in "${name}": input did not change`);
       effectiveMutations += 1;
@@ -300,15 +303,21 @@ try {
       const res = checkHandoff(after);
       assert(!res.ok, `mutation "${name}" passed checkHandoff unexpectedly`);
       assert(
-        res.errors.some((e) => e.startsWith(`${expectedCode}:`)),
-        `mutation "${name}" expected failure code "${expectedCode}", got [${res.errors.join("; ")}]`,
+        res.errors.every((e) => e.startsWith(`${expectedCode}:`)),
+        `mutation "${name}" triggered unexpected/masking error code(s): expected only "${expectedCode}:*", got [${res.errors.join("; ")}]`,
       );
-      return `[${target}] ${JSON.stringify(snippetBefore)} -> ${JSON.stringify(snippetAfter)} => ${res.errors.find((e) => e.startsWith(expectedCode + ":"))}`;
+      if (expectedDetail) {
+        assert(
+          res.errors.some((e) => expectedDetail.test(e)),
+          `mutation "${name}" did not match detail ${expectedDetail}; got [${res.errors.join("; ")}]`,
+        );
+      }
+      const matched = expectedDetail ? res.errors.find((e) => expectedDetail.test(e)) : res.errors[0];
+      return `[${target}] ${JSON.stringify(snippetBefore)} -> ${JSON.stringify(snippetAfter)} => ${matched}`;
     } finally {
       for (const f of files) {
         fs.writeFileSync(path.join(dir, f), backups[f]);
       }
-      // Verify restoration succeeded
       for (const f of files) {
         assert(fs.readFileSync(path.join(dir, f), "utf8") === backups[f], `cleanup failed to restore ${f}`);
       }
@@ -348,6 +357,7 @@ try {
     {
       name: "M2: missing link from RECOVERY_MANIFEST.md fails with link",
       expectedCode: "link",
+      expectedDetail: /manifest does not reference OFF_MACHINE_BACKUP_HANDOFF\.md/,
       mutate: (dir) => {
         const p = path.join(dir, "RECOVERY_MANIFEST.md");
         const s = fs.readFileSync(p, "utf8");
@@ -359,6 +369,7 @@ try {
     {
       name: "M3: missing link from RECOVERY_PROCEDURE.md fails with link",
       expectedCode: "link",
+      expectedDetail: /procedure does not reference OFF_MACHINE_BACKUP_HANDOFF\.md/,
       mutate: (dir) => {
         const p = path.join(dir, "RECOVERY_PROCEDURE.md");
         const s = fs.readFileSync(p, "utf8");
@@ -370,6 +381,7 @@ try {
     {
       name: "M4: missing link from FINAL_HANDOVER.md fails with link",
       expectedCode: "link",
+      expectedDetail: /handover does not reference OFF_MACHINE_BACKUP_HANDOFF\.md/,
       mutate: (dir) => {
         const p = path.join(dir, "FINAL_HANDOVER.md");
         const s = fs.readFileSync(p, "utf8");
@@ -379,31 +391,71 @@ try {
       },
     },
     {
-      name: "M5: missing dynamic SRC=$(git rev-parse HEAD) capture fails with identity",
+      name: "M5: renamed suffixed/prefixed/subdir link lookalike (OFF_MACHINE_BACKUP_HANDOFF.md.bak) fails with link",
+      expectedCode: "link",
+      expectedDetail: /manifest does not reference OFF_MACHINE_BACKUP_HANDOFF\.md/,
+      mutate: (dir) => {
+        const p = path.join(dir, "RECOVERY_MANIFEST.md");
+        const s = fs.readFileSync(p, "utf8");
+        fs.writeFileSync(p, s.replace(/OFF_MACHINE_BACKUP_HANDOFF\.md/g, "OFF_MACHINE_BACKUP_HANDOFF.md.bak"));
+        return { target: "RECOVERY_MANIFEST.md", snippetBefore: "OFF_MACHINE_BACKUP_HANDOFF.md", snippetAfter: "OFF_MACHINE_BACKUP_HANDOFF.md.bak" };
+      },
+    },
+    {
+      name: "M6: omitted required linkedFrom entry (handover missing from map) fails with link",
+      expectedCode: "link",
+      expectedDetail: /required document "handover" was not supplied/,
+      mutate: (dir) => ({
+        target: "linkedFrom",
+        snippetBefore: "{manifest,procedure,handover}",
+        snippetAfter: "{manifest,procedure}",
+        overrideLinks: {
+          manifest: fs.readFileSync(path.join(dir, "RECOVERY_MANIFEST.md"), "utf8"),
+          procedure: fs.readFileSync(path.join(dir, "RECOVERY_PROCEDURE.md"), "utf8"),
+        },
+      }),
+    },
+    {
+      name: "M7: static SRC= assignment (even if $(git rev-parse HEAD) appears in prose) fails with identity",
       expectedCode: "identity",
+      expectedDetail: /SRC is assigned a fixed value/,
       mutate: (dir) => {
         const p = path.join(dir, "OFF_MACHINE_BACKUP_HANDOFF.md");
         const s = fs.readFileSync(p, "utf8");
         const oldStr = 'SRC=$(git rev-parse HEAD) && echo "bundling $SRC"';
-        const newStr = 'SRC=0046eeb473ef5241202dcba66dbf183e0b07b2e1';
+        const newStr = "SRC=0046eeb473ef5241202dcba66dbf183e0b07b2e1\nNote: $(git rev-parse HEAD) is mentioned in prose.";
         fs.writeFileSync(p, s.replace(oldStr, newStr));
-        return { target: "OFF_MACHINE_BACKUP_HANDOFF.md", snippetBefore: oldStr, snippetAfter: newStr };
+        return { target: "OFF_MACHINE_BACKUP_HANDOFF.md", snippetBefore: oldStr, snippetAfter: "SRC=0046eeb... + prose $(git rev-parse HEAD)" };
       },
     },
     {
-      name: "M6: hard-coded short/full commit in git bundle create (even if SRC capture remains) fails with identity",
+      name: "M8: git bundle create omitting $SRC (without hex literal) fails with identity",
       expectedCode: "identity",
+      expectedDetail: /git bundle create does not use \$SRC/,
       mutate: (dir) => {
         const p = path.join(dir, "OFF_MACHINE_BACKUP_HANDOFF.md");
         const s = fs.readFileSync(p, "utf8");
         const oldStr = "git bundle create /tmp/apex_$SRC.bundle --all";
-        const newStr = "git bundle create /tmp/apex_cf51ff7.bundle --all";
+        const newStr = "git bundle create /tmp/apex_latest.bundle --all";
         fs.writeFileSync(p, s.replace(oldStr, newStr));
         return { target: "OFF_MACHINE_BACKUP_HANDOFF.md", snippetBefore: oldStr, snippetAfter: newStr };
       },
     },
     {
-      name: "M7: missing stale-document regeneration guidance fails with staleness-guidance",
+      name: "M9: git bundle create hard-coding a 7-char short SHA alongside $SRC fails with identity",
+      expectedCode: "identity",
+      expectedDetail: /the bundle command hard-codes a commit hash/,
+      mutate: (dir) => {
+        const p = path.join(dir, "OFF_MACHINE_BACKUP_HANDOFF.md");
+        const s = fs.readFileSync(p, "utf8");
+        const oldStr = "git bundle create /tmp/apex_$SRC.bundle --all";
+        const newStr = "git bundle create /tmp/apex_${SRC}_cf51ff7.bundle --all";
+        fs.writeFileSync(p, s.replace(oldStr, newStr));
+        return { target: "OFF_MACHINE_BACKUP_HANDOFF.md", snippetBefore: oldStr, snippetAfter: newStr };
+      },
+    },
+    {
+      name: "M10: missing stale-document regeneration guidance fails with staleness-guidance",
       expectedCode: "staleness-guidance",
       mutate: (dir) => {
         const p = path.join(dir, "OFF_MACHINE_BACKUP_HANDOFF.md");
@@ -415,7 +467,7 @@ try {
       },
     },
     {
-      name: "M8: missing separate-machine / downloaded-copy requirement fails with off-machine-verify",
+      name: "M11: missing separate-machine / downloaded-copy requirement fails with off-machine-verify",
       expectedCode: "off-machine-verify",
       mutate: (dir) => {
         const p = path.join(dir, "OFF_MACHINE_BACKUP_HANDOFF.md");
@@ -427,18 +479,18 @@ try {
       },
     },
     {
-      name: "M9: unsupported restore claim with whitespace/newline & hyphen splitting fails with performed",
+      name: "M12: whitespace/newline splitting + unhyphenated 'off machine' fails with performed",
       expectedCode: "performed",
       mutate: (dir) => {
         const p = path.join(dir, "OFF_MACHINE_BACKUP_HANDOFF.md");
         const s = fs.readFileSync(p, "utf8");
-        const injected = "The bundle has been\n  restored off machine and verified.";
+        const injected = "The bundle has been\n   restored off machine and verified.";
         fs.writeFileSync(p, s.replace("## 1. What is being backed up", "## 1. What is being backed up\n\n" + injected));
         return { target: "OFF_MACHINE_BACKUP_HANDOFF.md#sec1", snippetBefore: "<absent>", snippetAfter: injected.replace("\n", "\\n") };
       },
     },
     {
-      name: "M10: alternate wording ('The restore was completed from a separate machine') fails with performed",
+      name: "M13: alternate completion wording ('was completed from a separate machine') fails with performed",
       expectedCode: "performed",
       mutate: (dir) => {
         const p = path.join(dir, "OFF_MACHINE_BACKUP_HANDOFF.md");
@@ -449,40 +501,40 @@ try {
       },
     },
     {
-      name: "M11: unsupported restore claim moved into a linked document (RECOVERY_MANIFEST.md) fails with performed",
+      name: "M14: passive/synonymous wording ('downloaded bundle was verified on a separate machine' / 'restoration succeeded') fails with performed",
       expectedCode: "performed",
-      mutate: (dir) => {
-        const p = path.join(dir, "RECOVERY_MANIFEST.md");
-        const s = fs.readFileSync(p, "utf8");
-        const injected = "Off-machine recovery completed.";
-        fs.writeFileSync(p, s + "\n" + injected + "\n");
-        return { target: "RECOVERY_MANIFEST.md", snippetBefore: "<absent>", snippetAfter: injected };
-      },
-    },
-    {
-      name: "M12: status upgrade DURABLE_BACKUP_ESTABLISHED asserted (even near 'upgrade' in an earlier sentence) fails with overclaim",
-      expectedCode: "overclaim",
       mutate: (dir) => {
         const p = path.join(dir, "OFF_MACHINE_BACKUP_HANDOFF.md");
         const s = fs.readFileSync(p, "utf8");
-        const injected = "An upgrade path exists. Status is now DURABLE_BACKUP_ESTABLISHED.";
+        const injected = "The downloaded bundle was verified on a separate machine. Off-machine restoration succeeded.";
+        fs.writeFileSync(p, s + "\n" + injected + "\n");
+        return { target: "OFF_MACHINE_BACKUP_HANDOFF.md#eof", snippetBefore: "<absent>", snippetAfter: injected };
+      },
+    },
+    {
+      name: "M15: Markdown emphasis split ('**has been** _restored_ off-machine') fails with performed",
+      expectedCode: "performed",
+      mutate: (dir) => {
+        const p = path.join(dir, "OFF_MACHINE_BACKUP_HANDOFF.md");
+        const s = fs.readFileSync(p, "utf8");
+        const injected = "The backup **has been** _restored_ off-machine.";
         fs.writeFileSync(p, s + "\n" + injected + "\n");
         return { target: "OFF_MACHINE_BACKUP_HANDOFF.md", snippetBefore: "<absent>", snippetAfter: injected };
       },
     },
     {
-      name: "M13: status upgrade DURABLE_BACKUP_ESTABLISHED placed in FINAL_HANDOVER.md fails with overclaim",
-      expectedCode: "overclaim",
+      name: "M16: claim split across blank-line paragraph boundary ('has been\\n\\nrestored') fails with performed",
+      expectedCode: "performed",
       mutate: (dir) => {
-        const p = path.join(dir, "FINAL_HANDOVER.md");
+        const p = path.join(dir, "OFF_MACHINE_BACKUP_HANDOFF.md");
         const s = fs.readFileSync(p, "utf8");
-        const injected = "Backup status: DURABLE_BACKUP_ESTABLISHED.";
-        fs.writeFileSync(p, s + "\n" + injected + "\n");
-        return { target: "FINAL_HANDOVER.md", snippetBefore: "<absent>", snippetAfter: injected };
+        const injected = "The backup has been\n\nrestored off-machine.";
+        fs.writeFileSync(p, s + "\n\n" + injected + "\n");
+        return { target: "OFF_MACHINE_BACKUP_HANDOFF.md", snippetBefore: "<absent>", snippetAfter: "The backup has been\\n\\nrestored off-machine." };
       },
     },
     {
-      name: "M14: claim wrapped in inline code backticks (`backup has been restored off-machine`) fails with performed",
+      name: "M17: claim wrapped in inline code backticks (`backup has been restored off-machine`) fails with performed",
       expectedCode: "performed",
       mutate: (dir) => {
         const p = path.join(dir, "OFF_MACHINE_BACKUP_HANDOFF.md");
@@ -492,11 +544,89 @@ try {
         return { target: "OFF_MACHINE_BACKUP_HANDOFF.md", snippetBefore: "<absent>", snippetAfter: injected };
       },
     },
+    {
+      name: "M18: unsupported restore claim moved into linked document (RECOVERY_MANIFEST.md) fails with performed",
+      expectedCode: "performed",
+      expectedDetail: /^performed: manifest reports/,
+      mutate: (dir) => {
+        const p = path.join(dir, "RECOVERY_MANIFEST.md");
+        const s = fs.readFileSync(p, "utf8");
+        const injected = "Off-machine recovery completed.";
+        fs.writeFileSync(p, s + "\n" + injected + "\n");
+        return { target: "RECOVERY_MANIFEST.md", snippetBefore: "<absent>", snippetAfter: injected };
+      },
+    },
+    {
+      name: "M19: status upgrade DURABLE_BACKUP_ESTABLISHED separated by sentence boundary from 'upgrade' fails with overclaim",
+      expectedCode: "overclaim",
+      expectedDetail: /^overclaim: handoff asserts durability/,
+      mutate: (dir) => {
+        const p = path.join(dir, "OFF_MACHINE_BACKUP_HANDOFF.md");
+        const s = fs.readFileSync(p, "utf8");
+        const injected = "An upgrade path exists. Status is now DURABLE_BACKUP_ESTABLISHED.";
+        fs.writeFileSync(p, s + "\n" + injected + "\n");
+        return { target: "OFF_MACHINE_BACKUP_HANDOFF.md", snippetBefore: "<absent>", snippetAfter: injected };
+      },
+    },
+    {
+      name: "M20: status upgrade in Markdown heading/blockquote/list/table adjacent to 'upgrade' fails with overclaim",
+      expectedCode: "overclaim",
+      expectedDetail: /## DURABLE_BACKUP_ESTABLISHED/,
+      mutate: (dir) => {
+        const p = path.join(dir, "OFF_MACHINE_BACKUP_HANDOFF.md");
+        const s = fs.readFileSync(p, "utf8");
+        const injected = "## DURABLE_BACKUP_ESTABLISHED\nUpgrade notes follow.";
+        fs.writeFileSync(p, s + "\n\n" + injected + "\n");
+        return { target: "OFF_MACHINE_BACKUP_HANDOFF.md", snippetBefore: "<absent>", snippetAfter: "## DURABLE_BACKUP_ESTABLISHED\\nUpgrade notes follow." };
+      },
+    },
+    {
+      name: "M21: status upgrade DURABLE_BACKUP_ESTABLISHED placed in linked document (FINAL_HANDOVER.md) fails with overclaim",
+      expectedCode: "overclaim",
+      expectedDetail: /^overclaim: handover asserts durability/,
+      mutate: (dir) => {
+        const p = path.join(dir, "FINAL_HANDOVER.md");
+        const s = fs.readFileSync(p, "utf8");
+        const injected = "Backup status: DURABLE_BACKUP_ESTABLISHED.";
+        fs.writeFileSync(p, s + "\n" + injected + "\n");
+        return { target: "FINAL_HANDOVER.md", snippetBefore: "<absent>", snippetAfter: injected };
+      },
+    },
+    {
+      name: "M22: removing required git fsck --full check fails with fsck",
+      expectedCode: "fsck",
+      mutate: (dir) => {
+        const p = path.join(dir, "OFF_MACHINE_BACKUP_HANDOFF.md");
+        const s = fs.readFileSync(p, "utf8");
+        fs.writeFileSync(p, s.replace(/git fsck --full/g, "git status"));
+        return { target: "OFF_MACHINE_BACKUP_HANDOFF.md", snippetBefore: "git fsck --full", snippetAfter: "git status" };
+      },
+    },
   ];
 
   for (const m of handoffMutations) {
     check(m.name, () => runHandoffMutation({ ...m, dir: handoffTmpDir }));
   }
+
+  check("positive controls: future/conditional instructions, shell commands, and duplicate valid links are not falsely rejected", () => {
+    const h = fs.readFileSync(path.join(handoffTmpDir, "OFF_MACHINE_BACKUP_HANDOFF.md"), "utf8");
+    const links = {
+      manifest: fs.readFileSync(path.join(handoffTmpDir, "RECOVERY_MANIFEST.md"), "utf8") + "\nSee also `OFF_MACHINE_BACKUP_HANDOFF.md`.\n",
+      procedure: fs.readFileSync(path.join(handoffTmpDir, "RECOVERY_PROCEDURE.md"), "utf8"),
+      handover: fs.readFileSync(path.join(handoffTmpDir, "FINAL_HANDOVER.md"), "utf8"),
+    };
+    const augmented = [
+      h,
+      "Once the backup has been restored off-machine, record the operator and date.",
+      "After you restore the bundle on a separate machine, run pytest to confirm.",
+      "No copy has been uploaded or restored off-machine.",
+      "`git clone apex_$SRC.bundle /tmp/restored_verified && cd /tmp/restored_verified && echo verified`",
+      "```sh\ngit clone apex_$SRC.bundle /tmp/restored_verified\ncd /tmp/restored_verified && git fsck --full\n```",
+    ].join("\n\n");
+    const res = checkHandoff({ handoffText: augmented, linkedFrom: links });
+    assert(res.ok, `legitimate control falsely rejected: ${res.errors.join("; ")}`);
+    return "5 positive controls accepted cleanly";
+  });
 
   check("a no-op mutation is itself rejected by the mutation runner", () => {
     let caught = false;
@@ -512,6 +642,34 @@ try {
     }
     assert(caught, "mutation runner failed to reject an unapplied mutation");
     return `effective handoff mutations verified: ${effectiveMutations}`;
+  });
+
+  check("production verifier integration: verify_report_consistency.js invokes handoff_guard and fails on a mutated clone", () => {
+    const simDir = path.join(tmpRoot, "verifier-handoff-sim");
+    execFileSync("git", ["clone", "-q", ROOT, simDir], { stdio: "pipe" });
+    // Copy current working-tree guard & verifier into the throwaway clone so uncommitted changes are tested too
+    fs.copyFileSync(path.join(ROOT, "scripts", "lib", "handoff_guard.js"), path.join(simDir, "scripts", "lib", "handoff_guard.js"));
+    fs.copyFileSync(path.join(ROOT, "scripts", "verify_report_consistency.js"), path.join(simDir, "scripts", "verify_report_consistency.js"));
+    const hp = path.join(simDir, "OFF_MACHINE_BACKUP_HANDOFF.md");
+    const before = fs.readFileSync(hp, "utf8");
+    fs.writeFileSync(hp, before + "\n\nThe backup **has been** _restored_ off machine.\n");
+    assert(fs.readFileSync(hp, "utf8") !== before, "clone mutation did not apply");
+    let exit = 0;
+    let out = "";
+    try {
+      out = execFileSync(process.execPath, [path.join(simDir, "scripts", "verify_report_consistency.js")], {
+        cwd: simDir,
+        encoding: "utf8",
+        stdio: "pipe",
+        env: { ...process.env, OMNI_IN_HARNESS: "1" },
+      });
+    } catch (e) {
+      exit = e.status ?? 1;
+      out = String(e.stdout || "") + String(e.stderr || "");
+    }
+    assert(exit === 1, `expected production verifier exit 1, got ${exit}`);
+    assert(/MISMATCH handoff:performed:/.test(out), `expected handoff:performed mismatch in verifier output, got: ${out}`);
+    return "exit 1 with MISMATCH handoff:performed";
   });
 
   console.log("\n--> 4. Stale manifest data is caught by the verifier");
