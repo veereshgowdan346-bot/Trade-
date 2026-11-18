@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-18T04:24:59.274Z",
+  "generatedAt": "2026-11-18T04:36:00.657Z",
   "command": "node scripts/run_regression_record.js",
   "environment": {
     "node": "v22.22.3",
@@ -15,7 +15,7 @@
       "exitCode": 0,
       "expectedExit": 0,
       "asExpected": true,
-      "durationMs": 6754,
+      "durationMs": 5519,
       "summary": ""
     },
     {
@@ -25,7 +25,7 @@
       "exitCode": 0,
       "expectedExit": 0,
       "asExpected": true,
-      "durationMs": 11458,
+      "durationMs": 9174,
       "summary": ""
     },
     {
@@ -35,7 +35,7 @@
       "exitCode": 0,
       "expectedExit": 0,
       "asExpected": true,
-      "durationMs": 14198,
+      "durationMs": 12670,
       "summary": "ƒ  (Dynamic)  server-rendered on demand"
     },
     {
@@ -45,8 +45,8 @@
       "exitCode": 0,
       "expectedExit": 0,
       "asExpected": true,
-      "durationMs": 1576,
-      "summary": "390 passed in 1.35s"
+      "durationMs": 1596,
+      "summary": "390 passed in 1.38s"
     },
     {
       "name": "JavaScript suite (test:all)",
@@ -55,7 +55,7 @@
       "exitCode": 0,
       "expectedExit": 0,
       "asExpected": true,
-      "durationMs": 19614,
+      "durationMs": 18145,
       "summary": "26 PASS / 0 FAIL | 15 PASS / 0 FAIL | \"verdict\": \"ANCHORS_REPRODUCED_EXACTLY\""
     },
     {
@@ -65,7 +65,7 @@
       "exitCode": 0,
       "expectedExit": 0,
       "asExpected": true,
-      "durationMs": 597,
+      "durationMs": 502,
       "summary": "safety audit: 18 PASS / 0 FAIL | PASS SAFE-16 remote mutations fail closed without a token (same-origin is not authentication) — remote mutations require a token; same-origin alone is rejected | verdict: PAPER_ONLY_SAFETY_PASS"
     },
     {
@@ -75,7 +75,7 @@
       "exitCode": 0,
       "expectedExit": 0,
       "asExpected": true,
-      "durationMs": 727,
+      "durationMs": 668,
       "summary": "blocking findings: 0"
     },
     {
@@ -85,7 +85,7 @@
       "exitCode": 1,
       "expectedExit": 1,
       "asExpected": true,
-      "durationMs": 1482,
+      "durationMs": 1571,
       "summary": "findings:        36 across 6 commit(s) | verdict: HISTORY_EXPOSURE_FOUND",
       "note": "exits 1 BY DESIGN while known exposure exists in public history"
     },
@@ -96,7 +96,7 @@
       "exitCode": 0,
       "expectedExit": 0,
       "asExpected": true,
-      "durationMs": 130,
+      "durationMs": 121,
       "summary": "strategies: 10 (equity validation BLOCKED for all 10)"
     },
     {
@@ -106,7 +106,7 @@
       "exitCode": 0,
       "expectedExit": 0,
       "asExpected": true,
-      "durationMs": 4727,
+      "durationMs": 4376,
       "summary": "external audit: 7 PASS / 0 FAIL"
     },
     {
@@ -116,7 +116,7 @@
       "exitCode": 0,
       "expectedExit": 0,
       "asExpected": true,
-      "durationMs": 1701,
+      "durationMs": 1070,
       "summary": "unresolved weekday discrepancies: 1"
     },
     {
@@ -126,7 +126,7 @@
       "exitCode": 0,
       "expectedExit": 0,
       "asExpected": true,
-      "durationMs": 345,
+      "durationMs": 348,
       "summary": "15 PASS / 0 FAIL"
     },
     {
@@ -136,7 +136,7 @@
       "exitCode": 0,
       "expectedExit": 0,
       "asExpected": true,
-      "durationMs": 7899,
+      "durationMs": 7854,
       "summary": "methodology audit: 12 PASS / 0 FAIL | PASS M4 signal depends only on the prefix passed in — signal=-1, confidence=65"
     },
     {
@@ -146,7 +146,7 @@
       "exitCode": 0,
       "expectedExit": 0,
       "asExpected": true,
-      "durationMs": 18988,
+      "durationMs": 17651,
       "summary": "}"
     },
     {
@@ -156,7 +156,7 @@
       "exitCode": 0,
       "expectedExit": 0,
       "asExpected": true,
-      "durationMs": 41088,
+      "durationMs": 39455,
       "summary": "}"
     },
     {
@@ -166,7 +166,7 @@
       "exitCode": 0,
       "expectedExit": 0,
       "asExpected": true,
-      "durationMs": 49820,
+      "durationMs": 48990,
       "summary": "verdict: NEGATIVE_RESULT_ROBUST_TO_CLUSTERING"
     },
     {
@@ -176,7 +176,7 @@
       "exitCode": 0,
       "expectedExit": 0,
       "asExpected": true,
-      "durationMs": 43032,
+      "durationMs": 39686,
       "summary": "verdict: {"
     },
     {
@@ -186,7 +186,7 @@
       "exitCode": 0,
       "expectedExit": 0,
       "asExpected": true,
-      "durationMs": 633,
+      "durationMs": 609,
       "summary": "PASS  parse \"10 passed, 2 xfailed\" — 10 passed, 2 xfailed | PASS  the old regex bug cannot recur: 1 failed before 388 passed is not green — 388 passed, 1 failed | bundle-audit tests: 26 passed, 0 failed"
     },
     {
@@ -206,7 +206,7 @@
       "exitCode": 0,
       "expectedExit": 0,
       "asExpected": true,
-      "durationMs": 27,
+      "durationMs": 31,
       "summary": "dist_test_cjs/apiGuard.js: 48 passed, 0 failed"
     },
     {
@@ -216,7 +216,7 @@
       "exitCode": 0,
       "expectedExit": 0,
       "asExpected": true,
-      "durationMs": 816,
+      "durationMs": 801,
       "summary": "production build: 91 passed, 0 failed",
       "note": "each reintroduced vulnerability must be detected by the adversarial probe"
     },
@@ -227,7 +227,7 @@
       "exitCode": 0,
       "expectedExit": 0,
       "asExpected": true,
-      "durationMs": 412,
+      "durationMs": 407,
       "summary": "\"passed\": 12, | \"verdict\": \"linear-ish\""
     }
   ],

@@ -181,7 +181,9 @@ performed by an automated agent, and this repository must never be given the cre
   storage and are destroyed by environment resets: ${bundleFacts.onDisk} exist now, ${bundleFacts.destroyed} earlier
   ones were recorded and then lost. That is the clearest possible demonstration that a local copy is not a backup.
 - **Action:** copy a verified bundle out of this machine to storage the owner controls and can restore from.
-  Inventory, hashes and the restore procedure: ${code("RECOVERY_MANIFEST.md")} and ${code("RECOVERY_PROCEDURE.md")}.
+  Step-by-step, including the fourteen-step verification that would upgrade the status:
+  ${code("OFF_MACHINE_BACKUP_HANDOFF.md")}. Inventory and restore procedure: ${code("RECOVERY_MANIFEST.md")},
+  ${code("RECOVERY_PROCEDURE.md")}.
 - **Do not** treat this handover, or any file in this repository, as a backup.
 
 ---

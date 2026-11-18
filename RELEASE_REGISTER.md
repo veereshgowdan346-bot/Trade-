@@ -1,7 +1,7 @@
 # OmniTradePro Apex V2.0 — Release Readiness Register
 
-Generated: 2026-11-18T04:25:44.847Z  
-Branch `arena/f721e253-trade` · HEAD `c773d60a12ba` · parent `2826a67986de` · 10 commits  
+Generated: 2026-11-18T04:36:10.169Z  
+Branch `arena/f721e253-trade` · HEAD `0046eeb473ef` · parent `c773d60a12ba` · 11 commits  
 Generator: `node scripts/generate_release_register.js`
 
 **DECISION: SECURITY BLOCKED.** Production readiness is not claimed. Permitted use: PAPER / RESEARCH ONLY.

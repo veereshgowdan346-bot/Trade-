@@ -1,7 +1,7 @@
 # APEX V2.0 — Ultimate One-Pass Audit, Remediation, Validation & Certification
 
-**Generated:** 2026-11-18T04:25:45.026Z from machine-readable artifacts by `scripts/generate_final_report.js`
-**Branch:** `arena/f721e253-trade` · **Baseline commit:** `c773d60a12bafc22eaebd413cea86a1d8e5c2ff9` · **Tracked files:** 496
+**Generated:** 2026-11-18T04:36:10.324Z from machine-readable artifacts by `scripts/generate_final_report.js`
+**Branch:** `arena/f721e253-trade` · **Baseline commit:** `0046eeb473ef5241202dcba66dbf183e0b07b2e1` · **Tracked files:** 496
 **Mode:** research, historical backtesting and PAPER simulation only. Nothing pushed, merged, deployed or traded.
 
 ---
@@ -50,9 +50,9 @@ corrected intraday rule.
 
 | Item | Value |
 |---|---|
-| Baseline (HEAD at audit start) | `c773d60` |
-| Parent | `2826a67` |
-| Baseline present | yes — verified with `git cat-file -e c773d60` |
+| Baseline (HEAD at audit start) | `0046eeb` |
+| Parent | `c773d60` |
+| Baseline present | yes — verified with `git cat-file -e 0046eeb` |
 | Baseline exists in this clone | yes (`git cat-file -e`) |
 | Branch | `arena/f721e253-trade` |
 | Tracked files at audit start | 496 |
@@ -371,7 +371,7 @@ Behaviour-tested (`scripts/audit_safety.js`), not inferred from comments:
 | SAFE-15 | client-supplied X-Forwarded-For is not treated as proof of locality | **PASS** | spoofed header rejected; nearest-hop-only under OMNI_TRUST_PROXY |
 | SAFE-10 | configured token is required and compared exactly | **PASS** | missing/wrong rejected, correct accepted (runtime-generated token) |
 | SAFE-11 | rate limiter returns 429 once the budget is exhausted | **PASS** | 429 after 30 writes (limit 30/min) |
-| SAFE-12 | no known leaked identifier remains in the tracked tree | **PASS** | 495 files, 3 digests, 0 matches |
+| SAFE-12 | no known leaked identifier remains in the tracked tree | **PASS** | 496 files, 3 digests, 0 matches |
 | SAFE-13 | vault uses a per-install random key, not a published constant | **PASS** | 64-hex per-install key, 0600, stable, no constant fallback |
 | SAFE-18 | no user-facing text claims a credential fallback key exists | **PASS** | no stale fallback-key claims |
 | SAFE-14 | credential vault fails closed without VAULT_KEY (no published fallback) | **PASS** | throws without key, rejects short keys, derives 32 bytes with a key |
@@ -391,7 +391,7 @@ key and TOTP seed** and treat them as compromised. History rewriting was not att
 | `npx tsc --noEmit` | 0 | no type errors |
 | `npx eslint . --max-warnings=0` | 0 | no lint findings |
 | `npm run build` | 0 | production build completed |
-| `python3 -m pytest -q` | 0 | 390 passed in 1.45s |
+| `python3 -m pytest -q` | 0 | 390 passed in 1.37s |
 | `npm run test:all` | 0 | EXACT_EQUIVALENCE_VERIFIED, ANCHORS_REPRODUCED_EXACTLY |
 | `npm run test:external` | 0 | dataset audit 7/7 |
 | `npm run test:calendar` | 0 | 1 unresolved weekday discrepancy recorded |
@@ -467,7 +467,7 @@ permanently disabled in code and is out of scope.
 ## 21. Final commit
 
 This report is part of the single local commit created at the end of this pass, on branch `arena/f721e253-trade`,
-directly on top of baseline `c773d60a12bafc22eaebd413cea86a1d8e5c2ff9`. Its hash is the commit that contains this file:
+directly on top of baseline `0046eeb473ef5241202dcba66dbf183e0b07b2e1`. Its hash is the commit that contains this file:
 
 ```
 git log -1 --format=%H -- APEX_V2_FINAL_AUDIT_REPORT.md

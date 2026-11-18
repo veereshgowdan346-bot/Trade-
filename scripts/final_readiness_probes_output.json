@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-18T04:24:59.267Z",
+  "generatedAt": "2026-11-18T04:36:00.650Z",
   "probeCount": 12,
   "passed": 12,
   "failed": 0,
@@ -178,8 +178,8 @@
             "candles": 500,
             "trades": 4,
             "netPnl": -348.17,
-            "elapsedMs": 14,
-            "usPerCandle": 27.27,
+            "elapsedMs": 11,
+            "usPerCandle": 22.08,
             "rssDeltaMb": 1
           },
           {
@@ -187,42 +187,42 @@
             "trades": 4,
             "netPnl": -348.17,
             "elapsedMs": 8,
-            "usPerCandle": 8.42,
+            "usPerCandle": 7.72,
             "rssDeltaMb": 1
           },
           {
             "candles": 2000,
             "trades": 7,
             "netPnl": -734.35,
-            "elapsedMs": 21,
-            "usPerCandle": 10.57,
-            "rssDeltaMb": 4
+            "elapsedMs": 17,
+            "usPerCandle": 8.64,
+            "rssDeltaMb": 5
           },
           {
             "candles": 4000,
             "trades": 12,
             "netPnl": -817.53,
             "elapsedMs": 36,
-            "usPerCandle": 8.94,
-            "rssDeltaMb": 3
+            "usPerCandle": 9.06,
+            "rssDeltaMb": 2
           },
           {
             "candles": 8000,
             "trades": 29,
             "netPnl": -1645.07,
-            "elapsedMs": 52,
-            "usPerCandle": 6.5,
-            "rssDeltaMb": 11
+            "elapsedMs": 58,
+            "usPerCandle": 7.28,
+            "rssDeltaMb": 14
           }
         ],
-        "doublingRatio_1000_to_2000": 2.63,
+        "doublingRatio_1000_to_2000": 2.13,
         "ceilingTested": 8000
       }
     },
     "P5_linear_or_better": {
       "status": "PASS",
       "detail": {
-        "measuredDoublingRatio": 2.63,
+        "measuredDoublingRatio": 2.13,
         "verdict": "linear-ish"
       }
     },

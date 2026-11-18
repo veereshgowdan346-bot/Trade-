@@ -1,6 +1,6 @@
 # OmniTradePro Apex V2.0 — Final Certification Report
 
-Generated: 2026-11-18T04:25:44.948Z  
+Generated: 2026-11-18T04:36:10.260Z  
 Generator: `node scripts/generate_apex_certification.js`  
 Scope: one end-to-end pass — audit, safe fixes, full regression, certification and roadmap.  
 Every figure is read from an artifact produced by an executed command. No credential value appears here.
@@ -33,10 +33,10 @@ Three things did **not** change, and none of them can be fixed from inside this 
 | Item | Value |
 |---|---|
 | Branch | `arena/f721e253-trade` |
-| HEAD | `c773d60a12bafc22eaebd413cea86a1d8e5c2ff9` |
-| Parent | `2826a67986deed726ddf105c64c29d35cf431069` |
-| Working tree at generation | 2 modified path(s) |
-| Commits reachable | 10 |
+| HEAD | `0046eeb473ef5241202dcba66dbf183e0b07b2e1` |
+| Parent | `c773d60a12bafc22eaebd413cea86a1d8e5c2ff9` |
+| Working tree at generation | 34 modified path(s) |
+| Commits reachable | 11 |
 | Shallow boundary | **none — full history** |
 | Runtime | Node v22.22.3, Python 3.11.2 |
 | Modules | 33 in `src/lib`, 19 API routes, 53 scripts |
@@ -47,8 +47,8 @@ The environment retained its state for this pass (HEAD matched the expected comm
 
 | Item | Value |
 |---|---|
-| Commits scanned | 9 |
-| Blobs scanned | 597 |
+| Commits scanned | 11 |
+| Blobs scanned | 642 |
 | Shallow | false |
 | Findings | **36** |
 | Distinct commits | **6** |
@@ -501,14 +501,14 @@ Unresolved weekday discrepancies: **1** — 2022-10-24, where the dataset and th
 
 ## 17. Full regression results
 
-Recorded by `node scripts/run_regression_record.js` at c773d60a12bafc22eaebd413cea86a1d8e5c2ff9.
+Recorded by `node scripts/run_regression_record.js` at 0046eeb473ef5241202dcba66dbf183e0b07b2e1.
 
 | Gate | Command | Exit | Expected | Detail |
 |---|---|---|---|---|
 | TypeScript typecheck | `npx tsc --noEmit` | 0 | 0 |  |
 | Lint (eslint, zero warnings) | `npx eslint . --max-warnings=0` | 0 | 0 |  |
 | Production build | `npm run build` | 0 | 0 | ƒ  (Dynamic)  server-rendered on demand |
-| Python test suite | `python3 -m pytest -q` | 0 | 0 | 390 passed in 1.35s |
+| Python test suite | `python3 -m pytest -q` | 0 | 0 | 390 passed in 1.38s |
 | JavaScript suite (test:all) | `npm run test:all` | 0 | 0 | 26 PASS / 0 FAIL / 15 PASS / 0 FAIL / "verdict": "ANCHORS_REPRODUCED_EXACTLY" |
 | Security probes (test:safety) | `npm run test:safety` | 0 | 0 | safety audit: 18 PASS / 0 FAIL / PASS SAFE-16 remote mutations fail closed without a token (same-origin is not authentication) — remote mutations require a token; same-origin alone is rejected / verdict: PAPER_ONLY_SAFETY_PASS |
 | Secret scanner (test:secrets) | `npm run test:secrets` | 0 | 0 | blocking findings: 0 |
@@ -532,7 +532,7 @@ Recorded by `node scripts/run_regression_record.js` at c773d60a12bafc22eaebd413c
 
 Not executed in this pass: nothing in the gate list. The history scanner is executed and exits **1 by design** — it is the visible, blocking result that must stay red until rotation.
 
-Report consistency: **82 claims checked, 0 failures** (REPORT_MATCHES_ARTIFACTS).
+Report consistency: **82 claims checked, 2 failures** (REPORT_ARTIFACT_MISMATCH).
 
 ## 18. Remaining blockers
 

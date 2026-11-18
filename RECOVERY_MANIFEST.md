@@ -1,6 +1,6 @@
 # Recovery Manifest
 
-OmniTradePro Apex V2.0 · generated 2026-11-18T04:25:49.094Z by `scripts/generate_recovery_docs.js`.
+OmniTradePro Apex V2.0 · generated 2026-11-18T04:36:14.354Z by `scripts/generate_recovery_docs.js`.
 
 This file is generated from the repository itself. Re-run `node scripts/generate_recovery_docs.js` after
 any commit that changes what it reports — the numbers here are not maintained by hand.
@@ -10,12 +10,12 @@ any commit that changes what it reports — the numbers here are not maintained 
 | Item | Value |
 |---|---|
 | Branch | `arena/f721e253-trade` |
-| HEAD | `c773d60a12bafc22eaebd413cea86a1d8e5c2ff9` |
-| Parent | `2826a67986deed726ddf105c64c29d35cf431069` |
-| Tree ID | `5f88a7e891e34a69ac01ebd7216a93020e18c165` |
-| Commits in history | 10 (complete) |
+| HEAD | `0046eeb473ef5241202dcba66dbf183e0b07b2e1` |
+| Parent | `c773d60a12bafc22eaebd413cea86a1d8e5c2ff9` |
+| Tree ID | `38a1b9f037dc4fc7ba97fed0f787fb9a66e52932` |
+| Commits in history | 11 (complete) |
 | Tracked files | 496 |
-| Working tree at generation | 4 modified entries (this document was regenerated before the commit that records it — see git log) |
+| Working tree at generation | 34 modified entries (this document was regenerated before the commit that records it — see git log) |
 
 A generated document cannot name the commit that contains it. The HEAD above is therefore the commit the
 generator ran against; when it shows modified entries, the commit that records this manifest is the next one on the
@@ -150,4 +150,5 @@ Notes that must not be lost:
 | `scripts/mutation_check.js` | 5-mutant gate proving the suites can fail |
 | `scripts/run_regression_record.js` | 21-gate regression record |
 | `scripts/verify_report_consistency.js` | report-vs-artefact consistency (82 claims) |
+| `OFF_MACHINE_BACKUP_HANDOFF.md` | what the owner must do about durability, and how to verify it |
 | `FINAL_READINESS_REPORT/GIT_HISTORY_REMEDIATION_PLAN.md` | history exposure plan (not executed) |

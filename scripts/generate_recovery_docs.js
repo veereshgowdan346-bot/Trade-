@@ -311,6 +311,7 @@ Notes that must not be lost:
 | ${code("scripts/mutation_check.js")} | 5-mutant gate proving the suites can fail |
 | ${code("scripts/run_regression_record.js")} | 21-gate regression record |
 | ${code("scripts/verify_report_consistency.js")} | report-vs-artefact consistency (82 claims) |
+| ${code("OFF_MACHINE_BACKUP_HANDOFF.md")} | what the owner must do about durability, and how to verify it |
 | ${code("FINAL_READINESS_REPORT/GIT_HISTORY_REMEDIATION_PLAN.md")} | history exposure plan (not executed) |
 `;
 

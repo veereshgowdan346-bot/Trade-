@@ -318,6 +318,32 @@ for (const [label, needle] of hardeningClaims) {
   }
 
   const { execFileSync } = require("node:child_process");
+  /* The off-machine handoff is the only document that tells the owner what to do about durability. It must exist,
+     must not claim the backup is established, and must contain the steps that would upgrade the status. */
+  {
+    const p = path.join(ROOT, "OFF_MACHINE_BACKUP_HANDOFF.md");
+    if (!fs.existsSync(p)) {
+      failures.push({ label: "handoff:missing", needle: "OFF_MACHINE_BACKUP_HANDOFF.md", reason: "no off-machine backup handoff exists" });
+    } else {
+      const body = fs.readFileSync(p, "utf8");
+      for (const [needle, label, reason] of [
+        ["DURABLE_BACKUP_NOT_ESTABLISHED", "handoff:status", "the handoff does not carry the current durability status"],
+        ["git fsck --full", "handoff:fsck", "the handoff does not require a filesystem check on the downloaded copy"],
+        ["different machine", "handoff:off-machine", "the handoff does not require verification away from this machine"],
+        ["sha256sum", "handoff:hash", "the handoff does not require a hash comparison"],
+        ["npm ci", "handoff:deps", "the handoff does not require a dependency rebuild"],
+      ]) if (!body.includes(needle)) failures.push({ label, needle, reason });
+      /* A handoff must be allowed to name the status it is working towards, and forbidden to assert it. So the
+         check is per line: every mention of the established state must be in a sentence about replacing or
+         upgrading the status. */
+      const asserting = body.split("\n").filter((line) => /DURABLE_BACKUP_ESTABLISHED/.test(line))
+        .filter((line) => !/replac|upgrad|only (when|then)|until/i.test(line));
+      if (asserting.length) {
+        failures.push({ label: "handoff:overclaim", needle: asserting[0].trim().slice(0, 60), reason: "the handoff asserts a durability that does not exist" });
+      }
+    }
+  }
+
   /* REC-004: a shallow workspace cannot produce a restorable bundle. The manifest must say so, and the audit
      artefact must record it, so neither can quietly claim a usable backup from a shallow source. */
   {
