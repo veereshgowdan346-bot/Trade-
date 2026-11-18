@@ -1,6 +1,6 @@
 # Recovery Manifest
 
-OmniTradePro Apex V2.0 · generated 2026-11-18T04:39:59.232Z by `scripts/generate_recovery_docs.js`.
+OmniTradePro Apex V2.0 · generated 2026-11-18T04:43:52.975Z by `scripts/generate_recovery_docs.js`.
 
 This file is generated from the repository itself. Re-run `node scripts/generate_recovery_docs.js` after
 any commit that changes what it reports — the numbers here are not maintained by hand.
@@ -10,10 +10,10 @@ any commit that changes what it reports — the numbers here are not maintained 
 | Item | Value |
 |---|---|
 | Branch | `arena/f721e253-trade` |
-| HEAD | `93c4dd8c52e4e53f6af1a812493b827077793640` |
-| Parent | `77b965dc4d4c644724d4f6892b1a0fb8f98f755f` |
-| Tree ID | `f1ed5bf36ce57e7b00f17b85c329ac8f686b919d` |
-| Commits in history | 13 (complete) |
+| HEAD | `cf51ff728046611079d1976108be75398cc45d12` |
+| Parent | `93c4dd8c52e4e53f6af1a812493b827077793640` |
+| Tree ID | `868cc50affac8ccabad83a63b3793549985a8476` |
+| Commits in history | 14 (complete) |
 | Tracked files | 498 |
 | Working tree at generation | 9 modified entries (this document was regenerated before the commit that records it — see git log) |
 

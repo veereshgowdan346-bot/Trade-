@@ -17,6 +17,7 @@ const { execFileSync } = require("node:child_process");
 const ROOT = path.join(__dirname, "..");
 const { parsePytestSummary, isGreen } = require("./lib/pytest_summary.js");
 const { checkInventory, classifyInventory } = require("./lib/inventory_guard.js");
+const { checkHandoff } = require("./lib/handoff_guard.js");
 
 let passed = 0;
 const failures = [];
@@ -267,6 +268,47 @@ try {
     assert(r.exit === 1, `a shallow-source bundle was accepted (exit ${r.exit})`);
     assert(/NOT readable|clone failed|early EOF|index-pack/i.test(b.packIntegrity), `packIntegrity did not record the failure: ${b.packIntegrity}`);
     return "verify may pass, the clone does not — the audit fails it";
+  });
+
+  console.log("\n--> 3e. Handoff guard: the three failure modes that were once accepted");
+  check("missing links, hard-coded identity and a claimed off-machine restore are all rejected", () => {
+    const good = [
+      "# Handoff",
+      "**Status: `DURABLE_BACKUP_NOT_ESTABLISHED`.**",
+      "If `git rev-parse HEAD` is not the commit above, regenerate this document before proceeding.",
+      "`SRC=$(git rev-parse HEAD)`",
+      "`git bundle create /tmp/apex_$SRC.bundle --all`",
+      "`sha256sum /tmp/apex_$SRC.bundle`",
+      "`git clone /tmp/apex_$SRC.bundle restored && cd restored && git fsck --full`",
+      "`npm ci`",
+      "Verify from a different machine against the downloaded copy.",
+      "Only then may `DURABLE_BACKUP_NOT_ESTABLISHED` be replaced with `DURABLE_BACKUP_ESTABLISHED`.",
+    ].join("\n");
+    const links = { manifest: "see OFF_MACHINE_BACKUP_HANDOFF.md", procedure: "OFF_MACHINE_BACKUP_HANDOFF.md", handover: "OFF_MACHINE_BACKUP_HANDOFF.md" };
+    assert(checkHandoff({ handoffText: good, linkedFrom: links }).ok, "the good handoff was rejected: " + checkHandoff({ handoffText: good, linkedFrom: links }).errors.join("; "));
+
+    // 1. missing link from any document
+    const noManifestLink = { ...links, manifest: "no reference here" };
+    assert(checkHandoff({ handoffText: good, linkedFrom: noManifestLink }).errors.some((e) => e.startsWith("link:")), "missing manifest link accepted");
+
+    // 2. hard-coded identity in the bundle command
+    const hardCoded = good.replace("`git bundle create /tmp/apex_$SRC.bundle --all`", "`git bundle create /tmp/apex_5e1a0c3f9b2d4e6a8c0b1d2e3f4a5b6c7d8e9f0a.bundle --all`")
+      .replace("`SRC=$(git rev-parse HEAD)`", "`SRC=5e1a0c3f9b2d4e6a8c0b1d2e3f4a5b6c7d8e9f0a`");
+    const hc = checkHandoff({ handoffText: hardCoded, linkedFrom: links }).errors;
+    assert(hc.some((e) => e.startsWith("identity:")), "hard-coded commit accepted");
+
+    // 3. a fixture described as a real recovery
+    const claimed = good + "\nThis backup has been restored off-machine and verified.\n";
+    assert(checkHandoff({ handoffText: claimed, linkedFrom: links }).errors.some((e) => e.startsWith("performed:")), "a claimed off-machine restore was accepted");
+
+    // 4. durability asserted rather than aimed at
+    const asserted = good + "\nThe status is DURABLE_BACKUP_ESTABLISHED.\n";
+    assert(checkHandoff({ handoffText: asserted, linkedFrom: links }).errors.some((e) => e.startsWith("overclaim:")), "asserted durability accepted");
+
+    // 5. staleness guidance missing
+    const noGuidance = good.replace("regenerate this document before proceeding", "carry on");
+    assert(checkHandoff({ handoffText: noGuidance, linkedFrom: links }).errors.some((e) => e.startsWith("staleness-guidance:")), "missing staleness guidance accepted");
+    return "links, identity, performed, overclaim and staleness rules all fire";
   });
 
   console.log("\n--> 4. Stale manifest data is caught by the verifier");

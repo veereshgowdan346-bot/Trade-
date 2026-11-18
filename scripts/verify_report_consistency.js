@@ -325,18 +325,20 @@ for (const [label, needle] of hardeningClaims) {
     if (!fs.existsSync(p)) {
       failures.push({ label: "handoff:missing", needle: "OFF_MACHINE_BACKUP_HANDOFF.md", reason: "no off-machine backup handoff exists" });
     } else {
-      const body = fs.readFileSync(p, "utf8");
-      for (const [needle, label, reason] of [
-        ["DURABLE_BACKUP_NOT_ESTABLISHED", "handoff:status", "the handoff does not carry the current durability status"],
-        ["git fsck --full", "handoff:fsck", "the handoff does not require a filesystem check on the downloaded copy"],
-        ["different machine", "handoff:off-machine", "the handoff does not require verification away from this machine"],
-        ["sha256sum", "handoff:hash", "the handoff does not require a hash comparison"],
-        ["npm ci", "handoff:deps", "the handoff does not require a dependency rebuild"],
-      ]) if (!body.includes(needle)) failures.push({ label, needle, reason });
-      /* The handoff names a specific commit. That commit must be real and must be an ancestor of HEAD, and the
-         document must tell a reader what to do when it is stale — otherwise the owner runs a verification whose
-         expected values describe a different commit and reports a false failure. */
-      const quoted = (body.match(/^\| HEAD \| `([0-9a-f]{40})` \|$/m) || [])[1];
+      const { checkHandoff } = require("./lib/handoff_guard.js");
+      const handoffText = fs.readFileSync(p, "utf8");
+      const linkedFrom = {};
+      for (const [name, file] of [["manifest", "RECOVERY_MANIFEST.md"], ["procedure", "RECOVERY_PROCEDURE.md"],
+        ["handover", "FINAL_HANDOVER.md"]]) {
+        const f = path.join(ROOT, file);
+        linkedFrom[name] = fs.existsSync(f) ? fs.readFileSync(f, "utf8") : "";
+      }
+      const verdict = checkHandoff({ handoffText, linkedFrom });
+      for (const e of verdict.errors) {
+        failures.push({ label: `handoff:${e.split(":")[0]}`, needle: e.slice(0, 70), reason: "handoff guard" });
+      }
+      /* The quoted commit must be real and an ancestor, or the expected values describe another repository. */
+      const quoted = (handoffText.match(/^\| HEAD \| `([0-9a-f]{40})` \|$/m) || [])[1];
       if (!quoted) {
         failures.push({ label: "handoff:head", needle: "missing", reason: "the handoff does not state which commit it describes" });
       } else {
@@ -348,18 +350,6 @@ for (const [label, needle] of hardeningClaims) {
         if (!ancestor) {
           failures.push({ label: "handoff:head", needle: quoted, reason: "the handoff names a commit that is not in this history" });
         }
-        if (!/regenerate this document before proceeding/.test(body)) {
-          failures.push({ label: "handoff:staleness-guidance", needle: "missing", reason: "no instruction for what to do when the quoted commit is not the current one" });
-        }
-      }
-
-      /* A handoff must be allowed to name the status it is working towards, and forbidden to assert it. So the
-         check is per line: every mention of the established state must be in a sentence about replacing or
-         upgrading the status. */
-      const asserting = body.split("\n").filter((line) => /DURABLE_BACKUP_ESTABLISHED/.test(line))
-        .filter((line) => !/replac|upgrad|only (when|then)|until/i.test(line));
-      if (asserting.length) {
-        failures.push({ label: "handoff:overclaim", needle: asserting[0].trim().slice(0, 60), reason: "the handoff asserts a durability that does not exist" });
       }
     }
   }
