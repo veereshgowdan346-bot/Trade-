@@ -1,6 +1,6 @@
 # Recovery Procedure
 
-OmniTradePro Apex V2.0 · generated 2026-11-18T04:25:26.810Z.
+OmniTradePro Apex V2.0 · generated 2026-11-18T04:25:49.094Z.
 
 Written so a fresh environment can rebuild and verify this project **without any chat history**. Follow it in
 order; each step states what success looks like.
