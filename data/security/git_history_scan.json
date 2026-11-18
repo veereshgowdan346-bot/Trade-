@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-11-18T03:56:49.743149+00:00",
+  "generatedAt": "2026-11-18T04:22:09.533509+00:00",
   "command": "python3 scripts/scan_git_history_secrets.py",
   "scanner": "digest-based; no matched value is ever printed or stored",
   "coverage": {
-    "commitsScanned": 19,
-    "blobsScanned": 677,
+    "commitsScanned": 9,
+    "blobsScanned": 597,
     "refs": [
       "--all"
     ],

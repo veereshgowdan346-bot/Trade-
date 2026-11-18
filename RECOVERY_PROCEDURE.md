@@ -1,6 +1,6 @@
 # Recovery Procedure
 
-OmniTradePro Apex V2.0 · generated 2026-11-18T04:04:55.774Z.
+OmniTradePro Apex V2.0 · generated 2026-11-18T04:25:26.810Z.
 
 Written so a fresh environment can rebuild and verify this project **without any chat history**. Follow it in
 order; each step states what success looks like.
@@ -58,11 +58,12 @@ Then run `node scripts/import_external_data.js` (exit 0).
 `node scripts/adversarial_api_probe.js` → `48 passed, 0 failed`
 `node scripts/env_config_probe.js` → `43 passed, 0 failed`
 `node scripts/mutation_check.js` → `5/5 mutants detected`
-`node scripts/test_bundle_audit.js` → `21 passed, 0 failed` (the inventory tooling fails when it should)
+`node scripts/test_bundle_audit.js` → `26 passed, 0 failed` (the inventory tooling fails when it should)
 `node scripts/audit_safety.js` → `PAPER_ONLY_SAFETY_PASS`
 
-All four were re-run inside a clone of the recovery bundle and reproduced these exact figures, so a failure here
-means the restore or the environment is wrong — not that the project regressed.
+These figures were last reproduced in the workspace at the commit recorded above. They were previously reproduced
+inside clones of recovery bundles; no bundle exists now, so only the workspace path is currently available. A
+failure here means the environment or the restore is wrong — not that the project regressed.
 
 ## Step 6 — Re-establish the commit line
 
@@ -81,6 +82,10 @@ Expected non-zero: `test:history` exits 1 **by design** while the 36 historical 
 reachable from origin/master. Reporting it as passing would be false.
 
 ## Step 8 — Rebuild the recovery bundle
+
+No bundle exists at the time of writing (see the destroyed-bundle table). Rebuilding one does not make the
+inventory complete — it only re-establishes this machine's ability to produce one. Until a copy is restored from
+somewhere else, `DURABLE_BACKUP_NOT_ESTABLISHED` stays.
 
 `mkdir -p backups && git bundle create backups/repo_all_refs_$(date +%Y%m%dT%H%M%S).bundle --all`
 `git bundle verify backups/*.bundle` → `The bundle records a complete history`

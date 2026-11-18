@@ -1,7 +1,7 @@
 # APEX V2.0 — Ultimate One-Pass Audit, Remediation, Validation & Certification
 
-**Generated:** 2026-11-18T03:59:41.993Z from machine-readable artifacts by `scripts/generate_final_report.js`
-**Branch:** `arena/f721e253-trade` · **Baseline commit:** `922474187ada1ca8fb57dc815e82c105a47183ff` · **Tracked files:** 495
+**Generated:** 2026-11-18T04:20:53.606Z from machine-readable artifacts by `scripts/generate_final_report.js`
+**Branch:** `arena/f721e253-trade` · **Baseline commit:** `2826a67986deed726ddf105c64c29d35cf431069` · **Tracked files:** 495
 **Mode:** research, historical backtesting and PAPER simulation only. Nothing pushed, merged, deployed or traded.
 
 ---
@@ -50,9 +50,9 @@ corrected intraday rule.
 
 | Item | Value |
 |---|---|
-| Baseline (HEAD at audit start) | `9224741` |
-| Parent | `97d3930` |
-| Baseline present | yes — verified with `git cat-file -e 9224741` |
+| Baseline (HEAD at audit start) | `2826a67` |
+| Parent | `df52c08` |
+| Baseline present | yes — verified with `git cat-file -e 2826a67` |
 | Baseline exists in this clone | yes (`git cat-file -e`) |
 | Branch | `arena/f721e253-trade` |
 | Tracked files at audit start | 495 |
@@ -391,7 +391,7 @@ key and TOTP seed** and treat them as compromised. History rewriting was not att
 | `npx tsc --noEmit` | 0 | no type errors |
 | `npx eslint . --max-warnings=0` | 0 | no lint findings |
 | `npm run build` | 0 | production build completed |
-| `python3 -m pytest -q` | 0 | 390 passed in 1.40s |
+| `python3 -m pytest -q` | 0 | 390 passed in 2.14s |
 | `npm run test:all` | 0 | EXACT_EQUIVALENCE_VERIFIED, ANCHORS_REPRODUCED_EXACTLY |
 | `npm run test:external` | 0 | dataset audit 7/7 |
 | `npm run test:calendar` | 0 | 1 unresolved weekday discrepancy recorded |
@@ -467,7 +467,7 @@ permanently disabled in code and is out of scope.
 ## 21. Final commit
 
 This report is part of the single local commit created at the end of this pass, on branch `arena/f721e253-trade`,
-directly on top of baseline `922474187ada1ca8fb57dc815e82c105a47183ff`. Its hash is the commit that contains this file:
+directly on top of baseline `2826a67986deed726ddf105c64c29d35cf431069`. Its hash is the commit that contains this file:
 
 ```
 git log -1 --format=%H -- APEX_V2_FINAL_AUDIT_REPORT.md

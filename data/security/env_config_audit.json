@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-18T02:25:49.313Z",
+  "generatedAt": "2026-11-18T04:24:58.852Z",
   "command": "node scripts/env_config_probe.js",
   "note": "Missing, malformed, contradictory and unsafe values for the six environment variables the app reads.",
   "passed": 43,

@@ -16,7 +16,7 @@ const { execFileSync } = require("node:child_process");
 
 const ROOT = path.join(__dirname, "..");
 const { parsePytestSummary, isGreen } = require("./lib/pytest_summary.js");
-const { checkInventory } = require("./lib/inventory_guard.js");
+const { checkInventory, classifyInventory } = require("./lib/inventory_guard.js");
 
 let passed = 0;
 const failures = [];
@@ -195,6 +195,80 @@ try {
     return "live table agrees with disk; archive kept separate; genuine gap still caught";
   });
 
+  console.log("\n--> 3b. An absent inventory can be recorded, but never as success");
+  check("--record-absence writes NO_BUNDLE_EXISTS and exits 3, and the flag is required", () => {
+    const dir = path.join(tmpRoot, "case-absent");
+    fs.mkdirSync(dir, { recursive: true });
+    const out = path.join(dir, "audit.json");
+    fs.writeFileSync(out, "{\"sentinel\":true}\n");
+    // Without the flag: refusal, exit 2, previous artefact untouched.
+    let silentExit = 0;
+    try {
+      execFileSync(process.execPath, [path.join(__dirname, "audit_bundles.js"), `--dir=${dir}`, `--out=${out}`], { stdio: "pipe" });
+    } catch (e) { silentExit = e.status ?? 1; }
+    assert(silentExit === 2, `expected exit 2 without the flag, got ${silentExit}`);
+    assert(fs.readFileSync(out, "utf8").includes("sentinel"), "refusal overwrote the existing inventory");
+    // With the flag: explicit absence, exit 3 (never 0), archive attached.
+    let exit = 0;
+    try {
+      execFileSync(process.execPath, [path.join(__dirname, "audit_bundles.js"), `--dir=${dir}`, `--out=${out}`, "--record-absence"], { stdio: "pipe", cwd: __dirname });
+    } catch (e) { exit = e.status ?? 1; }
+    const artefact = JSON.parse(fs.readFileSync(out, "utf8"));
+    assert(exit === 3, `expected exit 3 for a recorded absence, got ${exit}`);
+    assert(artefact.state === "NONE_PRESENT" && artefact.verdict === "NO_BUNDLE_EXISTS", "absence not labelled");
+    assert(artefact.count === 0 && artefact.bundles.length === 0, "absence recorded with invented bundles");
+    assert(artefact.historicallyRecorded && artefact.historicallyRecorded.count > 0, "destroyed bundles dropped from the absence record");
+    return "refuses silently, records loudly, exits non-zero";
+  });
+
+  check("the archive register qualifies its own evidence and never claims a restore", () => {
+    const reg = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "data", "security", "bundle_archive_register.json"), "utf8"));
+    assert(reg.count === reg.bundles.length, "register count disagrees with its own rows");
+    assert(/measurement, not a copy/.test(reg.evidencePolicy), "evidence policy is missing");
+    for (const b of reg.bundles) {
+      assert(b.evidence && b.evidence.kind, `${b.file} has no evidence provenance`);
+      assert(typeof b.evidence.sourceInspectableNow === "boolean", `${b.file} does not say whether its source is inspectable`);
+      assert(!/restore/i.test(JSON.stringify(b.evidence)), `${b.file} claims a restore it cannot have had`);
+    }
+    const restored = reg.bundles.filter((b) => b.restored === true).length;
+    assert(restored === 0, "a destroyed bundle is marked as restored");
+    return `${reg.count} rows, ${reg.bundles.filter((b) => !b.evidence.sourceInspectableNow).length} unverifiable beyond the record`;
+  });
+
+  console.log("\n--> 3c. Every way an inventory can be missing is classified, and only one of them is innocent");
+  check("an absent backups/ is LOST unless it is a declared absence or an admitted clone", () => {
+    const c = (o) => classifyInventory(o).state;
+    assert(c({ dirExists: true, declared: 3, statesAbsence: false, restoredClone: false }) === "PRESENT", "present dir not recognised");
+    assert(c({ dirExists: false, declared: null, statesAbsence: false, restoredClone: false }) === "UNDECLARED", "missing count line accepted");
+    assert(c({ dirExists: false, declared: 0, statesAbsence: false, restoredClone: false }) === "UNDECLARED", "silent zero accepted");
+    assert(c({ dirExists: false, declared: 0, statesAbsence: true, restoredClone: false }) === "ABSENCE_DOCUMENTED", "documented loss not recognised");
+    assert(c({ dirExists: false, declared: 8, statesAbsence: false, restoredClone: true }) === "RESTORED_CLONE", "clone not recognised");
+    const lost = classifyInventory({ dirExists: false, declared: 8, statesAbsence: false, restoredClone: false });
+    assert(lost.state === "LOST" && lost.error, "a destroyed inventory was not called LOST");
+    assert(lost.error.includes("8"), "the LOST message does not say how many were claimed");
+    return "PRESENT / UNDECLARED / ABSENCE_DOCUMENTED / RESTORED_CLONE / LOST, with nothing defaulting to ok";
+  });
+
+  console.log("\n--> 3d. A bundle made from a shallow clone cannot be restored, and the audit says so");
+  check("a bundle whose source was shallow fails the clone check even though verify succeeds", () => {
+    const full = path.join(tmpRoot, "shallow-src");
+    makeFixtureRepo(full);
+    execFileSync("bash", ["-lc", `cd "${full}" && echo two > b.txt && git add . && git commit -q -m two`], { encoding: "utf8" });
+    const shallow = path.join(tmpRoot, "shallow-clone");
+    execFileSync("bash", ["-lc", `git clone -q --depth 1 "file://${full}" "${shallow}"`], { encoding: "utf8" });
+    const shallowBundle = path.join(tmpRoot, "shallow.bundle");
+    execFileSync("bash", ["-lc", `cd "${shallow}" && git bundle create "${shallowBundle}" --all`], { encoding: "utf8" });
+    const dir = path.join(tmpRoot, "case-shallow");
+    fs.mkdirSync(dir, { recursive: true });
+    fs.copyFileSync(shallowBundle, path.join(dir, "shallow.bundle"));
+    const r = runAudit(dir);
+    const artefact = JSON.parse(fs.readFileSync(r.out, "utf8"));
+    const b = artefact.bundles[0];
+    assert(r.exit === 1, `a shallow-source bundle was accepted (exit ${r.exit})`);
+    assert(/NOT readable|clone failed|early EOF|index-pack/i.test(b.packIntegrity), `packIntegrity did not record the failure: ${b.packIntegrity}`);
+    return "verify may pass, the clone does not — the audit fails it";
+  });
+
   console.log("\n--> 4. Stale manifest data is caught by the verifier");
   check("verifier fails when backups/ holds a bundle the manifest does not list", () => {
     const dir = path.join(tmpRoot, "case-stale");
@@ -205,7 +279,9 @@ try {
       execFileSync(process.execPath, [path.join(__dirname, "verify_report_consistency.js")], {
         encoding: "utf8",
         stdio: "pipe",
-        env: { ...process.env, OMNI_BACKUP_DIR: dir },
+        /* OMNI_IN_HARNESS stops the verifier from spawning this harness again: the harness runs the verifier, and
+           the verifier checks the harness's quoted test count by running it. Without the flag that recurses. */
+        env: { ...process.env, OMNI_BACKUP_DIR: dir, OMNI_IN_HARNESS: "1" },
       });
     } catch (e) { exit = e.status ?? 1; }
     assert(exit !== 0, "verifier passed with an unlisted bundle on disk");

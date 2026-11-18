@@ -234,7 +234,12 @@ for (const [label, needle] of hardeningClaims) {
   for (const [label, file, needles] of [
     ["handover", handover, ["## A. Account-owner actions", "## B. External evidence", "## C. Code tasks", "SECURITY BLOCKED — RESEARCH/PAPER ONLY", "NOT_CONFIRMED"]],
     ["missing-evidence", register, ["Required document", "Issuing authority", "Applicable date range", "Validation criterion"]],
-    ["recovery-manifest", path.join(ROOT, "RECOVERY_MANIFEST.md"), ["| Tree ID |", "| SHA-256 |", "Independent restore test", "DURABLE_BACKUP_NOT_ESTABLISHED"]],
+    ["recovery-manifest", path.join(ROOT, "RECOVERY_MANIFEST.md"), ["| Tree ID |", "DURABLE_BACKUP_NOT_ESTABLISHED",
+      /* The hash table and the restore line only exist when a bundle does. Requiring them unconditionally would
+         push a generator towards inventing a bundle to satisfy the checker. */
+      ...(fs.existsSync(path.join(ROOT, "backups")) && fs.readdirSync(path.join(ROOT, "backups")).some((f) => f.endsWith(".bundle"))
+        ? ["| SHA-256 |", "Independent restore test"]
+        : ["Recorded but no longer present"])]],
     ["recovery-procedure", path.join(ROOT, "RECOVERY_PROCEDURE.md"), ["Step 1 — Restore full history", "Step 4 — Restore the external datasets", "Step 6 — Re-establish the commit line", "What must never be done"]],
   ]) {
     if (!fs.existsSync(file)) {
@@ -263,15 +268,25 @@ for (const [label, needle] of hardeningClaims) {
   {
     const fs = require("node:fs");
     const path = require("node:path");
-    const { checkInventory } = require("./lib/inventory_guard.js");
+    const { checkInventory, classifyInventory } = require("./lib/inventory_guard.js");
     const backupDir = process.env.OMNI_BACKUP_DIR || path.join(ROOT, "backups");
     const auditPath = path.join(ROOT, "data", "security", "bundle_audit.json");
-    if (!fs.existsSync(backupDir)) {
-      /* A clone restored FROM a bundle has no backups/ directory, because bundles are not committed. That is
-         an absent inventory, not a passing one, and it is not a mismatch either — the manifest describes the
-         workspace that produced it. Said out loud, never counted as green. */
-      notes.push("bundle inventory: not applicable (no backups/ directory — this looks like a restored clone)");
-    } else {
+    const declaredMatch = manifestBody.match(/Bundles on disk: (\d+)\./);
+    const declared = declaredMatch ? Number(declaredMatch[1]) : null;
+    const verdict = classifyInventory({
+      dirExists: fs.existsSync(backupDir),
+      declared,
+      statesAbsence: /\*\*No recovery bundle exists on this machine\.\*\*/.test(manifestBody),
+      restoredClone: process.env.OMNI_RESTORED_CLONE === "1",
+    });
+    if (verdict.error) {
+      failures.push({ label: `manifest:bundle inventory ${verdict.state}`, needle: String(declared), reason: verdict.error });
+    } else if (verdict.state === "ABSENCE_DOCUMENTED") {
+      notes.push("bundle inventory: zero bundles, stated explicitly (NO_BUNDLE_EXISTS) — nothing is restorable, durability stays unestablished");
+    } else if (verdict.state === "RESTORED_CLONE") {
+      notes.push(`bundle inventory: not applicable (restored clone declares ${declared}, has no backups/ — bundles are not committed)`);
+    }
+    if (fs.existsSync(backupDir)) {
       const diskFiles = fs.readdirSync(backupDir);
       /* Only the live inventory table counts. The manifest also lists bundles that were destroyed, and those
          names must not be read as "missing from disk" — they are missing by definition. */
@@ -294,10 +309,54 @@ for (const [label, needle] of hardeningClaims) {
           failures.push({ label: "bundle_audit:count", needle: `${audit.count} recorded / ${inv.onDisk.length} on disk`, reason: "run scripts/audit_bundles.js to refresh the inventory" });
         }
       }
+    } else if (fs.existsSync(auditPath)) {
+      const audit = JSON.parse(fs.readFileSync(auditPath, "utf8"));
+      if (audit.count !== 0) {
+        failures.push({ label: "bundle_audit:count", needle: `${audit.count} recorded / 0 on disk`, reason: "the audit artefact still claims bundles that are gone" });
+      }
     }
   }
 
   const { execFileSync } = require("node:child_process");
+  /* REC-004: a shallow workspace cannot produce a restorable bundle. The manifest must say so, and the audit
+     artefact must record it, so neither can quietly claim a usable backup from a shallow source. */
+  {
+    const manifestText = fs.readFileSync(path.join(ROOT, "RECOVERY_MANIFEST.md"), "utf8");
+    const auditFile = path.join(ROOT, "data", "security", "bundle_audit.json");
+    if (!/Shallow-source trap/.test(manifestText)) {
+      failures.push({ label: "manifest:shallow-trap", needle: "missing", reason: "REC-004 guidance absent from the manifest" });
+    }
+    if (fs.existsSync(auditFile)) {
+      const audit = JSON.parse(fs.readFileSync(auditFile, "utf8"));
+      if (!("workspaceShallow" in audit)) {
+        failures.push({ label: "audit:workspaceShallow", needle: "missing", reason: "the audit artefact does not record whether the source workspace was shallow" });
+      }
+    }
+    const shallow = fs.existsSync(path.join(ROOT, ".git", "shallow"));
+    if (shallow) {
+      failures.push({ label: "repo:shallow", needle: "true", reason: "this repository is shallow; no bundle produced from it would be restorable (REC-004)" });
+    }
+  }
+
+  /* The procedure quotes a count of negative tests. Check it against an actual run, so a stale number cannot
+     survive a generator run. */
+  if (process.env.OMNI_IN_HARNESS === "1") {
+    notes.push("procedure:bundle-tests not re-run (already inside the harness)");
+  } else {
+    const proc = fs.readFileSync(path.join(ROOT, "RECOVERY_PROCEDURE.md"), "utf8");
+    let actual = null;
+    try {
+      const out = require("node:child_process").execSync("node scripts/test_bundle_audit.js", { cwd: ROOT, encoding: "utf8", stdio: "pipe" });
+      const m = out.match(/bundle-audit tests: (\d+) passed, (\d+) failed/);
+      actual = m ? `${m[1]} passed, ${m[2]} failed` : null;
+    } catch { actual = null; }
+    if (!actual) {
+      failures.push({ label: "procedure:bundle-tests", needle: "run failed", reason: "the negative-test harness does not run cleanly" });
+    } else if (!proc.includes(actual)) {
+      failures.push({ label: "procedure:bundle-tests", needle: actual, reason: "the procedure quotes a different count from the one the tests produce" });
+    }
+  }
+
   /* The handover summary is the first table a reader sees. Each of these numbers was wrong at some point in this
      audit (0/22 gates, a NaN net, a probe count from the wrong artefact, and a robustness file that was not the
      strict one), and every one of them was invisible to the checks above. */

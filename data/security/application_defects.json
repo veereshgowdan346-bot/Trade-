@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-18T03:50:00.000Z",
+  "generatedAt": "2026-11-18T05:10:00.000Z",
   "command": "manually curated from this pass's code audit; verified by tests",
   "note": "Only defects actually reproduced and fixed (or explicitly accepted) are listed. Severity uses CRITICAL/HIGH/MEDIUM/LOW. No credential values appear here.",
   "defects": [
@@ -279,6 +279,24 @@
         "bundles 034025 and 034655 restore and verify clean inside their clones; 032901 and 033418 predate this fix and still show the old mismatch, which is why this record exists"
       ],
       "verification": "PASS on bundles created after commit 69ebd04 (consistency REPORT_MATCHES_ARTIFACTS inside the clone, with the note). Earlier bundles keep their measured failure and are not relabelled.",
+      "remainingDependency": "None."
+    },
+    {
+      "id": "REC-004",
+      "title": "A bundle created from a shallow clone is unclonable, so a shallow workspace cannot produce a recovery artefact",
+      "severity": "HIGH",
+      "file": "scripts/audit_bundles.js, RECOVERY_PROCEDURE.md, scripts/generate_recovery_docs.js",
+      "introducedIn": "recovery after the eighth reset \u2014 the repository came back as a 1-commit shallow clone",
+      "reachableFromRemote": false,
+      "inWorkingTree": true,
+      "status": "FIXED",
+      "reproduction": "After the eighth reset the workspace was shallow (`git rev-parse --is-shallow-repository` = true). A bundle created with `git bundle create --all` from it produced `error: Could not read <sha>`, `fatal: Failed to traverse parents of commit df52c083`, `fatal: remote did not send all necessary objects`. `git bundle verify` on the same file still exited 0. After `git fetch --unshallow`, the identical command produced a bundle that clones cleanly (9 commits, fsck exit 0).",
+      "impact": "Every recovery artefact produced from a shallow workspace would have looked valid to `git bundle verify` and been unusable in a real restore \u2014 the same class of false assurance as REC-001, reached by a different route.",
+      "fix": "audit_bundles.js records `workspaceShallow` in every artefact and prints an explicit warning naming `git fetch --unshallow` when the source is shallow. The clone check already fails such a bundle, and scripts/test_bundle_audit.js now builds a bundle from a depth-1 clone and asserts the audit rejects it (exit 1, packIntegrity not readable). The recovered workspace was unshallowed before any further claim was made.",
+      "regressionTests": [
+        "scripts/test_bundle_audit.js \u2014 'a bundle whose source was shallow fails the clone check even though verify succeeds'"
+      ],
+      "verification": "PASS \u2014 26/26 negative tests; the shallow-source bundle is rejected by the audit although verify exits 0.",
       "remainingDependency": "None."
     }
   ]

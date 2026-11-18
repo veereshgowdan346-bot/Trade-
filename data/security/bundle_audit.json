@@ -1,409 +1,17 @@
 {
-  "generatedAt": "2026-11-18T04:04:21.257Z",
-  "command": "node scripts/audit_bundles.js --full --python=/usr/bin/python3",
-  "full": true,
-  "python": "/usr/bin/python3",
-  "note": "Every bundle in backups/ is enumerated. Older bundles are historical snapshots and are not patched. IMPORTANT: `git bundle verify` does not read the pack and reports 'is okay' for truncated bundles; the integrity claim in this artefact comes from the clone (packIntegrity), never from that command.",
-  "count": 8,
-  "bundles": [
-    {
-      "file": "repo_all_refs_20261118T032901.bundle",
-      "size": 1747015,
-      "sha256": "2afe8bc12b1b5c22ba7b4933b22aa9d0598e159703131312ca1c5c73dd756072",
-      "verify": "prerequisites ok (pack NOT checked by this command)",
-      "containsHead": "4f0420b74230e3220e00e957d355828c93bea49f",
-      "containsTree": "545e5c46b1d137d2244c9d7e9a749af2cf850212",
-      "commits": 9,
-      "trackedFiles": 491,
-      "restore": "HEAD matches (4f0420b) · tree matches (545e5c4) · 9 commits · 491 files · tree clean",
-      "packIntegrity": "pack readable (clone succeeded, fsck clean)",
-      "fsck": "clean",
-      "checks": {
-        "npmCi": 0,
-        "testPrep": 0,
-        "adversarial": {
-          "exit": 0,
-          "result": "48 passed, 0 failed"
-        },
-        "environment": {
-          "exit": 0,
-          "result": "43 passed, 0 failed"
-        },
-        "mutation": {
-          "exit": 0,
-          "result": "5/5 mutants detected"
-        },
-        "safety": {
-          "exit": 0,
-          "result": "PAPER_ONLY_SAFETY_PASS"
-        },
-        "secrets": {
-          "exit": 0,
-          "result": "0 blocking"
-        },
-        "consistency": {
-          "exit": 1,
-          "result": "REPORT_ARTIFACT_MISMATCH"
-        },
-        "pytest": {
-          "exit": 0,
-          "result": "390 passed"
-        },
-        "test003": {
-          "exit": 0,
-          "result": "13 passed"
-        }
-      }
-    },
-    {
-      "file": "repo_all_refs_20261118T033418.bundle",
-      "size": 1763771,
-      "sha256": "967819c663249ae9c0f70c561abbedace9dfacb0f42a875fba370bf06eb9af25",
-      "verify": "prerequisites ok (pack NOT checked by this command)",
-      "containsHead": "244fa89c6a9c3ac2585ab293ae954066a2772d12",
-      "containsTree": "168797b450d28283aa4dd9b401b888aa4a201be6",
-      "commits": 10,
-      "trackedFiles": 494,
-      "restore": "HEAD matches (244fa89) · tree matches (168797b) · 10 commits · 494 files · tree clean",
-      "packIntegrity": "pack readable (clone succeeded, fsck clean)",
-      "fsck": "clean",
-      "checks": {
-        "npmCi": 0,
-        "testPrep": 0,
-        "adversarial": {
-          "exit": 0,
-          "result": "48 passed, 0 failed"
-        },
-        "environment": {
-          "exit": 0,
-          "result": "43 passed, 0 failed"
-        },
-        "mutation": {
-          "exit": 0,
-          "result": "5/5 mutants detected"
-        },
-        "safety": {
-          "exit": 0,
-          "result": "PAPER_ONLY_SAFETY_PASS"
-        },
-        "secrets": {
-          "exit": 0,
-          "result": "0 blocking"
-        },
-        "consistency": {
-          "exit": 1,
-          "result": "REPORT_ARTIFACT_MISMATCH"
-        },
-        "pytest": {
-          "exit": 0,
-          "result": "390 passed"
-        },
-        "test003": {
-          "exit": 0,
-          "result": "13 passed"
-        }
-      }
-    },
-    {
-      "file": "repo_all_refs_20261118T033529.bundle",
-      "size": 1766400,
-      "sha256": "3c805f8af67c3d16785c95f5f0d4a35696afceee19cd41b4498f65190fd9c0d7",
-      "verify": "prerequisites ok (pack NOT checked by this command)",
-      "containsHead": "69ebd0464fdc1453c701392a3c260fe29ea63b0b",
-      "containsTree": "3c63b6e10dc5e65ffd4e55dc5d0571627450ff12",
-      "commits": 11,
-      "trackedFiles": 494,
-      "restore": "HEAD matches (69ebd04) · tree matches (3c63b6e) · 11 commits · 494 files · tree clean",
-      "packIntegrity": "pack readable (clone succeeded, fsck clean)",
-      "fsck": "clean",
-      "checks": {
-        "npmCi": 0,
-        "testPrep": 0,
-        "adversarial": {
-          "exit": 0,
-          "result": "48 passed, 0 failed"
-        },
-        "environment": {
-          "exit": 0,
-          "result": "43 passed, 0 failed"
-        },
-        "mutation": {
-          "exit": 0,
-          "result": "5/5 mutants detected"
-        },
-        "safety": {
-          "exit": 0,
-          "result": "PAPER_ONLY_SAFETY_PASS"
-        },
-        "secrets": {
-          "exit": 0,
-          "result": "0 blocking"
-        },
-        "consistency": {
-          "exit": 0,
-          "result": "REPORT_MATCHES_ARTIFACTS"
-        },
-        "pytest": {
-          "exit": 0,
-          "result": "390 passed"
-        },
-        "test003": {
-          "exit": 0,
-          "result": "13 passed"
-        }
-      }
-    },
-    {
-      "file": "repo_all_refs_20261118T034025.bundle",
-      "size": 1768211,
-      "sha256": "c2a5dd4355d2889b77b3f4c4ac6bd1e1547509184efa78a523f4779801bbb461",
-      "verify": "prerequisites ok (pack NOT checked by this command)",
-      "containsHead": "7ec6ac57ecb885b2550cabc5ca28f169ee5af2ab",
-      "containsTree": "a7e758472095fa266f42d8618092538a622b5aeb",
-      "commits": 12,
-      "trackedFiles": 494,
-      "restore": "HEAD matches (7ec6ac5) · tree matches (a7e7584) · 12 commits · 494 files · tree clean",
-      "packIntegrity": "pack readable (clone succeeded, fsck clean)",
-      "fsck": "clean",
-      "checks": {
-        "npmCi": 0,
-        "testPrep": 0,
-        "adversarial": {
-          "exit": 0,
-          "result": "48 passed, 0 failed"
-        },
-        "environment": {
-          "exit": 0,
-          "result": "43 passed, 0 failed"
-        },
-        "mutation": {
-          "exit": 0,
-          "result": "5/5 mutants detected"
-        },
-        "safety": {
-          "exit": 0,
-          "result": "PAPER_ONLY_SAFETY_PASS"
-        },
-        "secrets": {
-          "exit": 0,
-          "result": "0 blocking"
-        },
-        "consistency": {
-          "exit": 0,
-          "result": "REPORT_MATCHES_ARTIFACTS"
-        },
-        "pytest": {
-          "exit": 0,
-          "result": "390 passed"
-        },
-        "test003": {
-          "exit": 0,
-          "result": "13 passed"
-        }
-      }
-    },
-    {
-      "file": "repo_all_refs_20261118T034655.bundle",
-      "size": 1777482,
-      "sha256": "32ff9f78fff352f4125de0a9a7eb61fce396b45dc46de020c8ea7d0f0eb871f1",
-      "verify": "prerequisites ok (pack NOT checked by this command)",
-      "containsHead": "179f54ec1ce665ea8208dc204541065a3e9985bb",
-      "containsTree": "05439b6c72321aa46ddefc912573b41ac789bde0",
-      "commits": 14,
-      "trackedFiles": 495,
-      "restore": "HEAD matches (179f54e) · tree matches (05439b6) · 14 commits · 495 files · tree clean",
-      "packIntegrity": "pack readable (clone succeeded, fsck clean)",
-      "fsck": "clean",
-      "checks": {
-        "npmCi": 0,
-        "testPrep": 0,
-        "adversarial": {
-          "exit": 0,
-          "result": "48 passed, 0 failed"
-        },
-        "environment": {
-          "exit": 0,
-          "result": "43 passed, 0 failed"
-        },
-        "mutation": {
-          "exit": 0,
-          "result": "5/5 mutants detected"
-        },
-        "safety": {
-          "exit": 0,
-          "result": "PAPER_ONLY_SAFETY_PASS"
-        },
-        "secrets": {
-          "exit": 0,
-          "result": "0 blocking"
-        },
-        "consistency": {
-          "exit": 0,
-          "result": "REPORT_MATCHES_ARTIFACTS"
-        },
-        "pytest": {
-          "exit": 0,
-          "result": "390 passed"
-        },
-        "test003": {
-          "exit": 0,
-          "result": "13 passed"
-        }
-      }
-    },
-    {
-      "file": "repo_all_refs_20261118T035249.bundle",
-      "size": 1784340,
-      "sha256": "305bf432e083501de23c96c9fa665477f816fce79779a60d24b5511249322160",
-      "verify": "prerequisites ok (pack NOT checked by this command)",
-      "containsHead": "35259645ea5eb135ab63d0bab7b263e4e73569c1",
-      "containsTree": "e0777bbafb2341bf4e257503b0205bd6cf976019",
-      "commits": 16,
-      "trackedFiles": 495,
-      "restore": "HEAD matches (3525964) · tree matches (e0777bb) · 16 commits · 495 files · tree clean",
-      "packIntegrity": "pack readable (clone succeeded, fsck clean)",
-      "fsck": "clean",
-      "checks": {
-        "npmCi": 0,
-        "testPrep": 0,
-        "adversarial": {
-          "exit": 0,
-          "result": "48 passed, 0 failed"
-        },
-        "environment": {
-          "exit": 0,
-          "result": "43 passed, 0 failed"
-        },
-        "mutation": {
-          "exit": 0,
-          "result": "5/5 mutants detected"
-        },
-        "safety": {
-          "exit": 0,
-          "result": "PAPER_ONLY_SAFETY_PASS"
-        },
-        "secrets": {
-          "exit": 0,
-          "result": "0 blocking"
-        },
-        "consistency": {
-          "exit": 0,
-          "result": "REPORT_MATCHES_ARTIFACTS"
-        },
-        "pytest": {
-          "exit": 0,
-          "result": "390 passed"
-        },
-        "test003": {
-          "exit": 0,
-          "result": "13 passed"
-        }
-      }
-    },
-    {
-      "file": "repo_all_refs_20261118T035947.bundle",
-      "size": 1791350,
-      "sha256": "ecb93d44932aad83c85677dc8c2d487b37d4f31141b2a465cb54d7bd11ba11c6",
-      "verify": "prerequisites ok (pack NOT checked by this command)",
-      "containsHead": "f228a8d856182793d70a1b5973298414b7a29c67",
-      "containsTree": "cad5e3c7ea9fadac8742c5ab0d11251eebd4c3c4",
-      "commits": 20,
-      "trackedFiles": 495,
-      "restore": "HEAD matches (f228a8d) · tree matches (cad5e3c) · 20 commits · 495 files · tree clean",
-      "packIntegrity": "pack readable (clone succeeded, fsck clean)",
-      "fsck": "clean",
-      "checks": {
-        "npmCi": 0,
-        "testPrep": 0,
-        "adversarial": {
-          "exit": 0,
-          "result": "48 passed, 0 failed"
-        },
-        "environment": {
-          "exit": 0,
-          "result": "43 passed, 0 failed"
-        },
-        "mutation": {
-          "exit": 0,
-          "result": "5/5 mutants detected"
-        },
-        "safety": {
-          "exit": 0,
-          "result": "PAPER_ONLY_SAFETY_PASS"
-        },
-        "secrets": {
-          "exit": 0,
-          "result": "0 blocking"
-        },
-        "consistency": {
-          "exit": 0,
-          "result": "REPORT_MATCHES_ARTIFACTS"
-        },
-        "pytest": {
-          "exit": 0,
-          "result": "390 passed"
-        },
-        "test003": {
-          "exit": 0,
-          "result": "13 passed"
-        }
-      }
-    },
-    {
-      "file": "repo_all_refs_20261118T040208.bundle",
-      "size": 1793535,
-      "sha256": "972bab789e11f49fc434301ab62b9f79201db129bfdd146ca382338f797413e4",
-      "verify": "prerequisites ok (pack NOT checked by this command)",
-      "containsHead": "80c9660f9e046ce4e0619e8787f2d24ccd79e547",
-      "containsTree": "7cd3b3367572c9e606c0c5a41cbbc2b09a3db114",
-      "commits": 22,
-      "trackedFiles": 495,
-      "restore": "HEAD matches (80c9660) · tree matches (7cd3b33) · 22 commits · 495 files · tree clean",
-      "packIntegrity": "pack readable (clone succeeded, fsck clean)",
-      "fsck": "clean",
-      "checks": {
-        "npmCi": 0,
-        "testPrep": 0,
-        "adversarial": {
-          "exit": 0,
-          "result": "48 passed, 0 failed"
-        },
-        "environment": {
-          "exit": 0,
-          "result": "43 passed, 0 failed"
-        },
-        "mutation": {
-          "exit": 0,
-          "result": "5/5 mutants detected"
-        },
-        "safety": {
-          "exit": 0,
-          "result": "PAPER_ONLY_SAFETY_PASS"
-        },
-        "secrets": {
-          "exit": 0,
-          "result": "0 blocking"
-        },
-        "consistency": {
-          "exit": 0,
-          "result": "REPORT_MATCHES_ARTIFACTS"
-        },
-        "pytest": {
-          "exit": 0,
-          "result": "390 passed"
-        },
-        "test003": {
-          "exit": 0,
-          "result": "13 passed"
-        }
-      }
-    }
-  ],
+  "generatedAt": "2026-11-18T04:20:37.662Z",
+  "command": "node scripts/audit_bundles.js --record-absence",
+  "full": false,
+  "state": "NONE_PRESENT",
+  "verdict": "NO_BUNDLE_EXISTS",
+  "workspaceShallow": false,
+  "note": "No recovery bundle exists in backups/. This is recorded explicitly, not as a pass: there is nothing to restore from on this machine. The bundles that did exist are listed in historicallyRecorded with the evidence each row rests on.",
+  "count": 0,
+  "bundles": [],
   "historicallyRecorded": {
-    "note": "Recorded in an earlier audit, then destroyed. The files are gone; nothing here is restorable. Older bundles carrying the pre-TEST-003 defect are listed with their real failing result, not as green.",
-    "source": "4f0420b74230e3220e00e957d355828c93bea49f",
-    "destroyedBy": "seventh workspace reset (2026-11-18): the snapshot drops git-ignored paths, and backups/ is ignored",
-    "count": 6,
+    "note": "Bundles that were measured and then destroyed by workspace resets. NONE of them can be restored: the files are gone and were never pushed. This register exists so a destroyed backup is never read as one that was never made, and so older snapshots carrying known defects stay accounted for.",
+    "evidencePolicy": "Each row states where its numbers came from and whether that source can still be inspected (`sourceInspectableNow`). A row is a record of a measurement, not a copy of a file. Rows whose source commit is gone are UNVERIFIABLE beyond the fact that they were recorded.",
+    "count": 14,
     "bundles": [
       {
         "file": "repo_all_refs_20261118T023531.bundle",
@@ -415,7 +23,15 @@
         "trackedFiles": 485,
         "pytest": "388 passed, 1 failed",
         "test003": "11 passed, 1 failed",
-        "consistency": "REPORT_ARTIFACT_MISMATCH"
+        "consistency": "REPORT_ARTIFACT_MISMATCH",
+        "destructionEvent": "reset-before-2026-11-18T03:29Z",
+        "evidence": {
+          "kind": "AUDIT_ARTEFACT_COMMITTED",
+          "source": "data/security/bundle_audit.json at 4f0420b",
+          "sourceCommit": "4f0420b74230e3220e00e957d355828c93bea49f",
+          "sourceInspectableNow": false,
+          "note": "source commit is absent from this repository (destroyed by a later reset); the row survives only in the register committed at 2826a67"
+        }
       },
       {
         "file": "repo_all_refs_20261118T024147.bundle",
@@ -427,7 +43,15 @@
         "trackedFiles": 489,
         "pytest": "388 passed, 1 failed",
         "test003": "11 passed, 1 failed",
-        "consistency": "REPORT_MATCHES_ARTIFACTS"
+        "consistency": "REPORT_MATCHES_ARTIFACTS",
+        "destructionEvent": "reset-before-2026-11-18T03:29Z",
+        "evidence": {
+          "kind": "AUDIT_ARTEFACT_COMMITTED",
+          "source": "data/security/bundle_audit.json at 4f0420b",
+          "sourceCommit": "4f0420b74230e3220e00e957d355828c93bea49f",
+          "sourceInspectableNow": false,
+          "note": "source commit is absent from this repository (destroyed by a later reset); the row survives only in the register committed at 2826a67"
+        }
       },
       {
         "file": "repo_all_refs_20261118T025017.bundle",
@@ -439,7 +63,15 @@
         "trackedFiles": 489,
         "pytest": "388 passed, 1 failed",
         "test003": "11 passed, 1 failed",
-        "consistency": "REPORT_MATCHES_ARTIFACTS"
+        "consistency": "REPORT_MATCHES_ARTIFACTS",
+        "destructionEvent": "reset-before-2026-11-18T03:29Z",
+        "evidence": {
+          "kind": "AUDIT_ARTEFACT_COMMITTED",
+          "source": "data/security/bundle_audit.json at 4f0420b",
+          "sourceCommit": "4f0420b74230e3220e00e957d355828c93bea49f",
+          "sourceInspectableNow": false,
+          "note": "source commit is absent from this repository (destroyed by a later reset); the row survives only in the register committed at 2826a67"
+        }
       },
       {
         "file": "repo_all_refs_20261118T025639.bundle",
@@ -451,7 +83,15 @@
         "trackedFiles": 489,
         "pytest": "390 passed",
         "test003": "13 passed",
-        "consistency": "REPORT_MATCHES_ARTIFACTS"
+        "consistency": "REPORT_MATCHES_ARTIFACTS",
+        "destructionEvent": "reset-before-2026-11-18T03:29Z",
+        "evidence": {
+          "kind": "AUDIT_ARTEFACT_COMMITTED",
+          "source": "data/security/bundle_audit.json at 4f0420b",
+          "sourceCommit": "4f0420b74230e3220e00e957d355828c93bea49f",
+          "sourceInspectableNow": false,
+          "note": "source commit is absent from this repository (destroyed by a later reset); the row survives only in the register committed at 2826a67"
+        }
       },
       {
         "file": "repo_all_refs_20261118T030624.bundle",
@@ -463,7 +103,15 @@
         "trackedFiles": 489,
         "pytest": "390 passed",
         "test003": "13 passed",
-        "consistency": "REPORT_MATCHES_ARTIFACTS"
+        "consistency": "REPORT_MATCHES_ARTIFACTS",
+        "destructionEvent": "reset-before-2026-11-18T03:29Z",
+        "evidence": {
+          "kind": "AUDIT_ARTEFACT_COMMITTED",
+          "source": "data/security/bundle_audit.json at 4f0420b",
+          "sourceCommit": "4f0420b74230e3220e00e957d355828c93bea49f",
+          "sourceInspectableNow": false,
+          "note": "source commit is absent from this repository (destroyed by a later reset); the row survives only in the register committed at 2826a67"
+        }
       },
       {
         "file": "repo_all_refs_20261118T032321.bundle",
@@ -475,7 +123,175 @@
         "trackedFiles": 491,
         "pytest": "390 passed",
         "test003": "13 passed",
-        "consistency": "REPORT_ARTIFACT_MISMATCH"
+        "consistency": "REPORT_ARTIFACT_MISMATCH",
+        "destructionEvent": "reset-before-2026-11-18T03:29Z",
+        "evidence": {
+          "kind": "AUDIT_ARTEFACT_COMMITTED",
+          "source": "data/security/bundle_audit.json at 4f0420b",
+          "sourceCommit": "4f0420b74230e3220e00e957d355828c93bea49f",
+          "sourceInspectableNow": false,
+          "note": "source commit is absent from this repository (destroyed by a later reset); the row survives only in the register committed at 2826a67"
+        }
+      },
+      {
+        "file": "repo_all_refs_20261118T032901.bundle",
+        "size": 1747015,
+        "sha256": "2afe8bc12b1b5c22ba7b4933b22aa9d0598e159703131312ca1c5c73dd756072",
+        "containsHead": "4f0420b74230e3220e00e957d355828c93bea49f",
+        "containsTree": "545e5c46b1d137d2244c9d7e9a749af2cf850212",
+        "commits": 9,
+        "trackedFiles": 491,
+        "pytest": "390 passed",
+        "test003": "13 passed",
+        "consistency": "REPORT_ARTIFACT_MISMATCH",
+        "destructionEvent": "reset-after-2026-11-18T04:04Z",
+        "evidence": {
+          "kind": "AUDIT_ARTEFACT_SURVIVED",
+          "source": "data/security/bundle_audit.json generated 2026-11-18T04:04:21.257Z",
+          "sourceCommit": "2826a67986deed726ddf105c64c29d35cf431069",
+          "sourceInspectableNow": true,
+          "note": "generated by `node scripts/audit_bundles.js --full --python=/usr/bin/python3`; each row was produced by cloning, fsck-ing and testing that bundle. The measurement happened; the files are gone, so it cannot be repeated."
+        }
+      },
+      {
+        "file": "repo_all_refs_20261118T033418.bundle",
+        "size": 1763771,
+        "sha256": "967819c663249ae9c0f70c561abbedace9dfacb0f42a875fba370bf06eb9af25",
+        "containsHead": "244fa89c6a9c3ac2585ab293ae954066a2772d12",
+        "containsTree": "168797b450d28283aa4dd9b401b888aa4a201be6",
+        "commits": 10,
+        "trackedFiles": 494,
+        "pytest": "390 passed",
+        "test003": "13 passed",
+        "consistency": "REPORT_ARTIFACT_MISMATCH",
+        "destructionEvent": "reset-after-2026-11-18T04:04Z",
+        "evidence": {
+          "kind": "AUDIT_ARTEFACT_SURVIVED",
+          "source": "data/security/bundle_audit.json generated 2026-11-18T04:04:21.257Z",
+          "sourceCommit": "2826a67986deed726ddf105c64c29d35cf431069",
+          "sourceInspectableNow": true,
+          "note": "generated by `node scripts/audit_bundles.js --full --python=/usr/bin/python3`; each row was produced by cloning, fsck-ing and testing that bundle. The measurement happened; the files are gone, so it cannot be repeated."
+        }
+      },
+      {
+        "file": "repo_all_refs_20261118T033529.bundle",
+        "size": 1766400,
+        "sha256": "3c805f8af67c3d16785c95f5f0d4a35696afceee19cd41b4498f65190fd9c0d7",
+        "containsHead": "69ebd0464fdc1453c701392a3c260fe29ea63b0b",
+        "containsTree": "3c63b6e10dc5e65ffd4e55dc5d0571627450ff12",
+        "commits": 11,
+        "trackedFiles": 494,
+        "pytest": "390 passed",
+        "test003": "13 passed",
+        "consistency": "REPORT_MATCHES_ARTIFACTS",
+        "destructionEvent": "reset-after-2026-11-18T04:04Z",
+        "evidence": {
+          "kind": "AUDIT_ARTEFACT_SURVIVED",
+          "source": "data/security/bundle_audit.json generated 2026-11-18T04:04:21.257Z",
+          "sourceCommit": "2826a67986deed726ddf105c64c29d35cf431069",
+          "sourceInspectableNow": true,
+          "note": "generated by `node scripts/audit_bundles.js --full --python=/usr/bin/python3`; each row was produced by cloning, fsck-ing and testing that bundle. The measurement happened; the files are gone, so it cannot be repeated."
+        }
+      },
+      {
+        "file": "repo_all_refs_20261118T034025.bundle",
+        "size": 1768211,
+        "sha256": "c2a5dd4355d2889b77b3f4c4ac6bd1e1547509184efa78a523f4779801bbb461",
+        "containsHead": "7ec6ac57ecb885b2550cabc5ca28f169ee5af2ab",
+        "containsTree": "a7e758472095fa266f42d8618092538a622b5aeb",
+        "commits": 12,
+        "trackedFiles": 494,
+        "pytest": "390 passed",
+        "test003": "13 passed",
+        "consistency": "REPORT_MATCHES_ARTIFACTS",
+        "destructionEvent": "reset-after-2026-11-18T04:04Z",
+        "evidence": {
+          "kind": "AUDIT_ARTEFACT_SURVIVED",
+          "source": "data/security/bundle_audit.json generated 2026-11-18T04:04:21.257Z",
+          "sourceCommit": "2826a67986deed726ddf105c64c29d35cf431069",
+          "sourceInspectableNow": true,
+          "note": "generated by `node scripts/audit_bundles.js --full --python=/usr/bin/python3`; each row was produced by cloning, fsck-ing and testing that bundle. The measurement happened; the files are gone, so it cannot be repeated."
+        }
+      },
+      {
+        "file": "repo_all_refs_20261118T034655.bundle",
+        "size": 1777482,
+        "sha256": "32ff9f78fff352f4125de0a9a7eb61fce396b45dc46de020c8ea7d0f0eb871f1",
+        "containsHead": "179f54ec1ce665ea8208dc204541065a3e9985bb",
+        "containsTree": "05439b6c72321aa46ddefc912573b41ac789bde0",
+        "commits": 14,
+        "trackedFiles": 495,
+        "pytest": "390 passed",
+        "test003": "13 passed",
+        "consistency": "REPORT_MATCHES_ARTIFACTS",
+        "destructionEvent": "reset-after-2026-11-18T04:04Z",
+        "evidence": {
+          "kind": "AUDIT_ARTEFACT_SURVIVED",
+          "source": "data/security/bundle_audit.json generated 2026-11-18T04:04:21.257Z",
+          "sourceCommit": "2826a67986deed726ddf105c64c29d35cf431069",
+          "sourceInspectableNow": true,
+          "note": "generated by `node scripts/audit_bundles.js --full --python=/usr/bin/python3`; each row was produced by cloning, fsck-ing and testing that bundle. The measurement happened; the files are gone, so it cannot be repeated."
+        }
+      },
+      {
+        "file": "repo_all_refs_20261118T035249.bundle",
+        "size": 1784340,
+        "sha256": "305bf432e083501de23c96c9fa665477f816fce79779a60d24b5511249322160",
+        "containsHead": "35259645ea5eb135ab63d0bab7b263e4e73569c1",
+        "containsTree": "e0777bbafb2341bf4e257503b0205bd6cf976019",
+        "commits": 16,
+        "trackedFiles": 495,
+        "pytest": "390 passed",
+        "test003": "13 passed",
+        "consistency": "REPORT_MATCHES_ARTIFACTS",
+        "destructionEvent": "reset-after-2026-11-18T04:04Z",
+        "evidence": {
+          "kind": "AUDIT_ARTEFACT_SURVIVED",
+          "source": "data/security/bundle_audit.json generated 2026-11-18T04:04:21.257Z",
+          "sourceCommit": "2826a67986deed726ddf105c64c29d35cf431069",
+          "sourceInspectableNow": true,
+          "note": "generated by `node scripts/audit_bundles.js --full --python=/usr/bin/python3`; each row was produced by cloning, fsck-ing and testing that bundle. The measurement happened; the files are gone, so it cannot be repeated."
+        }
+      },
+      {
+        "file": "repo_all_refs_20261118T035947.bundle",
+        "size": 1791350,
+        "sha256": "ecb93d44932aad83c85677dc8c2d487b37d4f31141b2a465cb54d7bd11ba11c6",
+        "containsHead": "f228a8d856182793d70a1b5973298414b7a29c67",
+        "containsTree": "cad5e3c7ea9fadac8742c5ab0d11251eebd4c3c4",
+        "commits": 20,
+        "trackedFiles": 495,
+        "pytest": "390 passed",
+        "test003": "13 passed",
+        "consistency": "REPORT_MATCHES_ARTIFACTS",
+        "destructionEvent": "reset-after-2026-11-18T04:04Z",
+        "evidence": {
+          "kind": "AUDIT_ARTEFACT_SURVIVED",
+          "source": "data/security/bundle_audit.json generated 2026-11-18T04:04:21.257Z",
+          "sourceCommit": "2826a67986deed726ddf105c64c29d35cf431069",
+          "sourceInspectableNow": true,
+          "note": "generated by `node scripts/audit_bundles.js --full --python=/usr/bin/python3`; each row was produced by cloning, fsck-ing and testing that bundle. The measurement happened; the files are gone, so it cannot be repeated."
+        }
+      },
+      {
+        "file": "repo_all_refs_20261118T040208.bundle",
+        "size": 1793535,
+        "sha256": "972bab789e11f49fc434301ab62b9f79201db129bfdd146ca382338f797413e4",
+        "containsHead": "80c9660f9e046ce4e0619e8787f2d24ccd79e547",
+        "containsTree": "7cd3b3367572c9e606c0c5a41cbbc2b09a3db114",
+        "commits": 22,
+        "trackedFiles": 495,
+        "pytest": "390 passed",
+        "test003": "13 passed",
+        "consistency": "REPORT_MATCHES_ARTIFACTS",
+        "destructionEvent": "reset-after-2026-11-18T04:04Z",
+        "evidence": {
+          "kind": "AUDIT_ARTEFACT_SURVIVED",
+          "source": "data/security/bundle_audit.json generated 2026-11-18T04:04:21.257Z",
+          "sourceCommit": "2826a67986deed726ddf105c64c29d35cf431069",
+          "sourceInspectableNow": true,
+          "note": "generated by `node scripts/audit_bundles.js --full --python=/usr/bin/python3`; each row was produced by cloning, fsck-ing and testing that bundle. The measurement happened; the files are gone, so it cannot be repeated."
+        }
       }
     ]
   }

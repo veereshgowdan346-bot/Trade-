@@ -1,6 +1,6 @@
 # OmniTradePro Apex V2.0 — Final Certification Report
 
-Generated: 2026-11-18T03:59:41.922Z  
+Generated: 2026-11-18T04:20:53.522Z  
 Generator: `node scripts/generate_apex_certification.js`  
 Scope: one end-to-end pass — audit, safe fixes, full regression, certification and roadmap.  
 Every figure is read from an artifact produced by an executed command. No credential value appears here.
@@ -33,10 +33,10 @@ Three things did **not** change, and none of them can be fixed from inside this 
 | Item | Value |
 |---|---|
 | Branch | `arena/f721e253-trade` |
-| HEAD | `922474187ada1ca8fb57dc815e82c105a47183ff` |
-| Parent | `97d3930ebcee3742c42cc2f1dae749e1b48b600d` |
-| Working tree at generation | 27 modified path(s) |
-| Commits reachable | 19 |
+| HEAD | `2826a67986deed726ddf105c64c29d35cf431069` |
+| Parent | `df52c08340e1a3ff9c7dff3edd830219fd000a8c` |
+| Working tree at generation | 17 modified path(s) |
+| Commits reachable | 9 |
 | Shallow boundary | **none — full history** |
 | Runtime | Node v22.22.3, Python 3.11.2 |
 | Modules | 33 in `src/lib`, 19 API routes, 53 scripts |
@@ -88,6 +88,7 @@ History coverage improved across passes: early scans ran on a depth-1 clone and 
 | SEC-002 | CRITICAL | Python credential manager fell back to a published constant password | **FIXED (earlier pass, re-verified)** |
 | DOC-001 | MEDIUM | Generated reports cited commit hashes that do not exist and asserted they were present | **FIXED** |
 | REC-003 | LOW | Restored clones failed report consistency because the manifest describes a bundle inventory the clone does not contain | **FIXED** |
+| REC-004 | HIGH | A bundle created from a shallow clone is unclonable, so a shallow workspace cannot produce a recovery artefact | **FIXED** |
 | SECURITY-001 | CRITICAL | Credential material in public Git history | **BLOCKED** |
 | SECURITY-006 | CRITICAL | Rotation unconfirmed | **NOT_CONFIRMED** |
 
@@ -367,6 +368,22 @@ Both vaults were probed behaviourally this pass, not merely read.
 
 **Verification:** PASS on bundles created after commit 69ebd04 (consistency REPORT_MATCHES_ARTIFACTS inside the clone, with the note). Earlier bundles keep their measured failure and are not relabelled.
 
+### REC-004 — A bundle created from a shallow clone is unclonable, so a shallow workspace cannot produce a recovery artefact
+
+- **Severity:** HIGH  
+- **File:** `scripts/audit_bundles.js, RECOVERY_PROCEDURE.md, scripts/generate_recovery_docs.js`  
+- **Reachable from remote:** no  
+- **Present in working tree:** yes  
+- **Status:** **FIXED**
+
+**Reproduction:** After the eighth reset the workspace was shallow (`git rev-parse --is-shallow-repository` = true). A bundle created with `git bundle create --all` from it produced `error: Could not read <sha>`, `fatal: Failed to traverse parents of commit df52c083`, `fatal: remote did not send all necessary objects`. `git bundle verify` on the same file still exited 0. After `git fetch --unshallow`, the identical command produced a bundle that clones cleanly (9 commits, fsck exit 0).
+
+**Impact:** Every recovery artefact produced from a shallow workspace would have looked valid to `git bundle verify` and been unusable in a real restore — the same class of false assurance as REC-001, reached by a different route.
+
+**Remediation:** audit_bundles.js records `workspaceShallow` in every artefact and prints an explicit warning naming `git1 fetch --unshallow` when the source is shallow. The clone check already fails such a bundle, and scripts/test_bundle_audit.js now builds a bundle from a depth-1 clone and asserts the audit rejects it (exit 1, packIntegrity not readable). The recovered workspace was unshallowed before any further claim was made.
+
+**Verification:** PASS — 26/26 negative tests; the shallow-source bundle is rejected by the audit although verify exits 0.
+
 Other checks performed with no defect found:
 
 - every mutating API route (`POST/PUT/PATCH/DELETE`) imports and calls a guard — 10 routes checked;
@@ -393,6 +410,7 @@ Other checks performed with no defect found:
 | SEC-002 | Per-installation random master key written with os. | 1 test(s) | **PASS** |
 | DOC-001 | Baseline and parent are now read from git at generation time and existence is tested with `git cat-file -e`. | 1 test(s) | **PASS** |
 | REC-003 | An absent backups/ directory is now reported as a note ('not applicable — this looks like a restored clone') and is not counted as a pass. | 2 test(s) | **PASS on bundles created after commit 69ebd04 (consistency REPORT_MATCHES_ARTIFACTS inside the clone, with the note). Earlier bundles keep their measured failure and are not relabelled.** |
+| REC-004 | audit_bundles. | 1 test(s) | **PASS** |
 
 Two tests that encoded the old (vulnerable) behaviour were corrected rather than deleted: the API-guard loopback test and the webhook locality test. Correcting them strengthens the suite; leaving them would have pinned the bypass in place. No test was weakened to obtain a pass.
 
@@ -483,7 +501,7 @@ Unresolved weekday discrepancies: **1** — 2022-10-24, where the dataset and th
 
 ## 17. Full regression results
 
-Recorded by `node scripts/run_regression_record.js` at 922474187ada1ca8fb57dc815e82c105a47183ff.
+Recorded by `node scripts/run_regression_record.js` at 2826a67986deed726ddf105c64c29d35cf431069.
 
 | Gate | Command | Exit | Expected | Detail |
 |---|---|---|---|---|
@@ -514,7 +532,7 @@ Recorded by `node scripts/run_regression_record.js` at 922474187ada1ca8fb57dc815
 
 Not executed in this pass: nothing in the gate list. The history scanner is executed and exits **1 by design** — it is the visible, blocking result that must stay red until rotation.
 
-Report consistency: **82 claims checked, 8 failures** (REPORT_ARTIFACT_MISMATCH).
+Report consistency: **82 claims checked, 2 failures** (REPORT_ARTIFACT_MISMATCH).
 
 ## 18. Remaining blockers
 

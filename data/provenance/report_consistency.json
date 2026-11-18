@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-18T04:09:01.336Z",
+  "generatedAt": "2026-11-18T04:25:27.580Z",
   "command": "node scripts/verify_report_consistency.js",
   "reportFiles": [
     "APEX_V2_FINAL_AUDIT_REPORT.md",
@@ -10,35 +10,9 @@
     "RELEASE_REGISTER.md"
   ],
   "notes": [
-    "bundle inventory: not applicable (no backups/ directory — this looks like a restored clone)"
+    "bundle inventory: zero bundles, stated explicitly (NO_BUNDLE_EXISTS) — nothing is restorable, durability stays unestablished"
   ],
   "claimsChecked": 82,
-  "failures": [
-    {
-      "label": "audit:baseline exists",
-      "needle": "9224741",
-      "reason": "cited baseline commit is not in this repository"
-    },
-    {
-      "label": "manifest:head exists",
-      "needle": "82e8c0b9a7b56b55d6c619ce90d550a125d52e2a",
-      "reason": "manifest cites a commit that is not in this repository"
-    },
-    {
-      "label": "manifest:head",
-      "needle": "82e8c0b9a7b56b55d6c619ce90d550a125d52e2a",
-      "reason": "manifest HEAD is not in this repository's history — regenerate it"
-    },
-    {
-      "label": "manifest:commits",
-      "needle": "23 declared / 1 actual",
-      "reason": "manifest claims more commits than the repository has"
-    },
-    {
-      "label": "manifest:files",
-      "needle": "495 declared / 463 actual",
-      "reason": "manifest claims more tracked files than exist"
-    }
-  ],
-  "verdict": "REPORT_ARTIFACT_MISMATCH"
+  "failures": [],
+  "verdict": "REPORT_MATCHES_ARTIFACTS"
 }

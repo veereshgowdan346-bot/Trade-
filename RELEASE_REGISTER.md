@@ -1,7 +1,7 @@
 # OmniTradePro Apex V2.0 — Release Readiness Register
 
-Generated: 2026-11-18T03:59:41.824Z  
-Branch `arena/f721e253-trade` · HEAD `922474187ada` · parent `97d3930ebcee` · 19 commits  
+Generated: 2026-11-18T04:20:53.407Z  
+Branch `arena/f721e253-trade` · HEAD `2826a67986de` · parent `df52c08340e1` · 9 commits  
 Generator: `node scripts/generate_release_register.js`
 
 **DECISION: SECURITY BLOCKED.** Production readiness is not claimed. Permitted use: PAPER / RESEARCH ONLY.
@@ -25,6 +25,7 @@ Generator: `node scripts/generate_release_register.js`
 | **SEC-002** | CRITICAL | FIXED (earlier pass, re-verified) | PASS — re-probed this pass: 64-hex per-install key, mode 0600, no constant in source. | `config/credential_manager.py` | scripts/audit_safety.js | none | engineering (done) | closed — fix present, regression test green, gate re-run |
 | **DOC-001** | MEDIUM | FIXED | PASS — 82 claims, 0 failures; baseline now f61024e (verified present and reachable). | `scripts/generate_final_report.js, scripts/generate_certification_report.js` | scripts/verify_report_consistency.js | none | engineering (done) | closed — fix present, regression test green, gate re-run |
 | **REC-003** | LOW | FIXED | PASS on bundles created after commit 69ebd04 (consistency REPORT_MATCHES_ARTIFACTS inside the clone, with the note). Earlier bundles keep their measured failure and are not relabelled. | `scripts/verify_report_consistency.js` | scripts/test_bundle_audit.js; bundles 034025 and 034655 restore and verify clean inside their clones; 032901 and 033418 predate this fix and still show the old mismatch, which is why this record exists | none | engineering (done) | closed — fix present, regression test green, gate re-run |
+| **REC-004** | HIGH | FIXED | PASS — 26/26 negative tests; the shallow-source bundle is rejected by the audit although verify exits 0. | `scripts/audit_bundles.js, RECOVERY_PROCEDURE.md, scripts/generate_recovery_docs.js` | scripts/test_bundle_audit.js | none | engineering (done) | closed — fix present, regression test green, gate re-run |
 | **SECURITY-001** | CRITICAL | BLOCKED — PUBLIC EXPOSURE CONFIRMED | 36 findings across 6 commits, all reachable from origin/master; values displayed 0; working tree clean | `SECURITY_AUDIT.md, scripts/scan_repo_secrets.py, scripts/scan_source_files.py (historical revisions)` | npm run test:history (exit 1 by design) | owner revocation + TOTP reset, confirmed out-of-band | account owner | credentials revoked and seed reset; security review of the exposure recorded; history decision documented |
 | **SECURITY-006** | CRITICAL | NOT_CONFIRMED | no credential accessed, tested or transmitted in any pass; status cannot be self-certified | `n/a (account state)` | none possible from the repository | broker console confirmation | account owner | owner states the old key fails and the TOTP seed was re-enrolled |
 | **INSTR-001** | HIGH | BLOCKED | INSTRUMENT_INCOMPATIBLE_FOR_EQUITY_VALIDATION; equity validation blocked for 10 of 10 strategies | `data/external/**, scripts/instrument_compatibility.js, data/dataset_registry.json` | npm run test:instrument; npm run test:external | licensed, attested NSE equity intraday data | data licensing (owner) | authentic equity data present and attested; strategies re-evaluated on the correct instrument |

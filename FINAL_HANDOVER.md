@@ -38,7 +38,7 @@ performed by an automated agent, and this repository must never be given the cre
 ### A4. Arrange durable, off-machine backups
 
 - Current state: **DURABLE_BACKUP_NOT_ESTABLISHED**. Bundles created in this workspace live on sandbox-local
-  storage and are destroyed by environment resets: 6 exist now, 6 earlier
+  storage and are destroyed by environment resets: 0 exist now, 14 earlier
   ones were recorded and then lost. That is the clearest possible demonstration that a local copy is not a backup.
 - **Action:** copy a verified bundle out of this machine to storage the owner controls and can restore from.
   Inventory, hashes and the restore procedure: `RECOVERY_MANIFEST.md` and `RECOVERY_PROCEDURE.md`.
@@ -94,7 +94,7 @@ blocker to a passing check **without** any parameter being tuned to reach it.
 | Adversarial probe | dist_test_cjs/apiGuard.js: 48 passed, 0 failed |
 | Mutation gate | 5/5 reintroduced vulnerabilities detected |
 | Environment probe | env-config probe: 43 passed, 0 failed |
-| Defects | 14 fixed, 1 accepted-by-design, 0 open, 15 total |
+| Defects | 15 fixed, 1 accepted-by-design, 0 open, 16 total |
 | Research (strict OOS) | -Rs 6,79,195.43 net (sum of 8 arms; pooled total -Rs 6,79,195.42), 3956 trades, 0 of 8 arms positive, 0 overnight-carried trades |
 | Strategy scope | 10 of 10 strategies blocked for equity validation; 10 strategies remain disabled |
 | Backup durability | DURABLE_BACKUP_NOT_ESTABLISHED |

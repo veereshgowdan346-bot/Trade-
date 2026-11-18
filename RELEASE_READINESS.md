@@ -1,7 +1,7 @@
 # OmniTradePro — Release Readiness & Security Closure
 
-Generated: 2026-11-18T03:59:41.870Z  
-Branch `arena/f721e253-trade` · HEAD `922474187ada` · parent `97d3930ebcee` · 19 commits · shallow: no  
+Generated: 2026-11-18T04:20:53.456Z  
+Branch `arena/f721e253-trade` · HEAD `2826a67986de` · parent `df52c08340e1` · 9 commits · shallow: no  
 Generator: `node scripts/generate_release_readiness.js`
 
 ## Release decision
@@ -36,6 +36,7 @@ Generator: `node scripts/generate_release_readiness.js`
 | **SEC-002** | Python credential manager fell back to a published constant password | CRITICAL | FIXED (earlier pass, re-verified) |
 | **DOC-001** | Generated reports cited commit hashes that do not exist and asserted they were present | MEDIUM | FIXED |
 | **REC-003** | Restored clones failed report consistency because the manifest describes a bundle inventory the clone does not contain | LOW | FIXED |
+| **REC-004** | A bundle created from a shallow clone is unclonable, so a shallow workspace cannot produce a recovery artefact | HIGH | FIXED |
 
 Two of these were found by challenging the code rather than re-running the suite: **SEC-011** (locality was inferred from a missing header the guard cannot verify) came out of the new adversarial probe, and **TEST-001** came out of mutation testing — a reintroduced SEC-008 passed 44/44 because no case reached the mutated line. Both are fixed, and the probe now fails on all four reintroduced vulnerabilities.
 

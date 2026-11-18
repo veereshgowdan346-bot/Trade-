@@ -43,4 +43,33 @@ function checkInventory(manifestText, diskFiles) {
   return { ok: errors.length === 0, onDisk, listed: Array.from(seen), errors };
 }
 
-module.exports = { checkInventory, bundlesOnDisk };
+/**
+ * Classifies the bundle inventory when the backups/ directory is not simply present-and-matching.
+ *
+ * Four states look similar on disk and mean very different things:
+ *
+ *   PRESENT            backups/ exists; checkInventory decides.
+ *   ABSENCE_DOCUMENTED the manifest says "Bundles on disk: 0" and states the loss explicitly. Nothing is
+ *                      restorable; that is a fact to report, never a pass.
+ *   RESTORED_CLONE     backups/ is absent and the manifest declares bundles, in a tree that came from a bundle.
+ *                      Bundles are not committed, so this is expected and must not fail the code checks.
+ *   LOST               backups/ is absent, bundles are claimed, and nobody said this is a clone. That is what a
+ *                      destroyed backup looks like, and it must fail.
+ *
+ * The clone case is decided by an explicit flag, not by guessing: a silent guess here would excuse a real loss.
+ */
+function classifyInventory({ dirExists, declared, statesAbsence, restoredClone }) {
+  if (dirExists) return { state: "PRESENT", error: null };
+  if (declared === null || declared === undefined) {
+    return { state: "UNDECLARED", error: "no 'Bundles on disk: N' line — the reader cannot tell what is expected" };
+  }
+  if (declared === 0) {
+    return statesAbsence
+      ? { state: "ABSENCE_DOCUMENTED", error: null }
+      : { state: "UNDECLARED", error: "zero bundles is not stated explicitly — silence would read as success" };
+  }
+  if (restoredClone) return { state: "RESTORED_CLONE", error: null };
+  return { state: "LOST", error: `manifest claims ${declared} bundle(s) but backups/ does not exist` };
+}
+
+module.exports = { checkInventory, bundlesOnDisk, classifyInventory };

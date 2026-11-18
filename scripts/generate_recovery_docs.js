@@ -102,13 +102,32 @@ const auditRows = audit
     })
   : [];
 const preFix = audit ? audit.bundles.filter((b) => b.checks && b.checks.test003 && b.checks.test003.exit === 1) : [];
-const inventoryTable = audit
-  ? [
-      "| Bundle | Bytes | SHA-256 | HEAD | Tree | Commits | Prereq check | pytest |",
-      "|---|---|---|---|---|---|---|---|",
-      ...auditRows,
-    ].join("\n")
-  : "No bundle audit artefact present.";
+const onDiskCount = audit ? audit.bundles.length : 0;
+const inventoryTable = !audit
+  ? "No bundle audit artefact present."
+  : onDiskCount === 0
+    /* An empty inventory is never rendered as a satisfied one. There is nothing to restore from, and the evidence
+       of what existed lives in the archive table below. */
+    ? "**No recovery bundle exists on this machine.** The audit recorded this absence explicitly "
+      + `(${code("state: NONE_PRESENT")}, verdict ${code("NO_BUNDLE_EXISTS")}) instead of reporting an empty success. `
+      + "Nothing here can be restored from; see the destroyed-bundle table below for what was lost and how it is known."
+    : [
+        "| Bundle | Bytes | SHA-256 | HEAD | Tree | Commits | Prereq check | pytest |",
+        "|---|---|---|---|---|---|---|---|",
+        ...auditRows,
+      ].join("\n");
+
+/* The procedure states the number of negative tests. Measured here instead of hard-coded, because a stale count in
+   a recovery document is exactly the kind of detail that erodes trust in the rest of it. */
+const bundleTestResult = (() => {
+  try {
+    const out = execSync("node scripts/test_bundle_audit.js", { cwd: ROOT, encoding: "utf8", stdio: "pipe" });
+    const m = out.match(/bundle-audit tests: (\d+) passed, (\d+) failed/);
+    return m ? `${m[1]} passed, ${m[2]} failed` : "count not parsed";
+  } catch (e) {
+    return "FAILED";
+  }
+})();
 
 const datasets = [
   ["NIFTY50_1min_2022.csv", "4f05c9804c956b8662dabb7d106b1e4702f3a77e", 6019857, "technovusin/nifty50-historical-data", "MIT"],
@@ -118,15 +137,34 @@ const datasets = [
   ["20200110.csv", "91521f18604ff4a158ac9ddcc7710be7d2c1aed4", 7911222, "hunterabhi/daily-1-minute-eod-data", "NO LICENCE"],
 ];
 const archiveRows = (() => {
-  const auditPath = path.join(ROOT, "data", "security", "bundle_audit.json");
-  if (!fs.existsSync(auditPath)) return "_No archive register present._";
-  const hist = JSON.parse(fs.readFileSync(auditPath, "utf8")).historicallyRecorded;
-  if (!hist || !hist.count) return "_No earlier bundles are recorded as destroyed._";
-  const head = "| File | Bytes | SHA-256 (prefix) | HEAD as recorded (object absent) | Commits | Files | Recorded pytest | Recorded TEST-003 |";
-  const sep = "|---|---|---|---|---|---|---|---|";
-  const rows = hist.bundles.map((b) => `| ${code(b.file)} | ${b.size} | ${code(String(b.sha256).slice(0, 16))}… | `
-    + `${code(b.containsHead)} | ${b.commits} | ${b.trackedFiles} | ${b.pytest} | ${b.test003} |`);
-  return [head, sep, ...rows, "", `Source: ${code(hist.source)} · ${hist.destroyedBy}`].join("\n");
+  const regPath = path.join(ROOT, "data", "security", "bundle_archive_register.json");
+  if (!fs.existsSync(regPath)) return { text: "_No archive register present._", count: 0 };
+  const reg = JSON.parse(fs.readFileSync(regPath, "utf8"));
+  if (!reg.bundles || !reg.bundles.length) return { text: "_No destroyed bundle is on record._", count: 0 };
+  const head = "| File | Bytes | HEAD as recorded | Commits | Recorded pytest | Recorded TEST-003 | Evidence for this row |";
+  const sep = "|---|---|---|---|---|---|---|";
+  const rows = reg.bundles.map((b) => {
+    const ev = b.evidence || {};
+    const label = ev.kind === "AUDIT_ARTEFACT_SURVIVED"
+      ? `audit artefact survives (${code(String(ev.sourceCommit || "").slice(0, 7))})`
+      : ev.sourceInspectableNow
+        ? `committed artefact (${code(String(ev.sourceCommit || "").slice(0, 7))})`
+        : `recorded only — source commit ${code(String(ev.sourceCommit || "").slice(0, 7))} is absent`;
+    return `| ${code(b.file)} | ${b.size === null ? "not recorded" : b.size} | ${code(String(b.containsHead || "").slice(0, 7))} | `
+      + `${b.commits === null ? "?" : b.commits} | ${b.pytest || "not recorded"} | ${b.test003 || "not recorded"} | ${label} |`;
+  });
+  const survived = reg.bundles.filter((b) => b.evidence && b.evidence.kind === "AUDIT_ARTEFACT_SURVIVED").length;
+  const recordedOnly = reg.bundles.filter((b) => b.evidence && !b.evidence.sourceInspectableNow).length;
+  return {
+    text: [head, sep, ...rows, "",
+      `Evidence split: ${survived} row(s) rest on an audit artefact that is still in this repository; `
+      + `${recordedOnly} rest on a source commit that no longer exists and are UNVERIFIABLE beyond the fact that they `
+      + `were recorded. Every row was produced by a real measurement (the bundle was cloned, fsck'd and tested) at the `
+      + `time it was written — none of those files exists now.`].join("\n"),
+    count: reg.bundles.length,
+    survived,
+    recordedOnly,
+  };
 })();
 
 const datasetRows = datasets.map(
@@ -160,7 +198,7 @@ actual count, and that every bundle listed below exists — never that the two h
 
 ## Recovery bundles
 
-Every bundle in ${code("backups/")} is listed below. The inventory is measured by
+Every bundle present in ${code("backups/")} is listed below. The inventory is measured by
 ${code("scripts/audit_bundles.js")}, which verifies each bundle, restores it into a temporary clone, and (with
 ${code("--full")}) installs the pinned dependencies and runs the suites inside that clone. Bundles are **never**
 patched, renamed or deleted: an older bundle is a historical snapshot and is expected to reproduce the defects
@@ -168,15 +206,26 @@ that existed when it was taken.
 
 ${inventoryTable}
 
-${preFix.length > 0
-    ? "**" + preFix.length + " of these bundles predate the TEST-003 fix and still contain it** (" +
-      preFix.map((b) => b.file).join(", ") + "). Their single failing test is TEST-003 itself. That is the "
-      + "correct, honest result for a snapshot: it records what the code was, not what we wish it had been."
-    : "All " + bundles.length + " bundles on disk reproduce the fixed suite (pytest 390, TEST-003 13 passed)."}
+Bundles on disk: ${onDiskCount}.
 
-The newest bundle is the one to restore from:
+${onDiskCount === 0
+    ? "There is no bundle to restore from. The last measurement of this workspace before the loss is recorded in "
+      + "the archive table below; it is a record, not a copy."
+    : preFix.length > 0
+      ? "**" + preFix.length + " of these bundles predate the TEST-003 fix and still contain it** (" +
+        preFix.map((b) => b.file).join(", ") + "). Their single failing test is TEST-003 itself. That is the "
+        + "correct, honest result for a snapshot: it records what the code was, not what we wish it had been."
+      : "All " + onDiskCount + " bundles on disk reproduce the fixed suite (pytest 390, TEST-003 13 passed)."}
+
+${onDiskCount === 0 ? "" : `The newest bundle is the one to restore from:
 ${code(bundle.path)} — ${bundle.size.toLocaleString("en-IN")} bytes, sha256 ${code(bundle.sha256)}.
-Prerequisite check: ${bundle.verify}. Independent restore test: ${bundle.restore}.
+Prerequisite check: ${bundle.verify}. Independent restore test: ${bundle.restore}.`}
+
+**Shallow-source trap (REC-004).** A bundle created from a shallow clone lacks its parents: ${code("git bundle verify")}
+still reports success, but cloning it fails with ${code("Could not read <sha>")} / ${code("remote did not send all necessary objects")}.
+This workspace came back from the eighth reset as a one-commit shallow clone, so the trap was live here. Run
+${code("git fetch --unshallow")} before creating any bundle, and treat the clone check — not the verify command — as
+the gate. The audit records ${code("workspaceShallow")} in its artefact.
 
 **Verified integrity note (REC-001).** ${code("git bundle verify")} checks the header and prerequisites only. It
 reports ${code("is okay")} for a bundle whose pack is truncated, while cloning that bundle fails with
@@ -188,33 +237,37 @@ test for exactly this, so the command cannot quietly return to being treated as 
 survived environment resets because it sits inside the workspace. The seventh reset disproved it: every bundle
 was destroyed while untracked, **not-ignored** files (${code("CONFIGURATION.md")}, ${code("requirements.txt")},
 this manifest) survived. The working rule is that the workspace snapshot keeps files git does not ignore and
-drops ignored paths, along with anything outside the repository root. Bundles are therefore session-local and
-**must be regenerated after a reset**:
+drops ignored paths, along with anything outside the repository root. Bundles are therefore session-local,
+survive no reset, and **must be regenerated after one**:
 
 ${code("mkdir -p backups && git bundle create backups/repo_all_refs_$(date +%Y%m%dT%H%M%S).bundle --all")}
 ${code("node scripts/audit_bundles.js --full --python=<venv>/bin/python")}
+${code("node scripts/build_bundle_archive_register.js")}
 ${code("node scripts/generate_recovery_docs.js")}
 
-**Recorded but no longer present.** The bundles below were audited, recorded and then destroyed by the seventh
-reset. They are listed so that a destroyed backup is never read as one that was never made, and so the older
+**Recorded but no longer present.** The bundles below were audited, recorded and then destroyed — six by the
+seventh reset, eight by the eighth. They are listed so that a destroyed backup is never read as one that was never made, and so the older
 snapshots stay accounted for. **None of them can be restored.** Nothing was recovered from them, and no claim in
 this document depends on their contents. The HEAD hashes are the values the audit recorded at the time; those
 commits no longer exist in this repository (${code("git cat-file -t")} reports them missing), so they are quoted as
 history, not as verifiable identities.
 
-${archiveRows}
+${archiveRows.text}
 
 Three of those six carried the pre-TEST-003 defect (${code("388 passed, 1 failed")}, TEST-003 ${code("11 passed, 1 failed")});
 their recorded results are shown as they were measured, never as green. The three later ones passed 390.
 
-**Per-bundle consistency nuance (REC-003).** The oldest two bundles on disk (${code("…032901")}, ${code("…033418")})
+**Per-bundle consistency nuance (REC-003).** The two oldest of the eight recorded in the second batch
+(${code("…032901")}, ${code("…033418")})
 were cut before ${code("69ebd04")}, which taught the verifier that a clone legitimately has no ${code("backups/")}
 directory. Restoring them and running the consistency check inside reports ${code("REPORT_ARTIFACT_MISMATCH")} —
 a stale-tooling artefact, not a data problem: their pytest, TEST-003, adversarial, environment, mutation and secret
 results are all as recorded. Later bundles verify clean inside the clone. Neither result has been relabelled.
 
-Status remains ${code("DURABLE_BACKUP_NOT_ESTABLISHED")}: bundles exist only on one machine, none off-machine, and
-none has survived a reset. Only an independently restored off-machine copy would change that.
+Status remains ${code("DURABLE_BACKUP_NOT_ESTABLISHED")}, and it is now stronger than a caution: fourteen bundles
+were created on this machine and none exists anywhere today. There is no off-machine copy, so there is nothing to
+restore. Only an independently restored off-machine copy, verified by someone other than the agent that wrote it,
+would change this.
 
 ## Dependencies
 
@@ -321,11 +374,12 @@ Then run ${code("node scripts/import_external_data.js")} (exit 0).
 ${code("node scripts/adversarial_api_probe.js")} → ${code("48 passed, 0 failed")}
 ${code("node scripts/env_config_probe.js")} → ${code("43 passed, 0 failed")}
 ${code("node scripts/mutation_check.js")} → ${code("5/5 mutants detected")}
-${code("node scripts/test_bundle_audit.js")} → ${code("21 passed, 0 failed")} (the inventory tooling fails when it should)
+${code("node scripts/test_bundle_audit.js")} → ${code(bundleTestResult)} (the inventory tooling fails when it should)
 ${code("node scripts/audit_safety.js")} → ${code("PAPER_ONLY_SAFETY_PASS")}
 
-All four were re-run inside a clone of the recovery bundle and reproduced these exact figures, so a failure here
-means the restore or the environment is wrong — not that the project regressed.
+These figures were last reproduced in the workspace at the commit recorded above. They were previously reproduced
+inside clones of recovery bundles; no bundle exists now, so only the workspace path is currently available. A
+failure here means the environment or the restore is wrong — not that the project regressed.
 
 ## Step 6 — Re-establish the commit line
 
@@ -344,6 +398,10 @@ Expected non-zero: ${code("test:history")} exits 1 **by design** while the 36 hi
 reachable from origin/master. Reporting it as passing would be false.
 
 ## Step 8 — Rebuild the recovery bundle
+
+No bundle exists at the time of writing (see the destroyed-bundle table). Rebuilding one does not make the
+inventory complete — it only re-establishes this machine's ability to produce one. Until a copy is restored from
+somewhere else, ${code("DURABLE_BACKUP_NOT_ESTABLISHED")} stays.
 
 ${code("mkdir -p backups && git bundle create backups/repo_all_refs_$(date +%Y%m%dT%H%M%S).bundle --all")}
 ${code("git bundle verify backups/*.bundle")} → ${code("The bundle records a complete history")}

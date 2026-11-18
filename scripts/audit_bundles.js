@@ -141,10 +141,44 @@ for (const name of bundles) {
 }
 
 if (results.length === 0) {
-  // Never replace a recorded inventory with an empty one: an empty result means the bundles are missing, and
-  // silently recording "0" would erase the evidence that they existed.
-  console.error("ERROR: no bundles found — leaving the existing inventory untouched.");
-  process.exit(2);
+  // Never replace a recorded inventory with an empty one silently: an empty result means the bundles are missing,
+  // and quietly recording "0" would erase the evidence that they existed. With --record-absence the absence is
+  // written down explicitly, marked as a failure state, and the archive register is attached so the destroyed
+  // bundles stay listed. Without the flag the tool refuses and leaves the old artefact alone.
+  if (!process.argv.includes("--record-absence")) {
+    console.error("ERROR: no bundles found — leaving the existing inventory untouched.");
+    console.error("       (use --record-absence to record the absence explicitly; it is never reported as success)");
+    process.exit(2);
+  }
+  fs.mkdirSync(path.dirname(OUT), { recursive: true });
+  const reg = path.join(ROOT, "data", "security", "bundle_archive_register.json");
+  const archive = fs.existsSync(reg) ? JSON.parse(fs.readFileSync(reg, "utf8")) : { bundles: [], count: 0 };
+  fs.writeFileSync(OUT, JSON.stringify({
+    generatedAt: new Date().toISOString(),
+    command: "node scripts/audit_bundles.js --record-absence",
+    full: false,
+    state: "NONE_PRESENT",
+    verdict: "NO_BUNDLE_EXISTS",
+    workspaceShallow: (() => {
+      try {
+        return require("node:child_process")
+          .execFileSync("git", ["rev-parse", "--is-shallow-repository"], { cwd: ROOT, encoding: "utf8" }).trim() === "true";
+      } catch { return null; }
+    })(),
+    note: "No recovery bundle exists in backups/. This is recorded explicitly, not as a pass: there is nothing to "
+      + "restore from on this machine. The bundles that did exist are listed in historicallyRecorded with the "
+      + "evidence each row rests on.",
+    count: 0,
+    bundles: [],
+    historicallyRecorded: {
+      note: archive.note,
+      evidencePolicy: archive.evidencePolicy,
+      count: archive.count,
+      bundles: archive.bundles,
+    },
+  }, null, 2) + "\n");
+  console.error(`NO BUNDLE PRESENT — recorded as an absence (${archive.count} destroyed bundle(s) listed); verdict NO_BUNDLE_EXISTS`);
+  process.exit(3);
 }
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
 
@@ -174,12 +208,24 @@ fs.writeFileSync(OUT, JSON.stringify({
     + "IMPORTANT: `git bundle verify` does not read the pack and reports 'is okay' for truncated bundles; the "
     + "integrity claim in this artefact comes from the clone (packIntegrity), never from that command.",
   count: results.length,
+  workspaceShallow: (() => {
+    try {
+      return require("node:child_process")
+        .execFileSync("git", ["rev-parse", "--is-shallow-repository"], { cwd: ROOT, encoding: "utf8" }).trim() === "true";
+    } catch { return null; }
+  })(),
   bundles: results,
   historicallyRecorded: archivedBundles(results),
 }, null, 2) + "\n");
 
 const bad = results.filter((r) => !r.verify.startsWith("prerequisites ok") || !/^HEAD matches/.test(r.restore) || r.fsck !== "clean");
 const failing = FULL ? results.filter((r) => r.checks.pytest && r.checks.pytest.exit !== 0) : [];
+if (results.length && (() => {
+  try { return require("node:child_process").execFileSync("git", ["rev-parse", "--is-shallow-repository"], { cwd: ROOT, encoding: "utf8" }).trim() === "true"; } catch { return false; }
+})()) {
+  console.error("WARNING: this workspace is a shallow clone. A bundle created from it lacks its parents and cannot be"
+    + " cloned (REC-004). Run `git fetch --unshallow` before creating any recovery bundle.");
+}
 console.log(`\n${results.length} bundle(s) audited -> ${path.relative(ROOT, OUT)}${FULL ? " (full)" : " (identity only)"}`);
 if (bad.length) {
   console.error(`ERROR: ${bad.length} bundle(s) failed verification or restore: ${bad.map((b) => b.file).join(", ")}`);
