@@ -137,7 +137,7 @@ export function isValidCandleSession(
 export function calculateQualityScore(
   totalObservedBars: number,
   invalidBars: number,
-  duplicateCount = 0,
+  _duplicateCount = 0,
   sessionBoundaryBreachCount = 0,
   intrasessionMissingBars = 0,
 ): number {
@@ -409,7 +409,7 @@ export function chronologicalSplit(
   candles: Candle[],
   trainRatio = 0.6,
   valRatio = 0.2,
-  testRatio = 0.2,
+  _testRatio = 0.2,
 ): ChronologicalSplits {
   const n = candles.length;
   if (n < 3) throw new Error(`Insufficient candles (${n}) for chronological 3-way split`);

@@ -412,7 +412,7 @@ export type DispatchResult = {
   mode: "LIVE" | "PAPER";
 };
 
-async function dispatchAngelLive(p: OrderParams, timeoutMs: number): Promise<{ orderId: string; payload: Record<string, unknown> }> {
+async function dispatchAngelLive(_p: OrderParams, _timeoutMs: number): Promise<{ orderId: string; payload: Record<string, unknown> }> {
   // CRITICAL SAFETY INTERLOCK (Phase 6.9): Real-money execution permanently disabled.
   throw new BrokerApiError("CRITICAL SAFETY INTERLOCK: Live broker execution is permanently disabled. Angel One placeOrder blocked.", {
     status: 403,
@@ -420,7 +420,7 @@ async function dispatchAngelLive(p: OrderParams, timeoutMs: number): Promise<{ o
   });
 }
 
-async function dispatchShoonyaLive(p: OrderParams, timeoutMs: number): Promise<{ orderId: string; payload: Record<string, unknown> }> {
+async function dispatchShoonyaLive(_p: OrderParams, _timeoutMs: number): Promise<{ orderId: string; payload: Record<string, unknown> }> {
   // CRITICAL SAFETY INTERLOCK (Phase 6.9): Real-money execution permanently disabled.
   throw new BrokerApiError("CRITICAL SAFETY INTERLOCK: Live broker execution is permanently disabled. Shoonya PlaceOrder blocked.", {
     status: 403,
@@ -428,7 +428,7 @@ async function dispatchShoonyaLive(p: OrderParams, timeoutMs: number): Promise<{
   });
 }
 
-async function dispatchGrowwLive(p: OrderParams, timeoutMs: number): Promise<{ orderId: string; payload: Record<string, unknown> }> {
+async function dispatchGrowwLive(_p: OrderParams, _timeoutMs: number): Promise<{ orderId: string; payload: Record<string, unknown> }> {
   // CRITICAL SAFETY INTERLOCK (Phase 6.9): Real-money execution permanently disabled.
   throw new BrokerApiError("CRITICAL SAFETY INTERLOCK: Live broker execution is permanently disabled. Groww order/create blocked.", {
     status: 403,
@@ -441,7 +441,7 @@ async function dispatchGrowwLive(p: OrderParams, timeoutMs: number): Promise<{ o
  * - PAPER: builds exact broker payload and acknowledges locally (supports simulateDrop failover drills).
  * - LIVE: HARD-BLOCKED by institutional safety mandate.
  */
-export async function dispatchOrder(broker: BrokerKey, p: OrderParams, cfg: RiskConfig, timeoutMs = 4500): Promise<DispatchResult> {
+export async function dispatchOrder(broker: BrokerKey, p: OrderParams, cfg: RiskConfig, _timeoutMs = 4500): Promise<DispatchResult> {
   const t0 = Date.now();
   if (cfg.tradingMode === "LIVE") {
     throw new BrokerApiError("CRITICAL SAFETY INTERLOCK: Live broker execution is permanently disabled. Real-money orders rejected.", {

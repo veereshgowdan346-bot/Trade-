@@ -24,7 +24,7 @@ import {
   DataQualityReport,
   calculateQualityScore,
 } from "./historical_research";
-import { getNseSessionType, isValidTradingTime, getIstComponents } from "./nse_calendar";
+import { isValidTradingTime, getIstComponents } from "./nse_calendar";
 
 export interface CsvIngestOptions {
   instrument: string;

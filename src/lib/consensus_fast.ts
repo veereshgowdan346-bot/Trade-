@@ -199,7 +199,7 @@ function prefixSlice(c: Candle[], i: number, a: number, b: number): Candle[] {
   return c.slice(start, Math.max(start, end));
 }
 
-function smcAt(c: Candle[], snap: Snapshot, i: number): StrategyReading {
+function smcAt(c: Candle[], _snap: Snapshot, i: number): StrategyReading {
   const look = prefixSlice(c, i, -26, -3);
   const swingHigh = Math.max(...look.map((x) => x.h));
   const swingLow = Math.min(...look.map((x) => x.l));
@@ -222,7 +222,7 @@ function smcAt(c: Candle[], snap: Snapshot, i: number): StrategyReading {
 }
 const len0 = (i: number) => i + 1; // helper: explicit end-of-prefix marker for prefixSlice
 
-function vwapAt(c: Candle[], snap: Snapshot, i: number): StrategyReading {
+function vwapAt(_c: Candle[], snap: Snapshot, i: number): StrategyReading {
   const v = snap.vwapArr[i];
   const px = snap.close[i];
   const dev = ((px - v) / v) * 100;

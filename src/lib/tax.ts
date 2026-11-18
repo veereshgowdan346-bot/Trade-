@@ -156,6 +156,18 @@ export function roundTripCharges(args: {
     entrySlippageBps,
     exitSlippageBps,
   } = args;
+  /* PAPER-ONLY hardening: fail closed on invalid trade parameters. Negative/NaN/Infinity
+   * qty or prices previously produced negative or NaN charges. Consistent with the
+   * existing fail-closed pattern (UnsupportedSegmentError). */
+  if (!Number.isFinite(qty) || !Number.isInteger(qty) || qty <= 0) {
+    throw new UnsupportedSegmentError(`Invalid qty for cost computation: ${qty} (must be a positive integer)`);
+  }
+  if (!Number.isFinite(entry) || entry <= 0) {
+    throw new UnsupportedSegmentError(`Invalid entry price for cost computation: ${entry} (must be finite and > 0)`);
+  }
+  if (!Number.isFinite(exit) || exit <= 0) {
+    throw new UnsupportedSegmentError(`Invalid exit price for cost computation: ${exit} (must be finite and > 0)`);
+  }
   const spec = loadRateSpec();
   const b = brokerSpec(broker);
   const rates = ratesFor(exchange, kind, productType); // throws for unsupported segments

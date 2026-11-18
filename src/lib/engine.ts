@@ -7,7 +7,7 @@ import { routeOrder } from "./gateway";
 import { buildBrokerPayload, growwSegment, sessionOf, type BrokerKey, type Exchange, type Instrument } from "./instruments";
 import { analysisCandles, isLiveTickReady, ltpOf, marketFeedMode, marketStatusText, snapshot } from "./market";
 import { sendAlert } from "./notifier";
-import { breachesCircuit, confidenceMultiplier, hurdleFloorFor, sizePosition, type RiskConfig } from "./risk";
+import { confidenceMultiplier, hurdleFloorFor, sizePosition, type RiskConfig } from "./risk";
 import { audit, getRisk, getSetting, istDayStartDate, istParts, recentAudit, setSetting } from "./settings";
 import { getAutoTraderStatus } from "./scheduler";
 import { discoverPlugins, evaluateConsensus, type Consensus } from "./strategies";
@@ -419,7 +419,6 @@ export async function closePosition(p: PositionRow, exitPrice: number, reason: s
     .returning({ id: positions.id });
   if (!claimed.length) return null;
 
-  const exitSide: "BUY" | "SELL" = p.side === "BUY" ? "SELL" : "BUY";
   const isLive = p.mode === "LIVE";
 
   if (isLive) {

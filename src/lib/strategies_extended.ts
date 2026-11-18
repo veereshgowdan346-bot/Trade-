@@ -1,4 +1,4 @@
-import { atr, ema, last, rma, trueRange, type Candle } from "./indicators";
+import { atr, ema, last, trueRange, type Candle } from "./indicators";
 import type { Regime } from "./intelligence";
 
 export type ResearchSignal = 1 | -1 | 0;

@@ -531,7 +531,12 @@ const report = {
   verdict: failures.length === 0 ? "REPORT_MATCHES_ARTIFACTS" : "REPORT_ARTIFACT_MISMATCH",
 };
 
-const out = path.join(ROOT, "data", "provenance", "report_consistency.json");
+/* PAPER-ONLY hardening (OMNI_CONSISTENCY_OUT): trim whitespace, resolve relative paths
+ * against cwd, and ensure the parent directory exists so a redirected test output
+ * never fails with ENOENT or silently writes to an unexpected location. */
+const _omniOut = (process.env.OMNI_CONSISTENCY_OUT || "").trim();
+const out = _omniOut ? path.resolve(_omniOut) : path.join(ROOT, "data", "provenance", "report_consistency.json");
+fs.mkdirSync(path.dirname(out), { recursive: true });
 fs.writeFileSync(out, JSON.stringify(report, null, 2) + "\n");
 
 console.log(`report consistency: ${report.claimsChecked} claims checked, ${failures.length} failures`);

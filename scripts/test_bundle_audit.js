@@ -657,11 +657,16 @@ try {
     let exit = 0;
     let out = "";
     try {
+      /* PAPER-ONLY hardening: strip inherited OMNI_CONSISTENCY_OUT / OMNI_BACKUP_DIR so an
+       * ambient shell export cannot redirect the clone verifier's output outside simDir. */
+      const simEnv = { ...process.env, OMNI_IN_HARNESS: "1" };
+      delete simEnv.OMNI_CONSISTENCY_OUT;
+      delete simEnv.OMNI_BACKUP_DIR;
       out = execFileSync(process.execPath, [path.join(simDir, "scripts", "verify_report_consistency.js")], {
         cwd: simDir,
         encoding: "utf8",
         stdio: "pipe",
-        env: { ...process.env, OMNI_IN_HARNESS: "1" },
+        env: simEnv,
       });
     } catch (e) {
       exit = e.status ?? 1;
@@ -677,6 +682,11 @@ try {
     const dir = path.join(tmpRoot, "case-stale");
     fs.mkdirSync(dir, { recursive: true });
     fs.copyFileSync(goodBundle, path.join(dir, "unlisted.bundle"));
+    const wsReportPath = path.join(ROOT, "data", "provenance", "report_consistency.json");
+    /* PAPER-ONLY hardening: compare raw bytes (Buffer.compare) so any single-byte
+     * mutation is detected, not just UTF-8-decodable text differences. */
+    const beforeWs = fs.existsSync(wsReportPath) ? fs.readFileSync(wsReportPath) : null;
+    const tmpOut = path.join(dir, "report_consistency.json");
     let exit = 0;
     try {
       execFileSync(process.execPath, [path.join(__dirname, "verify_report_consistency.js")], {
@@ -684,11 +694,18 @@ try {
         stdio: "pipe",
         /* OMNI_IN_HARNESS stops the verifier from spawning this harness again: the harness runs the verifier, and
            the verifier checks the harness's quoted test count by running it. Without the flag that recurses. */
-        env: { ...process.env, OMNI_BACKUP_DIR: dir, OMNI_IN_HARNESS: "1" },
+        env: { ...process.env, OMNI_BACKUP_DIR: dir, OMNI_IN_HARNESS: "1", OMNI_CONSISTENCY_OUT: tmpOut },
       });
     } catch (e) { exit = e.status ?? 1; }
     assert(exit !== 0, "verifier passed with an unlisted bundle on disk");
-    return `exit ${exit}`;
+    const tmpReport = JSON.parse(fs.readFileSync(tmpOut, "utf8"));
+    assert(tmpReport.verdict === "REPORT_ARTIFACT_MISMATCH", `expected REPORT_ARTIFACT_MISMATCH in temp report, got ${tmpReport.verdict}`);
+    const afterWs = fs.existsSync(wsReportPath) ? fs.readFileSync(wsReportPath) : null;
+    const wsUnchanged =
+      (beforeWs === null && afterWs === null) ||
+      (beforeWs !== null && afterWs !== null && Buffer.compare(beforeWs, afterWs) === 0);
+    assert(wsUnchanged, "negative test polluted workspace data/provenance/report_consistency.json");
+    return `exit ${exit} (workspace report untouched)`;
   });
 } finally {
   fs.rmSync(tmpRoot, { recursive: true, force: true });

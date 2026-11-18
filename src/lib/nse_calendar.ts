@@ -1429,8 +1429,8 @@ export function validateSecurityCategory(category: any): SecurityCategory {
  */
 export function resolveScheduleVersion(
   targetDate: Date | string | number,
-  segment = "CAPITAL_MARKET",
-  securityCategory?: SecurityCategory | string
+  _segment = "CAPITAL_MARKET",
+  _securityCategory?: SecurityCategory | string
 ): ScheduleVersionSpec {
   let dateStr: string;
   if (targetDate instanceof Date) {

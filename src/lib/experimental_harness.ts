@@ -94,7 +94,14 @@ export function researchBacktest(
   const strict = sessionMode === "STRICT_INTRADAY";
   const isLastBarOfSession = (i: number) =>
     i + 1 >= candles.length || istDay(candles[i + 1].t) !== istDay(candles[i].t);
-  const sleeve = opts.sleeve ?? SLEEVE;
+  /* PAPER-ONLY hardening: fail closed on invalid inputs instead of producing NaN/Infinity
+   * quantities or silently forcing leverage. Default sleeve (100k) behaviour is unchanged. */
+  if (!Array.isArray(candles) || candles.length === 0) {
+    return { trades: [], exposureDays: {}, dailyPnl: {}, sessionMode, crossSessionTrades: 0 };
+  }
+  const sleeveRaw = opts.sleeve ?? SLEEVE;
+  const sleeve = Number.isFinite(sleeveRaw) && sleeveRaw > 0 ? sleeveRaw : SLEEVE;
+  const safeWarmup = Number.isFinite(warmup) && warmup >= 0 ? Math.floor(warmup) : 60;
   const atrArr = atr(candles, 14);
   const trades: HarnessTrade[] = [];
   const exposureDays: Record<string, boolean> = {};
@@ -102,7 +109,7 @@ export function researchBacktest(
   let pos: { side: "BUY" | "SELL"; qty: number; entry: number; entryTime: number; stop: number; target: number } | null = null;
   let lastDay = istDay(candles[0].t);
 
-  for (let i = warmup; i < candles.length; i++) {
+  for (let i = safeWarmup; i < candles.length; i++) {
     const c = candles[i];
     const day = istDay(c.t);
     const newDay = day !== lastDay;
@@ -174,7 +181,13 @@ export function researchBacktest(
     if (!pos && !newDay && mayEnter && sig !== 0 && conf >= MIN_CONFIDENCE && Number.isFinite(a) && a > 0) {
       const side: "BUY" | "SELL" = sig === 1 ? "BUY" : "SELL";
       const entry = c.c;
-      const qty = Math.max(1, Math.floor(sleeve / entry));
+      /* PAPER-ONLY fix (sizing): never force qty=1 when the sleeve cannot afford one unit.
+       * Previously Math.max(1, floor(sleeve/entry)) silently created ~22x leverage on a
+       * ₹1,000 sleeve vs a ~₹22,000 NIFTY proxy. Now: unaffordable => no trade (qty 0).
+       * Default ₹1,00,000 sleeve is unaffected (floor >= 4 on NIFTY). */
+      if (!Number.isFinite(entry) || entry <= 0) continue;
+      const qty = Math.floor(sleeve / entry);
+      if (!Number.isFinite(qty) || qty <= 0) continue;
       pos = {
         side,
         qty,
